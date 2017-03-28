@@ -1,0 +1,10 @@
+LIBRARY LibTsearch
+VERSION 1.0
+EXPORTS
+  dwarf_initialize_search_hash
+  dwarf_tdelete
+  dwarf_tdestroy
+  dwarf_tdump
+  dwarf_tfind
+  dwarf_tsearch
+  dwarf_twalk

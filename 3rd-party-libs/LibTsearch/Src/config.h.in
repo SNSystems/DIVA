@@ -1,0 +1,14 @@
+/* AVL algorithm */
+#cmakedefine TSEARCH_USE_BAL @TSEARCH_USE_BAL@
+/* Binary algorithm */
+#cmakedefine TSEARCH_USE_BIN @TSEARCH_USE_BIN@
+/* Chepp algorithm */
+#cmakedefine TSEARCH_USE_EPP @TSEARCH_USE_EPP@
+/* Hash algorithm */
+#cmakedefine TSEARCH_USE_HASH @TSEARCH_USE_HASH@
+/* Red-black algorithm */
+#cmakedefine TSEARCH_USE_RED @TSEARCH_USE_RED@
+/* GNU Distribution */
+#cmakedefine TSEARCH_USE_GNU @TSEARCH_USE_GNU@
+
+#cmakedefine HAVE_STDAFX_H @HAVE_STDAFX_H@
