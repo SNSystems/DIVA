@@ -1,10 +1,11 @@
 DIVA - Debug information visual analyzer
 ----------------------------------------
--- Diva is currently in beta --
+* Diva is in beta.
+* We will be regularly updating DIVA, with new features and bug fixes, so please watch this github project to be notified when these updates are available.
 
 Introduction
 ------------
-DIVA is a new command line tool that processes DWARF debug information contained within ELF files and prints the semantics of that debug information. The DIVA output is designed with an aim to be understandable by software programmers without any low-level compiler or DWARF knowledge; as such, it can be used to report debug information bugs to the compiler provider. DIVA's output can also be used as the input to DWARF tests, to compare the debug information generated from multiple compilers, from different versions of the same compiler, from different compiler switches and from the use of different DWARF specifications (i.e. DWARF 3, 4 and 5). DIVA will be used on the LLVM project to test and validate the output of clang to help improve the quality of the debug experience.
+DIVA is a command line tool that processes DWARF debug information contained within ELF files and prints the semantics of that debug information. The DIVA output is designed with an aim to be understandable by software programmers without any low-level compiler or DWARF knowledge; as such, it can be used to report debug information bugs to the compiler provider. DIVA's output can also be used as the input to DWARF tests, to compare the debug information generated from multiple compilers, from different versions of the same compiler, from different compiler switches and from the use of different DWARF specifications (i.e. DWARF 3, 4 and 5). DIVA will be used on the LLVM project to test and validate the output of clang to help improve the quality of the debug experience.
 
 Directories
 -----------
