@@ -12,8 +12,15 @@ User guide
 ----------
 For user details please refer to doc/DIVA_user_guide.pdf
 
-Next version features
----------------------
-o DIVA output printed in YAML format
+Features coming soon
+--------------------
 o Variable, parameter, member locations
 o Location coverage
+
+Release notes
+-------------
+v0.4 beta
+o Added functionality to printed the DIVA output in YAML format
+
+v0.3 beta
+o First beta release
