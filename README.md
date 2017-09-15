@@ -11,6 +11,9 @@ For instructions on using DIVA please refer to the [user guide](./DIVA/Documenta
 Please create an "issue" in Github for any bug reports, feature requests and feedback:
     https://github.com/SNSystems/DIVA/issues
 
+Please see the projects list for a backlog of ideas for feature items:
+    https://github.com/SNSystems/DIVA/projects
+
 ## Building DIVA
 
 DIVA is built using CMake on Windows and Linux, so you will need to [install CMake first](https://cmake.org/install/). You will need version 3.2.2 or later.
