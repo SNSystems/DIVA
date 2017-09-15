@@ -1,0 +1,67 @@
+15 January, 2015
+Emre Kultursay writes, in part:
+
+I found a bug in libdwarf related to the Fission support. It is about the abbrev offset. The Fission specification says:
+
+"Each compilation unit header normally has a relocation to the corresponding abbrev table. This relocation is no longer necessary, and the field in the compilation unit header should be interpreted as a direct offset relative to the .debug_abbrev.dwo section in the .dwo file."
+
+The important part here is that it refers to the "dwo" file, not the "dwp" file. When the abbrev sections of dwo files are merged, they get extra offsets. I explain the problem in more detail below. Here is how you can reproduce an example:
+
+bash$ cat main.cc
+int main() {
+  return 0;
+}
+
+bash$ cat foo.cc
+void foo() {
+  // Empty.
+}
+
+bash$ g++ -c -gsplit-dwarf main.cc foo.cc
+bash$ dwp  -o a.out.dwp main.dwo foo.dwo
+bash$ dwarfdump a.out.dwp
+...
+dwarfdump ERROR:  reference form with no valid local ref?!, offset=<0x66335a5f>:  DW_DLE_ATTR_FORM_OFFSET_BAD (119)
+
+I am using the following tools:
+gcc 4.8.2 (enough to support gsplit-dwarf)
+dwp from binutils-2.24.90 (new enough to not produce duplicate dwo sections)
+readelf 2.24
+
+This problem occurs in the second compilation unit in the binary. Investigating with readelf shows:
+
+Compilation Unit @ offset 0xc3:
+   Length:        0xba (32-bit)
+   Version:       4
+   Abbrev Offset: 0x0
+   Pointer Size:  8
+   Section contributions:
+    .debug_abbrev.dwo:       0x35  0x2a
+    .debug_line.dwo:         0x29  0x28
+    .debug_loc.dwo:          0x0  0x0
+    .debug_str_offsets.dwo:  0x0  0x0
+
+The abbrev offset in the compilation unit header is 0. But that is the offset within the dwo file. There is another offset of 0x35 that comes from merging the abbrev sections of dwo files into a dwp file. This offset can obtained from the debug_cu_index section:
+
+.debug_cu_index
+col              section   offset                size
+[, 0]         DW_SECT_INFO 0x000000c3 (     195) 0x000000be (     190)
+[, 1]       DW_SECT_ABBREV 0x00000035 (      53) 0x0000002a (      42)
+[, 2]         DW_SECT_LINE 0x00000029 (      41) 0x00000028 (      40)
+
+This shows that the CU at offset 0xc3 has an extra abbrev offset of 0x35.
+
+Looking at the libdwarf source code, the problem seems to be around the _dwarf_get_abbrev_for_code function. For instance, the following statement:
+
+    abbrev_ptr = cu_context->cc_last_abbrev_ptr != NULL ?
+        cu_context->cc_last_abbrev_ptr :
+        dbg->de_debug_abbrev.dss_data + cu_context->cc_abbrev_offset;
+
+Does not take the extra abbrev offset into account. Therefore, it searches the wrong range. In the 2nd compilation unit, it searches the abbrev entries of the 1st compilation unit (which are at offset 0).
+
+I managed to get this far in the investigation. I hope you can fix this. Thanks.
+Emre
+
+
+
+

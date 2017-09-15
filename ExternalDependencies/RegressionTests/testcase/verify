@@ -1,0 +1,11 @@
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 11):
+<source>        [row,column]    <pc>    //<new statement or basic block
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 19,-1]        0       // new statement
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 20,-1]        0x1c    // new statement
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 21,-1]        0x31    // new statement
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 22,-1]        0x46    // new statement
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 23,-1]        0x4b    // new statement
+/home/mikael/src/dwarf2/libdwarf/testcase/testcase.c:   [ 23,-1]        0x4d    // new statement        /
+/ end of text sequence

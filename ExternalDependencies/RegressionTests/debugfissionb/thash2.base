@@ -1,0 +1,13 @@
+Hex key = 0xb1fcaeaf1d01cc85
+
+Getting fission data for TU key b1fcaeaf1d01cc85
+Hash found.
+
+  Fission section     = .debug_tu_index
+  Fission index       = 0x00002c67
+  Fission hash        = 0xb1fcaeaf1d01cc85
+  Fission entries     = offset     size        DW_SECTn
+  DW_SECT_TYPES       = 0x0051b284 0x000000d9  2
+  DW_SECT_ABBREV      = 0x000305e8 0x000013e4  3
+  DW_SECT_LINE        = 0x0001d9c2 0x00000d56  4
+  DW_SECT_STR_OFFSETS = 0x002018b0 0x0000d7f8  6

@@ -1,0 +1,21 @@
+This is a new test case.
+
+In order to have a DW_AT_high_pc as an offset (instead of form address)
+I constructed highpcisoffset.o from 
+a particular dwarfdump.o 
+
+/home/davea/dwarf/code/dwarfgen/dwarfgen -h -t obj -c 0 \
+         -o highpcisoffset.o dwarfdump.o
+
+Some gcc can to this automatically, but it was
+better to improve dwarfgen than to search out such a gcc
+at this time.
+
+
+These tests attempt to verify dwarf_highpc_b() works
+properly and also that dwarfgen works properly.
+
+
+DavidAnderson
+Aug 13, 2013
+

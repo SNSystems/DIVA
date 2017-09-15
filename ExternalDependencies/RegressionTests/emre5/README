@@ -1,0 +1,10 @@
+A test from Emre Kultursay with
+.debug_loc.dwo from dwp referring to .debug_addr
+in the main executable.
+
+dwarfdump -i -x tied=test33_64_opt_fpo_split test33_64_opt_fpo_split.dwp
+...
+/dwarfdump ERROR:  dwarf_loclist:  DW_DLE_DEBUG_LOC_SECTION_SHORT(194) (194)
+
+Oct 13, 2015
+

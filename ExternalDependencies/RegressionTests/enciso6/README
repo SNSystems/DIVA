@@ -1,0 +1,7 @@
+
+The simple test code here has location lists with begin-range
+entries.  So far the only example in the tests of such
+begin-range entries.
+
+Provided by Carlos Alberto Enciso for the test suite.   
+Jan 23, 2012

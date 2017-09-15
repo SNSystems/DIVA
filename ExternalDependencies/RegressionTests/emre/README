@@ -1,0 +1,16 @@
+
+     dwardump -a input.o
+
+generates:
+
+.debug_types
+dwarfdump ERROR:  attempting to print .debug_types:  DW_DLE_DEBUG_TYPEOFFSET_BAD (239) (239)
+
+
+This is due to a mistake in calculating the end of data bytes in a section.
+
+Noticed by Emre Kultursay, who also generated the script
+that creates the nice test case.
+
+David Anderson July 2014
+

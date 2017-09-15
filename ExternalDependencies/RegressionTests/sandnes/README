@@ -1,0 +1,10 @@
+
+This is a test executable from Torleif Sandnes.
+
+gas(1) emitted some assembler code dwarf with size of address 2
+in the dwarf.
+
+It turns out this is a bug, they did not really mean 2.
+
+But it's interesting nontheless.
+May 3, 2009

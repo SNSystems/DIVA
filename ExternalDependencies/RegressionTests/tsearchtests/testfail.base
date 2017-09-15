@@ -1,0 +1,103 @@
+
+==== binarysearch testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== eppingerdel testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== balancedsearch testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== redblack testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== gnusearch testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== hashsearch testcases/test2 ====
+special sequence testcases/test2
+insertonebypointer rec 2 addr 2 0x2 found record preexisting, error
+deleteonebypointer could not find rec 4 ! error! addr 0x2
+FAIL tsearch test.
+==== binarysearch testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== eppingerdel testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== balancedsearch testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== redblack testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== gnusearch testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== hashsearch testcases/test17 ====
+special sequence testcases/test17
+insertonebypointer rec 4 addr 8 0x8 found record preexisting, error
+insertonebypointer rec 23 addr 34 0x22 found record preexisting, error
+FAIL tsearch test.
+==== binarysearch -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== eppingerdel -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== balancedsearch -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== redblack -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== gnusearch -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== hashsearch -byvalue testcases/test2 ====
+special sequence testcases/test2
+deletebyvalue action 2 could not find rec! error! addr 0x4
+FAIL tsearch test.
+==== binarysearch -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.
+==== redblack -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test17 ====
+special sequence testcases/test17
+PASS tsearch test.

@@ -1,0 +1,11 @@
+
+These are from libdwarf/dwarfdump builds -g
+with gcc 4.8.4.
+
+So the new DWARF5 macro sectons generated (but numbered
+DWARF4).
+
+The dwarf_weaks-g3.o has COMDAT .debug_macro
+section so it cannot yet be usefully read by libdwarf.
+
+David Anderson Nov 29, 2015

@@ -1,0 +1,31 @@
+From Moshe Lazer:
+
+> cat hello.c
+#include <stdio.h>
+ 
+int main()
+{
+    printf("Hello world\n");
+    return 0;
+}
+ >gcc-4.5 -gdwarf-4 hello.c -o hello
+ >./dwarfdump hello
+ 
+.debug_info
+ 
+COMPILE_UNIT<header overall offset = 0>:
+<0><   11>      DW_TAG_compile_unit
+                DW_AT_producer              GNU C 4.5.1
+                DW_AT_language              DW_LANG_C89
+                DW_AT_name                  hello.c
+                DW_AT_comp_dir              /common/mlazer/Pin/Charm_ubuntu1010/PinTools/ToolUnitTests
+                DW_AT_low_pc                0x80483b4
+                DW_AT_high_pc               0x80483d0
+./dwarfdump ERROR:  Cannot get a  DW_FORM_sec_offset or DW_FORM_exprloc....:  DW_DLE_ATTR_FORM_BAD (114)  >
+
+
+
+t.c is a simpler source (no headers) which got different
+old dwarfdump errors.
+Again built with gcc 4.5 -gdwarf-4
+Built into a.out.t

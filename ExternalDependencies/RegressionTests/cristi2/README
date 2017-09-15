@@ -1,0 +1,11 @@
+
+Printing of .eh_frame failed as chain_up_cie (dwarf_frame2.c) was
+being asked to add to current to chain cie.  Added new tail pointer so
+new cie always added at tail.
+
+And dwarfdump was using wrong var to set table size too.
+
+gcc 4.1.2 generates new ordering of cie-use, apparently being aggressive
+about reuse of cies.
+
+Submitted by Cristian Vlaseanu 25 May 2007.

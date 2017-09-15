@@ -1,0 +1,11 @@
+February 02, 2015.
+
+Arnaud Diederen kindly provided a set
+of objects that have been intentionally
+damaged (made to have a little bit of bad data) as a test.
+
+Before libdwarf changes made after February 2, 2015
+dwarfdump would corredump on most of them
+(in libdwarf).
+Now libdwarf detects the errors so
+there is no coredump.

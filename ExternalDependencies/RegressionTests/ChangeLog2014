@@ -1,0 +1,51 @@
+2014-12-28  David Anderson
+     * sandnes2/RUNTEST.sh: Now uses dwarfdump, not dwarfdump2.
+       Now does exit 1 on fail, not exit 0.
+     * configure.in: removed dwarfdump2 configure.
+     * configure: regenerated.
+     * PICKUPBIN, RUNALL.sh: Removed dwarfdump2 references
+     * dwarfdump2-i386-freebsd-9.1.O, dwarfdump2-x86-ubuntu-13.04.O,
+       dwarfdump2-x86_64-freebsd-9.1.O,  dwarfdump2-x86_64-ubuntu-13.04.O:
+       Deleted, as we no longer build or test dwarfdump2.
+     * dwarfdump-x86-ubuntu-13.04.O,dwarfdump-x86_64-ubuntu-13.04.O:
+       Updates with minor libdwarf changes enhancing
+       behavior when malloc area exhausted, there is no change
+       in dwarfdump output.
+2014-07-04  David Anderson
+     * DWARFTEST.sh: Add tests of objects in the
+       debugfissionb and emre directories
+2014-07-02  David Anderson
+     * debugfission/archivedwo-iMvvv.base.gz,debugfission/archivedwo.base.gz,
+       debugfission/targetdwo.base.gz:  A warning was messed up
+       and now it is fixed in dwarfdump[2], baselines needed update.
+2014-05-20  David Anderson
+     * debugfission baselines: Now dwo_id prints in hex.
+2014-05-18  David Anderson
+     * *x86*.O: new baseline dwarfdump for x86 and x86 64 Ubunutu.
+     * debugfission: updated baseline data for the test cases.
+2014-05-08  David Anderson
+     * dwarfextract/basecstdout.base,dwarfextract/dwarfextract.c,
+       dwarfextract/runtests.sh: Small changes to
+       baselines and dwarfextract.c to match the new 
+       dwarf_producer_init() interface. And a small change
+       in a runtests.sh message to clarify which step failed in case of
+       of a failure.
+2014-04-15  David Anderson
+     * dwgena/test2.base.gz,dwgena/test4.base.gz: updated test results
+       with the CU offset_size field from -v
+     * *.O: new baseline executables. 
+2014-04-14  David Anderson
+     * dwarfextract/dwarfextract.c: Adding const to
+       the char * of the callback functions to match
+       the current declaration of callbacks. Removes
+       some warnings from the test build.
+2014-04-14  David Anderson
+     * diederen/hello: a new 64bit Go executable using
+       DW_FORM_ref_addr per the V2 standard. 
+     * RUNALL.sh: Now with options allowing running
+       one of the test sets singly.
+     * DWARFTEST.sh: Adds tests using diederen/hello
+2014-01-30  David Anderson
+     * BASEFILES: Necessary, but got left out of git earlier.
+     * hughes/README, hughes/libkrb5support.so.0.1.debug: New testcase.
+     * DWARFTEST.sh: Now runs dwarfdump on the new object.

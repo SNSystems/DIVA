@@ -1,0 +1,107 @@
+
+From: Troy Heber
+
+Hello,
+
+I'm the Debian package maintainer for libdwarf and dwarfdump. I just
+received a bug report from a user demonstrating that dwarfdump cannot
+read the .debug_info from a 64-bit object with thread-local storage on
+the AMD64 architecture and you get the following error: =20
+
+  .debug_info dwarfdump ERROR:  attempting to print .debug_info:
+  DW_DLE_RELOC_SECTION_RELOC_TARGET_SIZE_UNKNOWN (233) so doing a
+  relocation is unsafe (233)
+  attempting to continue.
+
+It works for me with a 32-bit object compiled from the same source:
+
+  .debug_info
+
+  COMPILE_UNIT<header overall offset =3D 0x00000000>:
+  < 0><0x0000000b>  DW_TAG_compile_unit
+		      DW_AT_producer              "GNU C 4.7.1"
+		      DW_AT_language              DW_LANG_C89
+		      DW_AT_name                  "tls.c"
+		      DW_AT_comp_dir              "/home/troyhebe/dlf/dd"
+		      DW_AT_stmt_list             0x00000000
+
+  LOCAL_SYMBOLS:
+  < 1><0x0000001d>    DW_TAG_variable
+			DW_AT_name                  "a"
+			DW_AT_decl_file             0x00000001 /home/troyhebe/dlf/dd/tls.c
+			DW_AT_decl_line             0x00000001
+			DW_AT_type                  <0x0000002e>
+			DW_AT_external              yes(1)
+			DW_AT_location              DW_OP_const4u 0 DW_OP_GNU_push_tls_address
+  < 1><0x0000002e>    DW_TAG_base_type
+			DW_AT_byte_size             0x00000004
+			DW_AT_encoding              DW_ATE_signed
+			DW_AT_name                  "int"
+
+
+The error seems come up when applying all of the relocations via the
+loop in apply_rela_entries(), the error is set in update_entry() both
+in dwarf_elf_access.c because the is_32bit_abs_reloc() and
+is_64bit_abs_reloc() only tests for direct 32 and 64 bit relocations
+on AMD64. In my TLS case it fails to detect a type 21 relocation
+defined in elf.h as:
+
+#define R_X86_64_DTPOFF32	21	/* Offset in TLS block */
+
+To me it simply looks like libdwarf doesn't support TLS objects yet
+and code needs to be added to handle the relocations so this looks a
+bit more like a feature request than a bug to me. However, I don't
+know the code well enough so I'm punting it to you :-).
+
+The simple test case is:
+
+1. Create  tls.c with single line: "__thread int a;"
+2. gcc -c -gdwarf-2 tls.c -o tls.o=20
+3. dwarfdump tls.o
+
+
+You can see the original debian bug report here:
+
+http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=3D681748
+
+Troy
+
+----------------
+Following by DavidA.
+
+q2 691: readelf -r tls64.o
+
+Relocation section '.rela.debug_info' at offset 0x6d8 contains 8 entries:
+  Offset          Info           Type           Sym. Value    Sym. Name + Addend
+000000000006  00070000000a R_X86_64_32       0000000000000000 .debug_abbrev + 0
+00000000000c  00090000000a R_X86_64_32       0000000000000000 .debug_str + b
+000000000011  00090000000a R_X86_64_32       0000000000000000 .debug_str + 5
+000000000015  00090000000a R_X86_64_32       0000000000000000 .debug_str + 0
+000000000019  000200000001 R_X86_64_64       0000000000000000 .text + 0
+000000000021  000200000001 R_X86_64_64       0000000000000000 .text + 0
+000000000029  00080000000a R_X86_64_32       0000000000000000 .debug_line + 0
+000000000039  000c00000015 R_X86_64_DTPOFF32 0000000000000000 a + 0
+
+q2 544: readelf -r tls32.o
+
+Relocation section '.rel.debug_info' at offset 0x4e4 contains 8 entries:
+ Offset     Info    Type            Sym.Value  Sym. Name
+00000006  00000701 R_386_32          00000000   .debug_abbrev
+0000000c  00000901 R_386_32          00000000   .debug_str
+00000011  00000901 R_386_32          00000000   .debug_str
+00000015  00000901 R_386_32          00000000   .debug_str
+00000019  00000201 R_386_32          00000000   .text
+0000001d  00000201 R_386_32          00000000   .text
+00000021  00000801 R_386_32          00000000   .debug_line
+00000031  00000c20 R_386_TLS_LDO_32  00000000   a
+
+--------------
+Most of the object files for testing here, namely
+armv5tel-32-tls.o  ppc64-32-tls.o  s390x-64-tls.o    sparc64-64-tls.o
+ia64-64-tls.o	   ppc64-64-tls.o  sh4a-32-tls.o    
+mips-32-tls.o	   s390x-32-tls.o  sparc64-32-tls.o 
+were provided by Troy Heber on 24 July 2012
+based on the tls.c test source.
+Thank you Troy!
+
+

@@ -1,0 +1,49 @@
+David Anderson. May 2010
+
+Unless otherwise specified in a source file, everything in
+the dwarf testing directory (recursively) is considered to
+be covered by the BSD license, a license allowing free use
+by anyone.
+
+The intent is to be non-restrictive. Nothing about correctness
+or usability is guaranteed.
+
+Contributors have allowed this use.  Some contributions
+have been transformed by translating
+the Elf instructions/data sections to all-zero-bits.  Of course
+the Elf section headers and the .eh_frame and the .debug_* section
+data should be kept for testing purposes (for the test case
+to have any point).
+
+See http://www.bsdnewsletter.com/bsd/license.html for
+further information on the BSD license.
+
+The BSD license text with copyright name elided is:
+
+------
+  Copyright (c)  <name> 2010 <or other year>
+  All rights reserved.
+ 
+  Redistribution and use in source and binary forms, with or without
+  modification, are permitted provided that the following conditions are met:
+  * Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+  * Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+  * Neither the name of the example nor the
+    names of its contributors may be used to endorse or promote products
+    derived from this software without specific prior written permission.
+ 
+  THIS SOFTWARE IS PROVIDED BY <name> ''AS IS'' AND ANY
+  EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+  WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+  DISCLAIMED. IN NO EVENT SHALL <name> BE LIABLE FOR ANY
+  DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+  LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+  ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+  (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+ 
+------

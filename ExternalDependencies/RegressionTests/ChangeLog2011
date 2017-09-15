@@ -1,0 +1,55 @@
+2011-12-14  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump.O, dwarfdump2.O: latest version.
+       Added support for DW_OP_GNU operators
+       and latest GNU generated dwarfgen to demonstrate
+       we no longer abort when reading DWARF generated
+       by gcc 4.6.1 .
+2011-12-13  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump.O, dwarfdump2.O: latest version.
+       The major change is missing line columns show as zero not -1,
+       -1 was always incorrect.  And DWARF3/4 new line data is now
+       printed when present.
+2011-10-30  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump.O, dwarfdump2.O: latest version.
+2011-10-24  DavidAnderson <davea42@earthlink.net>
+     * Added tests so we test all the options that
+       allow URI input with URI input.
+2011-10-08  DavidAnderson <davea42@earthlink.net>
+     * DWARFTEST.sh now does some tests of options that
+       were previously not tested. Just -S and -W are not
+       tested yet.
+2011-09-23  DavidAnderson <davea42@earthlink.net>
+     * Adding new tests, the new  marinescu2  directory.
+       Bad DWARF generation is detected, avoiding a libdwarf crash.
+2011-09-16  DavidAnderson <davea42@earthlink.net>
+     * Adding new test cases which exposed incomplete handling
+       of elf objects with mistakes in an Elf section header
+       or relocation (in marinescu directory).
+2011-09-15  DavidAnderson <davea42@earthlink.net>
+     * New marinescu directory contains new tests that
+       were coredumping libdwarf due to errors in the
+       compiler or linker.  Now libdwarf detects the
+       errors and avoids a coredump.
+2011-09-06  DavidAnderson <davea42@earthlink.net>
+     * enciso4:  Added this directory which tests
+       a new address_size: feature of dwarfdump.conf
+2011-09-02  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump.O, dwarfdump2.O: latest version.
+2011-06-12  DavidAnderson <davea42@earthlink.net>
+     * dwarfextract: Inserting more thorough test code
+       into runtests.sh script and adding new baselines
+       so we can be sure we compiled in the right calls
+       for the particular test (dwarf_producer_init_c or
+       dwarf_producer_init) so we test both.
+     * CLEANUP: Cleans out new temp files created by runtests.sh
+2011-01-13  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump.O, dwarfdump2.O: latest version.
+     * dwarfextract/dwarfextract.c: build with original or _c
+       producer_init call and callback.
+     * dwarfextract/runtests.sh: build and test with both original
+       and _c producer_init versions.
+     * dwarfextract/testc.base:  New file, baseline for the _c 
+       producer_init call. dwarfextract/testc.base
+2011-01-13  DavidAnderson <davea42@earthlink.net>
+     *  New year. Added moshe and dwarf4 directories
+        with DWARF4 objects to test with.

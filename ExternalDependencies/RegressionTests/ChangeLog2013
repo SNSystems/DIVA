@@ -1,0 +1,73 @@
+2013-10-31  DavidAnderson <davea42@earthlink.net>
+     * dwarfgena/test<n>.base.gz: New baselines
+       due to adding more coverage to dwarfgen.
+       CU-local references now handled.
+     * dwarfgena/runtest.sh: Added echo lines to make it clearer
+       to run the test by hand.
+2013-08-09  DavidAnderson <davea42@earthlink.net>
+     * shopov1/main.exe: New test object for FORM_string
+       in debug_types.
+     * DWARFTEST.sh: Run all options on shopov1/main.exe.
+2013-08-07  DavidAnderson <davea42@earthlink.net>
+     * DWARFTEST.sh: Now do unifyddname on stdout as well
+       as stderr.  Now that non-fatal errors always come out
+       on stdout.
+2013-07-28  DavidAnderson <davea42@earthlink.net>
+     * DWARFTEST.sh: Added juszkiewicz directory with AARCH64 objects.
+     * dwarfdump-x86-ubuntu-12.10.O,dwarfdump2-x86-ubuntu-12.10.O,
+       dwarfdump-x86_64-ubuntu-12.10.O,dwarfdump2-x86_64-ubuntu-12.10.O:
+       with changes supporting AARCH64 as a baseline.
+2012-03-08  DavidAnderson <davea42@earthlink.net>
+     * k10m: directory with k10m object file.
+       Same relocations as x86.
+     * DWARFTEST.sh: now runs dwarfdump on the k10m object. 
+     * .O versions of dwarfdump[2]. updated.
+2012-02-06  DavidAnderson <davea42@earthlink.net>
+     * badddie1: directory with new tests exhibiting error messages
+       catching DW_AT_sibling errors in compiler output.
+     * DWARFTEST.sh: now runs the baddie1 directory tests.
+     * .O versions of dwarfdump[2]. updated.
+2012-02-05  DavidAnderson <davea42@earthlink.net>
+     * dwarfextract/dwarfextract.c: Force __WORDSIZE to 32
+       for our test purposes.  Simpler to have just one
+       test to keep up todate, and adequate.
+2012-02-04  DavidAnderson <davea42@earthlink.net>
+     * dwarfdump2-x86_64-linux-gnu.O,dwarfdump-x86_64-linux-gnu.O:
+       new, 64bit Ubuntu 12.10 executables.
+2012-02-03  DavidAnderson <davea42@earthlink.net>
+     * In RUNALL.sh, a temp file was not getting deleted,
+       now it is.
+2012-01-31  DavidAnderson <davea42@earthlink.net>
+     * configure.in: Now it simply looks for a dwarfdump*.O
+       and dwarfdump2*.O to make them the dwarfdump[2].O
+       for testing.  Because sometimes a 32bit executable
+       will work as well as 64bit in a 64bit kernel.
+       And possibly one is surprised where an executable will work.
+     * configure: Regenerated.
+     * findexecutable.base: A valid snippet of dwarfdump output
+       which is part of a basic sanity test that an executable 
+       is usable as the 'previous dwarfdump version'.
+     * Makefile.in: Makes it easy to run a single test now.
+2012-01-31  DavidAnderson <davea42@earthlink.net>
+     * DWARFTEST.sh: Pass to dwgena and dwarfextract 
+       the dwarfdump name to test against.
+     * dwarfextract/dwarfextract.c: Fix some incompatibilites
+       with FreeBSD.
+     * dwarfextract/runtests.sh: Expects the dwarfdump path to run it.
+     * dwarfextract/test1: Made this executable saved, not always
+       rebuilt: makes the test repeatable across compiler releases.
+     * dwgena/runtest.sh: Expects the dwarfdump path to run it.
+     * dwgena/test1.base.gz: Updated with corrected dwarfgen results.
+     * dwgena/test2.base.gz: Updated with corrected dwarfgen results.
+     * dwgena/test3.base.gz: Updated with corrected dwarfgen results.
+     * dwgena/test4.base.gz: Updated with corrected dwarfgen results.
+2012-01-26  DavidAnderson <davea42@earthlink.net>
+     * updated dwarfdump2.O dwarfdump.O with latest.
+2012-01-25  DavidAnderson <davea42@earthlink.net>
+     * updated dwarfdump2.O dwarfdump.O with latest.
+2012-01-25  DavidAnderson <davea42@earthlink.net>
+     * Added libc6fedora18 directory with an x86_64
+       debug libc that coredumps dwarfdump as of the 20121130
+       release.
+2012-01-16  DavidAnderson <davea42@earthlink.net>
+     * A new year starts.

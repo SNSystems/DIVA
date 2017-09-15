@@ -1,0 +1,49 @@
+
+Hi David
+
+Please find attached my offending v850 executable.
+
+There is nothing proprietary so please feel free to keep this as part of your regression testing
+
+look forward to hearing your findings.
+
+BTW, I am simply running
+        $ dwarfdump djpeg.v850
+
+Many Thx
+Lee Moore
+
+
+At 17:12 13/01/2010, David Anderson wrote:
+> Lee Moore wrote:
+>> Hi Dave,
+>>
+>> I hope you don't mind me contacting you directly, but I need some help regarding the libdwarf library routines
+>> you have created.
+>
+> Thanks for your interest in libdwarf.
+>>
+>> I have built a gcc cross compiler for the NEC V850 processor, here are the actual versions of the tools I have used
+>> to build the toolchain
+>>
+>> binutils-2.20
+>> gcc-4.4.1
+>> newlib-1.17.0
+>> gmp-4.2.4
+>> mpfr-2.4.1
+>>
+>> I am not sure ot the relevance of the other packages as far as libdwarf is concerned, but I include them anyway
+>>
+>> The issue I have is when attempting to read the dwarf information for an executable built using this toolchain
+>> configuration, I get an error. Luckily the same error can be reproduced using the dwarfdump utility in version
+>> dwarf-20091230,
+>>
+>> The error message is as follows :-
+>>
+>> ERROR: dwarf_linesrc: DW_DLE_LINE_FILE_NUM_BAD (61)
+>>
+>> I can supply the offending executable if you would like to take a look.
+>> I am doing nothing clever to create this executable, simply compiling, and adding '-gdwarf-2' to the compiler
+>> calls
+
+Jan 13, 2010

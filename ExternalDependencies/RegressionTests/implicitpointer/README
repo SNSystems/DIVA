@@ -1,0 +1,127 @@
+This is a test of the GNU implicit pointer implementation
+in gcc.
+
+To test implicit pointer and to reflect on the standards
+discussion for DWARF5 on adding DW_OP_implicit_pointer.
+
+The intent is to keep using the .o here, not to rebuild
+for every test because gcc will surely change!    
+
+Here are some of the most relevant parts of 
+the implicit pointer aspects.
+Begin at offset 0x000000e1 below.
+
+< 1><0x0000004a>    DW_TAG_base_type
+                      DW_AT_byte_size             0x00000004
+                      DW_AT_encoding              DW_ATE_signed
+                      DW_AT_name                  int
+
+
+< 2><0x0000005c>      DW_TAG_formal_parameter
+                        DW_AT_name                  m
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x00000012
+                        DW_AT_type                  <0x0000006f>
+
+< 1><0x0000006f>    DW_TAG_pointer_type
+                      DW_AT_byte_size             0x00000004
+                      DW_AT_type                  <0x0000004a>
+
+
+< 2><0x000000c4>      DW_TAG_variable
+                        DW_AT_name                  mv
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x00000021
+                        DW_AT_type                  <0x0000004a>
+                        DW_AT_location              <loclist with 2 entries follows>
+                        [ 0]<lowpc=0x00000003><highpc=0x00000008>DW_OP_lit27 DW_OP_stack_value
+                        [ 1]<lowpc=0x00000008><highpc=0x00000020>DW_OP_reg0
+
+
+
+< 2><0x000000d2>      DW_TAG_inlined_subroutine
+                        DW_AT_abstract_origin       <0x00000051>
+                        DW_AT_low_pc                0x00000003
+                        DW_AT_high_pc               0x0000001c
+                        DW_AT_call_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_call_line             0x00000022
+< 3><0x000000e1>        DW_TAG_formal_parameter
+                          DW_AT_abstract_origin       <0x0000005c>
+                          DW_AT_location              DW_OP_GNU_implicit_pointer 0x000000c4 0
+
+==================
+
+Another: take a look at 0x0000011a
+
+< 1><0x00000025>    DW_TAG_structure_type
+                      DW_AT_name                  point
+                      DW_AT_byte_size             0x00000008
+                      DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                      DW_AT_decl_line             0x00000003
+                      DW_AT_sibling               <0x0000004a>
+< 2><0x00000031>      DW_TAG_member
+                        DW_AT_name                  x
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x00000005
+                        DW_AT_type                  <0x0000004a>
+                        DW_AT_data_member_location  DW_OP_plus_uconst 0
+< 2><0x0000003d>      DW_TAG_member
+                        DW_AT_name                  y
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x00000006
+                        DW_AT_type                  <0x0000004a>
+                        DW_AT_data_member_location  DW_OP_plus_uconst 4
+< 1><0x0000004a>    DW_TAG_base_type
+                      DW_AT_byte_size             0x00000004
+                      DW_AT_encoding              DW_ATE_signed
+                      DW_AT_name                  int
+
+< 2><0x00000065>      DW_TAG_variable
+                        DW_AT_name                  b
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x00000016
+                        DW_AT_type                  <0x00000025>
+
+
+
+< 2><0x00000082>      DW_TAG_formal_parameter
+                        DW_AT_name                  ap
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x0000000b
+                        DW_AT_type                  <0x00000097>
+< 2><0x0000008c>      DW_TAG_formal_parameter
+                        DW_AT_name                  bp
+                        DW_AT_decl_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                        DW_AT_decl_line             0x0000000b
+                        DW_AT_type                  <0x0000009d>
+< 1><0x00000097>    DW_TAG_pointer_type
+                      DW_AT_byte_size             0x00000004
+                      DW_AT_type                  <0x00000025>
+< 1><0x0000009d>    DW_TAG_pointer_type
+                      DW_AT_byte_size             0x00000004
+                      DW_AT_type                  <0x000000a3>
+
+< 1><0x000000a3>    DW_TAG_const_type             
+                      DW_AT_type                  <0x00000025>
+
+< 4><0x000000f6>          DW_TAG_variable
+                            DW_AT_abstract_origin       <0x00000065>
+
+
+
+< 4><0x000000fb>          DW_TAG_inlined_subroutine
+                            DW_AT_abstract_origin       <0x00000075>
+                            DW_AT_low_pc                0x00000008
+                            DW_AT_high_pc               0x0000001c
+                            DW_AT_call_file             0x00000001 /home/davea/dwarf/gitdwarftest/libdwarf-regressiontests/implicitpointer/test.c
+                            DW_AT_call_line             0x0000001b
+                            DW_AT_sibling               <0x00000127>
+< 5><0x0000010e>            DW_TAG_formal_parameter
+                              DW_AT_abstract_origin       <0x0000008c>
+                              DW_AT_location              DW_OP_GNU_implicit_pointer 0x000000f6 0
+< 5><0x0000011a>            DW_TAG_formal_parameter
+                              DW_AT_abstract_origin       <0x00000082>
+                              DW_AT_location              DW_OP_addr 0x00000000 DW_OP_stack_value
+
+
+david a. Jan 12, 2013

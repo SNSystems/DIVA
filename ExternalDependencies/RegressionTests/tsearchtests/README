@@ -1,0 +1,8 @@
+These are testcases for testing tsearch code
+in the libdwarf release.
+
+They are here as having them in a libdwarf
+release tar file makes the tar file pointlessly
+large.
+
+DavidA. 07 February 2014

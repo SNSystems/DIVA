@@ -1,0 +1,37 @@
+
+Carlos Alberto Enciso provides test_sibling_loop.o with
+an invalid DIE that causes dwarfdump to loop forever.
+test_sibling.cpp is the source code for the object.
+The unreleased compiler used generated bad DWARF!
+Cool!  
+
+test_sibling.o is the source code compiled with a compiler
+that does not generate bad DWARF.
+
+The other executables here are binary-patched versions of
+the test case lloyd/arange.elf . Arranged by patching
+a valid DWARF object to have improper sibling attributes.
+So we validate our test code in print_die.{c,cc}
+
+The first two are similar errors, almost same message.
+A sibling 'points' before the DIE itself.
+badsiblingbeforeitself
+badsiblingatitself
+
+These next two are similar errors, the sibling attribute
+points past itself, but just to its first sibling (or to its
+own DIE internal bytes). A different message than the above
+two binaries provoke.
+badsiblingatchild   
+badsiblingbeforechild
+
+These two are similar to each other where the sibling nest value
+is bogus. In a sibling nest, inner DW_AT_sibling values must
+nest at lower (or equal) global offsets than outer DW_AT_sibling values
+in a given DIE stack nest.
+badsiblingnest   
+badsiblingnest2   
+
+
+
+04 February, 2013

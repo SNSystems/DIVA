@@ -1,0 +1,47 @@
+
+echo " Inspect the first two output cases manually for errors."
+echo "xxxxxxxxx" > testdata
+od -b testdata
+./zero -s 2 -l 3 testdata
+od -b testdata
+if [ $? != 0 ]
+then 
+     echo FAIL, expected success.
+     exit 1
+fi
+echo "yyyyyyyyyyyyyyy" > testdata
+od -b testdata
+./zero -s 2 -l 3 -s 7 -l 1  testdata
+if [ $? != 0 ]
+then 
+     echo FAIL, expected success.
+     exit 1
+fi
+od -b testdata
+echo following should fail
+echo "yyyyyyyyyyyyyyy" > testdata
+./zero -s 2 -l 3 -s 7 -l 1 
+if [ $? = 0 ]
+then 
+     echo FAIL, expected error detection.
+     exit 1
+fi
+echo following should fail
+echo "yyyyyyyyyyyyyyy" > testdata
+./zero -s 2 -l 3 -s 7  testdata
+if [ $? = 0 ]
+then 
+     echo FAIL, expected error detection.
+     exit 1
+fi
+echo following should fail
+echo "yyyyyyyyyyyyyyy" > testdata
+./zero -s 2  -l  testdata
+if [ $? = 0 ]
+then 
+     echo FAIL, expected error detection.
+     exit 1
+fi
+echo PASS
+exit 0
+

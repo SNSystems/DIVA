@@ -1,0 +1,98 @@
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0x00000000>:
+< 0><0x0000000b GOFF=0x0000000b>  DW_TAG_compile_unit
+                                    DW_AT_stmt_list             0x00000000
+                                    DW_AT_ranges                0x00000000
+		ranges: 4 at .debug_ranges offset 0 (0x00000000) (32 bytes)
+			[ 0] addr selection 0xffffffff 0x00000000
+			[ 1] range entry    0xfff40000 0xfff4009d
+			[ 2] range entry    0xfff441e5 0xfff441e9
+			[ 3] range end      0x00000000 0x00000000
+                                    DW_AT_name                  /home/kpit/fsfsrc/rx-v10.01-src/newlib-1.18.0/libgloss/rx/crt0.S
+                                    DW_AT_comp_dir              /home/kpit/mingwrx-elfbld4.5-20091105/build-newlib-1.18.0/rx-elf/libgloss/rx
+                                    DW_AT_producer              GNU AS 2.20-GNURX_v10.01
+                                    DW_AT_language              DW_LANG_Mips_Assembler
+
+COMPILE_UNIT<header overall offset = 0x000000bd>:
+< 0><0x0000000b GOFF=0x000000c8>  DW_TAG_compile_unit
+                                    DW_AT_producer              GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+                                    DW_AT_language              DW_LANG_C89
+                                    DW_AT_name                  t.c
+                                    DW_AT_comp_dir              U:\\scratch
+                                    DW_AT_low_pc                0x00000000
+                                    DW_AT_entry_pc              0x00000000
+                                    DW_AT_ranges                0x00000020
+		ranges: 1 at .debug_ranges offset 32 (0x00000020) (8 bytes)
+			[ 0] range end      0x00000000 0x00000000
+                                    DW_AT_stmt_list             0x000000ab
+
+LOCAL_SYMBOLS:
+< 1><0x00000029 GOFF=0x000000e6>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long unsigned int
+< 1><0x00000030 GOFF=0x000000ed>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_signed_char
+                                      DW_AT_name                  signed char
+< 1><0x00000037 GOFF=0x000000f4>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  unsigned char
+< 1><0x0000003e GOFF=0x000000fb>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  short int
+< 1><0x00000045 GOFF=0x00000102>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  short unsigned int
+< 1><0x0000004c GOFF=0x00000109>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  int
+< 1><0x00000053 GOFF=0x00000110>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  unsigned int
+< 1><0x0000005a GOFF=0x00000117>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long long int
+< 1><0x00000061 GOFF=0x0000011e>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long long unsigned int
+< 1><0x00000068 GOFF=0x00000125>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long int
+< 1><0x0000006f GOFF=0x0000012c>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+< 1><0x00000072 GOFF=0x0000012f>    DW_TAG_pointer_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_type                  <0x00000078 GOFF=0x00000135>
+< 1><0x00000078 GOFF=0x00000135>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  char
+< 1><0x0000007f GOFF=0x0000013c>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  bar
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x0000000b
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0x00000000
+                                      DW_AT_high_pc               0x00000000
+                                      DW_AT_frame_base            DW_OP_breg0+4
+                                      DW_AT_sibling               <0x0000009b GOFF=0x00000158>
+
+dwarfdump:  A parent DW_AT_sibling of 0x00000158 points at the first child 0x00000158 so the die tree is corrupt (showing section, not CU, offsets).  
+
+CU Name = t.c
+CU Producer = GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+DIE OFF = 0x0000007f GOFF = 0x0000013c, Low PC = 0x00000000, High PC = 0x00000000

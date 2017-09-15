@@ -1,0 +1,9 @@
+2009-11-25  DavidAnderson <davea42@earthlink.net>
+     * Adding the test-alex2 directory, which is really just
+       a test of the new dwarf_get_form_class() function --
+       based on an already-existing test to save me time.
+2009-11-23  DavidAnderson <davea42@earthlink.net>
+     * DWARFTEST.sh: Now we test that --enable-windowspath at configure
+       time works.
+     * PICKUPBIN:  Now builds dwarfdump with and without
+       --enable-windowspath.

@@ -1,0 +1,25 @@
+This test source provided by Stoyan Shopov.
+
+It is supposed to test that
+
+../../dwarf-20130729/dwarfdump2/dwarfdump ERROR:  Cannot get a formstr
+(or a formstrp)....:  DW_DLE_ATTR_FORM_SIZE_BAD (116)
+
+CU Name = <unknown>
+CU Producer = "<CU-missing-DW_AT_producer>"
+DIE OFF = 0x00000025 GOFF = 0x000002e3, Low PC = 0x00000000, High PC =
+0x00000000
+
+arises from
+
+dwarfdump -a main.exe
+
+when printing the .debug_types
+section.
+
+And show that fixing dwarf_formstring() fixes the problem.
+
+I built main.exe with gcc and that demonstrated the problem.
+
+
+David A. Aug 9, 1013

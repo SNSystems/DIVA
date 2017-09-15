@@ -1,0 +1,5 @@
+Hex key = 0x058027967850060b
+
+Getting die for TU key 058027967850060b
+Hash found.
+<0> tag: 2 DW_TAG_class_type  name: "new_allocator<std::tr1::__detail::_Hash_node<std::pair<const gold::Symbol* const, int>, false> >" FORM 0x1f02 "DW_FORM_GNU_str_index"

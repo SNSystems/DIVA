@@ -1,0 +1,15 @@
+
+ia64/mytry.ia64:
+This gets
+
+< *** DWARF CHECK: DW_TAG_structure_type -> DW_TAG_variable: tag-tree relation is not standard. ***
+
+< *** DWARF CHECK: DW_TAG_variable -> DW_AT_MIPS_linkage_name: check the tag-attr combination ***
+
+< *** DWARF CHECK: DW_TAG_subprogram -> DW_AT_MIPS_linkage_name: check the tag-attr combination ***
+
+< *** DWARF CHECK: DW_TAG_subprogram -> DW_AT_MIPS_linkage_name: check the tag-attr combination ***
+
+< *** DWARF CHECK: DW_TAG_subprogram -> DW_AT_MIPS_linkage_name: check the tag-attr combination ***
+
+if -C is supplied.

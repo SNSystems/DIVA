@@ -1,0 +1,24 @@
+
+Roni Simonian.  Feb 20 2011
+
+The latest version of gcc creates a DW_AT_data_member_location attribute with the form DW_FORM_sdata.
+
+dwarf_loclist_n() expects the form to be DW_FORM_data4, DW_FORM_data8, DW_FORM_sec_offset, or DW_FORM_block* only.
+
+I am attaching the test case test.cc. It was compiled with gcc 4.3.0 and gcc 4.5.1, using the command
+g++ -march=x86-64 -m64 -g3 test.cc -o test-gcc-<version>
+
+There are class and structure members in the test: m1, m2, flag1, flag2, flag3. In the "old" binary - test-gcc-4.3.0 - the attribute DW_AT_data_member_location of these members has a block form. For example,
+
+ <2><4a>: Abbrev Number: 3 (DW_TAG_member)
+    <4b>   DW_AT_name        : m2    
+    <54>   DW_AT_data_member_location: 2 byte block: 23 4 (DW_OP_plus_uconst: 4)
+
+
+In the "new" binary - test-gcc-4.5.1- the attribute form for DW_AT_data_member_location of these members is DW_FORM_sdata. For example,
+
+ <2><48>: Abbrev Number: 3 (DW_TAG_member)
+    <49>   DW_AT_name        : m2    
+    <52>   DW_AT_data_member_location: 4
+
+The above examples are from "readelf -w" output. For test-gcc-4.3.0 the libdwarf results are consistent with readelf results. For test-gcc-4.5.1 dwarfdump reports an error, because of the unexpected attribute form. 

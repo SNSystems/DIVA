@@ -1,0 +1,1602 @@
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             0
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 11):
+<source>	[row,column]	<pc>	//<new statement or basic block
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 52,-1]	0x10058830	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 53,-1]	0x10058834	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 54,-1]	0x10058838	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 54,-1]	0x1005883c	// new statement	// end of text sequence
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 36,-1]	0x100000d4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 37,-1]	0x100000d8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 38,-1]	0x100000dc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 39,-1]	0x100000e0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 39,-1]	0x100000e4	// new statement	// end of text sequence
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 12,-1]	0x10000124	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 13,-1]	0x10000128	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 14,-1]	0x1000012c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 15,-1]	0x10000130	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 16,-1]	0x10000134	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 17,-1]	0x10000138	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 18,-1]	0x1000013c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 19,-1]	0x10000140	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 20,-1]	0x10000144	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 21,-1]	0x10000148	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 22,-1]	0x1000014c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 24,-1]	0x10000150	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 25,-1]	0x10000154	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 26,-1]	0x10000158	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 27,-1]	0x1000015c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 28,-1]	0x10000160	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S:	[ 28,-1]	0x10000164	// new statement	// end of text sequence
+
+COMPILE_UNIT<header overall offset = 269>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             216
+		DW_AT_high_pc               0x10057b10
+		DW_AT_low_pc                0x10057ac8
+		DW_AT_producer              GNU C 4.1.0
+		DW_AT_language              DW_LANG_C89
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+
+LOCAL_SYMBOLS:
+<1><   37>	DW_TAG_base_type
+		DW_AT_name                  int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_signed
+<1><   44>	DW_TAG_base_type
+		DW_AT_name                  unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   51>	DW_TAG_base_type
+		DW_AT_name                  long int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_signed
+<1><   58>	DW_TAG_base_type
+		DW_AT_name                  unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   65>	DW_TAG_base_type
+		DW_AT_name                  unsigned char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_unsigned_char
+<1><   72>	DW_TAG_base_type
+		DW_AT_name                  short unsigned int
+		DW_AT_byte_size             2
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   79>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+<1><   81>	DW_TAG_base_type
+		DW_AT_name                  long unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   88>	DW_TAG_base_type
+		DW_AT_name                  signed char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_signed_char
+<1><   95>	DW_TAG_base_type
+		DW_AT_name                  short int
+		DW_AT_byte_size             2
+		DW_AT_encoding              DW_ATE_signed
+<1><  102>	DW_TAG_base_type
+		DW_AT_name                  long long int
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_signed
+<1><  109>	DW_TAG_base_type
+		DW_AT_name                  long long unsigned int
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_unsigned
+<1><  116>	DW_TAG_typedef
+		DW_AT_name                  __quad_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             59
+		DW_AT_type                  <102>
+<1><  127>	DW_TAG_typedef
+		DW_AT_name                  __off_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             143
+		DW_AT_type                  <51>
+<1><  138>	DW_TAG_typedef
+		DW_AT_name                  __off64_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             144
+		DW_AT_type                  <116>
+<1><  149>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <155>
+<1><  155>	DW_TAG_base_type
+		DW_AT_name                  char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_unsigned_char
+<1><  162>	DW_TAG_structure_type
+		DW_AT_sibling               <565>
+		DW_AT_name                  _IO_FILE
+		DW_AT_byte_size             152
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             46
+<2><  174>	DW_TAG_member
+		DW_AT_name                  _flags
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             268
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  189>	DW_TAG_member
+		DW_AT_name                  _IO_read_ptr
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             273
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<2><  204>	DW_TAG_member
+		DW_AT_name                  _IO_read_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             274
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 8
+<2><  219>	DW_TAG_member
+		DW_AT_name                  _IO_read_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             275
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 12
+<2><  234>	DW_TAG_member
+		DW_AT_name                  _IO_write_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             276
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 16
+<2><  249>	DW_TAG_member
+		DW_AT_name                  _IO_write_ptr
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             277
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 20
+<2><  264>	DW_TAG_member
+		DW_AT_name                  _IO_write_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             278
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 24
+<2><  279>	DW_TAG_member
+		DW_AT_name                  _IO_buf_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             279
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 28
+<2><  294>	DW_TAG_member
+		DW_AT_name                  _IO_buf_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             280
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 32
+<2><  309>	DW_TAG_member
+		DW_AT_name                  _IO_save_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             282
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 36
+<2><  324>	DW_TAG_member
+		DW_AT_name                  _IO_backup_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             283
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 40
+<2><  339>	DW_TAG_member
+		DW_AT_name                  _IO_save_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             284
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 44
+<2><  354>	DW_TAG_member
+		DW_AT_name                  _markers
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             286
+		DW_AT_type                  <627>
+		DW_AT_data_member_location  DW_OP_plus_uconst 48
+<2><  369>	DW_TAG_member
+		DW_AT_name                  _chain
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             288
+		DW_AT_type                  <633>
+		DW_AT_data_member_location  DW_OP_plus_uconst 52
+<2><  384>	DW_TAG_member
+		DW_AT_name                  _fileno
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             290
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 56
+<2><  399>	DW_TAG_member
+		DW_AT_name                  _flags2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             294
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 60
+<2><  414>	DW_TAG_member
+		DW_AT_name                  _old_offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             296
+		DW_AT_type                  <127>
+		DW_AT_data_member_location  DW_OP_plus_uconst 64
+<2><  429>	DW_TAG_member
+		DW_AT_name                  _cur_column
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             300
+		DW_AT_type                  <72>
+		DW_AT_data_member_location  DW_OP_plus_uconst 68
+<2><  444>	DW_TAG_member
+		DW_AT_name                  _vtable_offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             301
+		DW_AT_type                  <88>
+		DW_AT_data_member_location  DW_OP_plus_uconst 70
+<2><  459>	DW_TAG_member
+		DW_AT_name                  _shortbuf
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             302
+		DW_AT_type                  <639>
+		DW_AT_data_member_location  DW_OP_plus_uconst 71
+<2><  474>	DW_TAG_member
+		DW_AT_name                  _lock
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             306
+		DW_AT_type                  <655>
+		DW_AT_data_member_location  DW_OP_plus_uconst 72
+<2><  489>	DW_TAG_member
+		DW_AT_name                  _offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             315
+		DW_AT_type                  <138>
+		DW_AT_data_member_location  DW_OP_plus_uconst 80
+<2><  504>	DW_TAG_member
+		DW_AT_name                  __pad1
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             321
+		DW_AT_type                  <79>
+		DW_AT_data_member_location  DW_OP_plus_uconst 88
+<2><  519>	DW_TAG_member
+		DW_AT_name                  __pad2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             322
+		DW_AT_type                  <79>
+		DW_AT_data_member_location  DW_OP_plus_uconst 92
+<2><  534>	DW_TAG_member
+		DW_AT_name                  _mode
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             324
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 96
+<2><  549>	DW_TAG_member
+		DW_AT_name                  _unused2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             326
+		DW_AT_type                  <661>
+		DW_AT_data_member_location  DW_OP_plus_uconst 100
+<1><  565>	DW_TAG_typedef
+		DW_AT_name                  _IO_lock_t
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             176
+<1><  572>	DW_TAG_structure_type
+		DW_AT_sibling               <627>
+		DW_AT_name                  _IO_marker
+		DW_AT_byte_size             12
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             182
+<2><  584>	DW_TAG_member
+		DW_AT_name                  _next
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             183
+		DW_AT_type                  <627>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  598>	DW_TAG_member
+		DW_AT_name                  _sbuf
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             184
+		DW_AT_type                  <633>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<2><  612>	DW_TAG_member
+		DW_AT_name                  _pos
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             188
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 8
+<1><  627>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <572>
+<1><  633>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <162>
+<1><  639>	DW_TAG_array_type
+		DW_AT_sibling               <655>
+		DW_AT_type                  <155>
+<2><  648>	DW_TAG_subrange_type
+		DW_AT_type                  <58>
+		DW_AT_upper_bound           0
+<1><  655>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <565>
+<1><  661>	DW_TAG_array_type
+		DW_AT_sibling               <677>
+		DW_AT_type                  <155>
+<2><  670>	DW_TAG_subrange_type
+		DW_AT_type                  <58>
+		DW_AT_upper_bound           51
+<1><  677>	DW_TAG_typedef
+		DW_AT_name                  SItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             101
+		DW_AT_type                  <37>
+<1><  688>	DW_TAG_typedef
+		DW_AT_name                  USItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             102
+		DW_AT_type                  <44>
+<1><  699>	DW_TAG_typedef
+		DW_AT_name                  DItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             105
+		DW_AT_type                  <102>
+<1><  710>	DW_TAG_base_type
+		DW_AT_name                  float
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_float
+<1><  717>	DW_TAG_base_type
+		DW_AT_name                  complex float
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  724>	DW_TAG_base_type
+		DW_AT_name                  double
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_float
+<1><  731>	DW_TAG_base_type
+		DW_AT_name                  complex double
+		DW_AT_byte_size             16
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  738>	DW_TAG_base_type
+		DW_AT_name                  long double
+		DW_AT_byte_size             16
+		DW_AT_encoding              DW_ATE_float
+<1><  745>	DW_TAG_base_type
+		DW_AT_name                  complex long double
+		DW_AT_byte_size             32
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  752>	DW_TAG_typedef
+		DW_AT_name                  word_type
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             132
+		DW_AT_type                  <37>
+<1><  763>	DW_TAG_structure_type
+		DW_AT_sibling               <807>
+		DW_AT_name                  DWstruct
+		DW_AT_byte_size             8
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+<2><  776>	DW_TAG_member
+		DW_AT_name                  high
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+		DW_AT_type                  <677>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  791>	DW_TAG_member
+		DW_AT_name                  low
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+		DW_AT_type                  <677>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<1><  807>	DW_TAG_union_type
+		DW_AT_sibling               <838>
+		DW_AT_byte_size             8
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             371
+<2><  816>	DW_TAG_member
+		DW_AT_name                  s
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             372
+		DW_AT_type                  <763>
+<2><  826>	DW_TAG_member
+		DW_AT_name                  ll
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             373
+		DW_AT_type                  <699>
+<1><  838>	DW_TAG_typedef
+		DW_AT_name                  DWunion
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             374
+		DW_AT_type                  <807>
+<1><  850>	DW_TAG_subprogram
+		DW_AT_sibling               <965>
+		DW_AT_external              yes(1)
+		DW_AT_name                  __lshrdi3
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             391
+		DW_AT_prototyped            yes(1)
+		DW_AT_type                  <699>
+		DW_AT_low_pc                0x10057ac8
+		DW_AT_high_pc               0x10057b10
+		DW_AT_frame_base            <loclist with 2 entries follows>
+			[ 0]<lowpc=0x0><highpc=0x8>DW_OP_reg1
+			[ 1]<lowpc=0x8><highpc=0x48>DW_OP_breg1+16
+<2><  880>	DW_TAG_formal_parameter
+		DW_AT_name                  u
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             390
+		DW_AT_type                  <699>
+		DW_AT_location              <loclist with 3 entries follows>
+			[ 0]<lowpc=0x0><highpc=0x1c>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]<lowpc=0x2c><highpc=0x38>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 2]<lowpc=0x40><highpc=0x48>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+<2><  894>	DW_TAG_formal_parameter
+		DW_AT_name                  b
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             390
+		DW_AT_type                  <752>
+		DW_AT_location              DW_OP_reg5
+<2><  906>	DW_TAG_variable
+		DW_AT_name                  uu
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             395
+		DW_AT_type                  <965>
+<2><  917>	DW_TAG_variable
+		DW_AT_name                  bm
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             396
+		DW_AT_type                  <970>
+		DW_AT_location              <loclist with 2 entries follows>
+			[ 0]<lowpc=0xc><highpc=0x20>DW_OP_reg0
+			[ 1]<lowpc=0x34><highpc=0x3c>DW_OP_reg0
+<2><  932>	DW_TAG_variable
+		DW_AT_name                  w
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             397
+		DW_AT_type                  <838>
+		DW_AT_location              <loclist with 2 entries follows>
+			[ 0]<lowpc=0x2c><highpc=0x3c>DW_OP_reg9 DW_OP_piece 4 DW_OP_reg10 DW_OP_piece 4
+			[ 1]<lowpc=0x44><highpc=0x48>DW_OP_reg9 DW_OP_piece 4 DW_OP_reg10 DW_OP_piece 4
+<2><  946>	DW_TAG_lexical_block
+		DW_AT_ranges                0
+<3><  951>	DW_TAG_variable
+		DW_AT_name                  carries
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             406
+		DW_AT_type                  <975>
+<1><  965>	DW_TAG_const_type
+		DW_AT_type                  <838>
+<1><  970>	DW_TAG_const_type
+		DW_AT_type                  <752>
+<1><  975>	DW_TAG_const_type
+		DW_AT_type                  <688>
+<1><  980>	DW_TAG_variable
+		DW_AT_name                  stdin
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             142
+		DW_AT_type                  <633>
+		DW_AT_external              yes(1)
+		DW_AT_declaration           yes(1)
+<1><  993>	DW_TAG_variable
+		DW_AT_name                  stdout
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             143
+		DW_AT_type                  <633>
+		DW_AT_external              yes(1)
+		DW_AT_declaration           yes(1)
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 280):
+<source>	[row,column]	<pc>	//<new statement or basic block
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[392,-1]	0x10057ac8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[391,-1]	0x10057acc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[396,-1]	0x10057ad0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[399,-1]	0x10057ad4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[392,-1]	0x10057ad8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[402,-1]	0x10057adc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[409,-1]	0x10057ae0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[399,-1]	0x10057ae8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[408,-1]	0x10057aec	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[409,-1]	0x10057af0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[412,-1]	0x10057af4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[413,-1]	0x10057afc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[401,-1]	0x10057b04	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[402,-1]	0x10057b08	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[402,-1]	0x10057b10	// new statement	// end of text sequence
+
+COMPILE_UNIT<header overall offset = 1276>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             636
+		DW_AT_high_pc               0x10057b58
+		DW_AT_low_pc                0x10057b10
+		DW_AT_producer              GNU C 4.1.0
+		DW_AT_language              DW_LANG_C89
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+
+LOCAL_SYMBOLS:
+<1><   37>	DW_TAG_base_type
+		DW_AT_name                  int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_signed
+<1><   44>	DW_TAG_base_type
+		DW_AT_name                  unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   51>	DW_TAG_base_type
+		DW_AT_name                  long int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_signed
+<1><   58>	DW_TAG_base_type
+		DW_AT_name                  unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   65>	DW_TAG_base_type
+		DW_AT_name                  unsigned char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_unsigned_char
+<1><   72>	DW_TAG_base_type
+		DW_AT_name                  short unsigned int
+		DW_AT_byte_size             2
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   79>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+<1><   81>	DW_TAG_base_type
+		DW_AT_name                  long unsigned int
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_unsigned
+<1><   88>	DW_TAG_base_type
+		DW_AT_name                  signed char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_signed_char
+<1><   95>	DW_TAG_base_type
+		DW_AT_name                  short int
+		DW_AT_byte_size             2
+		DW_AT_encoding              DW_ATE_signed
+<1><  102>	DW_TAG_base_type
+		DW_AT_name                  long long int
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_signed
+<1><  109>	DW_TAG_base_type
+		DW_AT_name                  long long unsigned int
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_unsigned
+<1><  116>	DW_TAG_typedef
+		DW_AT_name                  __quad_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             59
+		DW_AT_type                  <102>
+<1><  127>	DW_TAG_typedef
+		DW_AT_name                  __off_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             143
+		DW_AT_type                  <51>
+<1><  138>	DW_TAG_typedef
+		DW_AT_name                  __off64_t
+		DW_AT_decl_file             5 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/bits/types.h
+		DW_AT_decl_line             144
+		DW_AT_type                  <116>
+<1><  149>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <155>
+<1><  155>	DW_TAG_base_type
+		DW_AT_name                  char
+		DW_AT_byte_size             1
+		DW_AT_encoding              DW_ATE_unsigned_char
+<1><  162>	DW_TAG_structure_type
+		DW_AT_sibling               <565>
+		DW_AT_name                  _IO_FILE
+		DW_AT_byte_size             152
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             46
+<2><  174>	DW_TAG_member
+		DW_AT_name                  _flags
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             268
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  189>	DW_TAG_member
+		DW_AT_name                  _IO_read_ptr
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             273
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<2><  204>	DW_TAG_member
+		DW_AT_name                  _IO_read_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             274
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 8
+<2><  219>	DW_TAG_member
+		DW_AT_name                  _IO_read_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             275
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 12
+<2><  234>	DW_TAG_member
+		DW_AT_name                  _IO_write_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             276
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 16
+<2><  249>	DW_TAG_member
+		DW_AT_name                  _IO_write_ptr
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             277
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 20
+<2><  264>	DW_TAG_member
+		DW_AT_name                  _IO_write_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             278
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 24
+<2><  279>	DW_TAG_member
+		DW_AT_name                  _IO_buf_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             279
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 28
+<2><  294>	DW_TAG_member
+		DW_AT_name                  _IO_buf_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             280
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 32
+<2><  309>	DW_TAG_member
+		DW_AT_name                  _IO_save_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             282
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 36
+<2><  324>	DW_TAG_member
+		DW_AT_name                  _IO_backup_base
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             283
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 40
+<2><  339>	DW_TAG_member
+		DW_AT_name                  _IO_save_end
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             284
+		DW_AT_type                  <149>
+		DW_AT_data_member_location  DW_OP_plus_uconst 44
+<2><  354>	DW_TAG_member
+		DW_AT_name                  _markers
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             286
+		DW_AT_type                  <627>
+		DW_AT_data_member_location  DW_OP_plus_uconst 48
+<2><  369>	DW_TAG_member
+		DW_AT_name                  _chain
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             288
+		DW_AT_type                  <633>
+		DW_AT_data_member_location  DW_OP_plus_uconst 52
+<2><  384>	DW_TAG_member
+		DW_AT_name                  _fileno
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             290
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 56
+<2><  399>	DW_TAG_member
+		DW_AT_name                  _flags2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             294
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 60
+<2><  414>	DW_TAG_member
+		DW_AT_name                  _old_offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             296
+		DW_AT_type                  <127>
+		DW_AT_data_member_location  DW_OP_plus_uconst 64
+<2><  429>	DW_TAG_member
+		DW_AT_name                  _cur_column
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             300
+		DW_AT_type                  <72>
+		DW_AT_data_member_location  DW_OP_plus_uconst 68
+<2><  444>	DW_TAG_member
+		DW_AT_name                  _vtable_offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             301
+		DW_AT_type                  <88>
+		DW_AT_data_member_location  DW_OP_plus_uconst 70
+<2><  459>	DW_TAG_member
+		DW_AT_name                  _shortbuf
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             302
+		DW_AT_type                  <639>
+		DW_AT_data_member_location  DW_OP_plus_uconst 71
+<2><  474>	DW_TAG_member
+		DW_AT_name                  _lock
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             306
+		DW_AT_type                  <655>
+		DW_AT_data_member_location  DW_OP_plus_uconst 72
+<2><  489>	DW_TAG_member
+		DW_AT_name                  _offset
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             315
+		DW_AT_type                  <138>
+		DW_AT_data_member_location  DW_OP_plus_uconst 80
+<2><  504>	DW_TAG_member
+		DW_AT_name                  __pad1
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             321
+		DW_AT_type                  <79>
+		DW_AT_data_member_location  DW_OP_plus_uconst 88
+<2><  519>	DW_TAG_member
+		DW_AT_name                  __pad2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             322
+		DW_AT_type                  <79>
+		DW_AT_data_member_location  DW_OP_plus_uconst 92
+<2><  534>	DW_TAG_member
+		DW_AT_name                  _mode
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             324
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 96
+<2><  549>	DW_TAG_member
+		DW_AT_name                  _unused2
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             326
+		DW_AT_type                  <661>
+		DW_AT_data_member_location  DW_OP_plus_uconst 100
+<1><  565>	DW_TAG_typedef
+		DW_AT_name                  _IO_lock_t
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             176
+<1><  572>	DW_TAG_structure_type
+		DW_AT_sibling               <627>
+		DW_AT_name                  _IO_marker
+		DW_AT_byte_size             12
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             182
+<2><  584>	DW_TAG_member
+		DW_AT_name                  _next
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             183
+		DW_AT_type                  <627>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  598>	DW_TAG_member
+		DW_AT_name                  _sbuf
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             184
+		DW_AT_type                  <633>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<2><  612>	DW_TAG_member
+		DW_AT_name                  _pos
+		DW_AT_decl_file             4 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/libio.h
+		DW_AT_decl_line             188
+		DW_AT_type                  <37>
+		DW_AT_data_member_location  DW_OP_plus_uconst 8
+<1><  627>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <572>
+<1><  633>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <162>
+<1><  639>	DW_TAG_array_type
+		DW_AT_sibling               <655>
+		DW_AT_type                  <155>
+<2><  648>	DW_TAG_subrange_type
+		DW_AT_type                  <58>
+		DW_AT_upper_bound           0
+<1><  655>	DW_TAG_pointer_type
+		DW_AT_byte_size             4
+		DW_AT_type                  <565>
+<1><  661>	DW_TAG_array_type
+		DW_AT_sibling               <677>
+		DW_AT_type                  <155>
+<2><  670>	DW_TAG_subrange_type
+		DW_AT_type                  <58>
+		DW_AT_upper_bound           51
+<1><  677>	DW_TAG_typedef
+		DW_AT_name                  SItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             101
+		DW_AT_type                  <37>
+<1><  688>	DW_TAG_typedef
+		DW_AT_name                  USItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             102
+		DW_AT_type                  <44>
+<1><  699>	DW_TAG_typedef
+		DW_AT_name                  DItype
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             105
+		DW_AT_type                  <102>
+<1><  710>	DW_TAG_base_type
+		DW_AT_name                  float
+		DW_AT_byte_size             4
+		DW_AT_encoding              DW_ATE_float
+<1><  717>	DW_TAG_base_type
+		DW_AT_name                  complex float
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  724>	DW_TAG_base_type
+		DW_AT_name                  double
+		DW_AT_byte_size             8
+		DW_AT_encoding              DW_ATE_float
+<1><  731>	DW_TAG_base_type
+		DW_AT_name                  complex double
+		DW_AT_byte_size             16
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  738>	DW_TAG_base_type
+		DW_AT_name                  long double
+		DW_AT_byte_size             16
+		DW_AT_encoding              DW_ATE_float
+<1><  745>	DW_TAG_base_type
+		DW_AT_name                  complex long double
+		DW_AT_byte_size             32
+		DW_AT_encoding              DW_ATE_complex_float
+<1><  752>	DW_TAG_typedef
+		DW_AT_name                  word_type
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             132
+		DW_AT_type                  <37>
+<1><  763>	DW_TAG_structure_type
+		DW_AT_sibling               <807>
+		DW_AT_name                  DWstruct
+		DW_AT_byte_size             8
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+<2><  776>	DW_TAG_member
+		DW_AT_name                  high
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+		DW_AT_type                  <677>
+		DW_AT_data_member_location  DW_OP_plus_uconst 0
+<2><  791>	DW_TAG_member
+		DW_AT_name                  low
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             361
+		DW_AT_type                  <677>
+		DW_AT_data_member_location  DW_OP_plus_uconst 4
+<1><  807>	DW_TAG_union_type
+		DW_AT_sibling               <838>
+		DW_AT_byte_size             8
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             371
+<2><  816>	DW_TAG_member
+		DW_AT_name                  s
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             372
+		DW_AT_type                  <763>
+<2><  826>	DW_TAG_member
+		DW_AT_name                  ll
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             373
+		DW_AT_type                  <699>
+<1><  838>	DW_TAG_typedef
+		DW_AT_name                  DWunion
+		DW_AT_decl_file             2 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.h
+		DW_AT_decl_line             374
+		DW_AT_type                  <807>
+<1><  850>	DW_TAG_subprogram
+		DW_AT_sibling               <965>
+		DW_AT_external              yes(1)
+		DW_AT_name                  __ashldi3
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             419
+		DW_AT_prototyped            yes(1)
+		DW_AT_type                  <699>
+		DW_AT_low_pc                0x10057b10
+		DW_AT_high_pc               0x10057b58
+		DW_AT_frame_base            <loclist with 2 entries follows>
+			[ 0]<lowpc=0x0><highpc=0x8>DW_OP_reg1
+			[ 1]<lowpc=0x8><highpc=0x48>DW_OP_breg1+16
+<2><  880>	DW_TAG_formal_parameter
+		DW_AT_name                  u
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             418
+		DW_AT_type                  <699>
+		DW_AT_location              <loclist with 2 entries follows>
+			[ 0]<lowpc=0x0><highpc=0x38>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]<lowpc=0x3c><highpc=0x48>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+<2><  894>	DW_TAG_formal_parameter
+		DW_AT_name                  b
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             418
+		DW_AT_type                  <752>
+		DW_AT_location              DW_OP_reg5
+<2><  906>	DW_TAG_variable
+		DW_AT_name                  uu
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             423
+		DW_AT_type                  <965>
+<2><  917>	DW_TAG_variable
+		DW_AT_name                  bm
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             424
+		DW_AT_type                  <970>
+		DW_AT_location              <loclist with 2 entries follows>
+			[ 0]<lowpc=0xc><highpc=0x20>DW_OP_reg0
+			[ 1]<lowpc=0x34><highpc=0x3c>DW_OP_reg0
+<2><  932>	DW_TAG_variable
+		DW_AT_name                  w
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             425
+		DW_AT_type                  <838>
+		DW_AT_location              <loclist with 2 entries follows>
+			[ 0]<lowpc=0x2c><highpc=0x3c>DW_OP_reg9 DW_OP_piece 4 DW_OP_reg10 DW_OP_piece 4
+			[ 1]<lowpc=0x44><highpc=0x48>DW_OP_reg9 DW_OP_piece 4 DW_OP_reg10 DW_OP_piece 4
+<2><  946>	DW_TAG_lexical_block
+		DW_AT_ranges                24
+<3><  951>	DW_TAG_variable
+		DW_AT_name                  carries
+		DW_AT_decl_file             1 /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_decl_line             434
+		DW_AT_type                  <975>
+<1><  965>	DW_TAG_const_type
+		DW_AT_type                  <838>
+<1><  970>	DW_TAG_const_type
+		DW_AT_type                  <752>
+<1><  975>	DW_TAG_const_type
+		DW_AT_type                  <688>
+<1><  980>	DW_TAG_variable
+		DW_AT_name                  stdin
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             142
+		DW_AT_type                  <633>
+		DW_AT_external              yes(1)
+		DW_AT_declaration           yes(1)
+<1><  993>	DW_TAG_variable
+		DW_AT_name                  stdout
+		DW_AT_decl_file             3 /opt/crosstool/gcc-4.1.0-glibc-2.3.6/powerpc-750-linux-gnu/powerpc-750-linux-gnu/include/stdio.h
+		DW_AT_decl_line             143
+		DW_AT_type                  <633>
+		DW_AT_external              yes(1)
+		DW_AT_declaration           yes(1)
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 1287):
+<source>	[row,column]	<pc>	//<new statement or basic block
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[420,-1]	0x10057b10	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[419,-1]	0x10057b14	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[424,-1]	0x10057b18	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[427,-1]	0x10057b1c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[420,-1]	0x10057b20	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[430,-1]	0x10057b24	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[437,-1]	0x10057b28	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[427,-1]	0x10057b30	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[436,-1]	0x10057b34	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[437,-1]	0x10057b38	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[440,-1]	0x10057b3c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[441,-1]	0x10057b44	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[429,-1]	0x10057b4c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[430,-1]	0x10057b50	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c:	[430,-1]	0x10057b58	// new statement	// end of text sequence
+
+COMPILE_UNIT<header overall offset = 2283>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             1056
+		DW_AT_low_pc                0x10057b58
+		DW_AT_high_pc               0x10057d38
+		DW_AT_name                  crtsavres.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 2294):
+<source>	[row,column]	<pc>	//<new statement or basic block
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 51,-1]	0x10057b58	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 52,-1]	0x10057b5c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 53,-1]	0x10057b60	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 54,-1]	0x10057b64	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 55,-1]	0x10057b68	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 56,-1]	0x10057b6c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 57,-1]	0x10057b70	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 58,-1]	0x10057b74	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 59,-1]	0x10057b78	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 60,-1]	0x10057b7c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 61,-1]	0x10057b80	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 62,-1]	0x10057b84	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 63,-1]	0x10057b88	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 64,-1]	0x10057b8c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 65,-1]	0x10057b90	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 66,-1]	0x10057b94	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 67,-1]	0x10057b98	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 68,-1]	0x10057b9c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 69,-1]	0x10057ba0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 93,-1]	0x10057ba4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 94,-1]	0x10057ba8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 95,-1]	0x10057bac	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 96,-1]	0x10057bb0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 97,-1]	0x10057bb4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 98,-1]	0x10057bb8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[ 99,-1]	0x10057bbc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[100,-1]	0x10057bc0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[101,-1]	0x10057bc4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[102,-1]	0x10057bc8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[103,-1]	0x10057bcc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[104,-1]	0x10057bd0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[105,-1]	0x10057bd4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[106,-1]	0x10057bd8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[107,-1]	0x10057bdc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[108,-1]	0x10057be0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[109,-1]	0x10057be4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[110,-1]	0x10057be8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[111,-1]	0x10057bec	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[135,-1]	0x10057bf0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[136,-1]	0x10057bf4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[137,-1]	0x10057bf8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[138,-1]	0x10057bfc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[139,-1]	0x10057c00	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[140,-1]	0x10057c04	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[141,-1]	0x10057c08	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[142,-1]	0x10057c0c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[143,-1]	0x10057c10	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[144,-1]	0x10057c14	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[145,-1]	0x10057c18	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[146,-1]	0x10057c1c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[147,-1]	0x10057c20	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[148,-1]	0x10057c24	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[149,-1]	0x10057c28	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[150,-1]	0x10057c2c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[151,-1]	0x10057c30	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[152,-1]	0x10057c34	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[153,-1]	0x10057c38	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[177,-1]	0x10057c3c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[178,-1]	0x10057c40	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[179,-1]	0x10057c44	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[180,-1]	0x10057c48	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[181,-1]	0x10057c4c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[182,-1]	0x10057c50	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[183,-1]	0x10057c54	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[184,-1]	0x10057c58	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[185,-1]	0x10057c5c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[186,-1]	0x10057c60	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[187,-1]	0x10057c64	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[188,-1]	0x10057c68	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[189,-1]	0x10057c6c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[190,-1]	0x10057c70	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[191,-1]	0x10057c74	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[192,-1]	0x10057c78	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[193,-1]	0x10057c7c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[194,-1]	0x10057c80	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[195,-1]	0x10057c84	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[221,-1]	0x10057c88	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[222,-1]	0x10057c8c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[223,-1]	0x10057c90	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[224,-1]	0x10057c94	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[225,-1]	0x10057c98	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[226,-1]	0x10057c9c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[227,-1]	0x10057ca0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[228,-1]	0x10057ca4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[229,-1]	0x10057ca8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[230,-1]	0x10057cac	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[231,-1]	0x10057cb0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[232,-1]	0x10057cb4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[233,-1]	0x10057cb8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[234,-1]	0x10057cbc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[235,-1]	0x10057cc0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[236,-1]	0x10057cc4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[237,-1]	0x10057cc8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[238,-1]	0x10057ccc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[239,-1]	0x10057cd0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[240,-1]	0x10057cd4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[241,-1]	0x10057cd8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[242,-1]	0x10057cdc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[266,-1]	0x10057ce0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[267,-1]	0x10057ce4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[268,-1]	0x10057ce8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[269,-1]	0x10057cec	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[270,-1]	0x10057cf0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[271,-1]	0x10057cf4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[272,-1]	0x10057cf8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[273,-1]	0x10057cfc	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[274,-1]	0x10057d00	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[275,-1]	0x10057d04	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[276,-1]	0x10057d08	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[277,-1]	0x10057d0c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[278,-1]	0x10057d10	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[279,-1]	0x10057d14	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[280,-1]	0x10057d18	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[281,-1]	0x10057d1c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[282,-1]	0x10057d20	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[283,-1]	0x10057d24	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[284,-1]	0x10057d28	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[285,-1]	0x10057d2c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[286,-1]	0x10057d30	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[287,-1]	0x10057d34	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc/crtsavres.S:	[287,-1]	0x10057d38	// new statement	// end of text sequence
+
+COMPILE_UNIT<header overall offset = 2448>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             1241
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+.debug_line: line number info for a single cu
+Source lines (from CU-DIE at .debug_info offset 2459):
+<source>	[row,column]	<pc>	//<new statement or basic block
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 21,-1]	0x10058840	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 22,-1]	0x10058844	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 23,-1]	0x10058848	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 24,-1]	0x1005884c	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 24,-1]	0x10058850	// new statement	// end of text sequence
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 10,-1]	0x100000ec	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 11,-1]	0x100000f0	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 12,-1]	0x100000f4	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 13,-1]	0x100000f8	// new statement
+/home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S:	[ 13,-1]	0x100000fc	// new statement	// end of text sequence
+
+.debug_pubnames
+global __lshrdi3       die-in-sect 1119, cu-in-sect 280, die-in-cu 850, cu-header-in-sect 269
+global __ashldi3       die-in-sect 2126, cu-in-sect 1287, die-in-cu 850, cu-header-in-sect 1276
+
+.debug_macinfo
+
+.debug_loc format <o b e l> means section-offset begin-addr end-addr length-of-block-entry
+	 <obel> 0x00000000 0x000000000 0x00000008        1
+	 <obel> 0x0000000b 0x000000008 0x00000048        2
+	 <obel> 0x00000017 0x000000000 0x00000000        0
+	 <obel> 0x0000001f 0x000000000 0x0000001c        6
+	 <obel> 0x0000002f 0x00000002c 0x00000038        6
+	 <obel> 0x0000003f 0x000000040 0x00000048        6
+	 <obel> 0x0000004f 0x000000000 0x00000000        0
+	 <obel> 0x00000057 0x00000000c 0x00000020        1
+	 <obel> 0x00000062 0x000000034 0x0000003c        1
+	 <obel> 0x0000006d 0x000000000 0x00000000        0
+	 <obel> 0x00000075 0x00000002c 0x0000003c        6
+	 <obel> 0x00000085 0x000000044 0x00000048        6
+	 <obel> 0x00000095 0x000000000 0x00000000        0
+	 <obel> 0x0000009d 0x000000000 0x00000008        1
+	 <obel> 0x000000a8 0x000000008 0x00000048        2
+	 <obel> 0x000000b4 0x000000000 0x00000000        0
+	 <obel> 0x000000bc 0x000000000 0x00000038        6
+	 <obel> 0x000000cc 0x00000003c 0x00000048        6
+	 <obel> 0x000000dc 0x000000000 0x00000000        0
+	 <obel> 0x000000e4 0x00000000c 0x00000020        1
+	 <obel> 0x000000ef 0x000000034 0x0000003c        1
+	 <obel> 0x000000fa 0x000000000 0x00000000        0
+	 <obel> 0x00000102 0x00000002c 0x0000003c        6
+	 <obel> 0x00000112 0x000000044 0x00000048        6
+	 <obel> 0x00000122 0x000000000 0x00000000        0
+
+.debug_abbrev
+<   1><    0><code:  1> DW_TAG_compile_unit DW_children_no
+      <    3>	DW_AT_stmt_list             DW_FORM_data4
+      <    5>	DW_AT_name                  DW_FORM_string
+      <    7>	DW_AT_comp_dir              DW_FORM_string
+      <    9>	DW_AT_producer              DW_FORM_string
+      <   11>	DW_AT_language              DW_FORM_data2
+<   2><   15><code:  0> null .debug_abbrev entry
+<   3><   16><code:  1> DW_TAG_compile_unit DW_children_yes
+      <   19>	DW_AT_stmt_list             DW_FORM_data4
+      <   21>	DW_AT_high_pc               DW_FORM_addr
+      <   23>	DW_AT_low_pc                DW_FORM_addr
+      <   25>	DW_AT_producer              DW_FORM_strp
+      <   27>	DW_AT_language              DW_FORM_data1
+      <   29>	DW_AT_name                  DW_FORM_strp
+      <   31>	DW_AT_comp_dir              DW_FORM_strp
+<   4><   35><code:  2> DW_TAG_base_type    DW_children_no
+      <   38>	DW_AT_name                  DW_FORM_string
+      <   40>	DW_AT_byte_size             DW_FORM_data1
+      <   42>	DW_AT_encoding              DW_FORM_data1
+<   5><   46><code:  3> DW_TAG_base_type    DW_children_no
+      <   49>	DW_AT_name                  DW_FORM_strp
+      <   51>	DW_AT_byte_size             DW_FORM_data1
+      <   53>	DW_AT_encoding              DW_FORM_data1
+<   6><   57><code:  4> DW_TAG_pointer_type DW_children_no
+      <   60>	DW_AT_byte_size             DW_FORM_data1
+<   7><   64><code:  5> DW_TAG_typedef      DW_children_no
+      <   67>	DW_AT_name                  DW_FORM_strp
+      <   69>	DW_AT_decl_file             DW_FORM_data1
+      <   71>	DW_AT_decl_line             DW_FORM_data1
+      <   73>	DW_AT_type                  DW_FORM_ref4
+<   8><   77><code:  6> DW_TAG_pointer_type DW_children_no
+      <   80>	DW_AT_byte_size             DW_FORM_data1
+      <   82>	DW_AT_type                  DW_FORM_ref4
+<   9><   86><code:  7> DW_TAG_structure_typeDW_children_yes
+      <   89>	DW_AT_sibling               DW_FORM_ref4
+      <   91>	DW_AT_name                  DW_FORM_strp
+      <   93>	DW_AT_byte_size             DW_FORM_data1
+      <   95>	DW_AT_decl_file             DW_FORM_data1
+      <   97>	DW_AT_decl_line             DW_FORM_data1
+<  10><  101><code:  8> DW_TAG_member       DW_children_no
+      <  104>	DW_AT_name                  DW_FORM_strp
+      <  106>	DW_AT_decl_file             DW_FORM_data1
+      <  108>	DW_AT_decl_line             DW_FORM_data2
+      <  110>	DW_AT_type                  DW_FORM_ref4
+      <  112>	DW_AT_data_member_location  DW_FORM_block1
+<  11><  116><code:  9> DW_TAG_typedef      DW_children_no
+      <  119>	DW_AT_name                  DW_FORM_strp
+      <  121>	DW_AT_decl_file             DW_FORM_data1
+      <  123>	DW_AT_decl_line             DW_FORM_data1
+<  12><  127><code: 10> DW_TAG_member       DW_children_no
+      <  130>	DW_AT_name                  DW_FORM_strp
+      <  132>	DW_AT_decl_file             DW_FORM_data1
+      <  134>	DW_AT_decl_line             DW_FORM_data1
+      <  136>	DW_AT_type                  DW_FORM_ref4
+      <  138>	DW_AT_data_member_location  DW_FORM_block1
+<  13><  142><code: 11> DW_TAG_array_type   DW_children_yes
+      <  145>	DW_AT_sibling               DW_FORM_ref4
+      <  147>	DW_AT_type                  DW_FORM_ref4
+<  14><  151><code: 12> DW_TAG_subrange_typeDW_children_no
+      <  154>	DW_AT_type                  DW_FORM_ref4
+      <  156>	DW_AT_upper_bound           DW_FORM_data1
+<  15><  160><code: 13> DW_TAG_structure_typeDW_children_yes
+      <  163>	DW_AT_sibling               DW_FORM_ref4
+      <  165>	DW_AT_name                  DW_FORM_strp
+      <  167>	DW_AT_byte_size             DW_FORM_data1
+      <  169>	DW_AT_decl_file             DW_FORM_data1
+      <  171>	DW_AT_decl_line             DW_FORM_data2
+<  16><  175><code: 14> DW_TAG_member       DW_children_no
+      <  178>	DW_AT_name                  DW_FORM_string
+      <  180>	DW_AT_decl_file             DW_FORM_data1
+      <  182>	DW_AT_decl_line             DW_FORM_data2
+      <  184>	DW_AT_type                  DW_FORM_ref4
+      <  186>	DW_AT_data_member_location  DW_FORM_block1
+<  17><  190><code: 15> DW_TAG_union_type   DW_children_yes
+      <  193>	DW_AT_sibling               DW_FORM_ref4
+      <  195>	DW_AT_byte_size             DW_FORM_data1
+      <  197>	DW_AT_decl_file             DW_FORM_data1
+      <  199>	DW_AT_decl_line             DW_FORM_data2
+<  18><  203><code: 16> DW_TAG_member       DW_children_no
+      <  206>	DW_AT_name                  DW_FORM_string
+      <  208>	DW_AT_decl_file             DW_FORM_data1
+      <  210>	DW_AT_decl_line             DW_FORM_data2
+      <  212>	DW_AT_type                  DW_FORM_ref4
+<  19><  216><code: 17> DW_TAG_typedef      DW_children_no
+      <  219>	DW_AT_name                  DW_FORM_strp
+      <  221>	DW_AT_decl_file             DW_FORM_data1
+      <  223>	DW_AT_decl_line             DW_FORM_data2
+      <  225>	DW_AT_type                  DW_FORM_ref4
+<  20><  229><code: 18> DW_TAG_subprogram   DW_children_yes
+      <  232>	DW_AT_sibling               DW_FORM_ref4
+      <  234>	DW_AT_external              DW_FORM_flag
+      <  236>	DW_AT_name                  DW_FORM_strp
+      <  238>	DW_AT_decl_file             DW_FORM_data1
+      <  240>	DW_AT_decl_line             DW_FORM_data2
+      <  242>	DW_AT_prototyped            DW_FORM_flag
+      <  244>	DW_AT_type                  DW_FORM_ref4
+      <  246>	DW_AT_low_pc                DW_FORM_addr
+      <  248>	DW_AT_high_pc               DW_FORM_addr
+      <  250>	DW_AT_frame_base            DW_FORM_data4
+<  21><  254><code: 19> DW_TAG_formal_parameterDW_children_no
+      <  257>	DW_AT_name                  DW_FORM_string
+      <  259>	DW_AT_decl_file             DW_FORM_data1
+      <  261>	DW_AT_decl_line             DW_FORM_data2
+      <  263>	DW_AT_type                  DW_FORM_ref4
+      <  265>	DW_AT_location              DW_FORM_data4
+<  22><  269><code: 20> DW_TAG_formal_parameterDW_children_no
+      <  272>	DW_AT_name                  DW_FORM_string
+      <  274>	DW_AT_decl_file             DW_FORM_data1
+      <  276>	DW_AT_decl_line             DW_FORM_data2
+      <  278>	DW_AT_type                  DW_FORM_ref4
+      <  280>	DW_AT_location              DW_FORM_block1
+<  23><  284><code: 21> DW_TAG_variable     DW_children_no
+      <  287>	DW_AT_name                  DW_FORM_string
+      <  289>	DW_AT_decl_file             DW_FORM_data1
+      <  291>	DW_AT_decl_line             DW_FORM_data2
+      <  293>	DW_AT_type                  DW_FORM_ref4
+<  24><  297><code: 22> DW_TAG_variable     DW_children_no
+      <  300>	DW_AT_name                  DW_FORM_string
+      <  302>	DW_AT_decl_file             DW_FORM_data1
+      <  304>	DW_AT_decl_line             DW_FORM_data2
+      <  306>	DW_AT_type                  DW_FORM_ref4
+      <  308>	DW_AT_location              DW_FORM_data4
+<  25><  312><code: 23> DW_TAG_lexical_blockDW_children_yes
+      <  315>	DW_AT_ranges                DW_FORM_data4
+<  26><  319><code: 24> DW_TAG_variable     DW_children_no
+      <  322>	DW_AT_name                  DW_FORM_strp
+      <  324>	DW_AT_decl_file             DW_FORM_data1
+      <  326>	DW_AT_decl_line             DW_FORM_data2
+      <  328>	DW_AT_type                  DW_FORM_ref4
+<  27><  332><code: 25> DW_TAG_const_type   DW_children_no
+      <  335>	DW_AT_type                  DW_FORM_ref4
+<  28><  339><code: 26> DW_TAG_variable     DW_children_no
+      <  342>	DW_AT_name                  DW_FORM_strp
+      <  344>	DW_AT_decl_file             DW_FORM_data1
+      <  346>	DW_AT_decl_line             DW_FORM_data1
+      <  348>	DW_AT_type                  DW_FORM_ref4
+      <  350>	DW_AT_external              DW_FORM_flag
+      <  352>	DW_AT_declaration           DW_FORM_flag
+<  29><  356><code:  0> null .debug_abbrev entry
+<  30><  357><code:  1> DW_TAG_compile_unit DW_children_yes
+      <  360>	DW_AT_stmt_list             DW_FORM_data4
+      <  362>	DW_AT_high_pc               DW_FORM_addr
+      <  364>	DW_AT_low_pc                DW_FORM_addr
+      <  366>	DW_AT_producer              DW_FORM_strp
+      <  368>	DW_AT_language              DW_FORM_data1
+      <  370>	DW_AT_name                  DW_FORM_strp
+      <  372>	DW_AT_comp_dir              DW_FORM_strp
+<  31><  376><code:  2> DW_TAG_base_type    DW_children_no
+      <  379>	DW_AT_name                  DW_FORM_string
+      <  381>	DW_AT_byte_size             DW_FORM_data1
+      <  383>	DW_AT_encoding              DW_FORM_data1
+<  32><  387><code:  3> DW_TAG_base_type    DW_children_no
+      <  390>	DW_AT_name                  DW_FORM_strp
+      <  392>	DW_AT_byte_size             DW_FORM_data1
+      <  394>	DW_AT_encoding              DW_FORM_data1
+<  33><  398><code:  4> DW_TAG_pointer_type DW_children_no
+      <  401>	DW_AT_byte_size             DW_FORM_data1
+<  34><  405><code:  5> DW_TAG_typedef      DW_children_no
+      <  408>	DW_AT_name                  DW_FORM_strp
+      <  410>	DW_AT_decl_file             DW_FORM_data1
+      <  412>	DW_AT_decl_line             DW_FORM_data1
+      <  414>	DW_AT_type                  DW_FORM_ref4
+<  35><  418><code:  6> DW_TAG_pointer_type DW_children_no
+      <  421>	DW_AT_byte_size             DW_FORM_data1
+      <  423>	DW_AT_type                  DW_FORM_ref4
+<  36><  427><code:  7> DW_TAG_structure_typeDW_children_yes
+      <  430>	DW_AT_sibling               DW_FORM_ref4
+      <  432>	DW_AT_name                  DW_FORM_strp
+      <  434>	DW_AT_byte_size             DW_FORM_data1
+      <  436>	DW_AT_decl_file             DW_FORM_data1
+      <  438>	DW_AT_decl_line             DW_FORM_data1
+<  37><  442><code:  8> DW_TAG_member       DW_children_no
+      <  445>	DW_AT_name                  DW_FORM_strp
+      <  447>	DW_AT_decl_file             DW_FORM_data1
+      <  449>	DW_AT_decl_line             DW_FORM_data2
+      <  451>	DW_AT_type                  DW_FORM_ref4
+      <  453>	DW_AT_data_member_location  DW_FORM_block1
+<  38><  457><code:  9> DW_TAG_typedef      DW_children_no
+      <  460>	DW_AT_name                  DW_FORM_strp
+      <  462>	DW_AT_decl_file             DW_FORM_data1
+      <  464>	DW_AT_decl_line             DW_FORM_data1
+<  39><  468><code: 10> DW_TAG_member       DW_children_no
+      <  471>	DW_AT_name                  DW_FORM_strp
+      <  473>	DW_AT_decl_file             DW_FORM_data1
+      <  475>	DW_AT_decl_line             DW_FORM_data1
+      <  477>	DW_AT_type                  DW_FORM_ref4
+      <  479>	DW_AT_data_member_location  DW_FORM_block1
+<  40><  483><code: 11> DW_TAG_array_type   DW_children_yes
+      <  486>	DW_AT_sibling               DW_FORM_ref4
+      <  488>	DW_AT_type                  DW_FORM_ref4
+<  41><  492><code: 12> DW_TAG_subrange_typeDW_children_no
+      <  495>	DW_AT_type                  DW_FORM_ref4
+      <  497>	DW_AT_upper_bound           DW_FORM_data1
+<  42><  501><code: 13> DW_TAG_structure_typeDW_children_yes
+      <  504>	DW_AT_sibling               DW_FORM_ref4
+      <  506>	DW_AT_name                  DW_FORM_strp
+      <  508>	DW_AT_byte_size             DW_FORM_data1
+      <  510>	DW_AT_decl_file             DW_FORM_data1
+      <  512>	DW_AT_decl_line             DW_FORM_data2
+<  43><  516><code: 14> DW_TAG_member       DW_children_no
+      <  519>	DW_AT_name                  DW_FORM_string
+      <  521>	DW_AT_decl_file             DW_FORM_data1
+      <  523>	DW_AT_decl_line             DW_FORM_data2
+      <  525>	DW_AT_type                  DW_FORM_ref4
+      <  527>	DW_AT_data_member_location  DW_FORM_block1
+<  44><  531><code: 15> DW_TAG_union_type   DW_children_yes
+      <  534>	DW_AT_sibling               DW_FORM_ref4
+      <  536>	DW_AT_byte_size             DW_FORM_data1
+      <  538>	DW_AT_decl_file             DW_FORM_data1
+      <  540>	DW_AT_decl_line             DW_FORM_data2
+<  45><  544><code: 16> DW_TAG_member       DW_children_no
+      <  547>	DW_AT_name                  DW_FORM_string
+      <  549>	DW_AT_decl_file             DW_FORM_data1
+      <  551>	DW_AT_decl_line             DW_FORM_data2
+      <  553>	DW_AT_type                  DW_FORM_ref4
+<  46><  557><code: 17> DW_TAG_typedef      DW_children_no
+      <  560>	DW_AT_name                  DW_FORM_strp
+      <  562>	DW_AT_decl_file             DW_FORM_data1
+      <  564>	DW_AT_decl_line             DW_FORM_data2
+      <  566>	DW_AT_type                  DW_FORM_ref4
+<  47><  570><code: 18> DW_TAG_subprogram   DW_children_yes
+      <  573>	DW_AT_sibling               DW_FORM_ref4
+      <  575>	DW_AT_external              DW_FORM_flag
+      <  577>	DW_AT_name                  DW_FORM_strp
+      <  579>	DW_AT_decl_file             DW_FORM_data1
+      <  581>	DW_AT_decl_line             DW_FORM_data2
+      <  583>	DW_AT_prototyped            DW_FORM_flag
+      <  585>	DW_AT_type                  DW_FORM_ref4
+      <  587>	DW_AT_low_pc                DW_FORM_addr
+      <  589>	DW_AT_high_pc               DW_FORM_addr
+      <  591>	DW_AT_frame_base            DW_FORM_data4
+<  48><  595><code: 19> DW_TAG_formal_parameterDW_children_no
+      <  598>	DW_AT_name                  DW_FORM_string
+      <  600>	DW_AT_decl_file             DW_FORM_data1
+      <  602>	DW_AT_decl_line             DW_FORM_data2
+      <  604>	DW_AT_type                  DW_FORM_ref4
+      <  606>	DW_AT_location              DW_FORM_data4
+<  49><  610><code: 20> DW_TAG_formal_parameterDW_children_no
+      <  613>	DW_AT_name                  DW_FORM_string
+      <  615>	DW_AT_decl_file             DW_FORM_data1
+      <  617>	DW_AT_decl_line             DW_FORM_data2
+      <  619>	DW_AT_type                  DW_FORM_ref4
+      <  621>	DW_AT_location              DW_FORM_block1
+<  50><  625><code: 21> DW_TAG_variable     DW_children_no
+      <  628>	DW_AT_name                  DW_FORM_string
+      <  630>	DW_AT_decl_file             DW_FORM_data1
+      <  632>	DW_AT_decl_line             DW_FORM_data2
+      <  634>	DW_AT_type                  DW_FORM_ref4
+<  51><  638><code: 22> DW_TAG_variable     DW_children_no
+      <  641>	DW_AT_name                  DW_FORM_string
+      <  643>	DW_AT_decl_file             DW_FORM_data1
+      <  645>	DW_AT_decl_line             DW_FORM_data2
+      <  647>	DW_AT_type                  DW_FORM_ref4
+      <  649>	DW_AT_location              DW_FORM_data4
+<  52><  653><code: 23> DW_TAG_lexical_blockDW_children_yes
+      <  656>	DW_AT_ranges                DW_FORM_data4
+<  53><  660><code: 24> DW_TAG_variable     DW_children_no
+      <  663>	DW_AT_name                  DW_FORM_strp
+      <  665>	DW_AT_decl_file             DW_FORM_data1
+      <  667>	DW_AT_decl_line             DW_FORM_data2
+      <  669>	DW_AT_type                  DW_FORM_ref4
+<  54><  673><code: 25> DW_TAG_const_type   DW_children_no
+      <  676>	DW_AT_type                  DW_FORM_ref4
+<  55><  680><code: 26> DW_TAG_variable     DW_children_no
+      <  683>	DW_AT_name                  DW_FORM_strp
+      <  685>	DW_AT_decl_file             DW_FORM_data1
+      <  687>	DW_AT_decl_line             DW_FORM_data1
+      <  689>	DW_AT_type                  DW_FORM_ref4
+      <  691>	DW_AT_external              DW_FORM_flag
+      <  693>	DW_AT_declaration           DW_FORM_flag
+<  56><  697><code:  0> null .debug_abbrev entry
+<  57><  698><code:  1> DW_TAG_compile_unit DW_children_no
+      <  701>	DW_AT_stmt_list             DW_FORM_data4
+      <  703>	DW_AT_low_pc                DW_FORM_addr
+      <  705>	DW_AT_high_pc               DW_FORM_addr
+      <  707>	DW_AT_name                  DW_FORM_string
+      <  709>	DW_AT_comp_dir              DW_FORM_string
+      <  711>	DW_AT_producer              DW_FORM_string
+      <  713>	DW_AT_language              DW_FORM_data2
+<  58><  717><code:  0> null .debug_abbrev entry
+<  59><  718><code:  1> DW_TAG_compile_unit DW_children_no
+      <  721>	DW_AT_stmt_list             DW_FORM_data4
+      <  723>	DW_AT_name                  DW_FORM_string
+      <  725>	DW_AT_comp_dir              DW_FORM_string
+      <  727>	DW_AT_producer              DW_FORM_string
+      <  729>	DW_AT_language              DW_FORM_data2
+<  60><  733><code:  0> null .debug_abbrev entry
+
+.debug_string
+name at offset 0, length 8 is _unused2
+name at offset 9, length 7 is _fileno
+name at offset 17, length 14 is complex double
+name at offset 32, length 11 is _IO_buf_end
+name at offset 44, length 9 is _shortbuf
+name at offset 54, length 7 is __off_t
+name at offset 62, length 7 is USItype
+name at offset 70, length 5 is _lock
+name at offset 76, length 13 is complex float
+name at offset 90, length 13 is _IO_write_end
+name at offset 104, length 122 is /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+name at offset 227, length 6 is _chain
+name at offset 234, length 13 is unsigned char
+name at offset 248, length 10 is _IO_lock_t
+name at offset 259, length 13 is long long int
+name at offset 273, length 5 is stdin
+name at offset 279, length 4 is high
+name at offset 284, length 13 is _IO_write_ptr
+name at offset 298, length 13 is _IO_save_base
+name at offset 312, length 6 is __pad2
+name at offset 319, length 5 is _next
+name at offset 325, length 11 is GNU C 4.1.0
+name at offset 337, length 5 is _sbuf
+name at offset 343, length 12 is _IO_save_end
+name at offset 356, length 9 is __lshrdi3
+name at offset 366, length 6 is stdout
+name at offset 373, length 18 is short unsigned int
+name at offset 392, length 19 is complex long double
+name at offset 412, length 9 is __off64_t
+name at offset 422, length 13 is _IO_read_base
+name at offset 436, length 5 is _mode
+name at offset 442, length 14 is _IO_write_base
+name at offset 457, length 10 is _IO_marker
+name at offset 468, length 11 is _old_offset
+name at offset 480, length 12 is _IO_buf_base
+name at offset 493, length 12 is _IO_read_end
+name at offset 506, length 8 is _IO_FILE
+name at offset 515, length 6 is __pad1
+name at offset 522, length 112 is /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+name at offset 635, length 9 is word_type
+name at offset 645, length 8 is _markers
+name at offset 654, length 4 is _pos
+name at offset 659, length 6 is _flags
+name at offset 666, length 6 is DItype
+name at offset 673, length 7 is carries
+name at offset 681, length 22 is long long unsigned int
+name at offset 704, length 11 is _cur_column
+name at offset 716, length 15 is _IO_backup_base
+name at offset 732, length 12 is _IO_read_ptr
+name at offset 745, length 7 is _flags2
+name at offset 753, length 8 is DWstruct
+name at offset 762, length 9 is short int
+name at offset 772, length 7 is DWunion
+name at offset 780, length 14 is _vtable_offset
+name at offset 795, length 8 is __quad_t
+name at offset 804, length 9 is __ashldi3
+
+.debug_aranges
+
+arange starts at 10058830, length of 12, cu_die_offset = 11
+
+COMPILE_UNIT<header overall offset = 0>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             0
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+arange starts at 100000d4, length of 16, cu_die_offset = 11
+
+COMPILE_UNIT<header overall offset = 0>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             0
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+arange starts at 10000124, length of 64, cu_die_offset = 11
+
+COMPILE_UNIT<header overall offset = 0>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             0
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crti.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+arange starts at 10057ac8, length of 72, cu_die_offset = 280
+
+COMPILE_UNIT<header overall offset = 269>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             216
+		DW_AT_high_pc               0x10057b10
+		DW_AT_low_pc                0x10057ac8
+		DW_AT_producer              GNU C 4.1.0
+		DW_AT_language              DW_LANG_C89
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+
+arange starts at 10057b10, length of 72, cu_die_offset = 1287
+
+COMPILE_UNIT<header overall offset = 1276>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             636
+		DW_AT_high_pc               0x10057b58
+		DW_AT_low_pc                0x10057b10
+		DW_AT_producer              GNU C 4.1.0
+		DW_AT_language              DW_LANG_C89
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/gcc-4.1.0/gcc/libgcc2.c
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+
+arange starts at 10057b58, length of 480, cu_die_offset = 2294
+
+COMPILE_UNIT<header overall offset = 2283>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             1056
+		DW_AT_low_pc                0x10057b58
+		DW_AT_high_pc               0x10057d38
+		DW_AT_name                  crtsavres.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-gcc/gcc
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+arange starts at 10058840, length of 16, cu_die_offset = 2459
+
+COMPILE_UNIT<header overall offset = 2448>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             1241
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+arange starts at 100000ec, length of 16, cu_die_offset = 2459
+
+COMPILE_UNIT<header overall offset = 2448>:
+<0><   11>	DW_TAG_compile_unit
+		DW_AT_stmt_list             1241
+		DW_AT_name                  /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/build-glibc/csu/crtn.S
+		DW_AT_comp_dir              /home/hksar/workfolder/crosstools/crosstool-0.43/build/powerpc-750-linux-gnu/gcc-4.1.0-glibc-2.3.6/glibc-2.3.6/csu
+		DW_AT_producer              GNU AS 2.16.1
+		DW_AT_language              DW_LANG_Mips_Assembler
+
+.debug_frame

@@ -1,0 +1,386 @@
+LIBRARY LibDwarf_debug
+VERSION 1.0
+EXPORTS
+  _dwarf_cie_section_offset
+  _dwarf_fde_section_offset
+  _dwarf_print_lines
+  dwarf_attr
+  dwarf_attrlist
+  dwarf_check_lineheader
+  dwarf_child
+  dwarf_cie_section_offset
+  dwarf_CU_dieoffset_given_die
+  dwarf_dealloc
+  dwarf_dealloc_uncompressed_block
+  dwarf_dieoffset
+  dwarf_die_abbrev_code
+  dwarf_die_abbrev_children_flag
+  dwarf_die_CU_offset
+  dwarf_die_CU_offset_range
+  dwarf_die_from_hash_signature
+  dwarf_die_text
+  dwarf_diename
+  dwarf_dietype_offset
+  dwarf_elf_init
+  dwarf_errmsg
+  dwarf_errno
+  dwarf_fde_cie_list_dealloc
+  dwarf_fde_section_offset
+  dwarf_finish
+  dwarf_formaddr
+  dwarf_formblock
+  dwarf_formexprloc
+  dwarf_formflag
+  dwarf_formref
+  dwarf_formsdata
+  dwarf_formudata
+  dwarf_formsig8
+  dwarf_formsig8_const
+  dwarf_formstring
+  dwarf_func_cu_offset
+  dwarf_func_name_offsets
+  dwarf_funcs_dealloc
+  dwarf_gdbindex_addressarea
+  dwarf_gdbindex_addressarea_entry
+  dwarf_gdbindex_culist_array
+  dwarf_gdbindex_culist_entry
+  dwarf_gdbindex_cuvector_inner_attributes
+  dwarf_gdbindex_cuvector_instance_expand_value
+  dwarf_gdbindex_cuvector_length
+  dwarf_gdbindex_header
+  dwarf_gdbindex_string_by_offset
+  dwarf_gdbindex_symboltable_array
+  dwarf_gdbindex_symboltable_entry
+  dwarf_gdbindex_types_culist_array
+  dwarf_gdbindex_types_culist_entry
+  dwarf_get_abbrev
+  dwarf_get_abbrev_count          ; /* SN-Carlos: Get abbreviation count */
+  dwarf_get_abbrev_children_flag
+  dwarf_get_abbrev_code
+  dwarf_get_abbrev_entry
+  dwarf_get_abbrev_tag
+  dwarf_get_address_size
+  dwarf_get_arange_cu_header_offset
+  dwarf_get_arange_info
+  dwarf_get_arange_info_b
+  dwarf_get_aranges
+  dwarf_get_cie_augmentation_data
+  dwarf_get_cie_info
+  dwarf_get_cu_die_offset
+  dwarf_get_cu_die_offset_given_cu_header_offset
+  dwarf_get_debug_addr_index
+  dwarf_get_debug_str_index
+  dwarf_get_debugfission_for_die
+  dwarf_get_debugfission_for_key
+  dwarf_get_die_address_size
+  dwarf_get_die_infotypes_flag
+  dwarf_get_die_section_name
+  dwarf_get_elf
+  dwarf_get_fde_augmentation_data
+  dwarf_get_fde_exception_info
+  dwarf_get_fde_info_for_cfa_reg3
+  dwarf_get_fde_info_for_reg
+  dwarf_get_fde_info_for_reg3
+  dwarf_get_fde_instr_bytes
+  dwarf_get_fde_list
+  dwarf_get_fde_list_eh
+  dwarf_get_fde_range
+  dwarf_get_form_class
+  dwarf_get_funcs
+  dwarf_get_globals
+  dwarf_get_loclist_entry
+  dwarf_get_macro_details
+  dwarf_get_pubtypes
+  dwarf_get_ranges
+  dwarf_get_ranges_a
+  dwarf_get_SECT_name
+  dwarf_get_section_max_offsets
+  dwarf_get_str
+  dwarf_get_types
+  dwarf_get_vars
+  dwarf_get_version_of_die
+  dwarf_get_weaks
+  dwarf_get_xu_hash_entry
+  dwarf_get_xu_index_header
+  dwarf_get_xu_index_section_type
+  dwarf_get_xu_section_offset
+  dwarf_get_xu_section_names
+  dwarf_global_cu_offset
+  dwarf_global_formref
+  dwarf_global_name_offsets
+  dwarf_globals_dealloc
+  dwarf_hasattr
+  dwarf_hasform
+  dwarf_highpc
+  dwarf_highpc_b
+  dwarf_init
+  dwarf_lineaddr
+  dwarf_linebeginstatement
+  dwarf_lineblock
+  dwarf_lineendsequence
+  dwarf_lineno
+  dwarf_lineoff
+  dwarf_lineoff_b
+  dwarf_linesrc
+  dwarf_line_srcfileno
+  dwarf_loclist
+  dwarf_loclist_from_expr
+  dwarf_loclist_from_expr_a
+  dwarf_loclist_n
+  dwarf_lowpc
+  dwarf_next_cu_header
+  dwarf_next_cu_header_b
+  dwarf_next_cu_header_c
+  dwarf_next_cu_header_d
+  dwarf_offdie
+  dwarf_offdie_b
+  dwarf_print_lines
+  dwarf_prologue_end_etc
+  dwarf_pubtype_cu_offset
+  dwarf_pubtype_name_offsets
+  dwarf_pubtypes_dealloc
+  dwarf_ranges_dealloc
+  dwarf_record_cmdline_options
+  dwarf_register_printf_callback
+  dwarf_set_default_address_size
+  dwarf_set_frame_cfa_value
+  dwarf_set_frame_rule_initial_value
+  dwarf_set_frame_rule_table_size
+  dwarf_set_frame_same_value
+  dwarf_set_frame_undefined_value
+  dwarf_siblingof
+  dwarf_siblingof_b
+  dwarf_srcfiles
+  dwarf_srclines
+  dwarf_srclines_dealloc
+  dwarf_tag
+  dwarf_type_cu_offset
+  dwarf_type_name_offsets
+  dwarf_types_dealloc
+  dwarf_uncompress_integer_block
+  dwarf_validate_die_sibling
+  dwarf_var_cu_offset
+  dwarf_var_name_offsets
+  dwarf_vars_dealloc
+  dwarf_weak_cu_offset
+  dwarf_weak_name_offsets
+  dwarf_weaks_dealloc
+  dwarf_whatattr
+  dwarf_whatform
+  dwarf_whatform_direct
+  dwarf_xu_header_free
+
+  dwarf_convert_to_global_offset  ; /* SN-Carlos: Convert to to global offset */
+  dwarf_die_offsets               ; /* SN-Carlos: Get both local and global offsets */
+  dwarf_encode_leb128             ; /* SN-Carlos: Encode an unsigned LEB128 */
+  dwarf_encode_signed_leb128      ; /* SN-Carlos: Encode a signed LEB128 */
+  dwarf_get_section_info_by_name  ; /* SN-Carlos: Get address and size for a section */
+  dwarf_get_section_info_by_index ; /* SN-Carlos: Get address and size for a section */
+  dwarf_get_section_count         ; /* SN-Carlos: Get section count */
+  dwarf_line_is_addr_set          ; /* SN-Carlos: Get the is_addr_set bit for a line */
+
+  ; /* SN-Carlos: Functions from dwarf_names.c */
+  dwarf_get_TAG_name
+  dwarf_get_children_name
+  dwarf_get_FORM_name
+  dwarf_get_AT_name
+  dwarf_get_OP_name
+  dwarf_get_ATE_name
+  dwarf_get_DEFAULTED_name
+  dwarf_get_IDX_name
+  dwarf_get_LLE_name
+  dwarf_get_UT_name
+  dwarf_get_SECT_name
+  dwarf_get_DS_name
+  dwarf_get_END_name
+  dwarf_get_ATCF_name
+  dwarf_get_ACCESS_name
+  dwarf_get_VIS_name
+  dwarf_get_VIRTUALITY_name
+  dwarf_get_LANG_name
+  dwarf_get_LNCT_name
+  dwarf_get_ID_name
+  dwarf_get_CC_name
+  dwarf_get_INL_name
+  dwarf_get_ORD_name
+  dwarf_get_DSC_name
+  dwarf_get_LNS_name
+  dwarf_get_LNE_name
+  dwarf_get_ISA_name
+  dwarf_get_MACRO_name
+  dwarf_get_MACINFO_name
+  dwarf_get_CFA_name
+  dwarf_get_EH_name
+  dwarf_get_FRAME_name
+  dwarf_get_CHILDREN_name
+  dwarf_get_ADDR_name
+
+  ; /* Producer interface */
+  dwarf_add_die_to_debug
+  dwarf_fixup_AT_reference_die
+  dwarf_get_die_markers
+  dwarf_get_relocation_info
+  dwarf_get_relocation_info_count
+  dwarf_reset_section_bytes
+  dwarf_get_section_bytes
+  dwarf_get_string_attributes_count
+  dwarf_get_string_attributes_info
+  dwarf_producer_init
+  dwarf_producer_finish
+  dwarf_transform_to_disk_form
+
+  dwarf_add_AT_targ_address
+  dwarf_add_AT_block
+  dwarf_add_AT_targ_address_b
+  dwarf_add_AT_ref_address
+  dwarf_add_AT_unsigned_const
+  dwarf_add_AT_signed_const
+  dwarf_add_AT_reference
+  dwarf_add_AT_reference_b
+  dwarf_add_AT_dataref
+  dwarf_add_AT_const_value_string
+  dwarf_add_AT_location_expr
+  dwarf_add_AT_string
+  dwarf_add_AT_flag
+  dwarf_add_AT_producer
+  dwarf_add_AT_any_value_sleb
+  dwarf_add_AT_const_value_signedint
+  dwarf_add_AT_any_value_uleb
+  dwarf_add_AT_const_value_unsignedint
+  dwarf_add_AT_comp_dir
+  dwarf_add_AT_name
+  dwarf_add_AT_with_ref_sig8
+
+  ; /* Producer line creation functions (.debug_line) */
+  dwarf_add_directory_decl
+  dwarf_add_file_decl
+  dwarf_add_line_entry_b
+  dwarf_add_line_entry
+  dwarf_lne_set_address
+  dwarf_lne_end_sequence
+
+  ; /* Producer .debug_frame functions */
+  dwarf_add_frame_cie
+  dwarf_add_frame_fde
+  dwarf_add_frame_fde_b
+  dwarf_add_frame_info_b
+  dwarf_add_frame_info
+  dwarf_add_fde_inst
+  dwarf_insert_fde_inst_bytes
+  dwarf_new_fde
+  dwarf_fde_cfa_offset
+
+  ; /* die creation & addition routines */
+  dwarf_new_die
+  dwarf_add_die_to_debug
+  dwarf_add_die_marker
+  dwarf_get_die_marker
+  dwarf_die_link
+  dwarf_dealloc_compressed_block
+  dwarf_dealloc_uncompressed_block
+  dwarf_compress_integer_block
+  dwarf_uncompress_integer_block
+
+  ; /* Operations to create location expressions. */
+  dwarf_new_expr
+  dwarf_expr_reset
+  dwarf_add_expr_gen
+  dwarf_add_expr_addr
+  dwarf_add_expr_addr_b
+  dwarf_expr_current_offset
+  dwarf_expr_into_block
+  dwarf_add_arange
+  dwarf_add_arange_b
+  dwarf_add_pubname
+  dwarf_add_pubtype
+  dwarf_add_funcname
+  dwarf_add_typename
+  dwarf_add_varname
+  dwarf_add_weakname
+
+  ; /* .debug_macinfo producer functions */
+  dwarf_def_macro
+  dwarf_undef_macro
+  dwarf_start_macro_file
+  dwarf_end_macro_file
+  dwarf_vendor_ext
+
+  dwarf_attr_offset
+  dwarf_get_section_max_offsets
+  dwarf_get_section_max_offsets_b
+
+  dwarf_set_frame_rule_initial_value
+  dwarf_set_frame_rule_table_size
+  dwarf_set_frame_cfa_value
+  dwarf_set_frame_same_value
+  dwarf_set_frame_undefined_value
+  dwarf_set_default_address_size
+
+  dwarf_get_harmless_error_list
+  dwarf_insert_harmless_error
+  dwarf_set_harmless_error_list_size
+
+  ; 2015.09.15
+  dwarf_set_tied_dbg
+
+  ; 2015.11.14
+  dwarf_debug_addr_index_to_addr
+  dwarf_get_cie_info_b
+  dwarf_get_location_op_value_c
+  dwarf_get_locdesc_entry_c
+  dwarf_get_loclist_c
+  dwarf_get_offset_size
+  dwarf_line_subprog
+  dwarf_linecontext
+  dwarf_linelogical
+  dwarf_loc_head_c_dealloc
+  dwarf_loclist_from_expr_c
+  dwarf_srclines_b
+  dwarf_srclines_comp_dir
+  dwarf_srclines_dealloc_b
+  dwarf_srclines_files_count
+  dwarf_srclines_files_data
+  dwarf_srclines_from_linecontext
+  dwarf_srclines_include_dir_count
+  dwarf_srclines_include_dir_data
+  dwarf_srclines_subprog_count
+  dwarf_srclines_subprog_data
+  dwarf_srclines_table_offset
+  dwarf_srclines_two_level
+  dwarf_srclines_two_level_from_linecontext
+  dwarf_srclines_version
+
+  ; 2016.01.15
+  dwarf_dealloc_macro_context
+  dwarf_get_aranges_section_name
+  dwarf_get_die_section_name_b
+  dwarf_get_frame_section_name
+  dwarf_get_frame_section_name_eh_gnu
+  dwarf_get_line_section_name_from_die
+  dwarf_get_macro_context
+  dwarf_get_macro_context_by_offset
+  dwarf_get_macro_defundef
+  dwarf_get_macro_import
+  dwarf_get_macro_op
+  dwarf_get_macro_section_name
+  dwarf_get_macro_startend_file
+  dwarf_get_ranges_section_name
+  dwarf_get_section_max_offsets_c
+  dwarf_get_string_section_name
+  dwarf_macro_context_head
+  dwarf_macro_operands_table
+
+  ; 2016.03.14
+  dwarf_die_abbrev_global_offset
+  dwarf_offset_list
+
+  ; 2016.06.11
+  dwarf_get_cu_die_offset_given_cu_header_offset_b
+  dwarf_get_fde_info_for_cfa_reg3_b
+
+  ; 2016.10.21
+  dwarf_discr_list
+  dwarf_discr_entry_s
+  dwarf_discr_entry_u
+
+

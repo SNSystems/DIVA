@@ -1,0 +1,9 @@
+This is a simple example with a couple of
+COMDAT groups.
+
+For testing libdwarf/dwarfdump on COMDAT groups.
+
+As of Jan 1, 2015, libdwarf ignores those, but
+shortly that should be addressed.
+
+David A. January 3, 2015

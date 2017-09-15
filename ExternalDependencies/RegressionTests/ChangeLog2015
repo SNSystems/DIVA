@@ -1,0 +1,70 @@
+2015-10-15  David Anderson
+     * DWARFTEST.sh: New test of tied and new tests of the 4 flavors
+       of srclines. New test of the hughes file with tied in use.
+     * dwarfdump-i386-freebsd-9.1.O dwarfdump-x86-ubuntu.O,
+       dwarfdump-x86_64-freebsd-9.1.O,dwarfdump-x86_64-ubuntu.O:
+       new baseline version.
+     * hughes/README: Explains that this is now a fixed problem and
+       the fix is tested..
+     * offsetfromlowpc/runtest.sh,sandnes2/RUNTEST.sh:
+       updated to match new libdwarf. 
+2015-10-05  David Anderson
+     * Refactored line table code and added new interfaces to libdwarf.
+       Those are tested now along with two-level line tables.
+     * dwarfdump-i386-freebsd-9.1.O,dwarfdump-x86-ubuntu.O,
+       dwarfdump-x86_64-freebsd-9.1.O,dwarfdump-x86_64-ubuntu.O:
+       New baseline executables.
+2015-09-24  David Anderson
+     * DWARFTEST.sh: Removed spurious letter a.
+     * debugfission/archiveo.base.gz: new baseline
+     * debugfission/targeto.base.gz: newbaseline
+
+     * dwarfextract/dwarfextract.c: Fixed a line to avoid
+       compiler warning.
+     
+2015-09-15  David Anderson
+     * debugfission/runtest.h and the .gz baselines.
+       Script had typos and baselines changed due to
+       fixing bugs in dwarf_form.c
+2015-09-15  David Anderson
+     * debugfission/runtest.sh: Typos in the script
+       meant test base not properly updated.
+2015-09-15  David Anderson
+     * DWARFTEST.sh: changed rm to rm -f as we expect
+       the temporary files involved to be missing at times.
+2015-09-11  David Anderson
+     * offsetfromlowpc/runtest.sh: Checks for build failure directly
+       instead of relying on comparison fail for that unusual case.
+2015-07-12  David Anderson
+     * RUNALL.sh : Removed dd2, ddtodd2 stuff. Not needed.
+     *  debugfission/archivedwo-iMvvv.base.gz,debugfission/archivedwo.base.gz
+       debugfission/archiveo.base.gz debugfission/targetdwo.base.gz
+       debugfission/targeto.base.gz :DW_AT_dwo_id print changed.
+     * debugfission/runtest.sh: Add description of update to baseline
+     * debugfissionb/RUN: Minor change for hand testing.
+     * dwgena/test1.base.gz,dwgena/test2.base.gz,dwgena/test4.base.gz:
+       updated baselines, new DW_AT_dwo_id print.
+     * dwgena/runtest.sh: Add description of update to baseline.
+
+2015-03-07  David Anderson
+     * dwarfdump-x86_64-ubuntu-13.04.O, dwarfdump-x86-ubuntu-13.04.O,
+       dwarfdump-i386-freebsd-9.1.O,dwarfdump-x86_64-freebsd-9.1.O:
+       New versions because of updated dwarfdump tag-attr lists
+       and the revised timing of certain range checks.
+2015-02-04  David Anderson
+     * DWARFTEST.sh: Actually run the new test objects, with all
+       options.
+2015-02-04  David Anderson
+     * DWARFTEST.sh: adding new tests, diederen2 directory. And a new test
+       in williamson directory. Thanks to Edward Williamson
+       and Arnaud Diederen for these great little test objects.
+2015-01-18  David Anderson
+     * Adding support for debugfission. See emre3/a.out.dwp
+2015-01-05  David Anderson
+     * dwarfdump-x86_64-ubuntu-13.04.O, dwarfdump-x86-ubuntu-13.04.O:
+       Renamed, removing the -13.04 from the name.
+       Updated for fixes to libdwarf on COMDAT object. No coredump now.
+2015-01-01  David Anderson
+     *  dwarfdump-i386-freebsd-9.1.O,dwarfdump-x86_64-freebsd-9.1.O:
+        freebsd baseline executable updated.
+

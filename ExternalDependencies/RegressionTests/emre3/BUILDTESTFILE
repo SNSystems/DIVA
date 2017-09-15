@@ -1,0 +1,20 @@
+
+#This script is documentation. Not intended to be run again.
+exit 0
+g++ -c -gsplit-dwarf main.cc foo.cc
+if [  $? -ne 0 ]
+then
+   echo test g++ exec failed.
+   exit 1
+fi
+rm a.out.dwp
+# The default dwp in Ubuntu 14.04, dwp 2.24 is not recent enough.
+#  2.24.90 is ok.  Try dwp -V
+dwp  -o a.out.dwp main.dwo foo.dwo
+if [  $? -ne 0 ]
+then
+   echo test dwp failed.
+   exit 1
+fi
+exit 0
+

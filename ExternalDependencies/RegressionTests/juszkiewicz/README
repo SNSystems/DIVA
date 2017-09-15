@@ -1,0 +1,12 @@
+
+Marcin Juszkiewcz writes:
+
+
+Attached you have AArch64 binaries with rela.debug_info section.
+
+The object files are produced from the .c files.
+
+
+
+27 March 2013
+

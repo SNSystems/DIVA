@@ -1,0 +1,23 @@
+
+We're experiencing what looks like a bug in libdwarf's frame
+info parsing. With libdwarf-20090510 and all later versions
+we get bad register values out of dwarf_get_fde_info_for_reg3.
+With libddwarf-20090330 and earlier we get the kinds of values
+we expect to see.  I've verified that this is still happening
+as of libdwarf-20091230.
+
+I've put together a small test case and the x86_64 library
+we're seeing this in, which are available at:
+
+http://www.cs.wisc.edu/~legendre/dwarf_frame_bug.tar.gz
+
+This contains a library, libmpich.so.1.0, and a simple libdwarf
+program, frame_test.c.  frame_test.c open libmpich.so.1.0
+and will produce 'Got reg value 1036' with the older versions
+of libdwarf, and 'Got reg value 0' with the newer versions.
+The 1036 value leads to frame recipies that make sense of
+the given code, while the 0 value seems incorrect.
+
+Thanks, 
+Matt
+

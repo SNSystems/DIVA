@@ -1,0 +1,10 @@
+This testcase can be used to verify the decoding of dwarf line
+numbers. The program will print two line numbers, between which the
+main function of the program should be (give or take). The binary
+files (testcase.o & testcase) have been compiled using
+"gcc (GCC) 4.0.3 20060212 (prerelease) (Debian 4.0.2-9)"
+
+The dwarfdump program should probably print something close to the
+output stored in the "VERIFY" file, if run as:
+
+dwarfdump -l testcase.o

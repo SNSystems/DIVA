@@ -1,0 +1,12 @@
+The object is actually fine, but it coredumped
+with -m, so it was bad for libdwarf.
+
+Also had a problem with testing a byte-past-end of info section.
+
+This is 64 bit as compiled, but reportedly also fails -m
+when compiled 32 bit.
+
+Provided by Cristi Vlasceanu Oct 2007
+
+The source must be compiled -g3 to generate macinfo to see
+the problem.

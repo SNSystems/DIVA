@@ -1,0 +1,11 @@
+
+This is a simple test of dwarf_get_cu_die_offset_given_cu_header_offset
+and dwarf_CU_dieoffset_given_die and offdie.
+
+It is self testing: exits with 0 on success and 1 on failure.
+
+If you update cutest.save you will have to revise the test,
+it depends on a rather arbitrary choice and its CU having
+a specific names.
+
+DavidA. jul 8 2008

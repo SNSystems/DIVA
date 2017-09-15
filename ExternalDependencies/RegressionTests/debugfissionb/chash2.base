@@ -1,0 +1,13 @@
+Hex key = 0x0441e597e1e38549
+
+Getting fission data for CU key 0441e597e1e38549
+Hash found.
+
+  Fission section     = .debug_cu_index
+  Fission index       = 0x00000025
+  Fission hash        = 0x0441e597e1e38549
+  Fission entries     = offset     size        DW_SECTn
+  DW_SECT_INFO        = 0x006e0d71 0x0003325e  1
+  DW_SECT_ABBREV      = 0x000319cc 0x000016a1  3
+  DW_SECT_LINE        = 0x0001e718 0x00000e1b  4
+  DW_SECT_STR_OFFSETS = 0x0020f0a8 0x00011488  6

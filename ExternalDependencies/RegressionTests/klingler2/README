@@ -1,0 +1,19 @@
+#Feb 9, 2016
+#Gernot Klingler supplied the xenial
+#object files (xenial being the next Ubuntu
+#release, I gather).
+#
+#It has an unknown (according to current
+#readelf) flag on the .debug* sections
+#so one thinks those are compressed somehow.
+#
+# We renamed the object from xenial
+#   compresseddebug.amd64
+#
+#We don't use the reader test, but compiling it involves
+#something like
+
+libhome=/home/davea/dwarf/code/libdwarf
+g++  bugDemo.cpp  -I $libhome $libhome/libdwarf.a -lelf -lz
+
+

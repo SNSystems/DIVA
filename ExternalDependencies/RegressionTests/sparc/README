@@ -1,0 +1,12 @@
+
+The tcombined.o 
+It is a trivial set of two source files with .rela
+linked (ld -r)  together.  The source 
+for the example was David Anderson's
+as posted in dwarf.html.   
+
+Object provided by Chris Quenelle.
+
+SPARC V8+  Big Endian.
+
+July 27 2009.

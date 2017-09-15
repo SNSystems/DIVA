@@ -1,0 +1,27 @@
+
+Tom Hughes reports:
+
+I've had a report of a crash when dwarf_src is called with a NULL error pointer - more details are here:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=1316695
+
+The report believes that commit 4130f07d2 introduced the problem.
+
+
+==============
+The bug report by William Cohen says
+(showing just a little of the report):
+
+Thread 1 "stapdyn" received signal SIGSEGV, Segmentation fault.
+dwarf_formstring (attr=0x55555634cb10, return_str=return_str@entry=0x7fffffffd450, error=error@entry=0x0)
+    at dwarf_form.c:1183
+1183	        if (dwarf_errno(*error) == DW_DLE_NO_TIED_FILE_AVAILABLE) {
+
+
+The report is correct, the code was simply assuming
+that error was non-null.
+
+so in an attempt to partially test this,
+we introduce the tests here using simplereader.
+It's not a very precise test, but it at least shows
+that the error code works as documented.

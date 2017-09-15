@@ -1,0 +1,8 @@
+
+dwarfdump -i gets DW_DLE_DF_REG_NUM_TOO_HIGH(188) (188)
+because there is a location expression with a register number
+of 88.
+
+Use dwarfdump -R -i to print this without error.
+
+David Anderson.  Sep 17 2008

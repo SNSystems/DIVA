@@ -1,0 +1,29 @@
+
+
+
+From:
+Gaius Mulley <gaius@glam.ac.uk>
+Date:
+Wed, 09 Dec 2009 10:55:30 +0000
+To:
+gdb@sourceware.org
+
+Hi,
+
+I think there is a bug in dwarf2read.c which can be exposed by
+attempting to set a break point at RealIO_WriteFixed in this
+executable.
+
+I acknowledge the (gnu modula-2 generated executable) could probably
+be at fault, nevertheless it does contain cyclic data structures which
+are not explicitly created in the same way as C.  For example:
+
+
+TYPE
+  ScanState =  PROCEDURE (CHAR, VAR ScanClass, VAR ScanState);
+
+
+
+is allowed and I suspect that this (or one just like it) is causing
+the problem below.  The following is a 64 bit executable built on
+Debian Lenny.

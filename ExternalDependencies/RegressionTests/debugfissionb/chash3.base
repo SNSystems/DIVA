@@ -1,0 +1,10 @@
+<2> tag: 47 DW_TAG_template_type_parameter  name: "_RandomAccessIterator" FORM 0x1f02 "DW_FORM_GNU_str_index"
+
+  Fission section     = .debug_cu_index
+  Fission index       = 0x00000003
+  Fission hash        = 0xe907b2bbaf2a2fe2
+  Fission entries     = offset     size        DW_SECTn
+  DW_SECT_INFO        = 0x0006e883 0x00048817  1
+  DW_SECT_ABBREV      = 0x0000325c 0x00001b63  3
+  DW_SECT_LINE        = 0x00001c97 0x00000e6e  4
+  DW_SECT_STR_OFFSETS = 0x0002215c 0x00012dd8  6

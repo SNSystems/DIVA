@@ -1,0 +1,12 @@
+2014-01-29: David Anderson 
+     * dicheck.cc: When executed as 'trimtrailing' 
+       it silently copies 'file' to 'file.out' while trimming off
+       trailing whitespace.
+2013-12-26: David Anderson 
+     * dicheck.cc: When there was an indent error on a line
+       the trailing whitespace report was bogus.
+       Fixed indent mistakes in dicheck.
+       Exits with code zero if no errors noted.
+     * testcase: Added a blank trailing character on a line
+       with a bad indent.
+     * Makefile: Now runs dicheck on its source too for 'make test'.

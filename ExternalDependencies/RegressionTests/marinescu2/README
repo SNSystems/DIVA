@@ -1,0 +1,24 @@
+
+Paul Marinescu writes:
+
+Hi David
+I found two more testcases which you might want to look at. One causes a FP exception when trying to display the aranges section, while the other shows some invalid accesses under valgrind while looking at the info and line sections. Things like:
+
+==3570== Invalid read of size 1
+==3570==    at 0x420E8E: dwarf_read_line_table_prefix (in /data/scratchpad/libdwarf-x/dwarfdump/dwarfdump)
+==3570==    by 0x405846: process_one_file (in /data/scratchpad/libdwarf-x/dwarfdump/dwarfdump)
+==3570==  Address 0x4db9ca8 is 8 bytes before a block of size 12,344 free'd
+==3570==    at 0x402977F: free (vg_replace_malloc.c:429)
+==3570==    by 0x41B397: dwarf_dealloc (in /data/scratchpad/libdwarf-x/dwarfdump/dwarfdump)
+==3570==    by 0x4057AB: process_one_file (in /data/scratchpad/libdwarf-x/dwarfdump/dwarfdump)
+
+
+------------
+Analysis:
+
+Both of these objects have invalid dwarf due to compiler errors.
+libdwarf gets changed so it detects the mistakes and returns an error
+instead of having things fail badly.
+
+
+

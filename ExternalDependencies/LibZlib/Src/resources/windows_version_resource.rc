@@ -1,0 +1,52 @@
+// Microsoft Visual C++ resource script for embedding version information.
+// The format is described at:
+//   http://msdn.microsoft.com/en-gb/library/windows/desktop/aa380599(v=vs.85).aspx
+// The VERSIONINFO resource is described at:
+//   https://msdn.microsoft.com/en-gb/library/windows/desktop/aa381058(v=vs.85).aspx
+
+
+// Default values for required fields.
+
+#ifndef RC_VERSION
+#define RC_VERSION 99,9,9,9
+#endif
+
+#ifndef RC_VERSION_STR
+#define RC_VERSION_STR "99.9.9.9"
+#endif
+
+#ifndef RC_COMPANYNAME_STR
+#define RC_COMPANYNAME_STR "Sony Interactive Entertainment Inc."
+#endif
+
+#ifndef RC_COPYYEAR_STR
+#define RC_COPYYEAR_STR "2017"
+#endif
+
+1 VERSIONINFO
+FILEVERSION RC_VERSION
+BEGIN
+  BLOCK "StringFileInfo"
+  BEGIN
+    BLOCK "040904B0"
+    BEGIN
+      // Required strings
+      VALUE "CompanyName", RC_COMPANYNAME_STR
+      VALUE "FileDescription", "LibZlib"
+      VALUE "FileVersion", RC_VERSION_STR
+      VALUE "InternalName", ""
+      VALUE "OriginalFilename", ""
+      VALUE "ProductName", "LibZlib"
+      VALUE "ProductVersion", RC_VERSION_STR
+      VALUE "LegalCopyright", "Copyright (c) " RC_COPYYEAR_STR " " RC_COMPANYNAME_STR
+    END
+  END
+
+  BLOCK "VarFileInfo"
+  BEGIN
+    // The translation must correspond to the above BLOCK inside StringFileInfo
+    // langID     0x0409  U.S. English
+    // charsetID  0x04B0  Unicode
+    VALUE "Translation", 0x0409, 0x04B0
+  END
+END

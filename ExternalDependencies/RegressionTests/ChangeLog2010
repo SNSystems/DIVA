@@ -1,0 +1,6 @@
+2010-03-31  DavidAnderson <davea42@earthlink.net>
+     * Adding the lloyd directory with interesting aranges test content.
+     * test_harmless.c: A fix to the harmless code in libdwarf 
+       forces a correction here.
+2010-03-31  DavidAnderson <davea42@earthlink.net>
+     * Several additions not documented. Regrettable.

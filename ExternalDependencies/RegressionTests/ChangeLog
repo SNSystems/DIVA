@@ -1,0 +1,47 @@
+2016-06-08  David Anderson
+  * usertime.py: New python to print dwarfdump user/sys time.
+  * DWARFTEST.sh: Uses /usr/bin/time to record user/sys time
+    per dwarfdump run at top level (the scripts in 
+    directories do not count in these times so far).
+
+2016-05-06  David Anderson
+  * DWARFTEST.sh:New testcases (liu directory) and improved corruption checking
+    plus new uri-style output so bogus characters show more
+    recognizably. New baseline executables.
+  * debugfission/targeto.base.gz: new baseline.
+  * dwarfdump-i386-freebsd.O,dwarfdump-i386-ubuntu.O,dwarfdump-x86_64-freebsd.O,
+    dwarfdump-x86_64-ubuntu.O: New baseline executables.
+
+2016-05-01  David Anderson
+  These are wall clock of the full regression test suite.
+  So not terribly meaningful. But suggestive that the latest
+  additions to correctness checking have not impacted performance
+  noticably.
+
+  cbea7493401825c9e80ab0956d666506137a061a  HEAD May 1 code.  
+  a1b06c46ba0ddb3fe36cad80975974b45855067b  HEAD regressiontests
+  start Sun May  1 09:31:42 PDT 2016
+  end   Sun May  1 10:39:56 PDT 2016
+
+  This version does have extra tests, but there are small
+  and there are not many of them.
+
+  ===================
+  5b6a4074df1104a913384f1fba77cd74937db747  Apr 25  code 2016
+  1e7cb04b71bc2e12d911e8196e7255630c1a11f4  regressiontests Mar 14 14:16:56
+  start Sun May  1 10:45:09 PDT 2016
+  end   Sun May  1 11:53:23 PDT 2016
+
+2016-03-14  David Anderson
+     * DWARFTEST.sh: hughes2 directory which uses simplereader
+       to verify that the various error recovery possibilities
+       all work.
+     * */runtest.sh: ensured all start with #!/bin/sh
+2016-01-15  David Anderson
+     * dwarfextract/dwarfextract.c: Add #defines so the test will build
+       with bfd.h on FreeBSD  10.2
+     * legendre/RUNTEST.sh: gcc->cc so this works on FreeBSD 10 too.
+     * test-alex2/RUNTEST: gcc->cc so this works on FreeBSD 10 too.
+
+2016-01-12  David Anderson
+     * A new year starts.

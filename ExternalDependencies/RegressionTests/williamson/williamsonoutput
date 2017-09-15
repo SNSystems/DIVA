@@ -1,0 +1,65 @@
+ned@ned-ubuntu:~/dev/libdwarfasan$ dwarfdump/dwarfdump dwarfdump_heap_buffer_overflow 
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0x00000000>:
+< 0><0x0000000b>  DW_TAG_compile_unit
+                    <Unknown AT value 0x30>     <no string provided?>
+                    <Unknown AT value 0x30>     48
+                    <Unknown AT value 0x30>     <no string provided?>
+                    <Unknown AT value 0x30>     <no string provided?>
+                    <Unknown AT value 0x30>     0x3030303030303030
+                    <Unknown AT value 0x30>     3472328296227680304
+                    <Unknown AT value 0x30>     0x30303030
+=================================================================
+==20774==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60400000df80 at pc 0x486b06 bp 0x7fff354db020 sp 0x7fff354db010
+READ of size 1 at 0x60400000df80 thread T0
+    #0 0x486b05 in _dwarf_decode_u_leb128 (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x486b05)
+    #1 0x484b6f in _dwarf_get_abbrev_for_code (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x484b6f)
+    #2 0x448299 in dwarf_child (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x448299)
+    #3 0x41abe9 in print_die_and_children_internal (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x41abe9)
+    #4 0x41a289 in print_die_and_children (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x41a289)
+    #5 0x419eb4 in print_one_die_section (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x419eb4)
+    #6 0x418ad8 in print_infos (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x418ad8)
+    #7 0x40726b in process_one_file (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x40726b)
+    #8 0x40542c in main (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x40542c)
+    #9 0x7fe8e43d2ec4 in __libc_start_main (/lib/x86_64-linux-gnu/libc.so.6+0x21ec4)
+    #10 0x4022c8 (/home/ned/dev/libdwarfasan/dwarfdump/dwarfdump+0x4022c8)
+
+0x60400000df80 is located 0 bytes to the right of 48-byte region [0x60400000df50,0x60400000df80)
+allocated by thread T0 here:
+    #0 0x7fe8e49e37b7 in __interceptor_malloc (/usr/lib/x86_64-linux-gnu/libasan.so.1+0x577b7)
+    #1 0x7fe8e477f8b8 (/usr/lib/x86_64-linux-gnu/libelf.so.1+0x98b8)
+
+SUMMARY: AddressSanitizer: heap-buffer-overflow ??:0 _dwarf_decode_u_leb128
+Shadow bytes around the buggy address:
+  0x0c087fff9ba0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff9bb0: fa fa fa fa fa fa fa fa fa fa 00 00 00 00 00 00
+  0x0c087fff9bc0: fa fa 00 00 00 00 00 00 fa fa 00 00 00 00 00 00
+  0x0c087fff9bd0: fa fa 00 00 00 00 00 00 fa fa fd fd fd fd fd fd
+  0x0c087fff9be0: fa fa 00 00 00 00 00 fa fa fa 00 00 00 00 00 00
+=>0x0c087fff9bf0:[fa]fa fd fd fd fd fd fa fa fa 00 00 00 00 00 00
+  0x0c087fff9c00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff9c10: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff9c20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff9c30: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c087fff9c40: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable:           00
+  Partially addressable: 01 02 03 04 05 06 07 
+  Heap left redzone:       fa
+  Heap right redzone:      fb
+  Freed heap region:       fd
+  Stack left redzone:      f1
+  Stack mid redzone:       f2
+  Stack right redzone:     f3
+  Stack partial redzone:   f4
+  Stack after return:      f5
+  Stack use after scope:   f8
+  Global redzone:          f9
+  Global init order:       f6
+  Poisoned by user:        f7
+  Contiguous container OOB:fc
+  ASan internal:           fe
+==20774==ABORTING
+

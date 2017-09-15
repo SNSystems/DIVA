@@ -1,0 +1,13 @@
+
+Corrupt dwarf crashes libdwarf.
+
+
+Redhat bug 1289385 filed by xqx.
+Assigned to Tom Hughes.
+This from  20151114 RedHat release.
+
+https://bugzilla.redhat.com/show_bug.cgi?id=1289385
+Filed Dec 7, 2015.
+
+
+

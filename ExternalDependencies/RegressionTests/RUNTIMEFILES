@@ -1,0 +1,7 @@
+#
+# Setting up /usr/bin/time recording.
+otimeout=$bdir/junktimeouto
+ntimeout=$bdir/junktimeoutn
+wrtimeo="/usr/bin/time -o $otimeout -a -p "
+wrtimen="/usr/bin/time -o $ntimeout -a -p "
+

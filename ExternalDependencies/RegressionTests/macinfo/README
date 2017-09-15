@@ -1,0 +1,13 @@
+
+shihwuangti pointed out that with 3.4 compilers
+dwarfdump reported unbalanced DW_MACINFO_start_file
+DW_MACINFO_end_file.
+
+This a.out3.4 shows it. 
+
+The same code with 4.3 compilers is a.out4.3
+and does not have the problem.
+
+Not a libdwarf/dwarfdump problem, it is a compiler problem.
+
+Feb 15, 2009.

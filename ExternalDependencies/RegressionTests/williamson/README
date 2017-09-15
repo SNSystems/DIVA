@@ -1,0 +1,33 @@
+December 31, 2014
+Last Update Jan 6, 2015
+Edward Williamson sends heap_buffer_overflow.exe and
+other things.  All these are damaged intentionally
+by a binary test tool.
+
+heap_buffer_overflow.exe seems to be damaged
+by some sort of executable-size-minimizer, as
+   readelf -S heap_buffer_overflow.exe gives errors.
+
+dwarfdump -i heap_buffer_overflow.exe coredumps
+because _dwarf_decode_u_leb128 tramps over memory
+due to bogus input.
+
+He also sends  hbo_unminimized.exe, which
+is the same thing but without the damaging
+minimization applied.
+
+heap_buffer_overflow_01.exe also coredumps dwarfdump
+because elf_getshdr() fails and we used stale 
+libdwarf-internal data while cleaning up from that.
+
+
+As of March 07 2016
+ dwarfdump -i williamson/heap_buffer_overflow.exe
+ dwarfdump -i williamson/heap_buffer_overflow_01.exe
+are rejected as unreadable object by ubuntu 14.04 libelf.
+FreeBSD libelf continues to accept them.
+Hence FreeBSD can sometimes see an extra fail
+or two  if output text
+changes since dwarfdump can actually run there.
+
+

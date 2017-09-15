@@ -1,0 +1,9 @@
+This test failed in dwarfdump 
+with DW_DLE_CIE_RET_ADDR_REG_ERROR
+because  DW_FRAME_LAST_REG_NUM was directly used
+in dwarf_frame2.c   Fixed to use dbg->de_frame_reg_rules_entry_count instead
+
+Thanks to shihhuangti for providing the test case.
+
+Oct 13, 2008.
+

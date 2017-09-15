@@ -1,0 +1,15 @@
+
+This test executable from David Parodi demonstrates a most
+unusual characteristic:  DW_FORM_ref_addr used to provide
+the target of DW_AT_sibling attribute.
+
+With October 2008 and earlier libdwarf this gets a
+DW_DLE_NEXT_DIE_NULL error as dwarf_die_deliv.c had no
+DW_FORM_ref_addr case in the switch on DW_AT_sibling
+for dwarf_next_die().
+
+The compiler used was Diab Data, Inc:dcc Rel 5.5.1.0:PPC5554 .
+
+Because it makes no sense that a sibling be in another CU,
+the sibling offset should be in this CU with the DW_AT_sibling
+in question.

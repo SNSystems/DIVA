@@ -1,0 +1,14 @@
+libdw=$1
+h="-I$libdw/libdwarf"
+l="-L$libdw/libdwarf"
+libs="-ldwarf -lelf"
+
+cc $h cutest.c $l -o cutest $libs
+./cutest cutestobj.save
+r=$?
+if [ $r -ne 0 ]
+then
+   echo FAIL cutest, interface did not work.
+   exit 1
+fi
+exit 0

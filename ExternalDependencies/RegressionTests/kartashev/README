@@ -1,0 +1,6 @@
+
+This is from Maxim Kartashev <perezk@mail.ru>
+and is an artificial example of a .o where
+.rel relocations must be processed to dwarfdump it.
+
+

@@ -1,0 +1,21 @@
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0x00000000>:
+< 0><0x0000000b GOFF=0x0000000b>  DW_TAG_compile_unit
+                                    DW_AT_producer              GNU C 4.9.1 -mtune=generic -march=x86-64 -gdwarf-4
+                                    DW_AT_language              DW_LANG_C89
+                                    DW_AT_name                  basic.c
+                                    DW_AT_comp_dir              /home/ned/Desktop
+                                    DW_AT_low_pc                0x00400144
+                                    DW_AT_high_pc               <offset-from-lowpc>11
+                                    DW_AT_stmt_list             0x00000000
+
+LOCAL_SYMBOLS:
+< 1><0x0000002d GOFF=0x0000002d>    DW_TAG_subprogram
+
+dwarfdump ERROR:  dwarf_attrlist:  DW_DLE_DW_DLE_ATTR_OUTSIDE_SECTION(274) (274)
+
+CU Name = basic.c
+CU Producer = GNU C 4.9.1 -mtune=generic -march=x86-64 -gdwarf-4
+DIE OFF = 0x0000002d GOFF = 0x0000002d, Low PC = 0x00400144, High PC = 0x00000000

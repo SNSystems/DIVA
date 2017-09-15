@@ -1,0 +1,1972 @@
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0x00000000>:
+< 0><0x0000000b GOFF=0x0000000b>  DW_TAG_compile_unit
+                                    DW_AT_stmt_list             0x00000000
+                                    DW_AT_ranges                0x00000000
+		ranges: 4 at .debug_ranges offset 0 (0x00000000) (32 bytes)
+			[ 0] addr selection 0xffffffff 0x00000000
+			[ 1] range entry    0xfff40000 0xfff4009d
+			[ 2] range entry    0xfff441e5 0xfff441e9
+			[ 3] range end      0x00000000 0x00000000
+                                    DW_AT_name                  /home/kpit/fsfsrc/rx-v10.01-src/newlib-1.18.0/libgloss/rx/crt0.S
+                                    DW_AT_comp_dir              /home/kpit/mingwrx-elfbld4.5-20091105/build-newlib-1.18.0/rx-elf/libgloss/rx
+                                    DW_AT_producer              GNU AS 2.20-GNURX_v10.01
+                                    DW_AT_language              DW_LANG_Mips_Assembler
+
+COMPILE_UNIT<header overall offset = 0x000000bd>:
+< 0><0x0000000b GOFF=0x000000c8>  DW_TAG_compile_unit
+                                    DW_AT_producer              GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+                                    DW_AT_language              DW_LANG_C89
+                                    DW_AT_name                  t.c
+                                    DW_AT_comp_dir              U:\\scratch
+                                    DW_AT_low_pc                0x00000000
+                                    DW_AT_entry_pc              0x00000000
+                                    DW_AT_ranges                0x00000020
+		ranges: 1 at .debug_ranges offset 32 (0x00000020) (8 bytes)
+			[ 0] range end      0x00000000 0x00000000
+                                    DW_AT_stmt_list             0x000000ab
+
+LOCAL_SYMBOLS:
+< 1><0x00000029 GOFF=0x000000e6>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long unsigned int
+< 1><0x00000030 GOFF=0x000000ed>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_signed_char
+                                      DW_AT_name                  signed char
+< 1><0x00000037 GOFF=0x000000f4>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  unsigned char
+< 1><0x0000003e GOFF=0x000000fb>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  short int
+< 1><0x00000045 GOFF=0x00000102>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  short unsigned int
+< 1><0x0000004c GOFF=0x00000109>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  int
+< 1><0x00000053 GOFF=0x00000110>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  unsigned int
+< 1><0x0000005a GOFF=0x00000117>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long long int
+< 1><0x00000061 GOFF=0x0000011e>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long long unsigned int
+< 1><0x00000068 GOFF=0x00000125>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long int
+< 1><0x0000006f GOFF=0x0000012c>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+< 1><0x00000072 GOFF=0x0000012f>    DW_TAG_pointer_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_type                  <0x00000078 GOFF=0x00000135>
+< 1><0x00000078 GOFF=0x00000135>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  char
+< 1><0x0000007f GOFF=0x0000013c>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  bar
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x0000000b
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0x00000000
+                                      DW_AT_high_pc               0x00000000
+                                      DW_AT_frame_base            DW_OP_breg0+4
+                                      DW_AT_sibling               <0x000000a9 GOFF=0x00000166>
+< 2><0x0000009b GOFF=0x00000158>      DW_TAG_formal_parameter
+                                        DW_AT_name                  i
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x0000000b
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_location              
+< 1><0x000000a9 GOFF=0x00000166>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  foo
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000010
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0xfff400f4
+                                      DW_AT_high_pc               0xfff400fe
+                                      DW_AT_frame_base            DW_OP_breg0+4
+                                      DW_AT_sibling               <0x000000d3 GOFF=0x00000190>
+< 2><0x000000c5 GOFF=0x00000182>      DW_TAG_formal_parameter
+                                        DW_AT_name                  i
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000010
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_location              <loclist at offset 0x00000013 with 1 entries follows>
+			[ 0]< offset pair low-off : 0xfff400f4 addr  0xfff400f4 high-off  0xfff400fa addr 0xfff400fa>DW_OP_reg1
+< 1><0x000000d3 GOFF=0x00000190>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  bar2
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000015
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0x00000000
+                                      DW_AT_high_pc               0x00000000
+                                      DW_AT_frame_base            DW_OP_breg0+4
+                                      DW_AT_sibling               <0x000000fd GOFF=0x000001ba>
+< 2><0x000000ef GOFF=0x000001ac>      DW_TAG_formal_parameter
+                                        DW_AT_name                  i
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000015
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_location              
+< 1><0x000000fd GOFF=0x000001ba>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  foo2
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x0000001a
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0xfff400fb
+                                      DW_AT_high_pc               0xfff40105
+                                      DW_AT_frame_base            DW_OP_breg0+4
+                                      DW_AT_sibling               <0x00000127 GOFF=0x000001e4>
+< 2><0x00000119 GOFF=0x000001d6>      DW_TAG_formal_parameter
+                                        DW_AT_name                  i
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x0000001a
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_location              <loclist at offset 0x00000039 with 1 entries follows>
+			[ 0]< offset pair low-off : 0xfff400fb addr  0xfff400fb high-off  0xfff40101 addr 0xfff40101>DW_OP_reg1
+< 1><0x00000127 GOFF=0x000001e4>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  main
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000006
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_low_pc                0xfff40102
+                                      DW_AT_high_pc               0xfff4012a
+                                      DW_AT_frame_base            <loclist at offset 0x0000004c with 3 entries follows>
+			[ 0]< offset pair low-off : 0xfff40102 addr  0xfff40102 high-off  0xfff40104 addr 0xfff40104>DW_OP_breg0+4
+			[ 1]< offset pair low-off : 0xfff40104 addr  0xfff40104 high-off  0xfff40107 addr 0xfff40107>DW_OP_breg0+8
+			[ 2]< offset pair low-off : 0xfff40107 addr  0xfff40107 high-off  0xfff4012a addr 0xfff4012a>DW_OP_breg0+20
+                                      DW_AT_sibling               <0x00000185 GOFF=0x00000242>
+< 2><0x00000144 GOFF=0x00000201>      DW_TAG_formal_parameter
+                                        DW_AT_name                  argc
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000006
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_location              <loclist at offset 0x00000078 with 1 entries follows>
+			[ 0]< offset pair low-off : 0xfff40102 addr  0xfff40102 high-off  0xfff4010b addr 0xfff4010b>DW_OP_reg1
+< 2><0x00000153 GOFF=0x00000210>      DW_TAG_formal_parameter
+                                        DW_AT_name                  argv
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000006
+                                        DW_AT_type                  <0x00000185 GOFF=0x00000242>
+                                        DW_AT_location              <loclist at offset 0x0000008b with 1 entries follows>
+			[ 0]< offset pair low-off : 0xfff40102 addr  0xfff40102 high-off  0xfff4010d addr 0xfff4010d>DW_OP_reg2
+< 2><0x00000162 GOFF=0x0000021f>      DW_TAG_subprogram
+                                        DW_AT_external              yes(1)
+                                        DW_AT_name                  foo
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000008
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_declaration           yes(1)
+                                        DW_AT_sibling               <0x00000175 GOFF=0x00000232>
+< 3><0x00000173 GOFF=0x00000230>        DW_TAG_unspecified_parameters
+< 2><0x00000175 GOFF=0x00000232>      DW_TAG_subprogram
+                                        DW_AT_external              yes(1)
+                                        DW_AT_name                  foo2
+                                        DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                        DW_AT_decl_line             0x00000008
+                                        DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                        DW_AT_declaration           yes(1)
+< 3><0x00000182 GOFF=0x0000023f>        DW_TAG_unspecified_parameters
+< 1><0x00000185 GOFF=0x00000242>    DW_TAG_pointer_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_type                  <0x00000072 GOFF=0x0000012f>
+< 1><0x0000018b GOFF=0x00000248>    DW_TAG_variable
+                                      DW_AT_name                  xxx
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000003
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_declaration           yes(1)
+< 1><0x00000198 GOFF=0x00000255>    DW_TAG_variable
+                                      DW_AT_name                  yyy
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000003
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_declaration           yes(1)
+< 1><0x000001a5 GOFF=0x00000262>    DW_TAG_variable
+                                      DW_AT_name                  xxx
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000003
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_location              DW_OP_addr 0x00000018
+< 1><0x000001b7 GOFF=0x00000274>    DW_TAG_variable
+                                      DW_AT_name                  yyy
+                                      DW_AT_decl_file             0x00000001 U:\\scratch/t.c
+                                      DW_AT_decl_line             0x00000003
+                                      DW_AT_type                  <0x0000004c GOFF=0x00000109>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_location              DW_OP_addr 0x0000001c
+
+COMPILE_UNIT<header overall offset = 0x00000287>:
+< 0><0x0000000b GOFF=0x00000292>  DW_TAG_compile_unit
+                                    DW_AT_producer              GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+                                    DW_AT_language              DW_LANG_C89
+                                    DW_AT_name                  /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                    DW_AT_comp_dir              /home/kpit/mingwrx-elfbld4.5-20091105/build-gcc-4.5-20091105/rx-elf/libgcc
+                                    DW_AT_low_pc                0xfff43a96
+                                    DW_AT_high_pc               0xfff43e40
+                                    DW_AT_stmt_list             0x0000011f
+
+LOCAL_SYMBOLS:
+< 1><0x00000025 GOFF=0x000002ac>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  int
+< 1><0x0000002c GOFF=0x000002b3>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long unsigned int
+< 1><0x00000033 GOFF=0x000002ba>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long int
+< 1><0x0000003a GOFF=0x000002c1>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  unsigned int
+< 1><0x00000041 GOFF=0x000002c8>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_signed_char
+                                      DW_AT_name                  signed char
+< 1><0x00000048 GOFF=0x000002cf>    DW_TAG_typedef
+                                      DW_AT_name                  UQItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000088
+                                      DW_AT_type                  <0x00000053 GOFF=0x000002da>
+< 1><0x00000053 GOFF=0x000002da>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  unsigned char
+< 1><0x0000005a GOFF=0x000002e1>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  short int
+< 1><0x00000061 GOFF=0x000002e8>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  short unsigned int
+< 1><0x00000068 GOFF=0x000002ef>    DW_TAG_typedef
+                                      DW_AT_name                  SItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x0000008d
+                                      DW_AT_type                  <0x00000025 GOFF=0x000002ac>
+< 1><0x00000073 GOFF=0x000002fa>    DW_TAG_typedef
+                                      DW_AT_name                  USItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x0000008e
+                                      DW_AT_type                  <0x0000003a GOFF=0x000002c1>
+< 1><0x0000007e GOFF=0x00000305>    DW_TAG_typedef
+                                      DW_AT_name                  DItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000091
+                                      DW_AT_type                  <0x00000089 GOFF=0x00000310>
+< 1><0x00000089 GOFF=0x00000310>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long long int
+< 1><0x00000090 GOFF=0x00000317>    DW_TAG_typedef
+                                      DW_AT_name                  UDItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000092
+                                      DW_AT_type                  <0x0000009b GOFF=0x00000322>
+< 1><0x0000009b GOFF=0x00000322>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long long unsigned int
+< 1><0x000000a2 GOFF=0x00000329>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_float
+                                      DW_AT_name                  float
+< 1><0x000000a9 GOFF=0x00000330>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_complex_float
+                                      DW_AT_name                  complex float
+< 1><0x000000b0 GOFF=0x00000337>    DW_TAG_structure_type
+                                      DW_AT_name                  DWstruct
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001a2
+                                      DW_AT_sibling               <0x000000dc GOFF=0x00000363>
+< 2><0x000000bd GOFF=0x00000344>      DW_TAG_member
+                                        DW_AT_name                  low
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001a2
+                                        DW_AT_type                  <0x00000068 GOFF=0x000002ef>
+                                        DW_AT_data_member_location  DW_OP_plus_uconst 0
+< 2><0x000000cc GOFF=0x00000353>      DW_TAG_member
+                                        DW_AT_name                  high
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001a2
+                                        DW_AT_type                  <0x00000068 GOFF=0x000002ef>
+                                        DW_AT_data_member_location  DW_OP_plus_uconst 4
+< 1><0x000000dc GOFF=0x00000363>    DW_TAG_union_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001a9
+                                      DW_AT_sibling               <0x000000fb GOFF=0x00000382>
+< 2><0x000000e5 GOFF=0x0000036c>      DW_TAG_member
+                                        DW_AT_name                  s
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001ab
+                                        DW_AT_type                  <0x000000b0 GOFF=0x00000337>
+< 2><0x000000ef GOFF=0x00000376>      DW_TAG_member
+                                        DW_AT_name                  ll
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001ac
+                                        DW_AT_type                  <0x0000007e GOFF=0x00000305>
+< 1><0x000000fb GOFF=0x00000382>    DW_TAG_typedef
+                                      DW_AT_name                  DWunion
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001ad
+                                      DW_AT_type                  <0x000000dc GOFF=0x00000363>
+< 1><0x00000107 GOFF=0x0000038e>    DW_TAG_subprogram
+                                      DW_AT_name                  __udivmoddi4
+                                      DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                      DW_AT_decl_line             0x00000360
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000317>
+                                      DW_AT_inline                DW_INL_declared_inlined
+                                      DW_AT_sibling               <0x00000439 GOFF=0x000006c0>
+< 2><0x00000119 GOFF=0x000003a0>      DW_TAG_formal_parameter
+                                        DW_AT_name                  n
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000317>
+< 2><0x00000123 GOFF=0x000003aa>      DW_TAG_formal_parameter
+                                        DW_AT_name                  d
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000317>
+< 2><0x0000012d GOFF=0x000003b4>      DW_TAG_formal_parameter
+                                        DW_AT_name                  rp
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000439 GOFF=0x000006c0>
+< 2><0x00000138 GOFF=0x000003bf>      DW_TAG_variable
+                                        DW_AT_name                  nn
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000362
+                                        DW_AT_type                  <0x0000043f GOFF=0x000006c6>
+< 2><0x00000143 GOFF=0x000003ca>      DW_TAG_variable
+                                        DW_AT_name                  dd
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000363
+                                        DW_AT_type                  <0x0000043f GOFF=0x000006c6>
+< 2><0x0000014e GOFF=0x000003d5>      DW_TAG_variable
+                                        DW_AT_name                  rr
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000364
+                                        DW_AT_type                  <0x000000fb GOFF=0x00000382>
+< 2><0x00000159 GOFF=0x000003e0>      DW_TAG_variable
+                                        DW_AT_name                  d0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x00000164 GOFF=0x000003eb>      DW_TAG_variable
+                                        DW_AT_name                  d1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000016f GOFF=0x000003f6>      DW_TAG_variable
+                                        DW_AT_name                  n0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000017a GOFF=0x00000401>      DW_TAG_variable
+                                        DW_AT_name                  n1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x00000185 GOFF=0x0000040c>      DW_TAG_variable
+                                        DW_AT_name                  n2
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x00000190 GOFF=0x00000417>      DW_TAG_variable
+                                        DW_AT_name                  q0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000366
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000019b GOFF=0x00000422>      DW_TAG_variable
+                                        DW_AT_name                  q1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000366
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x000001a6 GOFF=0x0000042d>      DW_TAG_variable
+                                        DW_AT_name                  b
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000367
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x000001b0 GOFF=0x00000437>      DW_TAG_variable
+                                        DW_AT_name                  bm
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000367
+                                        DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x000001bb GOFF=0x00000442>      DW_TAG_variable
+                                        DW_AT_name                  ww
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000430
+                                        DW_AT_type                  <0x0000043f GOFF=0x000006c6>
+< 2><0x000001c6 GOFF=0x0000044d>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x000001e4 GOFF=0x0000046b>
+< 3><0x000001cb GOFF=0x00000452>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x00000397
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000001d7 GOFF=0x0000045e>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x00000397
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x000001e4 GOFF=0x0000046b>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000023e GOFF=0x000004c5>
+< 3><0x000001e9 GOFF=0x00000470>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000001f5 GOFF=0x0000047c>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000201 GOFF=0x00000488>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x0000020d GOFF=0x00000494>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000219 GOFF=0x000004a0>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000225 GOFF=0x000004ac>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000231 GOFF=0x000004b8>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000023e GOFF=0x000004c5>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000025c GOFF=0x000004e3>
+< 3><0x00000243 GOFF=0x000004ca>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003af
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x0000024f GOFF=0x000004d6>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003af
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000025c GOFF=0x000004e3>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x000002b6 GOFF=0x0000053d>
+< 3><0x00000261 GOFF=0x000004e8>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x0000026d GOFF=0x000004f4>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000279 GOFF=0x00000500>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000285 GOFF=0x0000050c>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000291 GOFF=0x00000518>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x0000029d GOFF=0x00000524>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002a9 GOFF=0x00000530>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x000002b6 GOFF=0x0000053d>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x00000310 GOFF=0x00000597>
+< 3><0x000002bb GOFF=0x00000542>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002c7 GOFF=0x0000054e>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002d3 GOFF=0x0000055a>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002df GOFF=0x00000566>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002eb GOFF=0x00000572>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000002f7 GOFF=0x0000057e>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000303 GOFF=0x0000058a>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x00000310 GOFF=0x00000597>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000032e GOFF=0x000005b5>
+< 3><0x00000315 GOFF=0x0000059c>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003f0
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000321 GOFF=0x000005a8>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003f0
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x0000032e GOFF=0x000005b5>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x00000340 GOFF=0x000005c7>
+< 3><0x00000333 GOFF=0x000005ba>        DW_TAG_variable
+                                          DW_AT_name                  __x
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003fe
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 2><0x00000340 GOFF=0x000005c7>      DW_TAG_lexical_block
+< 3><0x00000341 GOFF=0x000005c8>        DW_TAG_variable
+                                          DW_AT_name                  m1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x0000040e
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x0000034c GOFF=0x000005d3>        DW_TAG_variable
+                                          DW_AT_name                  m0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x0000040e
+                                          DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000357 GOFF=0x000005de>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x000003b1 GOFF=0x00000638>
+< 4><0x0000035c GOFF=0x000005e3>          DW_TAG_variable
+                                            DW_AT_name                  __d1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x00000368 GOFF=0x000005ef>          DW_TAG_variable
+                                            DW_AT_name                  __d0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x00000374 GOFF=0x000005fb>          DW_TAG_variable
+                                            DW_AT_name                  __q1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x00000380 GOFF=0x00000607>          DW_TAG_variable
+                                            DW_AT_name                  __q0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x0000038c GOFF=0x00000613>          DW_TAG_variable
+                                            DW_AT_name                  __r1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x00000398 GOFF=0x0000061f>          DW_TAG_variable
+                                            DW_AT_name                  __r0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003a4 GOFF=0x0000062b>          DW_TAG_variable
+                                            DW_AT_name                  __m
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x000003b1 GOFF=0x00000638>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x00000417 GOFF=0x0000069e>
+< 4><0x000003b6 GOFF=0x0000063d>          DW_TAG_variable
+                                            DW_AT_name                  __x0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003c2 GOFF=0x00000649>          DW_TAG_variable
+                                            DW_AT_name                  __x1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003ce GOFF=0x00000655>          DW_TAG_variable
+                                            DW_AT_name                  __x2
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003da GOFF=0x00000661>          DW_TAG_variable
+                                            DW_AT_name                  __x3
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003e6 GOFF=0x0000066d>          DW_TAG_variable
+                                            DW_AT_name                  __ul
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003f2 GOFF=0x00000679>          DW_TAG_variable
+                                            DW_AT_name                  __vl
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x000003fe GOFF=0x00000685>          DW_TAG_variable
+                                            DW_AT_name                  __uh
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 4><0x0000040a GOFF=0x00000691>          DW_TAG_variable
+                                            DW_AT_name                  __vh
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000417 GOFF=0x0000069e>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x00000429 GOFF=0x000006b0>
+< 4><0x0000041c GOFF=0x000006a3>          DW_TAG_variable
+                                            DW_AT_name                  __x
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041f
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 3><0x00000429 GOFF=0x000006b0>        DW_TAG_lexical_block
+< 4><0x0000042a GOFF=0x000006b1>          DW_TAG_variable
+                                            DW_AT_name                  __x
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000427
+                                            DW_AT_type                  <0x00000073 GOFF=0x000002fa>
+< 1><0x00000439 GOFF=0x000006c0>    DW_TAG_pointer_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000317>
+< 1><0x0000043f GOFF=0x000006c6>    DW_TAG_const_type
+                                      DW_AT_type                  <0x000000fb GOFF=0x00000382>
+< 1><0x00000444 GOFF=0x000006cb>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  __udivdi3
+                                      DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                      DW_AT_decl_line             0x00000472
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000317>
+                                      DW_AT_low_pc                0xfff43a96
+                                      DW_AT_high_pc               0xfff43e40
+                                      DW_AT_frame_base            <loclist at offset 0x0000009e with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43a96 high-off  0x00000002 addr 0xfff43a98>DW_OP_breg0+4
+			[ 1]< offset pair low-off : 0x00000002 addr  0xfff43a98 high-off  0x000003aa addr 0xfff43e40>DW_OP_breg0+32
+                                      DW_AT_sibling               <0x000006e1 GOFF=0x00000968>
+< 2><0x00000462 GOFF=0x000006e9>      DW_TAG_formal_parameter
+                                        DW_AT_name                  n
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000472
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000317>
+                                        DW_AT_location              <loclist at offset 0x000000be with 8 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43a96 high-off  0x00000095 addr 0xfff43b2b>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000112 addr 0xfff43ba8>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x00000115 addr  0xfff43bab high-off  0x0000018a addr 0xfff43c20>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001be addr 0xfff43c54>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x000001c1 addr  0xfff43c57 high-off  0x000002ac addr 0xfff43d42>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x0000034d addr 0xfff43de3>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x00000379 addr 0xfff43e0f>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+< 2><0x00000470 GOFF=0x000006f7>      DW_TAG_formal_parameter
+                                        DW_AT_name                  d
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000472
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000317>
+                                        DW_AT_location              <loclist at offset 0x00000146 with 6 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43a96 high-off  0x00000064 addr 0xfff43afa>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000145 addr 0xfff43bdb>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x00000227 addr 0xfff43cbd>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x00000343 addr 0xfff43dd9>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x0000037c addr 0xfff43e12>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+< 2><0x0000047e GOFF=0x00000705>      DW_TAG_inlined_subroutine
+                                        DW_AT_abstract_origin       <0x00000107 GOFF=0x0000038e>
+                                        DW_AT_entry_pc              0xfff43a98
+                                        DW_AT_ranges                0x00000058
+		ranges: 9 at .debug_ranges offset 88 (0x00000058) (72 bytes)
+			[ 0] range entry    0x00000002 0x000000c4
+			[ 1] range entry    0x0000037c 0x000003aa
+			[ 2] range entry    0x0000035e 0x00000379
+			[ 3] range entry    0x000002b3 0x0000035b
+			[ 4] range entry    0x000001c1 0x000002b0
+			[ 5] range entry    0x000001ba 0x000001be
+			[ 6] range entry    0x00000115 0x000001b7
+			[ 7] range entry    0x000000c7 0x00000112
+			[ 8] range end      0x00000000 0x00000000
+                                        DW_AT_call_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_call_line             0x00000474
+< 3><0x0000048e GOFF=0x00000715>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x0000012d GOFF=0x000003b4>
+                                          DW_AT_const_value           0
+< 3><0x00000494 GOFF=0x0000071b>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x00000123 GOFF=0x000003aa>
+                                          DW_AT_location              <loclist at offset 0x000001ae with 7 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43a96 high-off  0x0000002c addr 0xfff43ac2>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000145 addr 0xfff43bdb>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001da addr 0xfff43c70>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000001df addr  0xfff43c75 high-off  0x000001f6 addr 0xfff43c8c>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x0000033e addr 0xfff43dd4>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x0000037c addr 0xfff43e12>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+< 3><0x0000049d GOFF=0x00000724>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x00000119 GOFF=0x000003a0>
+                                          DW_AT_location              <loclist at offset 0x00000226 with 15 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43a96 high-off  0x0000004f addr 0xfff43ae5>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x0000004f addr  0xfff43ae5 high-off  0x0000005c addr 0xfff43af2>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000110 addr 0xfff43ba6>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x00000110 addr  0xfff43ba6 high-off  0x00000112 addr 0xfff43ba8>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x00000115 addr  0xfff43bab high-off  0x0000015d addr 0xfff43bf3>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001bc addr 0xfff43c52>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x000001bc addr  0xfff43c52 high-off  0x000001be addr 0xfff43c54>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x000001be addr  0xfff43c54 high-off  0x000001c1 addr 0xfff43c57>DW_OP_reg5 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 8]< offset pair low-off : 0x000001c1 addr  0xfff43c57 high-off  0x0000020b addr 0xfff43ca1>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 9]< offset pair low-off : 0x0000020b addr  0xfff43ca1 high-off  0x0000020e addr 0xfff43ca4>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[10]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002ce addr 0xfff43d64>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[11]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x00000343 addr 0xfff43dd9>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[12]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x00000377 addr 0xfff43e0d>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[13]< offset pair low-off : 0x00000377 addr  0xfff43e0d high-off  0x00000379 addr 0xfff43e0f>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[14]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+< 3><0x000004a6 GOFF=0x0000072d>        DW_TAG_lexical_block
+                                          DW_AT_ranges                0x000000a0
+		ranges: 9 at .debug_ranges offset 160 (0x000000a0) (72 bytes)
+			[ 0] range entry    0x00000002 0x000000c4
+			[ 1] range entry    0x0000037c 0x000003aa
+			[ 2] range entry    0x0000035e 0x00000379
+			[ 3] range entry    0x000002b3 0x0000035b
+			[ 4] range entry    0x000001c1 0x000002b0
+			[ 5] range entry    0x000001ba 0x000001be
+			[ 6] range entry    0x00000115 0x000001b7
+			[ 7] range entry    0x000000c7 0x00000112
+			[ 8] range end      0x00000000 0x00000000
+< 4><0x000004ab GOFF=0x00000732>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000138 GOFF=0x000003bf>
+< 4><0x000004b0 GOFF=0x00000737>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000143 GOFF=0x000003ca>
+< 4><0x000004b5 GOFF=0x0000073c>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000014e GOFF=0x000003d5>
+< 4><0x000004ba GOFF=0x00000741>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000159 GOFF=0x000003e0>
+                                            DW_AT_location              <loclist at offset 0x0000031e with 12 entries follows>
+			[ 0]< offset pair low-off : 0x00000004 addr  0xfff43a9a high-off  0x00000059 addr 0xfff43aef>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x00000059 addr  0xfff43aef high-off  0x000000c7 addr 0xfff43b5d>DW_OP_reg14
+			[ 2]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x0000011a addr 0xfff43bb0>DW_OP_reg3
+			[ 3]< offset pair low-off : 0x0000015d addr  0xfff43bf3 high-off  0x000001ba addr 0xfff43c50>DW_OP_reg14
+			[ 4]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001e5 addr 0xfff43c7b>DW_OP_reg3
+			[ 5]< offset pair low-off : 0x000001ec addr  0xfff43c82 high-off  0x00000227 addr 0xfff43cbd>DW_OP_reg3
+			[ 6]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x0000027d addr 0xfff43d13>DW_OP_reg3
+			[ 7]< offset pair low-off : 0x000002bb addr  0xfff43d51 high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg14
+			[ 8]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x00000343 addr 0xfff43dd9>DW_OP_reg3
+			[ 9]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x0000036d addr 0xfff43e03>DW_OP_reg3
+			[10]< offset pair low-off : 0x00000375 addr  0xfff43e0b high-off  0x0000038b addr 0xfff43e21>DW_OP_reg3
+			[11]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x0000039b addr 0xfff43e31>DW_OP_reg14
+< 4><0x000004c3 GOFF=0x0000074a>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000164 GOFF=0x000003eb>
+                                            DW_AT_location              <loclist at offset 0x000003aa with 9 entries follows>
+			[ 0]< offset pair low-off : 0x00000004 addr  0xfff43a9a high-off  0x0000002c addr 0xfff43ac2>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000156 addr 0xfff43bec>DW_OP_reg4
+			[ 2]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001da addr 0xfff43c70>DW_OP_reg4
+			[ 3]< offset pair low-off : 0x000001df addr  0xfff43c75 high-off  0x000001f6 addr 0xfff43c8c>DW_OP_reg4
+			[ 4]< offset pair low-off : 0x000001f8 addr  0xfff43c8e high-off  0x0000026c addr 0xfff43d02>DW_OP_reg4
+			[ 5]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002be addr 0xfff43d54>DW_OP_reg4
+			[ 6]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x0000033e addr 0xfff43dd4>DW_OP_reg4
+			[ 7]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x0000038b addr 0xfff43e21>DW_OP_reg4
+			[ 8]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg4
+< 4><0x000004cc GOFF=0x00000753>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000016f GOFF=0x000003f6>
+                                            DW_AT_location              <loclist at offset 0x00000415 with 17 entries follows>
+			[ 0]< offset pair low-off : 0x00000006 addr  0xfff43a9c high-off  0x0000005f addr 0xfff43af5>DW_OP_reg1
+			[ 1]< offset pair low-off : 0x0000005f addr  0xfff43af5 high-off  0x000000a4 addr 0xfff43b3a>DW_OP_reg5
+			[ 2]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000112 addr 0xfff43ba8>DW_OP_reg1
+			[ 3]< offset pair low-off : 0x00000115 addr  0xfff43bab high-off  0x0000015d addr 0xfff43bf3>DW_OP_reg1
+			[ 4]< offset pair low-off : 0x0000015d addr  0xfff43bf3 high-off  0x00000199 addr 0xfff43c2f>DW_OP_reg5
+			[ 5]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001be addr 0xfff43c54>DW_OP_reg1
+			[ 6]< offset pair low-off : 0x000001be addr  0xfff43c54 high-off  0x000001c1 addr 0xfff43c57>DW_OP_reg5
+			[ 7]< offset pair low-off : 0x000001c1 addr  0xfff43c57 high-off  0x00000227 addr 0xfff43cbd>DW_OP_reg1
+			[ 8]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x000002ac addr 0xfff43d42>DW_OP_breg1+0 DW_OP_breg14+0 DW_OP_shl DW_OP_stack_value
+			[ 9]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002e9 addr 0xfff43d7f>DW_OP_reg1
+			[10]< offset pair low-off : 0x000002e9 addr  0xfff43d7f high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg5
+			[11]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x00000343 addr 0xfff43dd9>DW_OP_reg1
+			[12]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000034d addr 0xfff43de3>DW_OP_breg1+0 DW_OP_breg14+0 DW_OP_shl DW_OP_stack_value
+			[13]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x00000379 addr 0xfff43e0f>DW_OP_reg1
+			[14]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_breg1+0 DW_OP_breg14+0 DW_OP_shl DW_OP_stack_value
+			[15]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x0000039b addr 0xfff43e31>DW_OP_reg5
+			[16]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg1
+< 4><0x000004d5 GOFF=0x0000075c>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000017a GOFF=0x00000401>
+                                            DW_AT_location              <loclist at offset 0x000004e7 with 21 entries follows>
+			[ 0]< offset pair low-off : 0x00000008 addr  0xfff43a9e high-off  0x0000004f addr 0xfff43ae5>DW_OP_reg2
+			[ 1]< offset pair low-off : 0x0000004f addr  0xfff43ae5 high-off  0x0000005c addr 0xfff43af2>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x0000005c addr  0xfff43af2 high-off  0x0000006c addr 0xfff43b02>DW_OP_reg15
+			[ 3]< offset pair low-off : 0x000000c7 addr  0xfff43b5d high-off  0x00000110 addr 0xfff43ba6>DW_OP_reg2
+			[ 4]< offset pair low-off : 0x00000110 addr  0xfff43ba6 high-off  0x00000115 addr 0xfff43bab>DW_OP_reg15
+			[ 5]< offset pair low-off : 0x00000115 addr  0xfff43bab high-off  0x00000153 addr 0xfff43be9>DW_OP_reg2
+			[ 6]< offset pair low-off : 0x00000153 addr  0xfff43be9 high-off  0x00000170 addr 0xfff43c06>DW_OP_reg10
+			[ 7]< offset pair low-off : 0x000001ba addr  0xfff43c50 high-off  0x000001bc addr 0xfff43c52>DW_OP_reg2
+			[ 8]< offset pair low-off : 0x000001bc addr  0xfff43c52 high-off  0x000001c1 addr 0xfff43c57>DW_OP_reg15
+			[ 9]< offset pair low-off : 0x000001c1 addr  0xfff43c57 high-off  0x0000020b addr 0xfff43ca1>DW_OP_reg2
+			[10]< offset pair low-off : 0x0000020b addr  0xfff43ca1 high-off  0x0000020e addr 0xfff43ca4>DW_OP_reg15
+			[11]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x00000251 addr 0xfff43ce7>DW_OP_reg2
+			[12]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002b3 addr 0xfff43d49>DW_OP_reg7
+			[13]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002ce addr 0xfff43d64>DW_OP_reg2
+			[14]< offset pair low-off : 0x000002d3 addr  0xfff43d69 high-off  0x00000318 addr 0xfff43dae>DW_OP_reg13
+			[15]< offset pair low-off : 0x00000338 addr  0xfff43dce high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg10
+			[16]< offset pair low-off : 0x0000033b addr  0xfff43dd1 high-off  0x00000343 addr 0xfff43dd9>DW_OP_reg2
+			[17]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000035e addr 0xfff43df4>DW_OP_reg7
+			[18]< offset pair low-off : 0x0000035e addr  0xfff43df4 high-off  0x00000377 addr 0xfff43e0d>DW_OP_reg2
+			[19]< offset pair low-off : 0x00000377 addr  0xfff43e0d high-off  0x0000037c addr 0xfff43e12>DW_OP_reg15
+			[20]< offset pair low-off : 0x0000039b addr  0xfff43e31 high-off  0x000003aa addr 0xfff43e40>DW_OP_reg2
+< 4><0x000004de GOFF=0x00000765>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000185 GOFF=0x0000040c>
+                                            DW_AT_location              <loclist at offset 0x000005d6 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x000002bb addr  0xfff43d51 high-off  0x000002d0 addr 0xfff43d66>DW_OP_reg11
+< 4><0x000004e7 GOFF=0x0000076e>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000190 GOFF=0x00000417>
+                                            DW_AT_location              <loclist at offset 0x000005e9 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002b0 addr 0xfff43d46>DW_OP_reg11
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x00000356 addr 0xfff43dec>DW_OP_reg11
+< 4><0x000004f0 GOFF=0x00000777>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000019b GOFF=0x00000422>
+                                            DW_AT_location              <loclist at offset 0x00000607 with 5 entries follows>
+			[ 0]< offset pair low-off : 0x000000be addr  0xfff43b54 high-off  0x000000c4 addr 0xfff43b5a>DW_OP_lit0 DW_OP_stack_value
+			[ 1]< offset pair low-off : 0x00000153 addr  0xfff43be9 high-off  0x0000015d addr 0xfff43bf3>DW_OP_lit1 DW_OP_stack_value
+			[ 2]< offset pair low-off : 0x0000015d addr  0xfff43bf3 high-off  0x000001b7 addr 0xfff43c4d>DW_OP_reg2
+			[ 3]< offset pair low-off : 0x00000338 addr  0xfff43dce high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg2
+			[ 4]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg2
+< 4><0x000004f9 GOFF=0x00000780>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001a6 GOFF=0x0000042d>
+                                            DW_AT_location              <loclist at offset 0x00000648 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000001ec addr  0xfff43c82 high-off  0x000001f1 addr 0xfff43c87>DW_OP_reg5
+			[ 1]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002b8 addr 0xfff43d4e>DW_OP_reg7
+< 4><0x00000502 GOFF=0x00000789>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001b0 GOFF=0x00000437>
+                                            DW_AT_location              <loclist at offset 0x00000666 with 9 entries follows>
+			[ 0]< offset pair low-off : 0x00000046 addr  0xfff43adc high-off  0x0000006a addr 0xfff43b00>DW_OP_reg7
+			[ 1]< offset pair low-off : 0x000000fe addr  0xfff43b94 high-off  0x00000115 addr 0xfff43bab>DW_OP_reg14
+			[ 2]< offset pair low-off : 0x00000149 addr  0xfff43bdf high-off  0x00000165 addr 0xfff43bfb>DW_OP_reg3
+			[ 3]< offset pair low-off : 0x000001ec addr  0xfff43c82 high-off  0x000002b3 addr 0xfff43d49>DW_OP_reg14
+			[ 4]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg3
+			[ 5]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000035e addr 0xfff43df4>DW_OP_reg14
+			[ 6]< offset pair low-off : 0x00000375 addr  0xfff43e0b high-off  0x00000379 addr 0xfff43e0f>DW_OP_reg14
+			[ 7]< offset pair low-off : 0x00000379 addr  0xfff43e0f high-off  0x0000037c addr 0xfff43e12>DW_OP_reg2
+			[ 8]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_reg14
+< 4><0x0000050b GOFF=0x00000792>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001bb GOFF=0x00000442>
+< 4><0x00000510 GOFF=0x00000797>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x000000e8
+		ranges: 4 at .debug_ranges offset 232 (0x000000e8) (32 bytes)
+			[ 0] range entry    0x000001ec 0x000002b0
+			[ 1] range entry    0x0000037c 0x0000038b
+			[ 2] range entry    0x00000343 0x0000035b
+			[ 3] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x000005bf GOFF=0x00000846>
+< 5><0x00000519 GOFF=0x000007a0>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000341 GOFF=0x000005c8>
+                                              DW_AT_location              <loclist at offset 0x000006d1 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000002a0 addr  0xfff43d36 high-off  0x000002b3 addr 0xfff43d49>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x00000356 addr 0xfff43dec>DW_OP_reg3
+< 5><0x00000522 GOFF=0x000007a9>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000034c GOFF=0x000005d3>
+                                              DW_AT_location              <loclist at offset 0x000006ef with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000002a0 addr  0xfff43d36 high-off  0x000002b3 addr 0xfff43d49>DW_OP_breg13+0 DW_OP_const2u 65535 DW_OP_and DW_OP_breg12+0 DW_OP_const2u 65535 DW_OP_and DW_OP_lit16 DW_OP_shl DW_OP_plus DW_OP_stack_value
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x00000356 addr 0xfff43dec>DW_OP_breg13+0 DW_OP_const2u 65535 DW_OP_and DW_OP_breg12+0 DW_OP_const2u 65535 DW_OP_and DW_OP_lit16 DW_OP_shl DW_OP_plus DW_OP_stack_value
+< 5><0x0000052b GOFF=0x000007b2>            DW_TAG_lexical_block
+                                              DW_AT_ranges                0x00000108
+		ranges: 7 at .debug_ranges offset 264 (0x00000108) (56 bytes)
+			[ 0] range entry    0x000001fb 0x00000203
+			[ 1] range entry    0x0000037c 0x0000038b
+			[ 2] range entry    0x0000028d 0x0000028f
+			[ 3] range entry    0x00000227 0x0000026a
+			[ 4] range entry    0x00000213 0x00000224
+			[ 5] range entry    0x0000020b 0x00000211
+			[ 6] range end      0x00000000 0x00000000
+                                              DW_AT_sibling               <0x00000574 GOFF=0x000007fb>
+< 6><0x00000534 GOFF=0x000007bb>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x0000035c GOFF=0x000005e3>
+                                                DW_AT_location              <loclist at offset 0x0000072b with 3 entries follows>
+			[ 0]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x00000247 addr 0xfff43cdd>DW_OP_reg10
+			[ 1]< offset pair low-off : 0x00000247 addr  0xfff43cdd high-off  0x0000026c addr 0xfff43d02>DW_OP_breg4+0 DW_OP_lit16 DW_OP_shr DW_OP_stack_value
+			[ 2]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_breg4+0 DW_OP_lit16 DW_OP_shr DW_OP_stack_value
+< 6><0x0000053d GOFF=0x000007c4>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x00000368 GOFF=0x000005ef>
+                                                DW_AT_location              <loclist at offset 0x0000075c with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x00000280 addr 0xfff43d16>DW_OP_reg13
+			[ 1]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_reg13
+< 6><0x00000546 GOFF=0x000007cd>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x00000374 GOFF=0x000005fb>
+                                                DW_AT_location              <loclist at offset 0x0000077a with 4 entries follows>
+			[ 0]< offset pair low-off : 0x00000230 addr  0xfff43cc6 high-off  0x0000023b addr 0xfff43cd1>DW_OP_reg12
+			[ 1]< offset pair low-off : 0x0000023b addr  0xfff43cd1 high-off  0x0000023d addr 0xfff43cd3>DW_OP_reg12
+			[ 2]< offset pair low-off : 0x0000023d addr  0xfff43cd3 high-off  0x00000268 addr 0xfff43cfe>DW_OP_reg12
+			[ 3]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_reg12
+< 6><0x0000054f GOFF=0x000007d6>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x00000380 GOFF=0x00000607>
+                                                DW_AT_location              <loclist at offset 0x000007ae with 4 entries follows>
+			[ 0]< offset pair low-off : 0x0000025f addr  0xfff43cf5 high-off  0x00000266 addr 0xfff43cfc>DW_OP_reg11
+			[ 1]< offset pair low-off : 0x00000266 addr  0xfff43cfc high-off  0x0000026a addr 0xfff43d00>DW_OP_reg11
+			[ 2]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x00000386 addr 0xfff43e1c>DW_OP_reg11
+			[ 3]< offset pair low-off : 0x00000386 addr  0xfff43e1c high-off  0x0000038b addr 0xfff43e21>DW_OP_reg11
+< 6><0x00000558 GOFF=0x000007df>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x0000038c GOFF=0x00000613>
+                                                DW_AT_location              <loclist at offset 0x000007e2 with 4 entries follows>
+			[ 0]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x0000022d addr 0xfff43cc3>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x00000230 addr  0xfff43cc6 high-off  0x0000023d addr 0xfff43cd3>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x0000023d addr  0xfff43cd3 high-off  0x0000023f addr 0xfff43cd5>DW_OP_reg15
+			[ 3]< offset pair low-off : 0x0000023f addr  0xfff43cd5 high-off  0x00000249 addr 0xfff43cdf>DW_OP_reg15
+< 6><0x00000561 GOFF=0x000007e8>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x00000398 GOFF=0x0000061f>
+                                                DW_AT_location              <loclist at offset 0x00000816 with 7 entries follows>
+			[ 0]< offset pair low-off : 0x00000249 addr  0xfff43cdf high-off  0x00000256 addr 0xfff43cec>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x00000256 addr  0xfff43cec high-off  0x0000025c addr 0xfff43cf2>DW_OP_reg7
+			[ 2]< offset pair low-off : 0x0000025f addr  0xfff43cf5 high-off  0x0000028f addr 0xfff43d25>DW_OP_reg7
+			[ 3]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002b3 addr 0xfff43d49>DW_OP_reg7
+			[ 4]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000035e addr 0xfff43df4>DW_OP_reg7
+			[ 5]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x00000388 addr 0xfff43e1e>DW_OP_reg7
+			[ 6]< offset pair low-off : 0x00000388 addr  0xfff43e1e high-off  0x0000038b addr 0xfff43e21>DW_OP_reg7
+< 6><0x0000056a GOFF=0x000007f1>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003a4 GOFF=0x0000062b>
+                                                DW_AT_location              <loclist at offset 0x0000086b with 3 entries follows>
+			[ 0]< offset pair low-off : 0x00000227 addr  0xfff43cbd high-off  0x00000241 addr 0xfff43cd7>DW_OP_reg11
+			[ 1]< offset pair low-off : 0x00000254 addr  0xfff43cea high-off  0x0000029e addr 0xfff43d34>DW_OP_reg10
+			[ 2]< offset pair low-off : 0x0000037c addr  0xfff43e12 high-off  0x0000038b addr 0xfff43e21>DW_OP_reg10
+< 5><0x00000574 GOFF=0x000007fb>            DW_TAG_lexical_block
+                                              DW_AT_ranges                0x00000140
+		ranges: 3 at .debug_ranges offset 320 (0x00000140) (24 bytes)
+			[ 0] range entry    0x0000026a 0x0000028d
+			[ 1] range entry    0x0000028f 0x000002a0
+			[ 2] range end      0x00000000 0x00000000
+< 6><0x00000579 GOFF=0x00000800>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003b6 GOFF=0x0000063d>
+                                                DW_AT_location              <loclist at offset 0x00000894 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002ac addr 0xfff43d42>DW_OP_reg13
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000034a addr 0xfff43de0>DW_OP_reg13
+< 6><0x00000582 GOFF=0x00000809>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003c2 GOFF=0x00000649>
+                                                DW_AT_location              <loclist at offset 0x000008b2 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000292 addr  0xfff43d28 high-off  0x000002ac addr 0xfff43d42>DW_OP_reg12
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x00000345 addr 0xfff43ddb>DW_OP_reg12
+< 6><0x0000058b GOFF=0x00000812>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003ce GOFF=0x00000655>
+                                                DW_AT_location              <loclist at offset 0x000008d0 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002b3 addr 0xfff43d49>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000035e addr 0xfff43df4>DW_OP_reg4
+< 6><0x00000594 GOFF=0x0000081b>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003da GOFF=0x00000661>
+                                                DW_AT_location              <loclist at offset 0x000008ee with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000292 addr  0xfff43d28 high-off  0x0000029b addr 0xfff43d31>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x0000029b addr  0xfff43d31 high-off  0x000002a0 addr 0xfff43d36>DW_OP_reg3
+< 6><0x0000059d GOFF=0x00000824>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003e6 GOFF=0x0000066d>
+                                                DW_AT_location              DW_OP_reg12
+< 6><0x000005a4 GOFF=0x0000082b>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003f2 GOFF=0x00000679>
+                                                DW_AT_location              DW_OP_reg4
+< 6><0x000005ab GOFF=0x00000832>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x000003fe GOFF=0x00000685>
+                                                DW_AT_location              <loclist at offset 0x0000090c with 4 entries follows>
+			[ 0]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x000002b0 addr 0xfff43d46>DW_OP_reg2
+			[ 1]< offset pair low-off : 0x000002b0 addr  0xfff43d46 high-off  0x000002b3 addr 0xfff43d49>DW_OP_breg11+0 DW_OP_lit16 DW_OP_shr DW_OP_stack_value
+			[ 2]< offset pair low-off : 0x00000343 addr  0xfff43dd9 high-off  0x0000035b addr 0xfff43df1>DW_OP_reg2
+			[ 3]< offset pair low-off : 0x0000035b addr  0xfff43df1 high-off  0x0000035e addr 0xfff43df4>DW_OP_breg11+0 DW_OP_lit16 DW_OP_shr DW_OP_stack_value
+< 6><0x000005b4 GOFF=0x0000083b>              DW_TAG_variable
+                                                DW_AT_abstract_origin       <0x0000040a GOFF=0x00000691>
+                                                DW_AT_location              <loclist at offset 0x00000948 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x0000028f addr  0xfff43d25 high-off  0x00000292 addr 0xfff43d28>DW_OP_reg3
+< 4><0x000005bf GOFF=0x00000846>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x00000158
+		ranges: 3 at .debug_ranges offset 344 (0x00000158) (24 bytes)
+			[ 0] range entry    0x0000015d 0x000001b7
+			[ 1] range entry    0x0000038b 0x00000393
+			[ 2] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000608 GOFF=0x0000088f>
+< 5><0x000005c8 GOFF=0x0000084f>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002bb GOFF=0x00000542>
+                                              DW_AT_location              <loclist at offset 0x0000095b with 2 entries follows>
+			[ 0]< offset pair low-off : 0x0000015d addr  0xfff43bf3 high-off  0x00000190 addr 0xfff43c26>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg4
+< 5><0x000005d1 GOFF=0x00000858>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002c7 GOFF=0x0000054e>
+                                              DW_AT_location              <loclist at offset 0x00000979 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x0000015d addr  0xfff43bf3 high-off  0x0000019c addr 0xfff43c32>DW_OP_reg7
+			[ 1]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg7
+< 5><0x000005da GOFF=0x00000861>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002d3 GOFF=0x0000055a>
+                                              DW_AT_location              <loclist at offset 0x00000997 with 4 entries follows>
+			[ 0]< offset pair low-off : 0x0000017b addr  0xfff43c11 high-off  0x00000186 addr 0xfff43c1c>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x00000186 addr  0xfff43c1c high-off  0x000001b5 addr 0xfff43c4b>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x0000038e addr 0xfff43e24>DW_OP_reg15
+			[ 3]< offset pair low-off : 0x0000038e addr  0xfff43e24 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg15
+< 5><0x000005e3 GOFF=0x0000086a>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002df GOFF=0x00000566>
+                                              DW_AT_location              <loclist at offset 0x000009cb with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000001a8 addr  0xfff43c3e high-off  0x000001b3 addr 0xfff43c49>DW_OP_reg1
+			[ 1]< offset pair low-off : 0x000001b3 addr  0xfff43c49 high-off  0x000001b7 addr 0xfff43c4d>DW_OP_reg1
+< 5><0x000005ec GOFF=0x00000873>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002eb GOFF=0x00000572>
+                                              DW_AT_location              <loclist at offset 0x000009e9 with 6 entries follows>
+			[ 0]< offset pair low-off : 0x00000168 addr  0xfff43bfe high-off  0x0000016a addr 0xfff43c00>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x00000172 addr  0xfff43c08 high-off  0x00000178 addr 0xfff43c0e>DW_OP_reg3
+			[ 2]< offset pair low-off : 0x0000017b addr  0xfff43c11 high-off  0x00000188 addr 0xfff43c1e>DW_OP_reg3
+			[ 3]< offset pair low-off : 0x00000188 addr  0xfff43c1e high-off  0x00000192 addr 0xfff43c28>DW_OP_reg3
+			[ 4]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x00000390 addr 0xfff43e26>DW_OP_reg3
+			[ 5]< offset pair low-off : 0x00000390 addr  0xfff43e26 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg3
+< 5><0x000005f5 GOFF=0x0000087c>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002f7 GOFF=0x0000057e>
+                                              DW_AT_location              <loclist at offset 0x00000a33 with 3 entries follows>
+			[ 0]< offset pair low-off : 0x00000192 addr  0xfff43c28 high-off  0x00000194 addr 0xfff43c2a>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x0000019f addr  0xfff43c35 high-off  0x000001a5 addr 0xfff43c3b>DW_OP_reg5
+			[ 2]< offset pair low-off : 0x000001a8 addr  0xfff43c3e high-off  0x000001b3 addr 0xfff43c49>DW_OP_reg5
+< 5><0x000005fe GOFF=0x00000885>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000303 GOFF=0x0000058a>
+                                              DW_AT_location              <loclist at offset 0x00000a5c with 3 entries follows>
+			[ 0]< offset pair low-off : 0x00000170 addr  0xfff43c06 high-off  0x0000019c addr 0xfff43c32>DW_OP_reg10
+			[ 1]< offset pair low-off : 0x0000019c addr  0xfff43c32 high-off  0x000001ba addr 0xfff43c50>DW_OP_reg7
+			[ 2]< offset pair low-off : 0x0000038b addr  0xfff43e21 high-off  0x00000393 addr 0xfff43e29>DW_OP_reg10
+< 4><0x00000608 GOFF=0x0000088f>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x00000170
+		ranges: 5 at .debug_ranges offset 368 (0x00000170) (40 bytes)
+			[ 0] range entry    0x0000011a 0x00000149
+			[ 1] range entry    0x0000039b 0x000003aa
+			[ 2] range entry    0x0000036d 0x00000375
+			[ 3] range entry    0x000001e5 0x000001ec
+			[ 4] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000620 GOFF=0x000008a7>
+< 5><0x00000611 GOFF=0x00000898>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000024f GOFF=0x000004d6>
+                                              DW_AT_location              <loclist at offset 0x00000a85 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000134 addr  0xfff43bca high-off  0x0000015d addr 0xfff43bf3>DW_OP_reg12
+			[ 1]< offset pair low-off : 0x000002b3 addr  0xfff43d49 high-off  0x000002cb addr 0xfff43d61>DW_OP_reg12
+< 5><0x0000061a GOFF=0x000008a1>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000243 GOFF=0x000004ca>
+< 4><0x00000620 GOFF=0x000008a7>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x00000198
+		ranges: 3 at .debug_ranges offset 408 (0x00000198) (24 bytes)
+			[ 0] range entry    0x0000005f 0x000000c4
+			[ 1] range entry    0x00000393 0x0000039b
+			[ 2] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000669 GOFF=0x000008f0>
+< 5><0x00000629 GOFF=0x000008b0>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000001e9 GOFF=0x00000470>
+                                              DW_AT_location              <loclist at offset 0x00000aa3 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000062 addr  0xfff43af8 high-off  0x0000009b addr 0xfff43b31>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x00000393 addr  0xfff43e29 high-off  0x0000039b addr 0xfff43e31>DW_OP_reg4
+< 5><0x00000632 GOFF=0x000008b9>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000001f5 GOFF=0x0000047c>
+                                              DW_AT_location              <loclist at offset 0x00000ac1 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000073 addr  0xfff43b09 high-off  0x000000a7 addr 0xfff43b3d>DW_OP_reg10
+			[ 1]< offset pair low-off : 0x00000393 addr  0xfff43e29 high-off  0x0000039b addr 0xfff43e31>DW_OP_reg10
+< 5><0x0000063b GOFF=0x000008c2>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000201 GOFF=0x00000488>
+                                              DW_AT_location              <loclist at offset 0x00000adf with 4 entries follows>
+			[ 0]< offset pair low-off : 0x00000086 addr  0xfff43b1c high-off  0x00000091 addr 0xfff43b27>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x00000091 addr  0xfff43b27 high-off  0x000000c0 addr 0xfff43b56>DW_OP_reg3
+			[ 2]< offset pair low-off : 0x00000393 addr  0xfff43e29 high-off  0x00000396 addr 0xfff43e2c>DW_OP_reg3
+			[ 3]< offset pair low-off : 0x00000396 addr  0xfff43e2c high-off  0x0000039b addr 0xfff43e31>DW_OP_reg3
+< 5><0x00000644 GOFF=0x000008cb>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000020d GOFF=0x00000494>
+                                              DW_AT_location              <loclist at offset 0x00000b13 with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000000b3 addr  0xfff43b49 high-off  0x000000be addr 0xfff43b54>DW_OP_reg1
+			[ 1]< offset pair low-off : 0x000000be addr  0xfff43b54 high-off  0x000000c2 addr 0xfff43b58>DW_OP_reg1
+< 5><0x0000064d GOFF=0x000008d4>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000219 GOFF=0x000004a0>
+                                              DW_AT_location              <loclist at offset 0x00000b31 with 6 entries follows>
+			[ 0]< offset pair low-off : 0x00000073 addr  0xfff43b09 high-off  0x00000075 addr 0xfff43b0b>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x0000007d addr  0xfff43b13 high-off  0x00000083 addr 0xfff43b19>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x00000086 addr  0xfff43b1c high-off  0x00000093 addr 0xfff43b29>DW_OP_reg15
+			[ 3]< offset pair low-off : 0x00000093 addr  0xfff43b29 high-off  0x0000009d addr 0xfff43b33>DW_OP_reg15
+			[ 4]< offset pair low-off : 0x00000393 addr  0xfff43e29 high-off  0x00000398 addr 0xfff43e2e>DW_OP_reg15
+			[ 5]< offset pair low-off : 0x00000398 addr  0xfff43e2e high-off  0x0000039b addr 0xfff43e31>DW_OP_reg15
+< 5><0x00000656 GOFF=0x000008dd>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000225 GOFF=0x000004ac>
+                                              DW_AT_location              <loclist at offset 0x00000b7b with 3 entries follows>
+			[ 0]< offset pair low-off : 0x0000009d addr  0xfff43b33 high-off  0x0000009f addr 0xfff43b35>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x000000aa addr  0xfff43b40 high-off  0x000000b0 addr 0xfff43b46>DW_OP_reg5
+			[ 2]< offset pair low-off : 0x000000b3 addr  0xfff43b49 high-off  0x000000be addr 0xfff43b54>DW_OP_reg5
+< 5><0x0000065f GOFF=0x000008e6>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000231 GOFF=0x000004b8>
+                                              DW_AT_location              <loclist at offset 0x00000ba4 with 3 entries follows>
+			[ 0]< offset pair low-off : 0x0000007b addr  0xfff43b11 high-off  0x000000a7 addr 0xfff43b3d>DW_OP_reg7
+			[ 1]< offset pair low-off : 0x000000a7 addr  0xfff43b3d high-off  0x000000c7 addr 0xfff43b5d>DW_OP_reg10
+			[ 2]< offset pair low-off : 0x00000393 addr  0xfff43e29 high-off  0x0000039b addr 0xfff43e31>DW_OP_reg7
+< 4><0x00000669 GOFF=0x000008f0>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x000001b0
+		ranges: 4 at .debug_ranges offset 432 (0x000001b0) (32 bytes)
+			[ 0] range entry    0x00000014 0x00000046
+			[ 1] range entry    0x0000033b 0x00000343
+			[ 2] range entry    0x000001d0 0x000001df
+			[ 3] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000681 GOFF=0x00000908>
+< 5><0x00000672 GOFF=0x000008f9>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000001d7 GOFF=0x0000045e>
+                                              DW_AT_location              <loclist at offset 0x00000bcd with 1 entries follows>
+			[ 0]< offset pair low-off : 0x0000002e addr  0xfff43ac4 high-off  0x00000041 addr 0xfff43ad7>DW_OP_reg10
+< 5><0x0000067b GOFF=0x00000902>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000001cb GOFF=0x00000452>
+< 4><0x00000681 GOFF=0x00000908>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x000001d0
+		ranges: 4 at .debug_ranges offset 464 (0x000001d0) (32 bytes)
+			[ 0] range entry    0x000000ce 0x000000fe
+			[ 1] range entry    0x0000035e 0x0000036d
+			[ 2] range entry    0x000001c1 0x000001d0
+			[ 3] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000699 GOFF=0x00000920>
+< 5><0x0000068a GOFF=0x00000911>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000321 GOFF=0x000005a8>
+                                              DW_AT_location              <loclist at offset 0x00000be0 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x000000e8 addr  0xfff43b7e high-off  0x000000fc addr 0xfff43b92>DW_OP_reg5
+< 5><0x00000693 GOFF=0x0000091a>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000315 GOFF=0x0000059c>
+< 4><0x00000699 GOFF=0x00000920>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x000001f0
+		ranges: 7 at .debug_ranges offset 496 (0x000001f0) (56 bytes)
+			[ 0] range entry    0x000002bb 0x000002c3
+			[ 1] range entry    0x000002e9 0x0000033b
+			[ 2] range entry    0x000002e1 0x000002e6
+			[ 3] range entry    0x000002d3 0x000002df
+			[ 4] range entry    0x000002ce 0x000002d0
+			[ 5] range entry    0x000002c8 0x000002cb
+			[ 6] range end      0x00000000 0x00000000
+< 5><0x0000069e GOFF=0x00000925>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000261 GOFF=0x000004e8>
+                                              DW_AT_location              <loclist at offset 0x00000bf3 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x000002e9 addr  0xfff43d7f high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg4
+< 5><0x000006a7 GOFF=0x0000092e>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000026d GOFF=0x000004f4>
+                                              DW_AT_location              <loclist at offset 0x00000c06 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x000002e9 addr  0xfff43d7f high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg7
+< 5><0x000006b0 GOFF=0x00000937>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000279 GOFF=0x00000500>
+                                              DW_AT_location              <loclist at offset 0x00000c19 with 3 entries follows>
+			[ 0]< offset pair low-off : 0x000002f2 addr  0xfff43d88 high-off  0x000002fd addr 0xfff43d93>DW_OP_reg15
+			[ 1]< offset pair low-off : 0x000002fd addr  0xfff43d93 high-off  0x000002ff addr 0xfff43d95>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x000002ff addr  0xfff43d95 high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg15
+< 5><0x000006b9 GOFF=0x00000940>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000285 GOFF=0x0000050c>
+                                              DW_AT_location              <loclist at offset 0x00000c42 with 3 entries follows>
+			[ 0]< offset pair low-off : 0x00000323 addr  0xfff43db9 high-off  0x0000032e addr 0xfff43dc4>DW_OP_reg12
+			[ 1]< offset pair low-off : 0x0000032e addr  0xfff43dc4 high-off  0x00000330 addr 0xfff43dc6>DW_OP_reg12
+			[ 2]< offset pair low-off : 0x00000330 addr  0xfff43dc6 high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg12
+< 5><0x000006c2 GOFF=0x00000949>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000291 GOFF=0x00000518>
+                                              DW_AT_location              <loclist at offset 0x00000c6b with 4 entries follows>
+			[ 0]< offset pair low-off : 0x000002e9 addr  0xfff43d7f high-off  0x000002ef addr 0xfff43d85>DW_OP_reg11
+			[ 1]< offset pair low-off : 0x000002f2 addr  0xfff43d88 high-off  0x000002ff addr 0xfff43d95>DW_OP_reg11
+			[ 2]< offset pair low-off : 0x000002ff addr  0xfff43d95 high-off  0x00000301 addr 0xfff43d97>DW_OP_reg11
+			[ 3]< offset pair low-off : 0x00000301 addr  0xfff43d97 high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg11
+< 5><0x000006cb GOFF=0x00000952>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000029d GOFF=0x00000524>
+                                              DW_AT_location              <loclist at offset 0x00000c9f with 5 entries follows>
+			[ 0]< offset pair low-off : 0x0000030e addr  0xfff43da4 high-off  0x00000310 addr 0xfff43da6>DW_OP_reg10
+			[ 1]< offset pair low-off : 0x0000031a addr  0xfff43db0 high-off  0x00000320 addr 0xfff43db6>DW_OP_reg10
+			[ 2]< offset pair low-off : 0x00000323 addr  0xfff43db9 high-off  0x00000330 addr 0xfff43dc6>DW_OP_reg10
+			[ 3]< offset pair low-off : 0x00000330 addr  0xfff43dc6 high-off  0x00000335 addr 0xfff43dcb>DW_OP_reg10
+			[ 4]< offset pair low-off : 0x00000335 addr  0xfff43dcb high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg10
+< 5><0x000006d4 GOFF=0x0000095b>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x000002a9 GOFF=0x00000530>
+                                              DW_AT_location              <loclist at offset 0x00000cde with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000002e9 addr  0xfff43d7f high-off  0x00000303 addr 0xfff43d99>DW_OP_reg12
+			[ 1]< offset pair low-off : 0x00000318 addr  0xfff43dae high-off  0x0000033b addr 0xfff43dd1>DW_OP_reg13
+< 1><0x000006e1 GOFF=0x00000968>    DW_TAG_array_type
+                                      DW_AT_type                  <0x00000048 GOFF=0x000002cf>
+                                      DW_AT_sibling               <0x000006f1 GOFF=0x00000978>
+< 2><0x000006ea GOFF=0x00000971>      DW_TAG_subrange_type
+                                        DW_AT_type                  <0x000006f1 GOFF=0x00000978>
+                                        DW_AT_upper_bound           255
+< 1><0x000006f1 GOFF=0x00000978>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+< 1><0x000006f4 GOFF=0x0000097b>    DW_TAG_variable
+                                      DW_AT_name                  __clz_tab
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001b7
+                                      DW_AT_type                  <0x00000702 GOFF=0x00000989>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_declaration           yes(1)
+< 1><0x00000702 GOFF=0x00000989>    DW_TAG_const_type
+                                      DW_AT_type                  <0x000006e1 GOFF=0x00000968>
+< 1><0x00000707 GOFF=0x0000098e>    DW_TAG_variable
+                                      DW_AT_name                  __clz_tab
+                                      DW_AT_decl_file             0x00000003 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/longlong.h
+                                      DW_AT_decl_line             0x0000003f
+                                      DW_AT_type                  <0x00000714 GOFF=0x0000099b>
+                                      DW_AT_external              yes(1)
+                                      DW_AT_declaration           yes(1)
+< 1><0x00000714 GOFF=0x0000099b>    DW_TAG_const_type
+                                      DW_AT_type                  <0x000006e1 GOFF=0x00000968>
+
+COMPILE_UNIT<header overall offset = 0x000009a1>:
+< 0><0x0000000b GOFF=0x000009ac>  DW_TAG_compile_unit
+                                    DW_AT_producer              GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+                                    DW_AT_language              DW_LANG_C89
+                                    DW_AT_name                  /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                    DW_AT_comp_dir              /home/kpit/mingwrx-elfbld4.5-20091105/build-gcc-4.5-20091105/rx-elf/libgcc
+                                    DW_AT_low_pc                0xfff43e40
+                                    DW_AT_high_pc               0xfff441d7
+                                    DW_AT_stmt_list             0x00000260
+
+LOCAL_SYMBOLS:
+< 1><0x00000025 GOFF=0x000009c6>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  int
+< 1><0x0000002c GOFF=0x000009cd>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long unsigned int
+< 1><0x00000033 GOFF=0x000009d4>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long int
+< 1><0x0000003a GOFF=0x000009db>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  unsigned int
+< 1><0x00000041 GOFF=0x000009e2>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_signed_char
+                                      DW_AT_name                  signed char
+< 1><0x00000048 GOFF=0x000009e9>    DW_TAG_typedef
+                                      DW_AT_name                  UQItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000088
+                                      DW_AT_type                  <0x00000053 GOFF=0x000009f4>
+< 1><0x00000053 GOFF=0x000009f4>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000001
+                                      DW_AT_encoding              DW_ATE_unsigned_char
+                                      DW_AT_name                  unsigned char
+< 1><0x0000005a GOFF=0x000009fb>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  short int
+< 1><0x00000061 GOFF=0x00000a02>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000002
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  short unsigned int
+< 1><0x00000068 GOFF=0x00000a09>    DW_TAG_typedef
+                                      DW_AT_name                  SItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x0000008d
+                                      DW_AT_type                  <0x00000025 GOFF=0x000009c6>
+< 1><0x00000073 GOFF=0x00000a14>    DW_TAG_typedef
+                                      DW_AT_name                  USItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x0000008e
+                                      DW_AT_type                  <0x0000003a GOFF=0x000009db>
+< 1><0x0000007e GOFF=0x00000a1f>    DW_TAG_typedef
+                                      DW_AT_name                  DItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000091
+                                      DW_AT_type                  <0x00000089 GOFF=0x00000a2a>
+< 1><0x00000089 GOFF=0x00000a2a>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_signed
+                                      DW_AT_name                  long long int
+< 1><0x00000090 GOFF=0x00000a31>    DW_TAG_typedef
+                                      DW_AT_name                  UDItype
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x00000092
+                                      DW_AT_type                  <0x0000009b GOFF=0x00000a3c>
+< 1><0x0000009b GOFF=0x00000a3c>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_unsigned
+                                      DW_AT_name                  long long unsigned int
+< 1><0x000000a2 GOFF=0x00000a43>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_encoding              DW_ATE_float
+                                      DW_AT_name                  float
+< 1><0x000000a9 GOFF=0x00000a4a>    DW_TAG_base_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_encoding              DW_ATE_complex_float
+                                      DW_AT_name                  complex float
+< 1><0x000000b0 GOFF=0x00000a51>    DW_TAG_structure_type
+                                      DW_AT_name                  DWstruct
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001a2
+                                      DW_AT_sibling               <0x000000dc GOFF=0x00000a7d>
+< 2><0x000000bd GOFF=0x00000a5e>      DW_TAG_member
+                                        DW_AT_name                  low
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001a2
+                                        DW_AT_type                  <0x00000068 GOFF=0x00000a09>
+                                        DW_AT_data_member_location  DW_OP_plus_uconst 0
+< 2><0x000000cc GOFF=0x00000a6d>      DW_TAG_member
+                                        DW_AT_name                  high
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001a2
+                                        DW_AT_type                  <0x00000068 GOFF=0x00000a09>
+                                        DW_AT_data_member_location  DW_OP_plus_uconst 4
+< 1><0x000000dc GOFF=0x00000a7d>    DW_TAG_union_type
+                                      DW_AT_byte_size             0x00000008
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001a9
+                                      DW_AT_sibling               <0x000000fb GOFF=0x00000a9c>
+< 2><0x000000e5 GOFF=0x00000a86>      DW_TAG_member
+                                        DW_AT_name                  s
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001ab
+                                        DW_AT_type                  <0x000000b0 GOFF=0x00000a51>
+< 2><0x000000ef GOFF=0x00000a90>      DW_TAG_member
+                                        DW_AT_name                  ll
+                                        DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                        DW_AT_decl_line             0x000001ac
+                                        DW_AT_type                  <0x0000007e GOFF=0x00000a1f>
+< 1><0x000000fb GOFF=0x00000a9c>    DW_TAG_typedef
+                                      DW_AT_name                  DWunion
+                                      DW_AT_decl_file             0x00000002 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.h
+                                      DW_AT_decl_line             0x000001ad
+                                      DW_AT_type                  <0x000000dc GOFF=0x00000a7d>
+< 1><0x00000107 GOFF=0x00000aa8>    DW_TAG_subprogram
+                                      DW_AT_name                  __udivmoddi4
+                                      DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                      DW_AT_decl_line             0x00000360
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+                                      DW_AT_inline                DW_INL_declared_inlined
+                                      DW_AT_sibling               <0x00000439 GOFF=0x00000dda>
+< 2><0x00000119 GOFF=0x00000aba>      DW_TAG_formal_parameter
+                                        DW_AT_name                  n
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+< 2><0x00000123 GOFF=0x00000ac4>      DW_TAG_formal_parameter
+                                        DW_AT_name                  d
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+< 2><0x0000012d GOFF=0x00000ace>      DW_TAG_formal_parameter
+                                        DW_AT_name                  rp
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000360
+                                        DW_AT_type                  <0x00000439 GOFF=0x00000dda>
+< 2><0x00000138 GOFF=0x00000ad9>      DW_TAG_variable
+                                        DW_AT_name                  nn
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000362
+                                        DW_AT_type                  <0x0000043f GOFF=0x00000de0>
+< 2><0x00000143 GOFF=0x00000ae4>      DW_TAG_variable
+                                        DW_AT_name                  dd
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000363
+                                        DW_AT_type                  <0x0000043f GOFF=0x00000de0>
+< 2><0x0000014e GOFF=0x00000aef>      DW_TAG_variable
+                                        DW_AT_name                  rr
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000364
+                                        DW_AT_type                  <0x000000fb GOFF=0x00000a9c>
+< 2><0x00000159 GOFF=0x00000afa>      DW_TAG_variable
+                                        DW_AT_name                  d0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x00000164 GOFF=0x00000b05>      DW_TAG_variable
+                                        DW_AT_name                  d1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000016f GOFF=0x00000b10>      DW_TAG_variable
+                                        DW_AT_name                  n0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000017a GOFF=0x00000b1b>      DW_TAG_variable
+                                        DW_AT_name                  n1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x00000185 GOFF=0x00000b26>      DW_TAG_variable
+                                        DW_AT_name                  n2
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000365
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x00000190 GOFF=0x00000b31>      DW_TAG_variable
+                                        DW_AT_name                  q0
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000366
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000019b GOFF=0x00000b3c>      DW_TAG_variable
+                                        DW_AT_name                  q1
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000366
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x000001a6 GOFF=0x00000b47>      DW_TAG_variable
+                                        DW_AT_name                  b
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000367
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x000001b0 GOFF=0x00000b51>      DW_TAG_variable
+                                        DW_AT_name                  bm
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000367
+                                        DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x000001bb GOFF=0x00000b5c>      DW_TAG_variable
+                                        DW_AT_name                  ww
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000430
+                                        DW_AT_type                  <0x0000043f GOFF=0x00000de0>
+< 2><0x000001c6 GOFF=0x00000b67>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x000001e4 GOFF=0x00000b85>
+< 3><0x000001cb GOFF=0x00000b6c>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x00000397
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000001d7 GOFF=0x00000b78>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x00000397
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x000001e4 GOFF=0x00000b85>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000023e GOFF=0x00000bdf>
+< 3><0x000001e9 GOFF=0x00000b8a>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000001f5 GOFF=0x00000b96>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000201 GOFF=0x00000ba2>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x0000020d GOFF=0x00000bae>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000219 GOFF=0x00000bba>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000225 GOFF=0x00000bc6>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000231 GOFF=0x00000bd2>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003a3
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000023e GOFF=0x00000bdf>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000025c GOFF=0x00000bfd>
+< 3><0x00000243 GOFF=0x00000be4>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003af
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x0000024f GOFF=0x00000bf0>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003af
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000025c GOFF=0x00000bfd>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x000002b6 GOFF=0x00000c57>
+< 3><0x00000261 GOFF=0x00000c02>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x0000026d GOFF=0x00000c0e>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000279 GOFF=0x00000c1a>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000285 GOFF=0x00000c26>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000291 GOFF=0x00000c32>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x0000029d GOFF=0x00000c3e>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002a9 GOFF=0x00000c4a>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003c8
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x000002b6 GOFF=0x00000c57>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x00000310 GOFF=0x00000cb1>
+< 3><0x000002bb GOFF=0x00000c5c>        DW_TAG_variable
+                                          DW_AT_name                  __d1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002c7 GOFF=0x00000c68>        DW_TAG_variable
+                                          DW_AT_name                  __d0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002d3 GOFF=0x00000c74>        DW_TAG_variable
+                                          DW_AT_name                  __q1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002df GOFF=0x00000c80>        DW_TAG_variable
+                                          DW_AT_name                  __q0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002eb GOFF=0x00000c8c>        DW_TAG_variable
+                                          DW_AT_name                  __r1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000002f7 GOFF=0x00000c98>        DW_TAG_variable
+                                          DW_AT_name                  __r0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000303 GOFF=0x00000ca4>        DW_TAG_variable
+                                          DW_AT_name                  __m
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003cd
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x00000310 GOFF=0x00000cb1>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x0000032e GOFF=0x00000ccf>
+< 3><0x00000315 GOFF=0x00000cb6>        DW_TAG_variable
+                                          DW_AT_name                  __xr
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003f0
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000321 GOFF=0x00000cc2>        DW_TAG_variable
+                                          DW_AT_name                  __a
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003f0
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x0000032e GOFF=0x00000ccf>      DW_TAG_lexical_block
+                                        DW_AT_sibling               <0x00000340 GOFF=0x00000ce1>
+< 3><0x00000333 GOFF=0x00000cd4>        DW_TAG_variable
+                                          DW_AT_name                  __x
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x000003fe
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 2><0x00000340 GOFF=0x00000ce1>      DW_TAG_lexical_block
+< 3><0x00000341 GOFF=0x00000ce2>        DW_TAG_variable
+                                          DW_AT_name                  m1
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x0000040e
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x0000034c GOFF=0x00000ced>        DW_TAG_variable
+                                          DW_AT_name                  m0
+                                          DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                          DW_AT_decl_line             0x0000040e
+                                          DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000357 GOFF=0x00000cf8>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x000003b1 GOFF=0x00000d52>
+< 4><0x0000035c GOFF=0x00000cfd>          DW_TAG_variable
+                                            DW_AT_name                  __d1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x00000368 GOFF=0x00000d09>          DW_TAG_variable
+                                            DW_AT_name                  __d0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x00000374 GOFF=0x00000d15>          DW_TAG_variable
+                                            DW_AT_name                  __q1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x00000380 GOFF=0x00000d21>          DW_TAG_variable
+                                            DW_AT_name                  __q0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x0000038c GOFF=0x00000d2d>          DW_TAG_variable
+                                            DW_AT_name                  __r1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x00000398 GOFF=0x00000d39>          DW_TAG_variable
+                                            DW_AT_name                  __r0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003a4 GOFF=0x00000d45>          DW_TAG_variable
+                                            DW_AT_name                  __m
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000419
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x000003b1 GOFF=0x00000d52>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x00000417 GOFF=0x00000db8>
+< 4><0x000003b6 GOFF=0x00000d57>          DW_TAG_variable
+                                            DW_AT_name                  __x0
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003c2 GOFF=0x00000d63>          DW_TAG_variable
+                                            DW_AT_name                  __x1
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003ce GOFF=0x00000d6f>          DW_TAG_variable
+                                            DW_AT_name                  __x2
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003da GOFF=0x00000d7b>          DW_TAG_variable
+                                            DW_AT_name                  __x3
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003e6 GOFF=0x00000d87>          DW_TAG_variable
+                                            DW_AT_name                  __ul
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003f2 GOFF=0x00000d93>          DW_TAG_variable
+                                            DW_AT_name                  __vl
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x000003fe GOFF=0x00000d9f>          DW_TAG_variable
+                                            DW_AT_name                  __uh
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 4><0x0000040a GOFF=0x00000dab>          DW_TAG_variable
+                                            DW_AT_name                  __vh
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041a
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000417 GOFF=0x00000db8>        DW_TAG_lexical_block
+                                          DW_AT_sibling               <0x00000429 GOFF=0x00000dca>
+< 4><0x0000041c GOFF=0x00000dbd>          DW_TAG_variable
+                                            DW_AT_name                  __x
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x0000041f
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 3><0x00000429 GOFF=0x00000dca>        DW_TAG_lexical_block
+< 4><0x0000042a GOFF=0x00000dcb>          DW_TAG_variable
+                                            DW_AT_name                  __x
+                                            DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                            DW_AT_decl_line             0x00000427
+                                            DW_AT_type                  <0x00000073 GOFF=0x00000a14>
+< 1><0x00000439 GOFF=0x00000dda>    DW_TAG_pointer_type
+                                      DW_AT_byte_size             0x00000004
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+< 1><0x0000043f GOFF=0x00000de0>    DW_TAG_const_type
+                                      DW_AT_type                  <0x000000fb GOFF=0x00000a9c>
+< 1><0x00000444 GOFF=0x00000de5>    DW_TAG_subprogram
+                                      DW_AT_external              yes(1)
+                                      DW_AT_name                  __umoddi3
+                                      DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                      DW_AT_decl_line             0x00000466
+                                      DW_AT_prototyped            yes(1)
+                                      DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+                                      DW_AT_low_pc                0xfff43e40
+                                      DW_AT_high_pc               0xfff441d7
+                                      DW_AT_frame_base            <loclist at offset 0x00000cfc with 2 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43e40 high-off  0x00000002 addr 0xfff43e42>DW_OP_breg0+4
+			[ 1]< offset pair low-off : 0x00000002 addr  0xfff43e42 high-off  0x00000397 addr 0xfff441d7>DW_OP_breg0+32
+                                      DW_AT_sibling               <0x0000071b GOFF=0x000010bc>
+< 2><0x00000462 GOFF=0x00000e03>      DW_TAG_formal_parameter
+                                        DW_AT_name                  u
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000466
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+                                        DW_AT_location              <loclist at offset 0x00000d1c with 8 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43e40 high-off  0x0000008e addr 0xfff43ece>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x0000010d addr 0xfff43f4d>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x0000015e addr 0xfff43f9e>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x0000020b addr 0xfff4404b>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x00000336 addr 0xfff44176>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000360 addr 0xfff441a0>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x0000036f addr  0xfff441af high-off  0x00000378 addr 0xfff441b8>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x00000388 addr  0xfff441c8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+< 2><0x00000470 GOFF=0x00000e11>      DW_TAG_formal_parameter
+                                        DW_AT_name                  v
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000466
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+                                        DW_AT_location              <loclist at offset 0x00000da4 with 8 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43e40 high-off  0x0000005f addr 0xfff43e9f>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000106 addr 0xfff43f46>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x00000164 addr 0xfff43fa4>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x00000208 addr 0xfff44048>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x00000336 addr 0xfff44176>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000360 addr 0xfff441a0>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000376 addr 0xfff441b6>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x00000388 addr  0xfff441c8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+< 2><0x0000047e GOFF=0x00000e1f>      DW_TAG_variable
+                                        DW_AT_name                  w
+                                        DW_AT_decl_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_decl_line             0x00000468
+                                        DW_AT_type                  <0x00000090 GOFF=0x00000a31>
+                                        DW_AT_location              <loclist at offset 0x00000e2c with 4 entries follows>
+			[ 0]< offset pair low-off : 0x000000ba addr  0xfff43efa high-off  0x000000ba addr 0xfff43efa>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x00000114 addr  0xfff43f54 high-off  0x00000114 addr 0xfff43f54>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x00000114 addr  0xfff43f54 high-off  0x00000117 addr 0xfff43f57>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000002b6 addr  0xfff440f6 high-off  0x000002b6 addr 0xfff440f6>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+< 2><0x0000048c GOFF=0x00000e2d>      DW_TAG_inlined_subroutine
+                                        DW_AT_abstract_origin       <0x00000107 GOFF=0x00000aa8>
+                                        DW_AT_entry_pc              0xfff43e42
+                                        DW_AT_ranges                0x00000228
+		ranges: 5 at .debug_ranges offset 552 (0x00000228) (40 bytes)
+			[ 0] range entry    0x00000002 0x000000ba
+			[ 1] range entry    0x000002b9 0x00000397
+			[ 2] range entry    0x00000117 0x000002b6
+			[ 3] range entry    0x000000bd 0x00000114
+			[ 4] range end      0x00000000 0x00000000
+                                        DW_AT_call_file             0x00000001 /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+                                        DW_AT_call_line             0x0000046a
+< 3><0x0000049c GOFF=0x00000e3d>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x0000012d GOFF=0x00000ace>
+< 3><0x000004a1 GOFF=0x00000e42>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x00000123 GOFF=0x00000ac4>
+                                          DW_AT_location              <loclist at offset 0x00000e74 with 9 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43e40 high-off  0x0000002c addr 0xfff43e6c>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000106 addr 0xfff43f46>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x00000147 addr 0xfff43f87>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x000001bc addr 0xfff43ffc>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x000001c1 addr  0xfff44001 high-off  0x000001d8 addr 0xfff44018>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x0000032e addr  0xfff4416e high-off  0x00000331 addr 0xfff44171>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000360 addr 0xfff441a0>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000376 addr 0xfff441b6>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+			[ 8]< offset pair low-off : 0x00000388 addr  0xfff441c8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg3 DW_OP_piece 4 DW_OP_reg4 DW_OP_piece 4
+< 3><0x000004aa GOFF=0x00000e4b>        DW_TAG_formal_parameter
+                                          DW_AT_abstract_origin       <0x00000119 GOFF=0x00000aba>
+                                          DW_AT_location              <loclist at offset 0x00000f0c with 13 entries follows>
+			[ 0]< offset pair low-off : 0x00000000 addr  0xfff43e40 high-off  0x0000004c addr 0xfff43e8c>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 1]< offset pair low-off : 0x0000004c addr  0xfff43e8c high-off  0x00000059 addr 0xfff43e99>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 2]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000108 addr 0xfff43f48>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 3]< offset pair low-off : 0x00000108 addr  0xfff43f48 high-off  0x0000010d addr 0xfff43f4d>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 4]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x00000154 addr 0xfff43f94>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 5]< offset pair low-off : 0x00000154 addr  0xfff43f94 high-off  0x00000157 addr 0xfff43f97>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[ 6]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x000001f0 addr 0xfff44030>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 7]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x000002d3 addr 0xfff44113>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 8]< offset pair low-off : 0x0000032e addr  0xfff4416e high-off  0x00000336 addr 0xfff44176>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[ 9]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000360 addr 0xfff441a0>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[10]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x0000037a addr 0xfff441ba>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+			[11]< offset pair low-off : 0x0000037a addr  0xfff441ba high-off  0x0000037d addr 0xfff441bd>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg15 DW_OP_piece 4
+			[12]< offset pair low-off : 0x00000388 addr  0xfff441c8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg1 DW_OP_piece 4 DW_OP_reg2 DW_OP_piece 4
+< 3><0x000004b3 GOFF=0x00000e54>        DW_TAG_lexical_block
+                                          DW_AT_ranges                0x00000250
+		ranges: 5 at .debug_ranges offset 592 (0x00000250) (40 bytes)
+			[ 0] range entry    0x00000002 0x000000ba
+			[ 1] range entry    0x000002b9 0x00000397
+			[ 2] range entry    0x00000117 0x000002b6
+			[ 3] range entry    0x000000bd 0x00000114
+			[ 4] range end      0x00000000 0x00000000
+< 4><0x000004b8 GOFF=0x00000e59>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000138 GOFF=0x00000ad9>
+< 4><0x000004bd GOFF=0x00000e5e>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000143 GOFF=0x00000ae4>
+< 4><0x000004c2 GOFF=0x00000e63>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000014e GOFF=0x00000aef>
+< 4><0x000004c7 GOFF=0x00000e68>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000159 GOFF=0x00000afa>
+                                            DW_AT_location              <loclist at offset 0x00000fe4 with 15 entries follows>
+			[ 0]< offset pair low-off : 0x00000004 addr  0xfff43e44 high-off  0x00000056 addr 0xfff43e96>DW_OP_reg3
+			[ 1]< offset pair low-off : 0x00000056 addr  0xfff43e96 high-off  0x000000bd addr 0xfff43efd>DW_OP_reg14
+			[ 2]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000106 addr 0xfff43f46>DW_OP_reg3
+			[ 3]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x0000011c addr 0xfff43f5c>DW_OP_reg3
+			[ 4]< offset pair low-off : 0x0000015c addr  0xfff43f9c high-off  0x000001a3 addr 0xfff43fe3>DW_OP_reg14
+			[ 5]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x000001c7 addr 0xfff44007>DW_OP_reg3
+			[ 6]< offset pair low-off : 0x000001ce addr  0xfff4400e high-off  0x00000208 addr 0xfff44048>DW_OP_reg3
+			[ 7]< offset pair low-off : 0x00000208 addr  0xfff44048 high-off  0x0000029d addr 0xfff440dd>DW_OP_reg3
+			[ 8]< offset pair low-off : 0x000002c1 addr  0xfff44101 high-off  0x0000032e addr 0xfff4416e>DW_OP_reg14
+			[ 9]< offset pair low-off : 0x0000032e addr  0xfff4416e high-off  0x00000339 addr 0xfff44179>DW_OP_reg3
+			[10]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000358 addr 0xfff44198>DW_OP_reg3
+			[11]< offset pair low-off : 0x00000360 addr  0xfff441a0 high-off  0x0000036f addr 0xfff441af>DW_OP_reg3
+			[12]< offset pair low-off : 0x0000036f addr  0xfff441af high-off  0x00000374 addr 0xfff441b4>DW_OP_reg14
+			[13]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000376 addr 0xfff441b6>DW_OP_reg3
+			[14]< offset pair low-off : 0x0000037d addr  0xfff441bd high-off  0x00000383 addr 0xfff441c3>DW_OP_reg3
+< 4><0x000004d0 GOFF=0x00000e71>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000164 GOFF=0x00000b05>
+                                            DW_AT_location              <loclist at offset 0x00001091 with 8 entries follows>
+			[ 0]< offset pair low-off : 0x00000004 addr  0xfff43e44 high-off  0x0000002c addr 0xfff43e6c>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000147 addr 0xfff43f87>DW_OP_reg4
+			[ 2]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x000001bc addr 0xfff43ffc>DW_OP_reg4
+			[ 3]< offset pair low-off : 0x000001c1 addr  0xfff44001 high-off  0x000001d8 addr 0xfff44018>DW_OP_reg4
+			[ 4]< offset pair low-off : 0x000001da addr  0xfff4401a high-off  0x000002b9 addr 0xfff440f9>DW_OP_reg4
+			[ 5]< offset pair low-off : 0x0000032e addr  0xfff4416e high-off  0x00000331 addr 0xfff44171>DW_OP_reg4
+			[ 6]< offset pair low-off : 0x00000336 addr  0xfff44176 high-off  0x0000036f addr 0xfff441af>DW_OP_reg4
+			[ 7]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg4
+< 4><0x000004d9 GOFF=0x00000e7a>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000016f GOFF=0x00000b10>
+                                            DW_AT_location              <loclist at offset 0x000010f1 with 19 entries follows>
+			[ 0]< offset pair low-off : 0x00000006 addr  0xfff43e46 high-off  0x0000005c addr 0xfff43e9c>DW_OP_reg1
+			[ 1]< offset pair low-off : 0x0000005c addr  0xfff43e9c high-off  0x0000009d addr 0xfff43edd>DW_OP_reg5
+			[ 2]< offset pair low-off : 0x000000b5 addr  0xfff43ef5 high-off  0x000000b8 addr 0xfff43ef8>DW_OP_reg1
+			[ 3]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x0000010d addr 0xfff43f4d>DW_OP_reg1
+			[ 4]< offset pair low-off : 0x00000110 addr  0xfff43f50 high-off  0x00000114 addr 0xfff43f54>DW_OP_reg3
+			[ 5]< offset pair low-off : 0x00000114 addr  0xfff43f54 high-off  0x00000114 addr 0xfff43f54>DW_OP_reg1
+			[ 6]< offset pair low-off : 0x00000114 addr  0xfff43f54 high-off  0x00000117 addr 0xfff43f57>DW_OP_reg3
+			[ 7]< offset pair low-off : 0x00000117 addr  0xfff43f57 high-off  0x0000015c addr 0xfff43f9c>DW_OP_reg1
+			[ 8]< offset pair low-off : 0x0000015c addr  0xfff43f9c high-off  0x00000193 addr 0xfff43fd3>DW_OP_reg5
+			[ 9]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x0000020b addr 0xfff4404b>DW_OP_reg1
+			[10]< offset pair low-off : 0x0000020b addr  0xfff4404b high-off  0x000002a5 addr 0xfff440e5>DW_OP_reg1
+			[11]< offset pair low-off : 0x000002a7 addr  0xfff440e7 high-off  0x000002b9 addr 0xfff440f9>DW_OP_reg3
+			[12]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x000002f0 addr 0xfff44130>DW_OP_reg1
+			[13]< offset pair low-off : 0x000002f0 addr  0xfff44130 high-off  0x0000032e addr 0xfff4416e>DW_OP_reg5
+			[14]< offset pair low-off : 0x0000032e addr  0xfff4416e high-off  0x0000036f addr 0xfff441af>DW_OP_reg1
+			[15]< offset pair low-off : 0x0000036f addr  0xfff441af high-off  0x00000374 addr 0xfff441b4>DW_OP_reg5
+			[16]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000376 addr 0xfff441b6>DW_OP_reg1
+			[17]< offset pair low-off : 0x00000376 addr  0xfff441b6 high-off  0x00000378 addr 0xfff441b8>DW_OP_reg3
+			[18]< offset pair low-off : 0x00000378 addr  0xfff441b8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg1
+< 4><0x000004e2 GOFF=0x00000e83>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000017a GOFF=0x00000b1b>
+                                            DW_AT_location              <loclist at offset 0x000011ca with 20 entries follows>
+			[ 0]< offset pair low-off : 0x00000008 addr  0xfff43e48 high-off  0x0000004c addr 0xfff43e8c>DW_OP_reg2
+			[ 1]< offset pair low-off : 0x0000004c addr  0xfff43e8c high-off  0x00000059 addr 0xfff43e99>DW_OP_reg15
+			[ 2]< offset pair low-off : 0x00000059 addr  0xfff43e99 high-off  0x00000069 addr 0xfff43ea9>DW_OP_reg15
+			[ 3]< offset pair low-off : 0x000000bd addr  0xfff43efd high-off  0x00000108 addr 0xfff43f48>DW_OP_reg2
+			[ 4]< offset pair low-off : 0x00000108 addr  0xfff43f48 high-off  0x00000110 addr 0xfff43f50>DW_OP_reg15
+			[ 5]< offset pair low-off : 0x00000110 addr  0xfff43f50 high-off  0x00000114 addr 0xfff43f54>DW_OP_reg15
+			[ 6]< offset pair low-off : 0x00000114 addr  0xfff43f54 high-off  0x00000154 addr 0xfff43f94>DW_OP_reg2
+			[ 7]< offset pair low-off : 0x00000154 addr  0xfff43f94 high-off  0x00000166 addr 0xfff43fa6>DW_OP_reg2
+			[ 8]< offset pair low-off : 0x000001a3 addr  0xfff43fe3 high-off  0x000001f0 addr 0xfff44030>DW_OP_reg2
+			[ 9]< offset pair low-off : 0x00000208 addr  0xfff44048 high-off  0x00000235 addr 0xfff44075>DW_OP_reg2
+			[10]< offset pair low-off : 0x00000273 addr  0xfff440b3 high-off  0x000002a7 addr 0xfff440e7>DW_OP_reg7
+			[11]< offset pair low-off : 0x000002a7 addr  0xfff440e7 high-off  0x000002b6 addr 0xfff440f6>DW_OP_reg2
+			[12]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x000002d3 addr 0xfff44113>DW_OP_reg2
+			[13]< offset pair low-off : 0x000002d9 addr  0xfff44119 high-off  0x00000314 addr 0xfff44154>DW_OP_reg13
+			[14]< offset pair low-off : 0x0000032b addr  0xfff4416b high-off  0x00000336 addr 0xfff44176>DW_OP_reg2
+			[15]< offset pair low-off : 0x00000336 addr  0xfff44176 high-off  0x00000349 addr 0xfff44189>DW_OP_reg7
+			[16]< offset pair low-off : 0x00000349 addr  0xfff44189 high-off  0x00000360 addr 0xfff441a0>DW_OP_reg2
+			[17]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x0000037d addr 0xfff441bd>DW_OP_reg2
+			[18]< offset pair low-off : 0x0000037d addr  0xfff441bd high-off  0x00000388 addr 0xfff441c8>DW_OP_reg7
+			[19]< offset pair low-off : 0x00000388 addr  0xfff441c8 high-off  0x00000397 addr 0xfff441d7>DW_OP_reg2
+< 4><0x000004eb GOFF=0x00000e8c>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000185 GOFF=0x00000b26>
+                                            DW_AT_location              <loclist at offset 0x000012ae with 1 entries follows>
+			[ 0]< offset pair low-off : 0x000002c1 addr  0xfff44101 high-off  0x000002db addr 0xfff4411b>DW_OP_reg10
+< 4><0x000004f4 GOFF=0x00000e95>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x00000190 GOFF=0x00000b31>
+                                            DW_AT_location              <loclist at offset 0x000012c1 with 1 entries follows>
+			[ 0]< offset pair low-off : 0x00000103 addr  0xfff43f43 high-off  0x00000110 addr 0xfff43f50>DW_OP_lit1 DW_OP_stack_value
+< 4><0x000004fd GOFF=0x00000e9e>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x0000019b GOFF=0x00000b3c>
+                                            DW_AT_location              <loclist at offset 0x000012d5 with 4 entries follows>
+			[ 0]< offset pair low-off : 0x00000110 addr  0xfff43f50 high-off  0x00000114 addr 0xfff43f54>DW_OP_lit0 DW_OP_stack_value
+			[ 1]< offset pair low-off : 0x00000154 addr  0xfff43f94 high-off  0x0000015c addr 0xfff43f9c>DW_OP_lit1 DW_OP_stack_value
+			[ 2]< offset pair low-off : 0x0000029d addr  0xfff440dd high-off  0x000002b6 addr 0xfff440f6>DW_OP_lit0 DW_OP_stack_value
+			[ 3]< offset pair low-off : 0x00000376 addr  0xfff441b6 high-off  0x0000037d addr 0xfff441bd>DW_OP_lit0 DW_OP_stack_value
+< 4><0x00000506 GOFF=0x00000ea7>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001a6 GOFF=0x00000b47>
+                                            DW_AT_location              <loclist at offset 0x0000130d with 2 entries follows>
+			[ 0]< offset pair low-off : 0x000001ce addr  0xfff4400e high-off  0x000001d3 addr 0xfff44013>DW_OP_reg5
+			[ 1]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x000002be addr 0xfff440fe>DW_OP_reg7
+< 4><0x0000050f GOFF=0x00000eb0>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001b0 GOFF=0x00000b51>
+                                            DW_AT_location              <loclist at offset 0x0000132b with 8 entries follows>
+			[ 0]< offset pair low-off : 0x00000043 addr  0xfff43e83 high-off  0x00000056 addr 0xfff43e96>DW_OP_reg4
+			[ 1]< offset pair low-off : 0x000000f3 addr  0xfff43f33 high-off  0x00000117 addr 0xfff43f57>DW_OP_reg14
+			[ 2]< offset pair low-off : 0x0000014b addr  0xfff43f8b high-off  0x0000015c addr 0xfff43f9c>DW_OP_reg4
+			[ 3]< offset pair low-off : 0x000001ce addr  0xfff4400e high-off  0x000002b9 addr 0xfff440f9>DW_OP_reg14
+			[ 4]< offset pair low-off : 0x000002b9 addr  0xfff440f9 high-off  0x000002d3 addr 0xfff44113>DW_OP_reg4
+			[ 5]< offset pair low-off : 0x00000336 addr  0xfff44176 high-off  0x00000349 addr 0xfff44189>DW_OP_reg14
+			[ 6]< offset pair low-off : 0x00000360 addr  0xfff441a0 high-off  0x0000036f addr 0xfff441af>DW_OP_reg14
+			[ 7]< offset pair low-off : 0x00000374 addr  0xfff441b4 high-off  0x00000388 addr 0xfff441c8>DW_OP_reg14
+< 4><0x00000518 GOFF=0x00000eb9>          DW_TAG_variable
+                                            DW_AT_abstract_origin       <0x000001bb GOFF=0x00000b5c>
+< 4><0x0000051d GOFF=0x00000ebe>          DW_TAG_lexical_block
+                                            DW_AT_ranges                0x00000278
+		ranges: 5 at .debug_ranges offset 632 (0x00000278) (40 bytes)
+			[ 0] range entry    0x000001ce 0x000002b6
+			[ 1] range entry    0x0000037d 0x00000388
+			[ 2] range entry    0x00000360 0x0000036f
+			[ 3] range entry    0x00000336 0x00000349
+			[ 4] range end      0x00000000 0x00000000
+                                            DW_AT_sibling               <0x00000544 GOFF=0x00000ee5>
+< 5><0x00000526 GOFF=0x00000ec7>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x00000341 GOFF=0x00000ce2>
+                                              DW_AT_location              <loclist at offset 0x0000138b with 3 entries follows>
+			[ 0]< offset pair low-off : 0x0000028a addr  0xfff440ca high-off  0x0000029d addr 0xfff440dd>DW_OP_reg11
+			[ 1]< offset pair low-off : 0x00000336 addr  0xfff44176 high-off  0x0000033c addr 0xfff4417c>DW_OP_reg11
+			[ 2]< offset pair low-off : 0x0000037d addr  0xfff441bd high-off  0x00000388 addr 0xfff441c8>DW_OP_reg11
+< 5><0x0000052f GOFF=0x00000ed0>            DW_TAG_variable
+                                              DW_AT_abstract_origin       <0x0000034c GOFF=0x00000ced>
+                                              DW_AT_location              <loclist at offset 0x000013b4 with 5 entries follows>
+			[ 0]< offset pair low-off : 0x0000028c addr  0xfff440cc high-off  0x0000029d addr 0xfff440dd>DW_OP_reg10
+			[ 1]< offset pair low-off : 0x0000029d addr  0xfff440dd high-off  0x000002a0 addr 0xfff440e0>DW_OP_reg3
+			[ 2]< offset pair low-off : 0x00000336 addr  0xfff44176 high-off  0x0000033c addr 0xfff4417c>DW_OP_reg10
+			[ 3]< offset pair low-off : 0x0000033c addr  0xfff4417c high-off  0x00000349 addr 0xfff44189>DW_OP_reg3
+			[ 4]< offset pair low-off : 0x0000037d addr  0xfff441bd high-off  0x00000388 addr 0xfff441c8>DW_OP_reg10
+< 5><0x00000538 GOFF=0x00000ed9>            DW_TAG_lexical_block
+                                              DW_AT_low_pc                0xfff440dd
+                                              DW_AT_high_pc               0xfff440e7
+                                              DW_AT_sibling               <0x0000054f GOFF=0x00000ef0>
+
+dwarfdump:  Die stack sibling error, outer global offset 0x00000ee5 less than inner global offset 0x00000ef0, the DIE tree is erroneous. 
+
+CU Name = /home/kpit/fsfsrc/rx-v10.01-src/gcc-4.5-20091105/libgcc/../gcc/libgcc2.c
+CU Producer = GNU C 4.5-GNURX_v10.01 20091105-MP1 (experimental)
+DIE OFF = 0x00000538 GOFF = 0x00000ed9, Low PC = 0xfff43e40, High PC = 0xfff441d7

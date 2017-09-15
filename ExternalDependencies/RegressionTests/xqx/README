@@ -1,0 +1,15 @@
+
+Tom Hughes writes, Dec 30 2015:
+
+I've had another crash reported reading an apparently bogus file:
+
+  https://bugzilla.redhat.com/show_bug.cgi?id=1294264
+
+The problem seems to be that the dwarf_abbrev is marked as a zero-init section in the ELF which means dbg->de_debug_abbrev.dss_data is null as there is no data loaded, and hence abbrev_ptr is null when it is dereferenced.
+
+Trying to dump with readelf reports an error:
+
+% readelf --debug-dump=abbrev awbug6.elf
+section '.debug_abbrev' has the NOBITS type - its contents are unreliable.
+
+Tom

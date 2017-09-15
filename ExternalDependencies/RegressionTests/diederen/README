@@ -1,0 +1,26 @@
+
+The executable here is the Go language of the source:
+
+
+package main
+
+import "fmt"
+
+func main() {
+
+     fmt.Println("Hello.")
+}
+
+
+The libdwarf consumer code was not properly
+handling DW_FORM_ref_addr. 
+
+Compiling the above using a Go compiler on a 64bit
+Linux system provided the necessary object.
+
+When dwarfdump -i is run with the 2013 version
+of libdwarf the output is missing a lot of content.
+With April 2014 the content shows up fully.
+
+Source  above received April 2014.
+From Arnaud Diederen

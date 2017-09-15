@@ -1,0 +1,39 @@
+# Makefile which builds builds the code to test and
+# runs the executables.
+# Running these tests multiple times simultaneously
+# in a single directory will result in incorrect results and errors.
+
+all:  pretest build testonly
+
+test: pretest build testonly
+
+build: pretest
+	sh ./PICKUPBIN
+
+# Run the test set all 3 times.
+testonly:
+	sh ./RUNALL.sh
+pretest:
+	sh CHECKIFRUNNING.sh
+
+# To run an individual test set, choose one of these.
+# RUNALL.sh does all three.
+dd:
+	./DWARFTEST.sh dd 2>ALLdd 1>&2
+dd2:
+	./DWARFTEST.sh dd2 2>ALLdd2 1>&2
+ddtodd2:
+	./DWARFTEST.sh ddtodd2 2>ALLddtodd2 1>&2
+
+clean:
+	sh ./CLEANUP
+
+distclean: clean
+	rm -f Makefile
+	rm -f config.h
+	rm -f config.status
+	rm -f config.status
+	rm -f config.log
+	rm -fr autom4te.cache
+	rm -f dwarfdump.O
+	rm -f dwarfdump2.O

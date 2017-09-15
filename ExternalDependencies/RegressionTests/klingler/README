@@ -1,0 +1,9 @@
+
+Test case with .zdebug_info etc supplied
+by Gernot Klingler.
+
+The .zdebug sections created from standard debug with
+
+objcopy --compress-debug-sections test-with-zdebug
+
+November 24, 2015.

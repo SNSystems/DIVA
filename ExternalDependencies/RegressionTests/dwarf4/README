@@ -1,0 +1,32 @@
+These were built (along with libdwarf)
+as -gdwarf-4.
+
+Using gcc-4.5 and g++-4.5.
+
+Jan 13,2011
+
+--------------------
+June 6, 2011
+From  ddg4.5dwarf-4
+ [36] .debug_pubtypes   PROGBITS        00000000 37b768 0049e3 00      0   0  1
+
+ 37b768 2f040000 0200 00000000 44c40000 5300  /.........D...S.
+ 37b778 0000 5f5f 696e7433 325f7400 89000000  ..__int32_t.....
+ 37b788 73697a65 5f7400 94 000000 5f 5f46494c  size_t.....__FIL
+ 37b798 4500  a300 0000 5f5f 676e7563 5f76615f  E.....__gnuc_va_
+ 37b7a8 6c697374 00 250000 00 5f494f 5f6d6172  list.%..._IO_mar
+ 37b7b8 6b657200 25000000 5f494f5f 46494c45  ker.%..._IO_FILE
+ 37b7c8 00d90000 00707472 64696666 5f740034  .....ptrdiff_t.4
+ 37b7d8 0000005f 5f747275 655f7479 70650034  ...__true_type.4
+
+There are DIEs with global offsets x53 x89 x94
+
+but not xa3 or x25
+
+so "GNU C++ 4.5.1" has a  bug.
+
+The error "dwarfdump NO ENTRY:  pubtype dwarf_offdie : die offset does not reference valid DIE.  " is indicating a real DWARF error.
+
+--------------------
+
+

@@ -1,0 +1,18 @@
+
+Tom Hughes points out a lack of handling a couple
+GNU extensions.  And provides the test cases seen here.
+
+
+The base testcase is libkrb5support.so.0.1.debug
+and it has DW_FORM_GNU_ref_alt and DW_FORM_strp_alt forms.
+And also uses DW_FORM_exprloc form.
+The alt forms give offsets in alternate object
+which is referred to in a .gnu_debugaltlink section.
+
+The alternate image is here, named krb5-1.11.3-38.fc20.x86_64  
+
+To get full output, use -x tied=krb5-1.11.3-38.fc20.x86_64
+
+David Anderson.
+January 31, 2014.
+Updated Oct 15, 2015.

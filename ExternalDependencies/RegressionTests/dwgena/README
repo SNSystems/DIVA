@@ -1,0 +1,12 @@
+
+dwarfgen-bin is an executable to use for testing...dwarfgen.
+Don't recreate dwarfgen-bin unless you have to.
+Keep it unchanging.
+
+To run a test do:
+make test
+
+TO cleanup, do:
+make clean
+
+DavidA  December 2011

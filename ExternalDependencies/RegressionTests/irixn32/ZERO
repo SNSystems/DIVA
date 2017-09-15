@@ -1,0 +1,13 @@
+#There are 36 section headers, starting at offset 0x32b504:
+
+#Section Headers:
+#  [Nr] Name              Type            Addr     Off    Size   ES Flg L
+#  [ 9] .text             PROGBITS        0fa40a30 060a30 0f5dbc 04  AX  
+#  [10] .rodata           PROGBITS        0fb367f0 1567f0 00b42b 00   A 
+#  [11] .rodata           PROGBITS        0fb44000 164000 007063 00  WA
+#  [12] .data             PROGBITS        0fb4b068 16b068 004da4 00  WA
+
+
+../zero/zero -s 0x060a30  -l 0x0f5dbc -s 0x1567f0 -l 0x00b42b -s 0x164000 -l 0x7063 -s 0x16b068 -l 0x004da4 libc.so
+
+

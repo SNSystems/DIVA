@@ -1,0 +1,22 @@
+
+This file from Peter Lloyd has aranges entries like this
+(shown via readelf:
+
+  Length:                   60
+  Version:                  2
+  Offset into .debug_info:  0xbd
+  Pointer Size:             4
+  Segment Size:             0
+
+    Address    Length
+    00000000 00000000 
+    fff400f4 0000000a 
+    00000000 00000000 
+    fff400fb 0000000a 
+    fff40102 00000028 
+    00000000 00000000 
+
+
+Notice the 0 0 pairs in the middle of sequences.
+
+March 31, 2010

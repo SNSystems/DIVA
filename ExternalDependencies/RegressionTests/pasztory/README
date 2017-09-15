@@ -1,0 +1,33 @@
+Akos Pasztory sends the trivial test case
+November 20, 2012.
+
+In a debug debian amd 64 kernel, the April 2012
+libdwarf gets in trouble reading the dwarf because
+of mishandling DW_OP_GNU_implicit_pointer.
+
+The GNU folks sort of messed this up because for DWARF2
+and DWARF3/4 the first argument is different-sized.
+Check the source to GNU readelf for verification.
+
+Unfortunately this test case causes no such trouble, the
+difficulty is masked somehow.
+
+implicitpointergcc4.7.exe is built with
+on a system where 64bit is the default. So
+that offset-size and pointer-size differ.
+  gcc -g -O2 main.c gnuimplicitpointer.c -o a.out64
+On gcc 4.7.    
+
+With 20120-04 libdwarf and dwarfdump -i we get
+
+/tmp/dwarfdump2-1204 ERROR:  dwarf_loclist:  DW_DLE_LOC_EXPR_BAD (128)
+
+CU Name = "gnuimplicitpointer.c"
+CU Producer = "GNU C 4.7.2"
+DIE OFF = 0x0000009b GOFF = 0x0000009b, Low PC = 0x004004e0, High PC = 0x004004e7
+
+
+With 2012-11 we get no such problem.
+
+
+

@@ -1,0 +1,5 @@
+
+set -x
+l=/libdwarf
+gcc -DWORKING=1 -I $l  -L $l  test.c -ldwarf -lelf -o test1
+gcc -I $l  -L $l  test.c -ldwarf -lelf -o test2

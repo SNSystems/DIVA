@@ -1,0 +1,9 @@
+
+This calls dwarf_expand_frame_instructions() to verify
+that that does not crash (it would in some releases).
+
+David Anderson.  Aug 7 2009
+
+Nov 25, 2009: Now runs recompiled app on
+a stored executable. Running on itself resulted in
+annoying changes over and over.

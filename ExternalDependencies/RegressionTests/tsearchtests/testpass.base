@@ -1,0 +1,3203 @@
+
+==== binarysearch ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node preorder 1  data for 1  
+<0> Walk on node postorder 1  data for 1  
+<1>  Walk on node preorder 2  data for 2  
+<1>  Walk on node postorder 2  data for 2  
+<2>   Walk on node leaf 3  data for 3  
+<1>  Walk on node endorder 2  data for 2  
+<0> Walk on node endorder 1  data for 1  
+dwarf_tdump tree head : 0x01f11050 Dump Tree from increasing input
+dwarf_tdump tree root : 0x01f11070 Dump Tree from increasing input
+<2>   0x01f11130 <keyptr 0x01f110f0> <key  0x00000003> <l 0x00000000> <r 0x00000000> left 
+<1>  0x01f110d0 <keyptr 0x01f11090> <key  0x00000002> <l 0x00000000> <r 0x01f11130> left 
+<0> 0x01f11070 <keyptr 0x01f11010> <key  0x00000001> <l 0x00000000> <r 0x01f110d0> top
+delrec 1
+tdelete returned parent or something.
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node preorder 6  data for 6  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node preorder 4  data for 4  
+<3>    Walk on node preorder 3  data for 3  
+<4>     Walk on node preorder 2  data for 2  
+<5>      Walk on node leaf 1  data for 1  
+<4>     Walk on node postorder 2  data for 2  
+<4>     Walk on node endorder 2  data for 2  
+<3>    Walk on node postorder 3  data for 3  
+<3>    Walk on node endorder 3  data for 3  
+<2>   Walk on node postorder 4  data for 4  
+<2>   Walk on node endorder 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node postorder 6  data for 6  
+<0> Walk on node endorder 6  data for 6  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 6  data for 6  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node preorder 4  data for 4  
+<3>    Walk on node preorder 3  data for 3  
+<4>     Walk on node leaf 2  data for 2  
+<3>    Walk on node postorder 3  data for 3  
+<3>    Walk on node endorder 3  data for 3  
+<2>   Walk on node postorder 4  data for 4  
+<2>   Walk on node endorder 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node postorder 6  data for 6  
+<0> Walk on node endorder 6  data for 6  
+dwarf_tdump tree head : 0x01f110f0 Dump Tree from decreasing input
+dwarf_tdump tree root : 0x01f11110 Dump Tree from decreasing input
+<0> 0x01f11110 <keyptr 0x01f11090> <key  0x00000006> <l 0x01f110b0> <r 0x00000000> top
+<1>  0x01f110b0 <keyptr 0x01f11010> <key  0x00000005> <l 0x01f11030> <r 0x00000000> right
+<2>   0x01f11030 <keyptr 0x01f11150> <key  0x00000004> <l 0x01f11170> <r 0x00000000> right
+<3>    0x01f11170 <keyptr 0x01f11190> <key  0x00000003> <l 0x01f111d0> <r 0x00000000> right
+<4>     0x01f111d0 <keyptr 0x01f111f0> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 4  data for 4  
+<2>   Walk on node preorder 3  data for 3  
+<3>    Walk on node leaf 2  data for 2  
+<2>   Walk on node postorder 3  data for 3  
+<2>   Walk on node endorder 3  data for 3  
+<1>  Walk on node postorder 4  data for 4  
+<1>  Walk on node endorder 4  data for 4  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 5
+tdelete returned parent or something.
+<0> Walk on node preorder 4  data for 4  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 4  data for 4  
+<0> Walk on node endorder 4  data for 4  
+delrec 4
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 3  data for 3  
+dwarf_tdump tree head : 0x01f11190 Dump Tree from balanced input
+dwarf_tdump tree root : 0x01f110f0 Dump Tree from balanced input
+<1>  0x01f11150 <keyptr 0x01f111d0> <key  0x00000006> <l 0x01f11090> <r 0x00000000> left 
+<2>   0x01f11090 <keyptr 0x01f11030> <key  0x00000005> <l 0x00000000> <r 0x00000000> right
+<0> 0x01f110f0 <keyptr 0x01f111f0> <key  0x00000003> <l 0x01f11010> <r 0x01f11150> top
+<1>  0x01f11010 <keyptr 0x01f11170> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+delrec 3
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x01f11190 In Delrecs
+dwarf_tdump tree root : 0x01f11090 In Delrecs
+<1>  0x01f11150 <keyptr 0x01f111d0> <key  0x00000006> <l 0x00000000> <r 0x00000000> left 
+<0> 0x01f11090 <keyptr 0x01f11030> <key  0x00000005> <l 0x01f11010> <r 0x01f11150> top
+<1>  0x01f11010 <keyptr 0x01f11170> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+delrec 6
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x01f11190 In Delrecs
+dwarf_tdump tree root : 0x01f11090 In Delrecs
+<0> 0x01f11090 <keyptr 0x01f11030> <key  0x00000005> <l 0x01f11010> <r 0x00000000> top
+<1>  0x01f11010 <keyptr 0x01f11170> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 2
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x01f11190 In Delrecs
+dwarf_tdump tree root : 0x01f11090 In Delrecs
+<0> 0x01f11090 <keyptr 0x01f11030> <key  0x00000005> <l 0x00000000> <r 0x00000000> top
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tree itself now empty
+tdelete returned NULL, tree now empty.
+dwarf_tdump null tree ptr : In Delrecs
+delrec 4
+dwarf_tdump null tree ptr : In Delrecs
+delrec 1
+dwarf_tdump null tree ptr : In Delrecs
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== eppingerdel ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node preorder 1  data for 1  
+<0> Walk on node postorder 1  data for 1  
+<1>  Walk on node preorder 2  data for 2  
+<1>  Walk on node postorder 2  data for 2  
+<2>   Walk on node leaf 3  data for 3  
+<1>  Walk on node endorder 2  data for 2  
+<0> Walk on node endorder 1  data for 1  
+dwarf_tdump tree head : 0x017cd050 Dump Tree from increasing input
+dwarf_tdump tree root : 0x017cd070 Dump Tree from increasing input
+<2>   0x017cd130 <keyptr 0x017cd0f0> <key  0x00000003> <l 0x00000000> <r 0x00000000> left 
+<1>  0x017cd0d0 <keyptr 0x017cd090> <key  0x00000002> <l 0x00000000> <r 0x017cd130> left 
+<0> 0x017cd070 <keyptr 0x017cd010> <key  0x00000001> <l 0x00000000> <r 0x017cd0d0> top
+delrec 1
+tdelete returned parent or something.
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node preorder 6  data for 6  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node preorder 4  data for 4  
+<3>    Walk on node preorder 3  data for 3  
+<4>     Walk on node preorder 2  data for 2  
+<5>      Walk on node leaf 1  data for 1  
+<4>     Walk on node postorder 2  data for 2  
+<4>     Walk on node endorder 2  data for 2  
+<3>    Walk on node postorder 3  data for 3  
+<3>    Walk on node endorder 3  data for 3  
+<2>   Walk on node postorder 4  data for 4  
+<2>   Walk on node endorder 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node postorder 6  data for 6  
+<0> Walk on node endorder 6  data for 6  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 6  data for 6  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node preorder 4  data for 4  
+<3>    Walk on node preorder 3  data for 3  
+<4>     Walk on node leaf 2  data for 2  
+<3>    Walk on node postorder 3  data for 3  
+<3>    Walk on node endorder 3  data for 3  
+<2>   Walk on node postorder 4  data for 4  
+<2>   Walk on node endorder 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node postorder 6  data for 6  
+<0> Walk on node endorder 6  data for 6  
+dwarf_tdump tree head : 0x017cd0f0 Dump Tree from decreasing input
+dwarf_tdump tree root : 0x017cd110 Dump Tree from decreasing input
+<0> 0x017cd110 <keyptr 0x017cd090> <key  0x00000006> <l 0x017cd0b0> <r 0x00000000> top
+<1>  0x017cd0b0 <keyptr 0x017cd010> <key  0x00000005> <l 0x017cd030> <r 0x00000000> right
+<2>   0x017cd030 <keyptr 0x017cd150> <key  0x00000004> <l 0x017cd170> <r 0x00000000> right
+<3>    0x017cd170 <keyptr 0x017cd190> <key  0x00000003> <l 0x017cd1d0> <r 0x00000000> right
+<4>     0x017cd1d0 <keyptr 0x017cd1f0> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 4  data for 4  
+<2>   Walk on node preorder 3  data for 3  
+<3>    Walk on node leaf 2  data for 2  
+<2>   Walk on node postorder 3  data for 3  
+<2>   Walk on node endorder 3  data for 3  
+<1>  Walk on node postorder 4  data for 4  
+<1>  Walk on node endorder 4  data for 4  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 5
+tdelete returned parent or something.
+<0> Walk on node preorder 4  data for 4  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 4  data for 4  
+<0> Walk on node endorder 4  data for 4  
+delrec 4
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 3  data for 3  
+dwarf_tdump tree head : 0x017cd190 Dump Tree from balanced input
+dwarf_tdump tree root : 0x017cd0f0 Dump Tree from balanced input
+<1>  0x017cd150 <keyptr 0x017cd1d0> <key  0x00000006> <l 0x017cd090> <r 0x00000000> left 
+<2>   0x017cd090 <keyptr 0x017cd030> <key  0x00000005> <l 0x00000000> <r 0x00000000> right
+<0> 0x017cd0f0 <keyptr 0x017cd1f0> <key  0x00000003> <l 0x017cd010> <r 0x017cd150> top
+<1>  0x017cd010 <keyptr 0x017cd170> <key  0x00000002> <l 0x00000000> <r 0x00000000> right
+delrec 3
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x017cd190 In Delrecs
+dwarf_tdump tree root : 0x017cd010 In Delrecs
+<1>  0x017cd150 <keyptr 0x017cd1d0> <key  0x00000006> <l 0x017cd090> <r 0x00000000> left 
+<2>   0x017cd090 <keyptr 0x017cd030> <key  0x00000005> <l 0x00000000> <r 0x00000000> right
+<0> 0x017cd010 <keyptr 0x017cd170> <key  0x00000002> <l 0x00000000> <r 0x017cd150> top
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 2  data for 2  
+delrec 6
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x017cd190 In Delrecs
+dwarf_tdump tree root : 0x017cd010 In Delrecs
+<1>  0x017cd090 <keyptr 0x017cd030> <key  0x00000005> <l 0x00000000> <r 0x00000000> left 
+<0> 0x017cd010 <keyptr 0x017cd170> <key  0x00000002> <l 0x00000000> <r 0x017cd090> top
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 5  data for 5  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x017cd190 In Delrecs
+dwarf_tdump tree root : 0x017cd090 In Delrecs
+<0> 0x017cd090 <keyptr 0x017cd030> <key  0x00000005> <l 0x00000000> <r 0x00000000> top
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tree itself now empty
+tdelete returned NULL, tree now empty.
+dwarf_tdump null tree ptr : In Delrecs
+delrec 4
+dwarf_tdump null tree ptr : In Delrecs
+delrec 1
+dwarf_tdump null tree ptr : In Delrecs
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== balancedsearch ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node preorder 2  data for 2  
+<1>  Walk on node leaf 1  data for 1  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+dumptree head ptr : 0x01b57050 tree-depth 1: Dump Tree from increasing input
+<1>  0x01b57160 <keyptr 0x01b57120> <key  0x00000003> <bal   0> <l 0x00000000> <r 0x00000000> right
+<0> 0x01b570f0 <keyptr 0x01b570b0> <key  0x00000002> <bal   0> <l 0x01b57080> <r 0x01b57160> top
+<1>  0x01b57080 <keyptr 0x01b57010> <key  0x00000001> <bal   0> <l 0x00000000> <r 0x00000000> left 
+delrec 1
+tdelete returned parent or something.
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node preorder 2  data for 2  
+<2>   Walk on node leaf 1  data for 1  
+<1>  Walk on node postorder 2  data for 2  
+<1>  Walk on node endorder 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<2>   Walk on node leaf 6  data for 6  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node endorder 3  data for 3  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+dumptree head ptr : 0x01b57050 tree-depth 2: Dump Tree from decreasing input
+<1>  0x01b57280 <keyptr 0x01b57190> <key  0x00000006> <bal   0> <l 0x00000000> <r 0x00000000> right
+<0> 0x01b570f0 <keyptr 0x01b570b0> <key  0x00000005> <bal  -1> <l 0x01b57080> <r 0x01b57280> top
+<2>   0x01b57160 <keyptr 0x01b57120> <key  0x00000004> <bal   0> <l 0x00000000> <r 0x00000000> right
+<1>  0x01b57080 <keyptr 0x01b57010> <key  0x00000003> <bal   0> <l 0x01b572f0> <r 0x01b57160> left 
+<2>   0x01b572f0 <keyptr 0x01b572b0> <key  0x00000002> <bal   0> <l 0x00000000> <r 0x00000000> left 
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node endorder 3  data for 3  
+delrec 5
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node leaf 4  data for 4  
+<0> Walk on node endorder 3  data for 3  
+delrec 4
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 3  data for 3  
+dumptree head ptr : 0x01b57050 tree-depth 2: Dump Tree from balanced input
+<1>  0x01b57080 <keyptr 0x01b57010> <key  0x00000006> <bal  -1> <l 0x01b570f0> <r 0x00000000> right
+<2>   0x01b570f0 <keyptr 0x01b570b0> <key  0x00000005> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<0> 0x01b572f0 <keyptr 0x01b572b0> <key  0x00000003> <bal   1> <l 0x01b57160> <r 0x01b57080> top
+<1>  0x01b57160 <keyptr 0x01b57120> <key  0x00000002> <bal   0> <l 0x00000000> <r 0x00000000> left 
+delrec 3
+tdelete returned parent or something.
+dumptree head ptr : 0x01b57050 tree-depth 1: In Delrecs
+<1>  0x01b57080 <keyptr 0x01b57010> <key  0x00000006> <bal   0> <l 0x00000000> <r 0x00000000> right
+<0> 0x01b570f0 <keyptr 0x01b570b0> <key  0x00000005> <bal   0> <l 0x01b57160> <r 0x01b57080> top
+<1>  0x01b57160 <keyptr 0x01b57120> <key  0x00000002> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+delrec 6
+tdelete returned parent or something.
+dumptree head ptr : 0x01b57050 tree-depth 1: In Delrecs
+<0> 0x01b570f0 <keyptr 0x01b570b0> <key  0x00000005> <bal  -1> <l 0x01b57160> <r 0x00000000> top
+<1>  0x01b57160 <keyptr 0x01b57120> <key  0x00000002> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 2
+tdelete returned parent or something.
+dumptree head ptr : 0x01b57050 tree-depth 0: In Delrecs
+<0> 0x01b570f0 <keyptr 0x01b570b0> <key  0x00000005> <bal   0> <l 0x00000000> <r 0x00000000> top
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tree itself now empty
+tdelete returned NULL, tree now empty.
+dumptree null tree ptr : In Delrecs
+delrec 4
+dumptree null tree ptr : In Delrecs
+delrec 1
+dumptree null tree ptr : In Delrecs
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== redblack ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node preorder 2  data for 2  
+<1>  Walk on node leaf 1  data for 1  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+dwarf_tdump tree head : 0x019ac050 Dump Tree from increasing input
+dwarf_tdump tree root : 0x019ac0f0 Dump Tree from increasing input
+<1>  0x019ac160 <keyptr 0x019ac120> <key  0x00000003> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<0> 0x019ac0f0 <keyptr 0x019ac0b0> <key  0x00000002> <2-node 0 red 1> <l 0x019ac080> <r 0x019ac160> top
+<1>  0x019ac080 <keyptr 0x019ac010> <key  0x00000001> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+delrec 1
+tdelete returned parent or something.
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node preorder 2  data for 2  
+<3>    Walk on node leaf 1  data for 1  
+<2>   Walk on node postorder 2  data for 2  
+<2>   Walk on node endorder 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+dwarf_tdump tree head : 0x019ac050 Dump Tree from decreasing input
+dwarf_tdump tree root : 0x019ac0f0 Dump Tree from decreasing input
+<1>  0x019ac160 <keyptr 0x019ac0b0> <key  0x00000006> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<0> 0x019ac0f0 <keyptr 0x019ac120> <key  0x00000005> <2-node 0 red 1> <l 0x019ac080> <r 0x019ac160> top
+<2>   0x019ac1d0 <keyptr 0x019ac190> <key  0x00000004> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<1>  0x019ac080 <keyptr 0x019ac010> <key  0x00000003> <2-node 0 red 1> <l 0x019ac240> <r 0x019ac1d0> left 
+<2>   0x019ac240 <keyptr 0x019ac200> <key  0x00000002> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 5
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node leaf 4  data for 4  
+<0> Walk on node endorder 3  data for 3  
+delrec 4
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tree itself now empty
+tdelete returned NULL, tree now empty.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 3  data for 3  
+dwarf_tdump tree head : 0x019ac050 Dump Tree from balanced input
+dwarf_tdump tree root : 0x019ac240 Dump Tree from balanced input
+<1>  0x019ac080 <keyptr 0x019ac010> <key  0x00000006> <2-node 0 red 0> <l 0x019ac0f0> <r 0x00000000> right
+<2>   0x019ac0f0 <keyptr 0x019ac120> <key  0x00000005> <2-node 0 red 1> <l 0x00000000> <r 0x00000000> left 
+<0> 0x019ac240 <keyptr 0x019ac200> <key  0x00000003> <2-node 0 red 1> <l 0x019ac1d0> <r 0x019ac080> top
+<1>  0x019ac1d0 <keyptr 0x019ac190> <key  0x00000002> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+delrec 3
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x019ac050 In Delrecs
+dwarf_tdump tree root : 0x019ac240 In Delrecs
+<1>  0x019ac080 <keyptr 0x019ac010> <key  0x00000006> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<0> 0x019ac240 <keyptr 0x019ac120> <key  0x00000005> <2-node 1 red 0> <l 0x019ac1d0> <r 0x019ac080> top
+<1>  0x019ac1d0 <keyptr 0x019ac190> <key  0x00000002> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+delrec 6
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x019ac050 In Delrecs
+dwarf_tdump tree root : 0x019ac240 In Delrecs
+<0> 0x019ac240 <keyptr 0x019ac120> <key  0x00000005> <2-node 1 red 0> <l 0x019ac1d0> <r 0x00000000> top
+<1>  0x019ac1d0 <keyptr 0x019ac190> <key  0x00000002> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 2
+tdelete returned parent or something.
+dwarf_tdump tree head : 0x019ac050 In Delrecs
+dwarf_tdump tree root : 0x019ac240 In Delrecs
+<0> 0x019ac240 <keyptr 0x019ac120> <key  0x00000005> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> top
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tree itself now empty
+tdelete returned NULL, tree now empty.
+dwarf_tdump null tree ptr : In Delrecs
+delrec 4
+dwarf_tdump null tree ptr : In Delrecs
+delrec 1
+dwarf_tdump null tree ptr : In Delrecs
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== gnusearch ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node preorder 2  data for 2  
+<1>  Walk on node leaf 1  data for 1  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 1
+tdelete returned parent or something.
+<0> Walk on node preorder 2  data for 2  
+<0> Walk on node postorder 2  data for 2  
+<1>  Walk on node leaf 3  data for 3  
+<0> Walk on node endorder 2  data for 2  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tree itself now empty
+tdelete returned parent or something.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node preorder 2  data for 2  
+<3>    Walk on node leaf 1  data for 1  
+<2>   Walk on node postorder 2  data for 2  
+<2>   Walk on node endorder 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node preorder 3  data for 3  
+<2>   Walk on node leaf 2  data for 2  
+<1>  Walk on node postorder 3  data for 3  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node endorder 3  data for 3  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 5  data for 5  
+<2>   Walk on node leaf 4  data for 4  
+<1>  Walk on node postorder 5  data for 5  
+<1>  Walk on node endorder 5  data for 5  
+<0> Walk on node endorder 3  data for 3  
+delrec 5
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node leaf 4  data for 4  
+<0> Walk on node endorder 3  data for 3  
+delrec 4
+tdelete returned parent or something.
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tree itself now empty
+tdelete returned parent or something.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node preorder 3  data for 3  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 3  data for 3  
+<1>  Walk on node preorder 6  data for 6  
+<2>   Walk on node leaf 5  data for 5  
+<1>  Walk on node postorder 6  data for 6  
+<1>  Walk on node endorder 6  data for 6  
+<0> Walk on node endorder 3  data for 3  
+delrec 3
+tdelete returned parent or something.
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<1>  Walk on node leaf 6  data for 6  
+<0> Walk on node endorder 5  data for 5  
+delrec 6
+tdelete returned parent or something.
+<0> Walk on node preorder 5  data for 5  
+<1>  Walk on node leaf 2  data for 2  
+<0> Walk on node postorder 5  data for 5  
+<0> Walk on node endorder 5  data for 5  
+delrec 2
+tdelete returned parent or something.
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tree itself now empty
+tdelete returned parent or something.
+delrec 4
+delrec 1
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== hashsearch ====
+Test with increasing input
+insertrec 1
+insert new ok 1
+found existing ok  1
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 3
+insert new ok 3
+found existing ok  3
+findrec 1
+found ok 1
+Found with tfind on 1 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 5
+Not found with tfind on 5 is ok
+findrec 6
+Not found with tfind on 6 is ok
+<0> Walk on node leaf 1  data for 1  
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+dumptree head ptr : 0x00d84010 size 5 entries 3 allowed 4 Dump Tree from increasing input
+[   1.00] 0x00d84068 <keyptr 0x00d840d0> <key 0x00000001> head
+[   2.00] 0x00d84080 <keyptr 0x00d84110> <key 0x00000002> head
+[   3.00] 0x00d84098 <keyptr 0x00d84150> <key 0x00000003> head
+Hashtable: 3 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+delrec 1
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+delrec 2
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+delrec 4
+delrec 5
+delrec 6
+Test twalk with empty tree
+Insert decreasing, try tdestroy
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 1
+insert new ok 1
+found existing ok  1
+<0> Walk on node leaf 1  data for 1  
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+<0> Walk on node leaf 4  data for 4  
+<0> Walk on node leaf 5  data for 5  
+<0> Walk on node leaf 6  data for 6  
+Now test with decreasing input and test twalk and tdelete
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 5
+insert new ok 5
+found existing ok  5
+insertrec 4
+insert new ok 4
+found existing ok  4
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 2
+insert new ok 2
+found existing ok  2
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+found ok 4
+Found with tfind on 4 is ok
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+<0> Walk on node leaf 4  data for 4  
+<0> Walk on node leaf 5  data for 5  
+<0> Walk on node leaf 6  data for 6  
+dumptree head ptr : 0x00d84010 size 11 entries 5 allowed 9 Dump Tree from decreasing input
+[   2.00] 0x00d84280 <keyptr 0x00d841d0> <key 0x00000002> head
+[   3.00] 0x00d84298 <keyptr 0x00d84190> <key 0x00000003> head
+[   4.00] 0x00d842b0 <keyptr 0x00d840d0> <key 0x00000004> head
+[   5.00] 0x00d842c8 <keyptr 0x00d84110> <key 0x00000005> head
+[   6.00] 0x00d842e0 <keyptr 0x00d84150> <key 0x00000006> head
+Hashtable: 5 of 11 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+delrec 6
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+<0> Walk on node leaf 4  data for 4  
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+<0> Walk on node leaf 4  data for 4  
+delrec 4
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+delrec 3
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+delrec 1
+Now test with balanced input and test twalk and tdelete
+insertrec 3
+insert new ok 3
+found existing ok  3
+insertrec 6
+insert new ok 6
+found existing ok  6
+insertrec 2
+insert new ok 2
+found existing ok  2
+insertrec 5
+insert new ok 5
+found existing ok  5
+findrec 3
+found ok 3
+Found with tfind on 3 is ok
+findrec 6
+found ok 6
+Found with tfind on 6 is ok
+findrec 2
+found ok 2
+Found with tfind on 2 is ok
+findrec 5
+found ok 5
+Found with tfind on 5 is ok
+findrec 4
+Not found with tfind on 4 is ok
+findrec 1
+Not found with tfind on 1 is ok
+<0> Walk on node leaf 5  data for 5  
+<0> Walk on node leaf 6  data for 6  
+<0> Walk on node leaf 2  data for 2  
+<0> Walk on node leaf 3  data for 3  
+dumptree head ptr : 0x00d84010 size 5 entries 4 allowed 4 Dump Tree from balanced input
+[   0.00] 0x00d84050 <keyptr 0x00d84110> <key 0x00000005> head
+[   1.00] 0x00d84068 <keyptr 0x00d84190> <key 0x00000006> head
+[   2.00] 0x00d84080 <keyptr 0x00d840d0> <key 0x00000002> head
+[   3.00] 0x00d84098 <keyptr 0x00d841d0> <key 0x00000003> head
+Hashtable: 4 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+delrec 3
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+dumptree head ptr : 0x00d84010 size 5 entries 3 allowed 4 In Delrecs
+[   0.00] 0x00d84050 <keyptr 0x00d84110> <key 0x00000005> head
+[   1.00] 0x00d84068 <keyptr 0x00d84190> <key 0x00000006> head
+[   2.00] 0x00d84080 <keyptr 0x00d840d0> <key 0x00000002> head
+Hashtable: 3 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+<0> Walk on node leaf 5  data for 5  
+<0> Walk on node leaf 6  data for 6  
+<0> Walk on node leaf 2  data for 2  
+delrec 6
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+dumptree head ptr : 0x00d84010 size 5 entries 2 allowed 4 In Delrecs
+[   0.00] 0x00d84050 <keyptr 0x00d84110> <key 0x00000005> head
+[   2.00] 0x00d84080 <keyptr 0x00d840d0> <key 0x00000002> head
+Hashtable: 2 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+<0> Walk on node leaf 5  data for 5  
+<0> Walk on node leaf 2  data for 2  
+delrec 2
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+dumptree head ptr : 0x00d84010 size 5 entries 1 allowed 4 In Delrecs
+[   0.00] 0x00d84050 <keyptr 0x00d84110> <key 0x00000005> head
+Hashtable: 1 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+<0> Walk on node leaf 5  data for 5  
+delrec 5
+tdelete returned NULL, tree now empty.
+Only really means some hash chain is now empty.
+dumptree head ptr : 0x00d84010 size 5 entries 0 allowed 4 In Delrecs
+Hashtable: 0 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 0 is maximum chain length.
+delrec 4
+dumptree head ptr : 0x00d84010 size 5 entries 0 allowed 4 In Delrecs
+Hashtable: 0 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 0 is maximum chain length.
+delrec 1
+dumptree head ptr : 0x00d84010 size 5 entries 0 allowed 4 In Delrecs
+Hashtable: 0 of 5 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 0 is maximum chain length.
+special sequence Sequence 1
+special sequence Sequence 2, a
+PASS tsearch test.
+==== binarysearch -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node preorder 0x7258160
+<0> Walk on node postorder 0x7258160
+<1>  Walk on node preorder 0x7258192
+<1>  Walk on node postorder 0x7258192
+<2>   Walk on node preorder 0x7258256
+<2>   Walk on node postorder 0x7258256
+<3>    Walk on node preorder 0x7258320
+<3>    Walk on node postorder 0x7258320
+<4>     Walk on node preorder 0x7258352
+<4>     Walk on node postorder 0x7258352
+<5>      Walk on node preorder 0x7258384
+<5>      Walk on node postorder 0x7258384
+<6>       Walk on node preorder 0x7258448
+<6>       Walk on node postorder 0x7258448
+<7>        Walk on node preorder 0x7258512
+<7>        Walk on node postorder 0x7258512
+<8>         Walk on node preorder 0x7258576
+<8>         Walk on node postorder 0x7258576
+<9>          Walk on node preorder 0x7258640
+<9>          Walk on node postorder 0x7258640
+<10>          Walk on node preorder 0x7258704
+<10>          Walk on node postorder 0x7258704
+<11>           Walk on node preorder 0x7258672
+<11>           Walk on node postorder 0x7258672
+<12>            Walk on node preorder 0x7258224
+<12>            Walk on node postorder 0x7258224
+<13>             Walk on node preorder 0x7258288
+<13>             Walk on node postorder 0x7258288
+<14>              Walk on node preorder 0x7258608
+<14>              Walk on node postorder 0x7258608
+<15>               Walk on node preorder 0x7258544
+<15>               Walk on node postorder 0x7258544
+<16>                Walk on node preorder 0x7258480
+<16>                Walk on node postorder 0x7258480
+<17>                 Walk on node preorder 0x7258416
+<17>                 Walk on node postorder 0x7258416
+<18>                  Walk on node preorder 0x7258736
+<18>                  Walk on node postorder 0x7258736
+<19>                   Walk on node preorder 0x7258768
+<19>                   Walk on node postorder 0x7258768
+<20>                    Walk on node preorder 0x7258800
+<20>                    Walk on node postorder 0x7258800
+<21>                     Walk on node preorder 0x7258832
+<21>                     Walk on node postorder 0x7258832
+<22>                      Walk on node preorder 0x7258864
+<22>                      Walk on node postorder 0x7258864
+<23>                       Walk on node preorder 0x7258896
+<23>                       Walk on node postorder 0x7258896
+<24>                        Walk on node preorder 0x7258928
+<24>                        Walk on node postorder 0x7258928
+<25>                         Walk on node preorder 0x7258960
+<25>                         Walk on node postorder 0x7258960
+<26>                          Walk on node preorder 0x7258992
+<26>                          Walk on node postorder 0x7258992
+<27>                           Walk on node preorder 0x7259024
+<27>                           Walk on node postorder 0x7259024
+<28>                            Walk on node preorder 0x7259056
+<28>                            Walk on node postorder 0x7259056
+<29>                             Walk on node preorder 0x7259088
+<29>                             Walk on node postorder 0x7259088
+<30>                              Walk on node preorder 0x7259120
+<30>                              Walk on node postorder 0x7259120
+<31>                               Walk on node preorder 0x7259152
+<31>                               Walk on node postorder 0x7259152
+<32>                                Walk on node preorder 0x7259184
+<32>                                Walk on node postorder 0x7259184
+<33>                                 Walk on node preorder 0x7259216
+<33>                                 Walk on node postorder 0x7259216
+<34>                                  Walk on node preorder 0x7259248
+<34>                                  Walk on node postorder 0x7259248
+<35>                                   Walk on node preorder 0x7259280
+<35>                                   Walk on node postorder 0x7259280
+<36>                                    Walk on node preorder 0x7259312
+<36>                                    Walk on node postorder 0x7259312
+<37>                                     Walk on node preorder 0x7259344
+<37>                                     Walk on node postorder 0x7259344
+<38>                                      Walk on node preorder 0x7259376
+<38>                                      Walk on node postorder 0x7259376
+<39>                                       Walk on node preorder 0x7259408
+<39>                                       Walk on node postorder 0x7259408
+<40>                                        Walk on node preorder 0x7259440
+<40>                                        Walk on node postorder 0x7259440
+<41>                                         Walk on node preorder 0x7259472
+<41>                                         Walk on node postorder 0x7259472
+<42>                                          Walk on node preorder 0x7259504
+<42>                                          Walk on node postorder 0x7259504
+<43>                                           Walk on node preorder 0x7259536
+<43>                                           Walk on node postorder 0x7259536
+<44>                                            Walk on node preorder 0x7259568
+<44>                                            Walk on node postorder 0x7259568
+<45>                                             Walk on node preorder 0x7259600
+<45>                                             Walk on node postorder 0x7259600
+<46>                                              Walk on node preorder 0x7259632
+<46>                                              Walk on node postorder 0x7259632
+<47>                                               Walk on node preorder 0x7259664
+<47>                                               Walk on node postorder 0x7259664
+<48>                                                Walk on node preorder 0x7259696
+<48>                                                Walk on node postorder 0x7259696
+<49>                                                 Walk on node preorder 0x7259728
+<49>                                                 Walk on node postorder 0x7259728
+<50>                                                  Walk on node preorder 0x7259760
+<50>                                                  Walk on node postorder 0x7259760
+<51>                                                   Walk on node preorder 0x7259792
+<51>                                                   Walk on node postorder 0x7259792
+<52>                                                    Walk on node preorder 0x7259824
+<52>                                                    Walk on node postorder 0x7259824
+<53>                                                     Walk on node preorder 0x7259856
+<53>                                                     Walk on node postorder 0x7259856
+<54>                                                      Walk on node preorder 0x7259888
+<54>                                                      Walk on node postorder 0x7259888
+<55>                                                       Walk on node preorder 0x7259920
+<55>                                                       Walk on node postorder 0x7259920
+<56>                                                        Walk on node preorder 0x7259952
+<56>                                                        Walk on node postorder 0x7259952
+<57>                                                         Walk on node preorder 0x7259984
+<57>                                                         Walk on node postorder 0x7259984
+<58>                                                          Walk on node preorder 0x7260016
+<58>                                                          Walk on node postorder 0x7260016
+<59>                                                           Walk on node preorder 0x7260048
+<59>                                                           Walk on node postorder 0x7260048
+<60>                                                            Walk on node preorder 0x7260080
+<60>                                                            Walk on node postorder 0x7260080
+<61>                                                             Walk on node preorder 0x7260112
+<61>                                                             Walk on node postorder 0x7260112
+<62>                                                              Walk on node preorder 0x7260144
+<62>                                                              Walk on node postorder 0x7260144
+<63>                                                               Walk on node leaf 0x7260176
+<62>                                                              Walk on node endorder 0x7260144
+<61>                                                             Walk on node endorder 0x7260112
+<60>                                                            Walk on node endorder 0x7260080
+<59>                                                           Walk on node endorder 0x7260048
+<58>                                                          Walk on node endorder 0x7260016
+<57>                                                         Walk on node endorder 0x7259984
+<56>                                                        Walk on node endorder 0x7259952
+<55>                                                       Walk on node endorder 0x7259920
+<54>                                                      Walk on node endorder 0x7259888
+<53>                                                     Walk on node endorder 0x7259856
+<52>                                                    Walk on node endorder 0x7259824
+<51>                                                   Walk on node endorder 0x7259792
+<50>                                                  Walk on node endorder 0x7259760
+<49>                                                 Walk on node endorder 0x7259728
+<48>                                                Walk on node endorder 0x7259696
+<47>                                               Walk on node endorder 0x7259664
+<46>                                              Walk on node endorder 0x7259632
+<45>                                             Walk on node endorder 0x7259600
+<44>                                            Walk on node endorder 0x7259568
+<43>                                           Walk on node endorder 0x7259536
+<42>                                          Walk on node endorder 0x7259504
+<41>                                         Walk on node endorder 0x7259472
+<40>                                        Walk on node endorder 0x7259440
+<39>                                       Walk on node endorder 0x7259408
+<38>                                      Walk on node endorder 0x7259376
+<37>                                     Walk on node endorder 0x7259344
+<36>                                    Walk on node endorder 0x7259312
+<35>                                   Walk on node endorder 0x7259280
+<34>                                  Walk on node endorder 0x7259248
+<33>                                 Walk on node endorder 0x7259216
+<32>                                Walk on node endorder 0x7259184
+<31>                               Walk on node endorder 0x7259152
+<30>                              Walk on node endorder 0x7259120
+<29>                             Walk on node endorder 0x7259088
+<28>                            Walk on node endorder 0x7259056
+<27>                           Walk on node endorder 0x7259024
+<26>                          Walk on node endorder 0x7258992
+<25>                         Walk on node endorder 0x7258960
+<24>                        Walk on node endorder 0x7258928
+<23>                       Walk on node endorder 0x7258896
+<22>                      Walk on node endorder 0x7258864
+<21>                     Walk on node endorder 0x7258832
+<20>                    Walk on node endorder 0x7258800
+<19>                   Walk on node endorder 0x7258768
+<18>                  Walk on node endorder 0x7258736
+<17>                 Walk on node endorder 0x7258416
+<16>                Walk on node endorder 0x7258480
+<15>               Walk on node endorder 0x7258544
+<14>              Walk on node endorder 0x7258608
+<13>             Walk on node endorder 0x7258288
+<12>            Walk on node endorder 0x7258224
+<11>           Walk on node endorder 0x7258672
+<10>          Walk on node endorder 0x7258704
+<9>          Walk on node endorder 0x7258640
+<8>         Walk on node endorder 0x7258576
+<7>        Walk on node endorder 0x7258512
+<6>       Walk on node endorder 0x7258448
+<5>      Walk on node endorder 0x7258384
+<4>     Walk on node endorder 0x7258352
+<3>    Walk on node endorder 0x7258320
+<2>   Walk on node endorder 0x7258256
+<1>  Walk on node endorder 0x7258192
+<0> Walk on node endorder 0x7258160
+Twalk end, simple value
+dwarf_tdump tree head : 0x006ec010 tdump simple value from applybyvalue
+dwarf_tdump tree root : 0x006ec030 tdump simple value from applybyvalue
+<63>                                                               0x006ec810 <keyptr 0x00000040> <key  0x00000040> <l 0x00000000> <r 0x00000000> left 
+<62>                                                              0x006ec7f0 <keyptr 0x0000003f> <key  0x0000003f> <l 0x00000000> <r 0x006ec810> left 
+<61>                                                             0x006ec7d0 <keyptr 0x0000003e> <key  0x0000003e> <l 0x00000000> <r 0x006ec7f0> left 
+<60>                                                            0x006ec7b0 <keyptr 0x0000003d> <key  0x0000003d> <l 0x00000000> <r 0x006ec7d0> left 
+<59>                                                           0x006ec790 <keyptr 0x0000003c> <key  0x0000003c> <l 0x00000000> <r 0x006ec7b0> left 
+<58>                                                          0x006ec770 <keyptr 0x0000003b> <key  0x0000003b> <l 0x00000000> <r 0x006ec790> left 
+<57>                                                         0x006ec750 <keyptr 0x0000003a> <key  0x0000003a> <l 0x00000000> <r 0x006ec770> left 
+<56>                                                        0x006ec730 <keyptr 0x00000039> <key  0x00000039> <l 0x00000000> <r 0x006ec750> left 
+<55>                                                       0x006ec710 <keyptr 0x00000038> <key  0x00000038> <l 0x00000000> <r 0x006ec730> left 
+<54>                                                      0x006ec6f0 <keyptr 0x00000037> <key  0x00000037> <l 0x00000000> <r 0x006ec710> left 
+<53>                                                     0x006ec6d0 <keyptr 0x00000036> <key  0x00000036> <l 0x00000000> <r 0x006ec6f0> left 
+<52>                                                    0x006ec6b0 <keyptr 0x00000035> <key  0x00000035> <l 0x00000000> <r 0x006ec6d0> left 
+<51>                                                   0x006ec690 <keyptr 0x00000034> <key  0x00000034> <l 0x00000000> <r 0x006ec6b0> left 
+<50>                                                  0x006ec670 <keyptr 0x00000033> <key  0x00000033> <l 0x00000000> <r 0x006ec690> left 
+<49>                                                 0x006ec650 <keyptr 0x00000032> <key  0x00000032> <l 0x00000000> <r 0x006ec670> left 
+<48>                                                0x006ec630 <keyptr 0x00000031> <key  0x00000031> <l 0x00000000> <r 0x006ec650> left 
+<47>                                               0x006ec610 <keyptr 0x00000030> <key  0x00000030> <l 0x00000000> <r 0x006ec630> left 
+<46>                                              0x006ec5f0 <keyptr 0x0000002f> <key  0x0000002f> <l 0x00000000> <r 0x006ec610> left 
+<45>                                             0x006ec5d0 <keyptr 0x0000002e> <key  0x0000002e> <l 0x00000000> <r 0x006ec5f0> left 
+<44>                                            0x006ec5b0 <keyptr 0x0000002d> <key  0x0000002d> <l 0x00000000> <r 0x006ec5d0> left 
+<43>                                           0x006ec590 <keyptr 0x0000002c> <key  0x0000002c> <l 0x00000000> <r 0x006ec5b0> left 
+<42>                                          0x006ec570 <keyptr 0x0000002b> <key  0x0000002b> <l 0x00000000> <r 0x006ec590> left 
+<41>                                         0x006ec550 <keyptr 0x0000002a> <key  0x0000002a> <l 0x00000000> <r 0x006ec570> left 
+<40>                                        0x006ec530 <keyptr 0x00000029> <key  0x00000029> <l 0x00000000> <r 0x006ec550> left 
+<39>                                       0x006ec510 <keyptr 0x00000028> <key  0x00000028> <l 0x00000000> <r 0x006ec530> left 
+<38>                                      0x006ec4f0 <keyptr 0x00000027> <key  0x00000027> <l 0x00000000> <r 0x006ec510> left 
+<37>                                     0x006ec4d0 <keyptr 0x00000026> <key  0x00000026> <l 0x00000000> <r 0x006ec4f0> left 
+<36>                                    0x006ec4b0 <keyptr 0x00000025> <key  0x00000025> <l 0x00000000> <r 0x006ec4d0> left 
+<35>                                   0x006ec490 <keyptr 0x00000024> <key  0x00000024> <l 0x00000000> <r 0x006ec4b0> left 
+<34>                                  0x006ec470 <keyptr 0x00000023> <key  0x00000023> <l 0x00000000> <r 0x006ec490> left 
+<33>                                 0x006ec450 <keyptr 0x00000022> <key  0x00000022> <l 0x00000000> <r 0x006ec470> left 
+<32>                                0x006ec430 <keyptr 0x00000021> <key  0x00000021> <l 0x00000000> <r 0x006ec450> left 
+<31>                               0x006ec410 <keyptr 0x00000020> <key  0x00000020> <l 0x00000000> <r 0x006ec430> left 
+<30>                              0x006ec3f0 <keyptr 0x0000001f> <key  0x0000001f> <l 0x00000000> <r 0x006ec410> left 
+<29>                             0x006ec3d0 <keyptr 0x0000001e> <key  0x0000001e> <l 0x00000000> <r 0x006ec3f0> left 
+<28>                            0x006ec3b0 <keyptr 0x0000001d> <key  0x0000001d> <l 0x00000000> <r 0x006ec3d0> left 
+<27>                           0x006ec390 <keyptr 0x0000001c> <key  0x0000001c> <l 0x00000000> <r 0x006ec3b0> left 
+<26>                          0x006ec370 <keyptr 0x0000001b> <key  0x0000001b> <l 0x00000000> <r 0x006ec390> left 
+<25>                         0x006ec350 <keyptr 0x0000001a> <key  0x0000001a> <l 0x00000000> <r 0x006ec370> left 
+<24>                        0x006ec330 <keyptr 0x00000019> <key  0x00000019> <l 0x00000000> <r 0x006ec350> left 
+<23>                       0x006ec310 <keyptr 0x00000018> <key  0x00000018> <l 0x00000000> <r 0x006ec330> left 
+<22>                      0x006ec2f0 <keyptr 0x00000017> <key  0x00000017> <l 0x00000000> <r 0x006ec310> left 
+<21>                     0x006ec2d0 <keyptr 0x00000016> <key  0x00000016> <l 0x00000000> <r 0x006ec2f0> left 
+<20>                    0x006ec2b0 <keyptr 0x00000015> <key  0x00000015> <l 0x00000000> <r 0x006ec2d0> left 
+<19>                   0x006ec290 <keyptr 0x00000014> <key  0x00000014> <l 0x00000000> <r 0x006ec2b0> left 
+<18>                  0x006ec270 <keyptr 0x00000013> <key  0x00000013> <l 0x00000000> <r 0x006ec290> left 
+<17>                 0x006ec130 <keyptr 0x00000012> <key  0x00000012> <l 0x00000000> <r 0x006ec270> left 
+<16>                0x006ec170 <keyptr 0x00000011> <key  0x00000011> <l 0x00000000> <r 0x006ec130> left 
+<15>               0x006ec1b0 <keyptr 0x00000010> <key  0x00000010> <l 0x00000000> <r 0x006ec170> left 
+<14>              0x006ec1f0 <keyptr 0x0000000f> <key  0x0000000f> <l 0x00000000> <r 0x006ec1b0> left 
+<13>             0x006ec0b0 <keyptr 0x0000000e> <key  0x0000000e> <l 0x00000000> <r 0x006ec1f0> left 
+<12>            0x006ec070 <keyptr 0x0000000d> <key  0x0000000d> <l 0x00000000> <r 0x006ec0b0> left 
+<11>           0x006ec230 <keyptr 0x0000000c> <key  0x0000000c> <l 0x00000000> <r 0x006ec070> left 
+<10>          0x006ec250 <keyptr 0x0000000b> <key  0x0000000b> <l 0x00000000> <r 0x006ec230> left 
+<9>          0x006ec210 <keyptr 0x0000000a> <key  0x0000000a> <l 0x00000000> <r 0x006ec250> left 
+<8>         0x006ec1d0 <keyptr 0x00000009> <key  0x00000009> <l 0x00000000> <r 0x006ec210> left 
+<7>        0x006ec190 <keyptr 0x00000008> <key  0x00000008> <l 0x00000000> <r 0x006ec1d0> left 
+<6>       0x006ec150 <keyptr 0x00000007> <key  0x00000007> <l 0x00000000> <r 0x006ec190> left 
+<5>      0x006ec110 <keyptr 0x00000006> <key  0x00000006> <l 0x00000000> <r 0x006ec150> left 
+<4>     0x006ec0f0 <keyptr 0x00000005> <key  0x00000005> <l 0x00000000> <r 0x006ec110> left 
+<3>    0x006ec0d0 <keyptr 0x00000004> <key  0x00000004> <l 0x00000000> <r 0x006ec0f0> left 
+<2>   0x006ec090 <keyptr 0x00000003> <key  0x00000003> <l 0x00000000> <r 0x006ec0d0> left 
+<1>  0x006ec050 <keyptr 0x00000002> <key  0x00000002> <l 0x00000000> <r 0x006ec090> left 
+<0> 0x006ec030 <keyptr 0x00000001> <key  0x00000001> <l 0x00000000> <r 0x006ec050> top
+PASS tsearch test.
+==== eppingerdel -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node preorder 0x33398832
+<0> Walk on node postorder 0x33398832
+<1>  Walk on node preorder 0x33398864
+<1>  Walk on node postorder 0x33398864
+<2>   Walk on node preorder 0x33398928
+<2>   Walk on node postorder 0x33398928
+<3>    Walk on node preorder 0x33398992
+<3>    Walk on node postorder 0x33398992
+<4>     Walk on node preorder 0x33399024
+<4>     Walk on node postorder 0x33399024
+<5>      Walk on node preorder 0x33399056
+<5>      Walk on node postorder 0x33399056
+<6>       Walk on node preorder 0x33399120
+<6>       Walk on node postorder 0x33399120
+<7>        Walk on node preorder 0x33399184
+<7>        Walk on node postorder 0x33399184
+<8>         Walk on node preorder 0x33399248
+<8>         Walk on node postorder 0x33399248
+<9>          Walk on node preorder 0x33399312
+<9>          Walk on node postorder 0x33399312
+<10>          Walk on node preorder 0x33399376
+<10>          Walk on node postorder 0x33399376
+<11>           Walk on node preorder 0x33399344
+<11>           Walk on node postorder 0x33399344
+<12>            Walk on node preorder 0x33398896
+<12>            Walk on node postorder 0x33398896
+<13>             Walk on node preorder 0x33398960
+<13>             Walk on node postorder 0x33398960
+<14>              Walk on node preorder 0x33399280
+<14>              Walk on node postorder 0x33399280
+<15>               Walk on node preorder 0x33399216
+<15>               Walk on node postorder 0x33399216
+<16>                Walk on node preorder 0x33399152
+<16>                Walk on node postorder 0x33399152
+<17>                 Walk on node preorder 0x33399088
+<17>                 Walk on node postorder 0x33399088
+<18>                  Walk on node preorder 0x33399408
+<18>                  Walk on node postorder 0x33399408
+<19>                   Walk on node preorder 0x33399440
+<19>                   Walk on node postorder 0x33399440
+<20>                    Walk on node preorder 0x33399472
+<20>                    Walk on node postorder 0x33399472
+<21>                     Walk on node preorder 0x33399504
+<21>                     Walk on node postorder 0x33399504
+<22>                      Walk on node preorder 0x33399536
+<22>                      Walk on node postorder 0x33399536
+<23>                       Walk on node preorder 0x33399568
+<23>                       Walk on node postorder 0x33399568
+<24>                        Walk on node preorder 0x33399600
+<24>                        Walk on node postorder 0x33399600
+<25>                         Walk on node preorder 0x33399632
+<25>                         Walk on node postorder 0x33399632
+<26>                          Walk on node preorder 0x33399664
+<26>                          Walk on node postorder 0x33399664
+<27>                           Walk on node preorder 0x33399696
+<27>                           Walk on node postorder 0x33399696
+<28>                            Walk on node preorder 0x33399728
+<28>                            Walk on node postorder 0x33399728
+<29>                             Walk on node preorder 0x33399760
+<29>                             Walk on node postorder 0x33399760
+<30>                              Walk on node preorder 0x33399792
+<30>                              Walk on node postorder 0x33399792
+<31>                               Walk on node preorder 0x33399824
+<31>                               Walk on node postorder 0x33399824
+<32>                                Walk on node preorder 0x33399856
+<32>                                Walk on node postorder 0x33399856
+<33>                                 Walk on node preorder 0x33399888
+<33>                                 Walk on node postorder 0x33399888
+<34>                                  Walk on node preorder 0x33399920
+<34>                                  Walk on node postorder 0x33399920
+<35>                                   Walk on node preorder 0x33399952
+<35>                                   Walk on node postorder 0x33399952
+<36>                                    Walk on node preorder 0x33399984
+<36>                                    Walk on node postorder 0x33399984
+<37>                                     Walk on node preorder 0x33400016
+<37>                                     Walk on node postorder 0x33400016
+<38>                                      Walk on node preorder 0x33400048
+<38>                                      Walk on node postorder 0x33400048
+<39>                                       Walk on node preorder 0x33400080
+<39>                                       Walk on node postorder 0x33400080
+<40>                                        Walk on node preorder 0x33400112
+<40>                                        Walk on node postorder 0x33400112
+<41>                                         Walk on node preorder 0x33400144
+<41>                                         Walk on node postorder 0x33400144
+<42>                                          Walk on node preorder 0x33400176
+<42>                                          Walk on node postorder 0x33400176
+<43>                                           Walk on node preorder 0x33400208
+<43>                                           Walk on node postorder 0x33400208
+<44>                                            Walk on node preorder 0x33400240
+<44>                                            Walk on node postorder 0x33400240
+<45>                                             Walk on node preorder 0x33400272
+<45>                                             Walk on node postorder 0x33400272
+<46>                                              Walk on node preorder 0x33400304
+<46>                                              Walk on node postorder 0x33400304
+<47>                                               Walk on node preorder 0x33400336
+<47>                                               Walk on node postorder 0x33400336
+<48>                                                Walk on node preorder 0x33400368
+<48>                                                Walk on node postorder 0x33400368
+<49>                                                 Walk on node preorder 0x33400400
+<49>                                                 Walk on node postorder 0x33400400
+<50>                                                  Walk on node preorder 0x33400432
+<50>                                                  Walk on node postorder 0x33400432
+<51>                                                   Walk on node preorder 0x33400464
+<51>                                                   Walk on node postorder 0x33400464
+<52>                                                    Walk on node preorder 0x33400496
+<52>                                                    Walk on node postorder 0x33400496
+<53>                                                     Walk on node preorder 0x33400528
+<53>                                                     Walk on node postorder 0x33400528
+<54>                                                      Walk on node preorder 0x33400560
+<54>                                                      Walk on node postorder 0x33400560
+<55>                                                       Walk on node preorder 0x33400592
+<55>                                                       Walk on node postorder 0x33400592
+<56>                                                        Walk on node preorder 0x33400624
+<56>                                                        Walk on node postorder 0x33400624
+<57>                                                         Walk on node preorder 0x33400656
+<57>                                                         Walk on node postorder 0x33400656
+<58>                                                          Walk on node preorder 0x33400688
+<58>                                                          Walk on node postorder 0x33400688
+<59>                                                           Walk on node preorder 0x33400720
+<59>                                                           Walk on node postorder 0x33400720
+<60>                                                            Walk on node preorder 0x33400752
+<60>                                                            Walk on node postorder 0x33400752
+<61>                                                             Walk on node preorder 0x33400784
+<61>                                                             Walk on node postorder 0x33400784
+<62>                                                              Walk on node preorder 0x33400816
+<62>                                                              Walk on node postorder 0x33400816
+<63>                                                               Walk on node leaf 0x33400848
+<62>                                                              Walk on node endorder 0x33400816
+<61>                                                             Walk on node endorder 0x33400784
+<60>                                                            Walk on node endorder 0x33400752
+<59>                                                           Walk on node endorder 0x33400720
+<58>                                                          Walk on node endorder 0x33400688
+<57>                                                         Walk on node endorder 0x33400656
+<56>                                                        Walk on node endorder 0x33400624
+<55>                                                       Walk on node endorder 0x33400592
+<54>                                                      Walk on node endorder 0x33400560
+<53>                                                     Walk on node endorder 0x33400528
+<52>                                                    Walk on node endorder 0x33400496
+<51>                                                   Walk on node endorder 0x33400464
+<50>                                                  Walk on node endorder 0x33400432
+<49>                                                 Walk on node endorder 0x33400400
+<48>                                                Walk on node endorder 0x33400368
+<47>                                               Walk on node endorder 0x33400336
+<46>                                              Walk on node endorder 0x33400304
+<45>                                             Walk on node endorder 0x33400272
+<44>                                            Walk on node endorder 0x33400240
+<43>                                           Walk on node endorder 0x33400208
+<42>                                          Walk on node endorder 0x33400176
+<41>                                         Walk on node endorder 0x33400144
+<40>                                        Walk on node endorder 0x33400112
+<39>                                       Walk on node endorder 0x33400080
+<38>                                      Walk on node endorder 0x33400048
+<37>                                     Walk on node endorder 0x33400016
+<36>                                    Walk on node endorder 0x33399984
+<35>                                   Walk on node endorder 0x33399952
+<34>                                  Walk on node endorder 0x33399920
+<33>                                 Walk on node endorder 0x33399888
+<32>                                Walk on node endorder 0x33399856
+<31>                               Walk on node endorder 0x33399824
+<30>                              Walk on node endorder 0x33399792
+<29>                             Walk on node endorder 0x33399760
+<28>                            Walk on node endorder 0x33399728
+<27>                           Walk on node endorder 0x33399696
+<26>                          Walk on node endorder 0x33399664
+<25>                         Walk on node endorder 0x33399632
+<24>                        Walk on node endorder 0x33399600
+<23>                       Walk on node endorder 0x33399568
+<22>                      Walk on node endorder 0x33399536
+<21>                     Walk on node endorder 0x33399504
+<20>                    Walk on node endorder 0x33399472
+<19>                   Walk on node endorder 0x33399440
+<18>                  Walk on node endorder 0x33399408
+<17>                 Walk on node endorder 0x33399088
+<16>                Walk on node endorder 0x33399152
+<15>               Walk on node endorder 0x33399216
+<14>              Walk on node endorder 0x33399280
+<13>             Walk on node endorder 0x33398960
+<12>            Walk on node endorder 0x33398896
+<11>           Walk on node endorder 0x33399344
+<10>          Walk on node endorder 0x33399376
+<9>          Walk on node endorder 0x33399312
+<8>         Walk on node endorder 0x33399248
+<7>        Walk on node endorder 0x33399184
+<6>       Walk on node endorder 0x33399120
+<5>      Walk on node endorder 0x33399056
+<4>     Walk on node endorder 0x33399024
+<3>    Walk on node endorder 0x33398992
+<2>   Walk on node endorder 0x33398928
+<1>  Walk on node endorder 0x33398864
+<0> Walk on node endorder 0x33398832
+Twalk end, simple value
+dwarf_tdump tree head : 0x01fda010 tdump simple value from applybyvalue
+dwarf_tdump tree root : 0x01fda030 tdump simple value from applybyvalue
+<63>                                                               0x01fda810 <keyptr 0x00000040> <key  0x00000040> <l 0x00000000> <r 0x00000000> left 
+<62>                                                              0x01fda7f0 <keyptr 0x0000003f> <key  0x0000003f> <l 0x00000000> <r 0x01fda810> left 
+<61>                                                             0x01fda7d0 <keyptr 0x0000003e> <key  0x0000003e> <l 0x00000000> <r 0x01fda7f0> left 
+<60>                                                            0x01fda7b0 <keyptr 0x0000003d> <key  0x0000003d> <l 0x00000000> <r 0x01fda7d0> left 
+<59>                                                           0x01fda790 <keyptr 0x0000003c> <key  0x0000003c> <l 0x00000000> <r 0x01fda7b0> left 
+<58>                                                          0x01fda770 <keyptr 0x0000003b> <key  0x0000003b> <l 0x00000000> <r 0x01fda790> left 
+<57>                                                         0x01fda750 <keyptr 0x0000003a> <key  0x0000003a> <l 0x00000000> <r 0x01fda770> left 
+<56>                                                        0x01fda730 <keyptr 0x00000039> <key  0x00000039> <l 0x00000000> <r 0x01fda750> left 
+<55>                                                       0x01fda710 <keyptr 0x00000038> <key  0x00000038> <l 0x00000000> <r 0x01fda730> left 
+<54>                                                      0x01fda6f0 <keyptr 0x00000037> <key  0x00000037> <l 0x00000000> <r 0x01fda710> left 
+<53>                                                     0x01fda6d0 <keyptr 0x00000036> <key  0x00000036> <l 0x00000000> <r 0x01fda6f0> left 
+<52>                                                    0x01fda6b0 <keyptr 0x00000035> <key  0x00000035> <l 0x00000000> <r 0x01fda6d0> left 
+<51>                                                   0x01fda690 <keyptr 0x00000034> <key  0x00000034> <l 0x00000000> <r 0x01fda6b0> left 
+<50>                                                  0x01fda670 <keyptr 0x00000033> <key  0x00000033> <l 0x00000000> <r 0x01fda690> left 
+<49>                                                 0x01fda650 <keyptr 0x00000032> <key  0x00000032> <l 0x00000000> <r 0x01fda670> left 
+<48>                                                0x01fda630 <keyptr 0x00000031> <key  0x00000031> <l 0x00000000> <r 0x01fda650> left 
+<47>                                               0x01fda610 <keyptr 0x00000030> <key  0x00000030> <l 0x00000000> <r 0x01fda630> left 
+<46>                                              0x01fda5f0 <keyptr 0x0000002f> <key  0x0000002f> <l 0x00000000> <r 0x01fda610> left 
+<45>                                             0x01fda5d0 <keyptr 0x0000002e> <key  0x0000002e> <l 0x00000000> <r 0x01fda5f0> left 
+<44>                                            0x01fda5b0 <keyptr 0x0000002d> <key  0x0000002d> <l 0x00000000> <r 0x01fda5d0> left 
+<43>                                           0x01fda590 <keyptr 0x0000002c> <key  0x0000002c> <l 0x00000000> <r 0x01fda5b0> left 
+<42>                                          0x01fda570 <keyptr 0x0000002b> <key  0x0000002b> <l 0x00000000> <r 0x01fda590> left 
+<41>                                         0x01fda550 <keyptr 0x0000002a> <key  0x0000002a> <l 0x00000000> <r 0x01fda570> left 
+<40>                                        0x01fda530 <keyptr 0x00000029> <key  0x00000029> <l 0x00000000> <r 0x01fda550> left 
+<39>                                       0x01fda510 <keyptr 0x00000028> <key  0x00000028> <l 0x00000000> <r 0x01fda530> left 
+<38>                                      0x01fda4f0 <keyptr 0x00000027> <key  0x00000027> <l 0x00000000> <r 0x01fda510> left 
+<37>                                     0x01fda4d0 <keyptr 0x00000026> <key  0x00000026> <l 0x00000000> <r 0x01fda4f0> left 
+<36>                                    0x01fda4b0 <keyptr 0x00000025> <key  0x00000025> <l 0x00000000> <r 0x01fda4d0> left 
+<35>                                   0x01fda490 <keyptr 0x00000024> <key  0x00000024> <l 0x00000000> <r 0x01fda4b0> left 
+<34>                                  0x01fda470 <keyptr 0x00000023> <key  0x00000023> <l 0x00000000> <r 0x01fda490> left 
+<33>                                 0x01fda450 <keyptr 0x00000022> <key  0x00000022> <l 0x00000000> <r 0x01fda470> left 
+<32>                                0x01fda430 <keyptr 0x00000021> <key  0x00000021> <l 0x00000000> <r 0x01fda450> left 
+<31>                               0x01fda410 <keyptr 0x00000020> <key  0x00000020> <l 0x00000000> <r 0x01fda430> left 
+<30>                              0x01fda3f0 <keyptr 0x0000001f> <key  0x0000001f> <l 0x00000000> <r 0x01fda410> left 
+<29>                             0x01fda3d0 <keyptr 0x0000001e> <key  0x0000001e> <l 0x00000000> <r 0x01fda3f0> left 
+<28>                            0x01fda3b0 <keyptr 0x0000001d> <key  0x0000001d> <l 0x00000000> <r 0x01fda3d0> left 
+<27>                           0x01fda390 <keyptr 0x0000001c> <key  0x0000001c> <l 0x00000000> <r 0x01fda3b0> left 
+<26>                          0x01fda370 <keyptr 0x0000001b> <key  0x0000001b> <l 0x00000000> <r 0x01fda390> left 
+<25>                         0x01fda350 <keyptr 0x0000001a> <key  0x0000001a> <l 0x00000000> <r 0x01fda370> left 
+<24>                        0x01fda330 <keyptr 0x00000019> <key  0x00000019> <l 0x00000000> <r 0x01fda350> left 
+<23>                       0x01fda310 <keyptr 0x00000018> <key  0x00000018> <l 0x00000000> <r 0x01fda330> left 
+<22>                      0x01fda2f0 <keyptr 0x00000017> <key  0x00000017> <l 0x00000000> <r 0x01fda310> left 
+<21>                     0x01fda2d0 <keyptr 0x00000016> <key  0x00000016> <l 0x00000000> <r 0x01fda2f0> left 
+<20>                    0x01fda2b0 <keyptr 0x00000015> <key  0x00000015> <l 0x00000000> <r 0x01fda2d0> left 
+<19>                   0x01fda290 <keyptr 0x00000014> <key  0x00000014> <l 0x00000000> <r 0x01fda2b0> left 
+<18>                  0x01fda270 <keyptr 0x00000013> <key  0x00000013> <l 0x00000000> <r 0x01fda290> left 
+<17>                 0x01fda130 <keyptr 0x00000012> <key  0x00000012> <l 0x00000000> <r 0x01fda270> left 
+<16>                0x01fda170 <keyptr 0x00000011> <key  0x00000011> <l 0x00000000> <r 0x01fda130> left 
+<15>               0x01fda1b0 <keyptr 0x00000010> <key  0x00000010> <l 0x00000000> <r 0x01fda170> left 
+<14>              0x01fda1f0 <keyptr 0x0000000f> <key  0x0000000f> <l 0x00000000> <r 0x01fda1b0> left 
+<13>             0x01fda0b0 <keyptr 0x0000000e> <key  0x0000000e> <l 0x00000000> <r 0x01fda1f0> left 
+<12>            0x01fda070 <keyptr 0x0000000d> <key  0x0000000d> <l 0x00000000> <r 0x01fda0b0> left 
+<11>           0x01fda230 <keyptr 0x0000000c> <key  0x0000000c> <l 0x00000000> <r 0x01fda070> left 
+<10>          0x01fda250 <keyptr 0x0000000b> <key  0x0000000b> <l 0x00000000> <r 0x01fda230> left 
+<9>          0x01fda210 <keyptr 0x0000000a> <key  0x0000000a> <l 0x00000000> <r 0x01fda250> left 
+<8>         0x01fda1d0 <keyptr 0x00000009> <key  0x00000009> <l 0x00000000> <r 0x01fda210> left 
+<7>        0x01fda190 <keyptr 0x00000008> <key  0x00000008> <l 0x00000000> <r 0x01fda1d0> left 
+<6>       0x01fda150 <keyptr 0x00000007> <key  0x00000007> <l 0x00000000> <r 0x01fda190> left 
+<5>      0x01fda110 <keyptr 0x00000006> <key  0x00000006> <l 0x00000000> <r 0x01fda150> left 
+<4>     0x01fda0f0 <keyptr 0x00000005> <key  0x00000005> <l 0x00000000> <r 0x01fda110> left 
+<3>    0x01fda0d0 <keyptr 0x00000004> <key  0x00000004> <l 0x00000000> <r 0x01fda0f0> left 
+<2>   0x01fda090 <keyptr 0x00000003> <key  0x00000003> <l 0x00000000> <r 0x01fda0d0> left 
+<1>  0x01fda050 <keyptr 0x00000002> <key  0x00000002> <l 0x00000000> <r 0x01fda090> left 
+<0> 0x01fda030 <keyptr 0x00000001> <key  0x00000001> <l 0x00000000> <r 0x01fda050> top
+PASS tsearch test.
+==== balancedsearch -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node preorder 0x18150944
+<1>  Walk on node preorder 0x18150224
+<2>   Walk on node preorder 0x18149488
+<3>    Walk on node preorder 0x18150368
+<4>     Walk on node preorder 0x18150080
+<5>      Walk on node leaf 0x18150272
+<4>     Walk on node postorder 0x18150080
+<5>      Walk on node leaf 0x18149840
+<4>     Walk on node endorder 0x18150080
+<3>    Walk on node postorder 0x18150368
+<4>     Walk on node preorder 0x18149984
+<5>      Walk on node leaf 0x18150176
+<4>     Walk on node postorder 0x18149984
+<5>      Walk on node leaf 0x18149888
+<4>     Walk on node endorder 0x18149984
+<3>    Walk on node endorder 0x18150368
+<2>   Walk on node postorder 0x18149488
+<3>    Walk on node preorder 0x18149536
+<4>     Walk on node preorder 0x18149680
+<5>      Walk on node leaf 0x18149584
+<4>     Walk on node postorder 0x18149680
+<5>      Walk on node leaf 0x18150032
+<4>     Walk on node endorder 0x18149680
+<3>    Walk on node postorder 0x18149536
+<4>     Walk on node preorder 0x18149632
+<5>      Walk on node leaf 0x18149440
+<4>     Walk on node postorder 0x18149632
+<5>      Walk on node leaf 0x18150128
+<4>     Walk on node endorder 0x18149632
+<3>    Walk on node endorder 0x18149536
+<2>   Walk on node endorder 0x18149488
+<1>  Walk on node postorder 0x18150224
+<2>   Walk on node preorder 0x18150560
+<3>    Walk on node preorder 0x18149776
+<4>     Walk on node preorder 0x18149936
+<5>      Walk on node leaf 0x18150320
+<4>     Walk on node postorder 0x18149936
+<5>      Walk on node leaf 0x18149728
+<4>     Walk on node endorder 0x18149936
+<3>    Walk on node postorder 0x18149776
+<4>     Walk on node preorder 0x18150464
+<5>      Walk on node leaf 0x18150416
+<4>     Walk on node postorder 0x18150464
+<5>      Walk on node leaf 0x18150512
+<4>     Walk on node endorder 0x18150464
+<3>    Walk on node endorder 0x18149776
+<2>   Walk on node postorder 0x18150560
+<3>    Walk on node preorder 0x18150752
+<4>     Walk on node preorder 0x18150656
+<5>      Walk on node leaf 0x18150608
+<4>     Walk on node postorder 0x18150656
+<5>      Walk on node leaf 0x18150704
+<4>     Walk on node endorder 0x18150656
+<3>    Walk on node postorder 0x18150752
+<4>     Walk on node preorder 0x18150848
+<5>      Walk on node leaf 0x18150800
+<4>     Walk on node postorder 0x18150848
+<5>      Walk on node leaf 0x18150896
+<4>     Walk on node endorder 0x18150848
+<3>    Walk on node endorder 0x18150752
+<2>   Walk on node endorder 0x18150560
+<1>  Walk on node endorder 0x18150224
+<0> Walk on node postorder 0x18150944
+<1>  Walk on node preorder 0x18151712
+<2>   Walk on node preorder 0x18151328
+<3>    Walk on node preorder 0x18151136
+<4>     Walk on node preorder 0x18151040
+<5>      Walk on node leaf 0x18150992
+<4>     Walk on node postorder 0x18151040
+<5>      Walk on node leaf 0x18151088
+<4>     Walk on node endorder 0x18151040
+<3>    Walk on node postorder 0x18151136
+<4>     Walk on node preorder 0x18151232
+<5>      Walk on node leaf 0x18151184
+<4>     Walk on node postorder 0x18151232
+<5>      Walk on node leaf 0x18151280
+<4>     Walk on node endorder 0x18151232
+<3>    Walk on node endorder 0x18151136
+<2>   Walk on node postorder 0x18151328
+<3>    Walk on node preorder 0x18151520
+<4>     Walk on node preorder 0x18151424
+<5>      Walk on node leaf 0x18151376
+<4>     Walk on node postorder 0x18151424
+<5>      Walk on node leaf 0x18151472
+<4>     Walk on node endorder 0x18151424
+<3>    Walk on node postorder 0x18151520
+<4>     Walk on node preorder 0x18151616
+<5>      Walk on node leaf 0x18151568
+<4>     Walk on node postorder 0x18151616
+<5>      Walk on node leaf 0x18151664
+<4>     Walk on node endorder 0x18151616
+<3>    Walk on node endorder 0x18151520
+<2>   Walk on node endorder 0x18151328
+<1>  Walk on node postorder 0x18151712
+<2>   Walk on node preorder 0x18152096
+<3>    Walk on node preorder 0x18151904
+<4>     Walk on node preorder 0x18151808
+<5>      Walk on node leaf 0x18151760
+<4>     Walk on node postorder 0x18151808
+<5>      Walk on node leaf 0x18151856
+<4>     Walk on node endorder 0x18151808
+<3>    Walk on node postorder 0x18151904
+<4>     Walk on node preorder 0x18152000
+<5>      Walk on node leaf 0x18151952
+<4>     Walk on node postorder 0x18152000
+<5>      Walk on node leaf 0x18152048
+<4>     Walk on node endorder 0x18152000
+<3>    Walk on node endorder 0x18151904
+<2>   Walk on node postorder 0x18152096
+<3>    Walk on node preorder 0x18152288
+<4>     Walk on node preorder 0x18152192
+<5>      Walk on node leaf 0x18152144
+<4>     Walk on node postorder 0x18152192
+<5>      Walk on node leaf 0x18152240
+<4>     Walk on node endorder 0x18152192
+<3>    Walk on node postorder 0x18152288
+<4>     Walk on node preorder 0x18152384
+<5>      Walk on node leaf 0x18152336
+<4>     Walk on node postorder 0x18152384
+<5>      Walk on node preorder 0x18152432
+<5>      Walk on node postorder 0x18152432
+<6>       Walk on node leaf 0x18152480
+<5>      Walk on node endorder 0x18152432
+<4>     Walk on node endorder 0x18152384
+<3>    Walk on node endorder 0x18152288
+<2>   Walk on node endorder 0x18152096
+<1>  Walk on node endorder 0x18151712
+<0> Walk on node endorder 0x18150944
+Twalk end, simple value
+dumptree head ptr : 0x0114f010 tree-depth 6: tdump simple value from applybyvalue
+<6>       0x0114fc20 <keyptr 0x00000040> <key  0x00000040> <bal   0> <l 0x00000000> <r 0x00000000> right
+<5>      0x0114fbf0 <keyptr 0x0000003f> <key  0x0000003f> <bal   1> <l 0x00000000> <r 0x0114fc20> right
+<4>     0x0114fbc0 <keyptr 0x0000003e> <key  0x0000003e> <bal   1> <l 0x0114fb90> <r 0x0114fbf0> right
+<5>      0x0114fb90 <keyptr 0x0000003d> <key  0x0000003d> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114fb60 <keyptr 0x0000003c> <key  0x0000003c> <bal   1> <l 0x0114fb00> <r 0x0114fbc0> right
+<5>      0x0114fb30 <keyptr 0x0000003b> <key  0x0000003b> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114fb00 <keyptr 0x0000003a> <key  0x0000003a> <bal   0> <l 0x0114fad0> <r 0x0114fb30> left 
+<5>      0x0114fad0 <keyptr 0x00000039> <key  0x00000039> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x0114faa0 <keyptr 0x00000038> <key  0x00000038> <bal   1> <l 0x0114f9e0> <r 0x0114fb60> right
+<5>      0x0114fa70 <keyptr 0x00000037> <key  0x00000037> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114fa40 <keyptr 0x00000036> <key  0x00000036> <bal   0> <l 0x0114fa10> <r 0x0114fa70> right
+<5>      0x0114fa10 <keyptr 0x00000035> <key  0x00000035> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f9e0 <keyptr 0x00000034> <key  0x00000034> <bal   0> <l 0x0114f980> <r 0x0114fa40> left 
+<5>      0x0114f9b0 <keyptr 0x00000033> <key  0x00000033> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f980 <keyptr 0x00000032> <key  0x00000032> <bal   0> <l 0x0114f950> <r 0x0114f9b0> left 
+<5>      0x0114f950 <keyptr 0x00000031> <key  0x00000031> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<1>  0x0114f920 <keyptr 0x00000030> <key  0x00000030> <bal   1> <l 0x0114f7a0> <r 0x0114faa0> right
+<5>      0x0114f8f0 <keyptr 0x0000002f> <key  0x0000002f> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f8c0 <keyptr 0x0000002e> <key  0x0000002e> <bal   0> <l 0x0114f890> <r 0x0114f8f0> right
+<5>      0x0114f890 <keyptr 0x0000002d> <key  0x0000002d> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f860 <keyptr 0x0000002c> <key  0x0000002c> <bal   0> <l 0x0114f800> <r 0x0114f8c0> right
+<5>      0x0114f830 <keyptr 0x0000002b> <key  0x0000002b> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f800 <keyptr 0x0000002a> <key  0x0000002a> <bal   0> <l 0x0114f7d0> <r 0x0114f830> left 
+<5>      0x0114f7d0 <keyptr 0x00000029> <key  0x00000029> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x0114f7a0 <keyptr 0x00000028> <key  0x00000028> <bal   0> <l 0x0114f6e0> <r 0x0114f860> left 
+<5>      0x0114f770 <keyptr 0x00000027> <key  0x00000027> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f740 <keyptr 0x00000026> <key  0x00000026> <bal   0> <l 0x0114f710> <r 0x0114f770> right
+<5>      0x0114f710 <keyptr 0x00000025> <key  0x00000025> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f6e0 <keyptr 0x00000024> <key  0x00000024> <bal   0> <l 0x0114f680> <r 0x0114f740> left 
+<5>      0x0114f6b0 <keyptr 0x00000023> <key  0x00000023> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f680 <keyptr 0x00000022> <key  0x00000022> <bal   0> <l 0x0114f650> <r 0x0114f6b0> left 
+<5>      0x0114f650 <keyptr 0x00000021> <key  0x00000021> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<0> 0x0114f620 <keyptr 0x00000020> <key  0x00000020> <bal   1> <l 0x0114f350> <r 0x0114f920> top
+<5>      0x0114f5f0 <keyptr 0x0000001f> <key  0x0000001f> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f5c0 <keyptr 0x0000001e> <key  0x0000001e> <bal   0> <l 0x0114f590> <r 0x0114f5f0> right
+<5>      0x0114f590 <keyptr 0x0000001d> <key  0x0000001d> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f560 <keyptr 0x0000001c> <key  0x0000001c> <bal   0> <l 0x0114f500> <r 0x0114f5c0> right
+<5>      0x0114f530 <keyptr 0x0000001b> <key  0x0000001b> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f500 <keyptr 0x0000001a> <key  0x0000001a> <bal   0> <l 0x0114f4d0> <r 0x0114f530> left 
+<5>      0x0114f4d0 <keyptr 0x00000019> <key  0x00000019> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x0114f4a0 <keyptr 0x00000018> <key  0x00000018> <bal   0> <l 0x0114f190> <r 0x0114f560> right
+<5>      0x0114f470 <keyptr 0x00000017> <key  0x00000017> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f440 <keyptr 0x00000016> <key  0x00000016> <bal   0> <l 0x0114f410> <r 0x0114f470> right
+<5>      0x0114f410 <keyptr 0x00000015> <key  0x00000015> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f190 <keyptr 0x00000014> <key  0x00000014> <bal   0> <l 0x0114f230> <r 0x0114f440> left 
+<5>      0x0114f160 <keyptr 0x00000013> <key  0x00000013> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f230 <keyptr 0x00000012> <key  0x00000012> <bal   0> <l 0x0114f3b0> <r 0x0114f160> left 
+<5>      0x0114f3b0 <keyptr 0x00000011> <key  0x00000011> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<1>  0x0114f350 <keyptr 0x00000010> <key  0x00000010> <bal   0> <l 0x0114f070> <r 0x0114f4a0> left 
+<5>      0x0114f2f0 <keyptr 0x0000000f> <key  0x0000000f> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f100 <keyptr 0x0000000e> <key  0x0000000e> <bal   0> <l 0x0114f040> <r 0x0114f2f0> right
+<5>      0x0114f040 <keyptr 0x0000000d> <key  0x0000000d> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f0a0 <keyptr 0x0000000c> <key  0x0000000c> <bal   0> <l 0x0114f130> <r 0x0114f100> right
+<5>      0x0114f290 <keyptr 0x0000000b> <key  0x0000000b> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f130 <keyptr 0x0000000a> <key  0x0000000a> <bal   0> <l 0x0114f0d0> <r 0x0114f290> left 
+<5>      0x0114f0d0 <keyptr 0x00000009> <key  0x00000009> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x0114f070 <keyptr 0x00000008> <key  0x00000008> <bal   0> <l 0x0114f3e0> <r 0x0114f0a0> left 
+<5>      0x0114f200 <keyptr 0x00000007> <key  0x00000007> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f260 <keyptr 0x00000006> <key  0x00000006> <bal   0> <l 0x0114f320> <r 0x0114f200> right
+<5>      0x0114f320 <keyptr 0x00000005> <key  0x00000005> <bal   0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x0114f3e0 <keyptr 0x00000004> <key  0x00000004> <bal   0> <l 0x0114f2c0> <r 0x0114f260> left 
+<5>      0x0114f1d0 <keyptr 0x00000003> <key  0x00000003> <bal   0> <l 0x00000000> <r 0x00000000> right
+<4>     0x0114f2c0 <keyptr 0x00000002> <key  0x00000002> <bal   0> <l 0x0114f380> <r 0x0114f1d0> left 
+<5>      0x0114f380 <keyptr 0x00000001> <key  0x00000001> <bal   0> <l 0x00000000> <r 0x00000000> left 
+PASS tsearch test.
+==== redblack -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node preorder 0x24077840
+<1>  Walk on node preorder 0x24076928
+<2>   Walk on node preorder 0x24076640
+<3>    Walk on node preorder 0x24077072
+<4>     Walk on node preorder 0x24076976
+<5>      Walk on node leaf 0x24077120
+<4>     Walk on node postorder 0x24076976
+<5>      Walk on node leaf 0x24076784
+<4>     Walk on node endorder 0x24076976
+<3>    Walk on node postorder 0x24077072
+<4>     Walk on node preorder 0x24076688
+<5>      Walk on node leaf 0x24076880
+<4>     Walk on node postorder 0x24076688
+<5>      Walk on node leaf 0x24076592
+<4>     Walk on node endorder 0x24076688
+<3>    Walk on node endorder 0x24077072
+<2>   Walk on node postorder 0x24076640
+<3>    Walk on node preorder 0x24076448
+<4>     Walk on node preorder 0x24076496
+<5>      Walk on node leaf 0x24077168
+<4>     Walk on node postorder 0x24076496
+<5>      Walk on node leaf 0x24076352
+<4>     Walk on node endorder 0x24076496
+<3>    Walk on node postorder 0x24076448
+<4>     Walk on node preorder 0x24076544
+<5>      Walk on node leaf 0x24076400
+<4>     Walk on node postorder 0x24076544
+<5>      Walk on node leaf 0x24077024
+<4>     Walk on node endorder 0x24076544
+<3>    Walk on node endorder 0x24076448
+<2>   Walk on node endorder 0x24076640
+<1>  Walk on node postorder 0x24076928
+<2>   Walk on node preorder 0x24077456
+<3>    Walk on node preorder 0x24077264
+<4>     Walk on node preorder 0x24076736
+<5>      Walk on node leaf 0x24076832
+<4>     Walk on node postorder 0x24076736
+<5>      Walk on node leaf 0x24077216
+<4>     Walk on node endorder 0x24076736
+<3>    Walk on node postorder 0x24077264
+<4>     Walk on node preorder 0x24077360
+<5>      Walk on node leaf 0x24077312
+<4>     Walk on node postorder 0x24077360
+<5>      Walk on node leaf 0x24077408
+<4>     Walk on node endorder 0x24077360
+<3>    Walk on node endorder 0x24077264
+<2>   Walk on node postorder 0x24077456
+<3>    Walk on node preorder 0x24077648
+<4>     Walk on node preorder 0x24077552
+<5>      Walk on node leaf 0x24077504
+<4>     Walk on node postorder 0x24077552
+<5>      Walk on node leaf 0x24077600
+<4>     Walk on node endorder 0x24077552
+<3>    Walk on node postorder 0x24077648
+<4>     Walk on node preorder 0x24077744
+<5>      Walk on node leaf 0x24077696
+<4>     Walk on node postorder 0x24077744
+<5>      Walk on node leaf 0x24077792
+<4>     Walk on node endorder 0x24077744
+<3>    Walk on node endorder 0x24077648
+<2>   Walk on node endorder 0x24077456
+<1>  Walk on node endorder 0x24076928
+<0> Walk on node postorder 0x24077840
+<1>  Walk on node preorder 0x24078608
+<2>   Walk on node preorder 0x24078224
+<3>    Walk on node preorder 0x24078032
+<4>     Walk on node preorder 0x24077936
+<5>      Walk on node leaf 0x24077888
+<4>     Walk on node postorder 0x24077936
+<5>      Walk on node leaf 0x24077984
+<4>     Walk on node endorder 0x24077936
+<3>    Walk on node postorder 0x24078032
+<4>     Walk on node preorder 0x24078128
+<5>      Walk on node leaf 0x24078080
+<4>     Walk on node postorder 0x24078128
+<5>      Walk on node leaf 0x24078176
+<4>     Walk on node endorder 0x24078128
+<3>    Walk on node endorder 0x24078032
+<2>   Walk on node postorder 0x24078224
+<3>    Walk on node preorder 0x24078416
+<4>     Walk on node preorder 0x24078320
+<5>      Walk on node leaf 0x24078272
+<4>     Walk on node postorder 0x24078320
+<5>      Walk on node leaf 0x24078368
+<4>     Walk on node endorder 0x24078320
+<3>    Walk on node postorder 0x24078416
+<4>     Walk on node preorder 0x24078512
+<5>      Walk on node leaf 0x24078464
+<4>     Walk on node postorder 0x24078512
+<5>      Walk on node leaf 0x24078560
+<4>     Walk on node endorder 0x24078512
+<3>    Walk on node endorder 0x24078416
+<2>   Walk on node endorder 0x24078224
+<1>  Walk on node postorder 0x24078608
+<2>   Walk on node preorder 0x24078992
+<3>    Walk on node preorder 0x24078800
+<4>     Walk on node preorder 0x24078704
+<5>      Walk on node leaf 0x24078656
+<4>     Walk on node postorder 0x24078704
+<5>      Walk on node leaf 0x24078752
+<4>     Walk on node endorder 0x24078704
+<3>    Walk on node postorder 0x24078800
+<4>     Walk on node preorder 0x24078896
+<5>      Walk on node leaf 0x24078848
+<4>     Walk on node postorder 0x24078896
+<5>      Walk on node leaf 0x24078944
+<4>     Walk on node endorder 0x24078896
+<3>    Walk on node endorder 0x24078800
+<2>   Walk on node postorder 0x24078992
+<3>    Walk on node preorder 0x24079184
+<4>     Walk on node preorder 0x24079088
+<5>      Walk on node leaf 0x24079040
+<4>     Walk on node postorder 0x24079088
+<5>      Walk on node leaf 0x24079136
+<4>     Walk on node endorder 0x24079088
+<3>    Walk on node postorder 0x24079184
+<4>     Walk on node preorder 0x24079280
+<5>      Walk on node leaf 0x24079232
+<4>     Walk on node postorder 0x24079280
+<5>      Walk on node preorder 0x24079376
+<6>       Walk on node leaf 0x24079328
+<5>      Walk on node postorder 0x24079376
+<5>      Walk on node endorder 0x24079376
+<4>     Walk on node endorder 0x24079280
+<3>    Walk on node endorder 0x24079184
+<2>   Walk on node endorder 0x24078992
+<1>  Walk on node endorder 0x24078608
+<0> Walk on node endorder 0x24077840
+Twalk end, simple value
+dwarf_tdump tree head : 0x016f6010 tdump simple value from applybyvalue
+dwarf_tdump tree root : 0x016f6610 tdump simple value from applybyvalue
+<5>      0x016f6c10 <keyptr 0x00000040> <key  0x00000040> <2-node 0 red 0> <l 0x016f6be0> <r 0x00000000> right
+<6>       0x016f6be0 <keyptr 0x0000003f> <key  0x0000003f> <2-node 0 red 1> <l 0x00000000> <r 0x00000000> left 
+<4>     0x016f6bb0 <keyptr 0x0000003e> <key  0x0000003e> <2-node 1 red 0> <l 0x016f6b80> <r 0x016f6c10> right
+<5>      0x016f6b80 <keyptr 0x0000003d> <key  0x0000003d> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f6b50 <keyptr 0x0000003c> <key  0x0000003c> <2-node 1 red 0> <l 0x016f6af0> <r 0x016f6bb0> right
+<5>      0x016f6b20 <keyptr 0x0000003b> <key  0x0000003b> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6af0 <keyptr 0x0000003a> <key  0x0000003a> <2-node 1 red 0> <l 0x016f6ac0> <r 0x016f6b20> left 
+<5>      0x016f6ac0 <keyptr 0x00000039> <key  0x00000039> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x016f6a90 <keyptr 0x00000038> <key  0x00000038> <2-node 1 red 0> <l 0x016f69d0> <r 0x016f6b50> right
+<5>      0x016f6a60 <keyptr 0x00000037> <key  0x00000037> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6a30 <keyptr 0x00000036> <key  0x00000036> <2-node 1 red 0> <l 0x016f6a00> <r 0x016f6a60> right
+<5>      0x016f6a00 <keyptr 0x00000035> <key  0x00000035> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f69d0 <keyptr 0x00000034> <key  0x00000034> <2-node 1 red 0> <l 0x016f6970> <r 0x016f6a30> left 
+<5>      0x016f69a0 <keyptr 0x00000033> <key  0x00000033> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6970 <keyptr 0x00000032> <key  0x00000032> <2-node 1 red 0> <l 0x016f6940> <r 0x016f69a0> left 
+<5>      0x016f6940 <keyptr 0x00000031> <key  0x00000031> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<1>  0x016f6910 <keyptr 0x00000030> <key  0x00000030> <2-node 1 red 0> <l 0x016f6790> <r 0x016f6a90> right
+<5>      0x016f68e0 <keyptr 0x0000002f> <key  0x0000002f> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f68b0 <keyptr 0x0000002e> <key  0x0000002e> <2-node 1 red 0> <l 0x016f6880> <r 0x016f68e0> right
+<5>      0x016f6880 <keyptr 0x0000002d> <key  0x0000002d> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f6850 <keyptr 0x0000002c> <key  0x0000002c> <2-node 1 red 0> <l 0x016f67f0> <r 0x016f68b0> right
+<5>      0x016f6820 <keyptr 0x0000002b> <key  0x0000002b> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f67f0 <keyptr 0x0000002a> <key  0x0000002a> <2-node 1 red 0> <l 0x016f67c0> <r 0x016f6820> left 
+<5>      0x016f67c0 <keyptr 0x00000029> <key  0x00000029> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x016f6790 <keyptr 0x00000028> <key  0x00000028> <2-node 1 red 0> <l 0x016f66d0> <r 0x016f6850> left 
+<5>      0x016f6760 <keyptr 0x00000027> <key  0x00000027> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6730 <keyptr 0x00000026> <key  0x00000026> <2-node 1 red 0> <l 0x016f6700> <r 0x016f6760> right
+<5>      0x016f6700 <keyptr 0x00000025> <key  0x00000025> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f66d0 <keyptr 0x00000024> <key  0x00000024> <2-node 1 red 0> <l 0x016f6670> <r 0x016f6730> left 
+<5>      0x016f66a0 <keyptr 0x00000023> <key  0x00000023> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6670 <keyptr 0x00000022> <key  0x00000022> <2-node 1 red 0> <l 0x016f6640> <r 0x016f66a0> left 
+<5>      0x016f6640 <keyptr 0x00000021> <key  0x00000021> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<0> 0x016f6610 <keyptr 0x00000020> <key  0x00000020> <2-node 0 red 1> <l 0x016f6280> <r 0x016f6910> top
+<5>      0x016f65e0 <keyptr 0x0000001f> <key  0x0000001f> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f65b0 <keyptr 0x0000001e> <key  0x0000001e> <2-node 1 red 0> <l 0x016f6580> <r 0x016f65e0> right
+<5>      0x016f6580 <keyptr 0x0000001d> <key  0x0000001d> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f6550 <keyptr 0x0000001c> <key  0x0000001c> <2-node 1 red 0> <l 0x016f64f0> <r 0x016f65b0> right
+<5>      0x016f6520 <keyptr 0x0000001b> <key  0x0000001b> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f64f0 <keyptr 0x0000001a> <key  0x0000001a> <2-node 1 red 0> <l 0x016f64c0> <r 0x016f6520> left 
+<5>      0x016f64c0 <keyptr 0x00000019> <key  0x00000019> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x016f6490 <keyptr 0x00000018> <key  0x00000018> <2-node 1 red 0> <l 0x016f63d0> <r 0x016f6550> right
+<5>      0x016f6460 <keyptr 0x00000017> <key  0x00000017> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6430 <keyptr 0x00000016> <key  0x00000016> <2-node 1 red 0> <l 0x016f6400> <r 0x016f6460> right
+<5>      0x016f6400 <keyptr 0x00000015> <key  0x00000015> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f63d0 <keyptr 0x00000014> <key  0x00000014> <2-node 1 red 0> <l 0x016f61c0> <r 0x016f6430> left 
+<5>      0x016f63a0 <keyptr 0x00000013> <key  0x00000013> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f61c0 <keyptr 0x00000012> <key  0x00000012> <2-node 1 red 0> <l 0x016f6220> <r 0x016f63a0> left 
+<5>      0x016f6220 <keyptr 0x00000011> <key  0x00000011> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<1>  0x016f6280 <keyptr 0x00000010> <key  0x00000010> <2-node 1 red 0> <l 0x016f6160> <r 0x016f6490> left 
+<5>      0x016f62e0 <keyptr 0x0000000f> <key  0x0000000f> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6100 <keyptr 0x0000000e> <key  0x0000000e> <2-node 1 red 0> <l 0x016f6070> <r 0x016f62e0> right
+<5>      0x016f6070 <keyptr 0x0000000d> <key  0x0000000d> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f60a0 <keyptr 0x0000000c> <key  0x0000000c> <2-node 1 red 0> <l 0x016f60d0> <r 0x016f6100> right
+<5>      0x016f6040 <keyptr 0x0000000b> <key  0x0000000b> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f60d0 <keyptr 0x0000000a> <key  0x0000000a> <2-node 1 red 0> <l 0x016f6370> <r 0x016f6040> left 
+<5>      0x016f6370 <keyptr 0x00000009> <key  0x00000009> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<2>   0x016f6160 <keyptr 0x00000008> <key  0x00000008> <2-node 1 red 0> <l 0x016f6310> <r 0x016f60a0> left 
+<5>      0x016f6130 <keyptr 0x00000007> <key  0x00000007> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f6190 <keyptr 0x00000006> <key  0x00000006> <2-node 1 red 0> <l 0x016f6250> <r 0x016f6130> right
+<5>      0x016f6250 <keyptr 0x00000005> <key  0x00000005> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+<3>    0x016f6310 <keyptr 0x00000004> <key  0x00000004> <2-node 1 red 0> <l 0x016f62b0> <r 0x016f6190> left 
+<5>      0x016f61f0 <keyptr 0x00000003> <key  0x00000003> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> right
+<4>     0x016f62b0 <keyptr 0x00000002> <key  0x00000002> <2-node 1 red 0> <l 0x016f6340> <r 0x016f61f0> left 
+<5>      0x016f6340 <keyptr 0x00000001> <key  0x00000001> <2-node 1 red 0> <l 0x00000000> <r 0x00000000> left 
+PASS tsearch test.
+==== gnusearch -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node preorder 0x23650944
+<1>  Walk on node preorder 0x23650656
+<2>   Walk on node preorder 0x23651040
+<3>    Walk on node preorder 0x23650896
+<4>     Walk on node leaf 0x23651088
+<3>    Walk on node postorder 0x23650896
+<4>     Walk on node leaf 0x23650704
+<3>    Walk on node endorder 0x23650896
+<2>   Walk on node postorder 0x23651040
+<3>    Walk on node preorder 0x23650464
+<4>     Walk on node leaf 0x23650848
+<3>    Walk on node postorder 0x23650464
+<4>     Walk on node leaf 0x23650608
+<3>    Walk on node endorder 0x23650464
+<2>   Walk on node endorder 0x23651040
+<1>  Walk on node postorder 0x23650656
+<2>   Walk on node preorder 0x23650416
+<3>    Walk on node preorder 0x23651136
+<4>     Walk on node leaf 0x23650560
+<3>    Walk on node postorder 0x23651136
+<4>     Walk on node leaf 0x23650368
+<3>    Walk on node endorder 0x23651136
+<2>   Walk on node postorder 0x23650416
+<3>    Walk on node preorder 0x23650512
+<4>     Walk on node leaf 0x23650320
+<3>    Walk on node postorder 0x23650512
+<4>     Walk on node leaf 0x23650992
+<3>    Walk on node endorder 0x23650512
+<2>   Walk on node endorder 0x23650416
+<1>  Walk on node endorder 0x23650656
+<0> Walk on node postorder 0x23650944
+<1>  Walk on node preorder 0x23651808
+<2>   Walk on node preorder 0x23651424
+<3>    Walk on node preorder 0x23651232
+<4>     Walk on node preorder 0x23650752
+<5>      Walk on node leaf 0x23650800
+<4>     Walk on node postorder 0x23650752
+<5>      Walk on node leaf 0x23651184
+<4>     Walk on node endorder 0x23650752
+<3>    Walk on node postorder 0x23651232
+<4>     Walk on node preorder 0x23651328
+<5>      Walk on node leaf 0x23651280
+<4>     Walk on node postorder 0x23651328
+<5>      Walk on node leaf 0x23651376
+<4>     Walk on node endorder 0x23651328
+<3>    Walk on node endorder 0x23651232
+<2>   Walk on node postorder 0x23651424
+<3>    Walk on node preorder 0x23651616
+<4>     Walk on node preorder 0x23651520
+<5>      Walk on node leaf 0x23651472
+<4>     Walk on node postorder 0x23651520
+<5>      Walk on node leaf 0x23651568
+<4>     Walk on node endorder 0x23651520
+<3>    Walk on node postorder 0x23651616
+<4>     Walk on node preorder 0x23651712
+<5>      Walk on node leaf 0x23651664
+<4>     Walk on node postorder 0x23651712
+<5>      Walk on node leaf 0x23651760
+<4>     Walk on node endorder 0x23651712
+<3>    Walk on node endorder 0x23651616
+<2>   Walk on node endorder 0x23651424
+<1>  Walk on node postorder 0x23651808
+<2>   Walk on node preorder 0x23652192
+<3>    Walk on node preorder 0x23652000
+<4>     Walk on node preorder 0x23651904
+<5>      Walk on node leaf 0x23651856
+<4>     Walk on node postorder 0x23651904
+<5>      Walk on node leaf 0x23651952
+<4>     Walk on node endorder 0x23651904
+<3>    Walk on node postorder 0x23652000
+<4>     Walk on node preorder 0x23652096
+<5>      Walk on node leaf 0x23652048
+<4>     Walk on node postorder 0x23652096
+<5>      Walk on node leaf 0x23652144
+<4>     Walk on node endorder 0x23652096
+<3>    Walk on node endorder 0x23652000
+<2>   Walk on node postorder 0x23652192
+<3>    Walk on node preorder 0x23652576
+<4>     Walk on node preorder 0x23652384
+<5>      Walk on node preorder 0x23652288
+<6>       Walk on node leaf 0x23652240
+<5>      Walk on node postorder 0x23652288
+<6>       Walk on node leaf 0x23652336
+<5>      Walk on node endorder 0x23652288
+<4>     Walk on node postorder 0x23652384
+<5>      Walk on node preorder 0x23652480
+<6>       Walk on node leaf 0x23652432
+<5>      Walk on node postorder 0x23652480
+<6>       Walk on node leaf 0x23652528
+<5>      Walk on node endorder 0x23652480
+<4>     Walk on node endorder 0x23652384
+<3>    Walk on node postorder 0x23652576
+<4>     Walk on node preorder 0x23652768
+<5>      Walk on node preorder 0x23652672
+<6>       Walk on node leaf 0x23652624
+<5>      Walk on node postorder 0x23652672
+<6>       Walk on node leaf 0x23652720
+<5>      Walk on node endorder 0x23652672
+<4>     Walk on node postorder 0x23652768
+<5>      Walk on node preorder 0x23652960
+<6>       Walk on node preorder 0x23652864
+<7>        Walk on node leaf 0x23652816
+<6>       Walk on node postorder 0x23652864
+<7>        Walk on node leaf 0x23652912
+<6>       Walk on node endorder 0x23652864
+<5>      Walk on node postorder 0x23652960
+<6>       Walk on node preorder 0x23653152
+<7>        Walk on node preorder 0x23653056
+<8>         Walk on node leaf 0x23653008
+<7>        Walk on node postorder 0x23653056
+<8>         Walk on node leaf 0x23653104
+<7>        Walk on node endorder 0x23653056
+<6>       Walk on node postorder 0x23653152
+<7>        Walk on node preorder 0x23653248
+<8>         Walk on node leaf 0x23653200
+<7>        Walk on node postorder 0x23653248
+<8>         Walk on node preorder 0x23653296
+<8>         Walk on node postorder 0x23653296
+<9>          Walk on node leaf 0x23653344
+<8>         Walk on node endorder 0x23653296
+<7>        Walk on node endorder 0x23653248
+<6>       Walk on node endorder 0x23653152
+<5>      Walk on node endorder 0x23652960
+<4>     Walk on node endorder 0x23652768
+<3>    Walk on node endorder 0x23652576
+<2>   Walk on node endorder 0x23652192
+<1>  Walk on node endorder 0x23651808
+<0> Walk on node endorder 0x23650944
+Twalk end, simple value
+PASS tsearch test.
+==== hashsearch -byvalue ====
+special sequence Sequence 2, b
+special sequence Sequence 3
+special sequence Sequential 64
+Twalk start, simple value 
+<0> Walk on node leaf 0x17668568
+<0> Walk on node leaf 0x17668592
+<0> Walk on node leaf 0x17668616
+<0> Walk on node leaf 0x17668640
+<0> Walk on node leaf 0x17668664
+<0> Walk on node leaf 0x17668688
+<0> Walk on node leaf 0x17668712
+<0> Walk on node leaf 0x17668736
+<0> Walk on node leaf 0x17668760
+<0> Walk on node leaf 0x17668784
+<0> Walk on node leaf 0x17668808
+<0> Walk on node leaf 0x17668832
+<0> Walk on node leaf 0x17668856
+<0> Walk on node leaf 0x17668880
+<0> Walk on node leaf 0x17668904
+<0> Walk on node leaf 0x17668928
+<0> Walk on node leaf 0x17668952
+<0> Walk on node leaf 0x17668976
+<0> Walk on node leaf 0x17669000
+<0> Walk on node leaf 0x17669024
+<0> Walk on node leaf 0x17669048
+<0> Walk on node leaf 0x17669072
+<0> Walk on node leaf 0x17669096
+<0> Walk on node leaf 0x17669120
+<0> Walk on node leaf 0x17669144
+<0> Walk on node leaf 0x17669168
+<0> Walk on node leaf 0x17669192
+<0> Walk on node leaf 0x17669216
+<0> Walk on node leaf 0x17669240
+<0> Walk on node leaf 0x17669264
+<0> Walk on node leaf 0x17669288
+<0> Walk on node leaf 0x17669312
+<0> Walk on node leaf 0x17669336
+<0> Walk on node leaf 0x17669360
+<0> Walk on node leaf 0x17669384
+<0> Walk on node leaf 0x17669408
+<0> Walk on node leaf 0x17669432
+<0> Walk on node leaf 0x17669456
+<0> Walk on node leaf 0x17669480
+<0> Walk on node leaf 0x17669504
+<0> Walk on node leaf 0x17669528
+<0> Walk on node leaf 0x17669552
+<0> Walk on node leaf 0x17669576
+<0> Walk on node leaf 0x17669600
+<0> Walk on node leaf 0x17669624
+<0> Walk on node leaf 0x17669648
+<0> Walk on node leaf 0x17669672
+<0> Walk on node leaf 0x17669696
+<0> Walk on node leaf 0x17669720
+<0> Walk on node leaf 0x17669744
+<0> Walk on node leaf 0x17669768
+<0> Walk on node leaf 0x17669792
+<0> Walk on node leaf 0x17669816
+<0> Walk on node leaf 0x17669840
+<0> Walk on node leaf 0x17669864
+<0> Walk on node leaf 0x17669888
+<0> Walk on node leaf 0x17669912
+<0> Walk on node leaf 0x17669936
+<0> Walk on node leaf 0x17669960
+<0> Walk on node leaf 0x17669984
+<0> Walk on node leaf 0x17670008
+<0> Walk on node leaf 0x17670032
+<0> Walk on node leaf 0x17670056
+<0> Walk on node leaf 0x17670080
+Twalk end, simple value
+dumptree head ptr : 0x010d9010 size 79 entries 64 allowed 71 tdump simple value from applybyvalue
+[   1.00] 0x010d99d8 <keyptr 0x00000001> <key 0x00000001> head
+[   2.00] 0x010d99f0 <keyptr 0x00000002> <key 0x00000002> head
+[   3.00] 0x010d9a08 <keyptr 0x00000003> <key 0x00000003> head
+[   4.00] 0x010d9a20 <keyptr 0x00000004> <key 0x00000004> head
+[   5.00] 0x010d9a38 <keyptr 0x00000005> <key 0x00000005> head
+[   6.00] 0x010d9a50 <keyptr 0x00000006> <key 0x00000006> head
+[   7.00] 0x010d9a68 <keyptr 0x00000007> <key 0x00000007> head
+[   8.00] 0x010d9a80 <keyptr 0x00000008> <key 0x00000008> head
+[   9.00] 0x010d9a98 <keyptr 0x00000009> <key 0x00000009> head
+[  10.00] 0x010d9ab0 <keyptr 0x0000000a> <key 0x0000000a> head
+[  11.00] 0x010d9ac8 <keyptr 0x0000000b> <key 0x0000000b> head
+[  12.00] 0x010d9ae0 <keyptr 0x0000000c> <key 0x0000000c> head
+[  13.00] 0x010d9af8 <keyptr 0x0000000d> <key 0x0000000d> head
+[  14.00] 0x010d9b10 <keyptr 0x0000000e> <key 0x0000000e> head
+[  15.00] 0x010d9b28 <keyptr 0x0000000f> <key 0x0000000f> head
+[  16.00] 0x010d9b40 <keyptr 0x00000010> <key 0x00000010> head
+[  17.00] 0x010d9b58 <keyptr 0x00000011> <key 0x00000011> head
+[  18.00] 0x010d9b70 <keyptr 0x00000012> <key 0x00000012> head
+[  19.00] 0x010d9b88 <keyptr 0x00000013> <key 0x00000013> head
+[  20.00] 0x010d9ba0 <keyptr 0x00000014> <key 0x00000014> head
+[  21.00] 0x010d9bb8 <keyptr 0x00000015> <key 0x00000015> head
+[  22.00] 0x010d9bd0 <keyptr 0x00000016> <key 0x00000016> head
+[  23.00] 0x010d9be8 <keyptr 0x00000017> <key 0x00000017> head
+[  24.00] 0x010d9c00 <keyptr 0x00000018> <key 0x00000018> head
+[  25.00] 0x010d9c18 <keyptr 0x00000019> <key 0x00000019> head
+[  26.00] 0x010d9c30 <keyptr 0x0000001a> <key 0x0000001a> head
+[  27.00] 0x010d9c48 <keyptr 0x0000001b> <key 0x0000001b> head
+[  28.00] 0x010d9c60 <keyptr 0x0000001c> <key 0x0000001c> head
+[  29.00] 0x010d9c78 <keyptr 0x0000001d> <key 0x0000001d> head
+[  30.00] 0x010d9c90 <keyptr 0x0000001e> <key 0x0000001e> head
+[  31.00] 0x010d9ca8 <keyptr 0x0000001f> <key 0x0000001f> head
+[  32.00] 0x010d9cc0 <keyptr 0x00000020> <key 0x00000020> head
+[  33.00] 0x010d9cd8 <keyptr 0x00000021> <key 0x00000021> head
+[  34.00] 0x010d9cf0 <keyptr 0x00000022> <key 0x00000022> head
+[  35.00] 0x010d9d08 <keyptr 0x00000023> <key 0x00000023> head
+[  36.00] 0x010d9d20 <keyptr 0x00000024> <key 0x00000024> head
+[  37.00] 0x010d9d38 <keyptr 0x00000025> <key 0x00000025> head
+[  38.00] 0x010d9d50 <keyptr 0x00000026> <key 0x00000026> head
+[  39.00] 0x010d9d68 <keyptr 0x00000027> <key 0x00000027> head
+[  40.00] 0x010d9d80 <keyptr 0x00000028> <key 0x00000028> head
+[  41.00] 0x010d9d98 <keyptr 0x00000029> <key 0x00000029> head
+[  42.00] 0x010d9db0 <keyptr 0x0000002a> <key 0x0000002a> head
+[  43.00] 0x010d9dc8 <keyptr 0x0000002b> <key 0x0000002b> head
+[  44.00] 0x010d9de0 <keyptr 0x0000002c> <key 0x0000002c> head
+[  45.00] 0x010d9df8 <keyptr 0x0000002d> <key 0x0000002d> head
+[  46.00] 0x010d9e10 <keyptr 0x0000002e> <key 0x0000002e> head
+[  47.00] 0x010d9e28 <keyptr 0x0000002f> <key 0x0000002f> head
+[  48.00] 0x010d9e40 <keyptr 0x00000030> <key 0x00000030> head
+[  49.00] 0x010d9e58 <keyptr 0x00000031> <key 0x00000031> head
+[  50.00] 0x010d9e70 <keyptr 0x00000032> <key 0x00000032> head
+[  51.00] 0x010d9e88 <keyptr 0x00000033> <key 0x00000033> head
+[  52.00] 0x010d9ea0 <keyptr 0x00000034> <key 0x00000034> head
+[  53.00] 0x010d9eb8 <keyptr 0x00000035> <key 0x00000035> head
+[  54.00] 0x010d9ed0 <keyptr 0x00000036> <key 0x00000036> head
+[  55.00] 0x010d9ee8 <keyptr 0x00000037> <key 0x00000037> head
+[  56.00] 0x010d9f00 <keyptr 0x00000038> <key 0x00000038> head
+[  57.00] 0x010d9f18 <keyptr 0x00000039> <key 0x00000039> head
+[  58.00] 0x010d9f30 <keyptr 0x0000003a> <key 0x0000003a> head
+[  59.00] 0x010d9f48 <keyptr 0x0000003b> <key 0x0000003b> head
+[  60.00] 0x010d9f60 <keyptr 0x0000003c> <key 0x0000003c> head
+[  61.00] 0x010d9f78 <keyptr 0x0000003d> <key 0x0000003d> head
+[  62.00] 0x010d9f90 <keyptr 0x0000003e> <key 0x0000003e> head
+[  63.00] 0x010d9fa8 <keyptr 0x0000003f> <key 0x0000003f> head
+[  64.00] 0x010d9fc0 <keyptr 0x00000040> <key 0x00000040> head
+Hashtable: 64 of 79 hash entries used.
+Hashtable: 0 chains length longer than 1. 
+Hashtable: 1 is maximum chain length.
+PASS tsearch test.
+==== binarysearch testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== eppingerdel testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== balancedsearch testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== redblack testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== gnusearch testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== hashsearch testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== binarysearch testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== eppingerdel testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== balancedsearch testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== redblack testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== gnusearch testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== hashsearch testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== binarysearch testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== eppingerdel testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== balancedsearch testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== redblack testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== gnusearch testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== hashsearch testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== binarysearch testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== eppingerdel testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== balancedsearch testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== redblack testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== gnusearch testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== hashsearch testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== binarysearch testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== eppingerdel testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== balancedsearch testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== redblack testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== gnusearch testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== hashsearch testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== binarysearch testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== eppingerdel testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== balancedsearch testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== redblack testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== gnusearch testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== hashsearch testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== binarysearch testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== eppingerdel testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== balancedsearch testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== redblack testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== gnusearch testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== hashsearch testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== binarysearch testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== eppingerdel testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== balancedsearch testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== redblack testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== gnusearch testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== hashsearch testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== binarysearch testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== eppingerdel testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== balancedsearch testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== redblack testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== gnusearch testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== hashsearch testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== binarysearch testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== eppingerdel testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== balancedsearch testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== redblack testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== gnusearch testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== hashsearch testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== binarysearch testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== eppingerdel testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== balancedsearch testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== redblack testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== gnusearch testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== hashsearch testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== binarysearch testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== eppingerdel testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== balancedsearch testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== redblack testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== gnusearch testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== hashsearch testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== binarysearch testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== eppingerdel testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== balancedsearch testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== redblack testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== gnusearch testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== hashsearch testcases/test64 ====
+special sequence testcases/test64
+insertonebypointer rec 37 addr 552 0x228 found record preexisting, error
+FAIL tsearch test.
+==== binarysearch testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== eppingerdel testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== balancedsearch testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== redblack testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== gnusearch testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== hashsearch testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== binarysearch testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== eppingerdel testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== balancedsearch testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== redblack testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== gnusearch testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== hashsearch testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== binarysearch -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== redblack -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== gnusearch -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== hashsearch -byvalue testcases/action-F-dwgenb-dwarfgen.log ====
+special sequence testcases/action-F-dwgenb-dwarfgen.log
+PASS tsearch test.
+==== binarysearch -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== redblack -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== gnusearch -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== hashsearch -byvalue testcases/action-f-v-v-irix64-libc.so.log ====
+special sequence testcases/action-f-v-v-irix64-libc.so.log
+PASS tsearch test.
+==== binarysearch -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== redblack -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== gnusearch -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== hashsearch -byvalue testcases/action-i-dwarf4-dd2g4.5dwarf-4.log ====
+special sequence testcases/action-i-dwarf4-dd2g4.5dwarf-4.log
+PASS tsearch test.
+==== binarysearch -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== redblack -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== gnusearch -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== hashsearch -byvalue testcases/action-l-irix64-libc.so.log ====
+special sequence testcases/action-l-irix64-libc.so.log
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== redblack -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test10 ====
+special sequence testcases/test10
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== redblack -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test11 ====
+special sequence testcases/test11
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== redblack -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test11b ====
+special sequence testcases/test11b
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== redblack -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test11c ====
+special sequence testcases/test11c
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== redblack -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test18 ====
+special sequence testcases/test18
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== redblack -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test32 ====
+special sequence testcases/test32
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== redblack -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test547 ====
+special sequence testcases/test547
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== redblack -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test6 ====
+special sequence testcases/test6
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== redblack -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test64 ====
+special sequence testcases/test64
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== redblack -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test8 ====
+special sequence testcases/test8
+PASS tsearch test.
+==== binarysearch -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== eppingerdel -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== balancedsearch -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== redblack -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== gnusearch -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.
+==== hashsearch -byvalue testcases/test9 ====
+special sequence testcases/test9
+PASS tsearch test.

@@ -1,0 +1,67 @@
+
+This MIPS64 LE object gets 
+debug_line: line number info for a single cu
+> > dwarfdump ERROR:  dwarf_srclines:  DW_DLE_LINE_PROLOG_LENGTH_BAD (55) 
+> > (55)
+> >
+> >
+
+according to Phil Mucci.  Sep 2008.
+
+This is a bug in the header_length output of gcc for 64bit-offset-dwarf.
+
+The field is set 12 too high.
+
+his is from main.pathcc,
+<0><   23>    DW_TAG_compile_unit
+       DW_AT_stmt_list             390
+       DW_AT_ranges                80
+       DW_AT_name                  initfini.c
+       DW_AT_comp_dir              /opt/sicortex/rootfs/build/var/tmp/portage/sys-libs/glibc-2.5-r4/work/glibc-2.5/csu
+       DW_AT_producer              GNU AS 2.18
+       DW_AT_language              DW_LANG_Mips_Assembler
+
+The debug_line section starts like this:
+
+
+ 1569 ffffffff fe000000 00000000
+                  ver stamp 0200
+           header length aa00  ................
+  1579 00000000 0000
+              0101 fb0e0d00 01010101  ................
+
+Given the above, the prologue should end at x157f + xaa  or x1629.
+
+
+  1589 00000001 0000012f 6f70742f 7369636f  ......./opt/sico
+  1599 72746578 2f726f6f 7466732f 6275696c  rtex/rootfs/buil
+  15a9 642f7661 722f746d 702f706f 72746167  d/var/tmp/portag
+  15b9 652f7379 732d6c69 62732f67 6c696263  e/sys-libs/glibc
+  15c9 2d322e35 2d72342f 776f726b 2f627569  -2.5-r4/work/bui
+  15d9 6c642d6e 36342d6d 69707336 34656c2d  ld-n64-mips64el-
+  15e9 67656e74 6f6f2d6c 696e7578 2d676e75  gentoo-linux-gnu
+  15f9 2d6e7074 6c2f6373 75000069 6e697466  -nptl/csu..initf
+  1609 696e692e 63000000 00637274 692e5300  ini.c....crti.S.
+
+  1619 010000  last path ends here
+00   this is the final byte of the header.    This is 12 bytes before the 0xaa would indicate.
+The header ends here.   That leaves 12 bytes  here:
+                            04020009 02a00a00 20010000  ............ ...
+
+These 12 bytes  are really part of the line table instructions. Not part of the header or junk.
+
+Supposedly header ends here see the calc of x1629 above, we start instructions
+  1629 00031201 4b4b4b4b 4b4c4b4d 4b020400  ....KKKKKLKMK...
+  1639 01010402 000902b8 09002001 00000003  .......... .....
+  1649 2a014b4b 4b4b4b4b 4b4b0208 00010104  *.KKKKKKKK......
+  1659 02000902 400d0020 01000000 03c00001  ....@.. ........
+  1669 4b4b4b4b 4b020400 0101ffff ffff7000  KKKKK.........p.
+  1679 00000000 00000200 5e000000 00000000  ........^.......
+  1689 0101fb0e 0d000101 01010000 00010000  ................
+  1699 012f2e72 6f6f7430 2f6e6574 2f686f6d  ./.root0/net/hom
+  16a9 652f7068 696c2f64 77617266 2d323030  e/phil/dwarf-200
+
+What the compiler guys did was forget that the 12 bytes added at the beginning of the line header
+for the 64bit-extension stuff
+should not also be in the prologue_length.   The 0xaa is wrong, it is 12 (decimal) too big.
+

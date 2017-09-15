@@ -1,0 +1,9 @@
+#
+# By setting libdw
+# This file lets test directories know the directory
+# containing the source directories
+# libdwarf, dwarfdump, dwarfdump2, dwarfgen, and dwarfexample are.
+
+# Configure appends a choice, and you can specify the
+# correct value with
+# ./configure --enable-libdwarf=/some/path

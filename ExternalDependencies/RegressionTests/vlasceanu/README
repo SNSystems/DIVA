@@ -1,0 +1,32 @@
+
+Example From Christian  Vlasceanu  Jan 3 2011
+
+
+Here is a test case in source.
+
+"I generated the files on a Ubuntu 11.10 64 bit system by running:
+clang++ -O0 -g const.cpp
+and
+clang++ -O0 -g -c const.cpp"
+
+const.cpp  
+const.o
+a.out  
+
+If these use the form DW_FORM_addr, do they do so correctly?
+  Answer: NO, at least not on DW_AT_stmt_list
+Does dwarfdump or libdwarf handle it correctly?
+  Answer: Given it is malformed DWARF libdwarf
+          properly reports an error.
+
+That DW_FORM_addr is not a reference, so dwarf_global_formref()
+won't read it.  DWARF2 documented that form confusingly
+and incorrectly, DWARF3 and later are the appropriate references.
+
+Clang 2.9 also generates incorrect attributes on DW_TAG_friend.
+
+The following bug reports deal with the mistakes libdwarf
+finds in the generated DWARF.
+
+http://llvm.org/bugs/show_bug.cgi?id=9995
+http://llvm.org/bugs/show_bug.cgi?id=11695

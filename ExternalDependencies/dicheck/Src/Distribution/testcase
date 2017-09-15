@@ -1,0 +1,22 @@
+ok pos 0  line 1
+ bad pos 1  line 2 
+ok pos 0  line 3
+  bad pos 2 line 4
+ok pos 0  line 5
+   bad pos 3 line 6
+ok pos 0  line 7
+    ok pos 4  line 8
+ 	bad tab line 9
+ok pos 0  line 10
+    ok pos 4  line 11
+        ok pos 8  line 12
+                bad pos 16  line 13
+ok pos 0  line 14
+    ok pos 4  line 15
+        ok pos 8  line 16
+            ok pos 12  line 17
+    ok pos 4  line 18, big skip ok
+  ok pos 2  line 19
+   ok pos 3  line 20
+    ok pos 4  line 21
+whitespace on end. 

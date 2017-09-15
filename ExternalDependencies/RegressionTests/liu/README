@@ -1,0 +1,105 @@
+
+All the test cases here may also have bogus strings.
+
+April 26, 2016. Yue Liu reports:
+
+I found a out bound READ bug in lastest libdwarf, and the offset can be controlled between a range from 0 to 0xFFFFFFFF.
+
+#0  _dwarf_decode_u_leb128 (leb128=leb128@entry=0x41a6c02d <error: Cannot access memory at address 0x41a6c02d>, leb128_length=leb128_length@entry=0x7fffffffd418) at dwarf_leb.c:57
+#1  0x00002aaaaacf398d in dwarf_attrlist (die=die@entry=0x65ae50, attrbuf=attrbuf@entry=0x7fffffffd4d0, attrcnt=attrcnt@entry=0x7fffffffd4c8, error=error@entry=0x7fffffffd4d8) at dwarf_query.c:261
+#2  0x0000000000416b11 in print_one_die (dbg=dbg@entry=0x655ab0, die=die@entry=0x65ae50, dieprint_cu_goffset=dieprint_cu_goffset@entry=11, print_information=1, die_indent_level=1, srcfiles=srcfiles@entry=0x0, cnt=cnt@entry=0, ignore_die_stack=ignore_die_stack@entry=0) at print_die.c:1398
+...
+
+Segment Fault at dwarf_leb.c:57 :
+
+  53         /*  The following unrolls-the-loop for the first few bytes and
+  54             unpacks into 32 bits to make this as fast as possible.
+  55             word_number is assumed big enough that the shift has a defined
+  56             result. */
+  57         if ((*leb128 & 0x80) == 0) {                <- $pc
+  58             if (leb128_length != NULL)
+  59                 *leb128_length = 1;
+  60             return (*leb128);
+  61         } else if ((*(leb128 + 1) & 0x80) == 0) {
+
+My analysis: none of the uleb reading is checked to ensure it does
+not run off the end. 
+test case:
+outofboundread.elf
+===============
+And also:
+894     #endif /* PRINTING_DETAILS */
+ 895                 Dwarf_Unsigned operation_advance = 0;
+ 896     
+ 897                 opcode = opcode - line_context->lc_opcode_base;
+ 898                 operation_advance = (opcode / line_context->lc_line_range);                 <- $pc
+ 899     
+ 900                 if (line_context->lc_maximum_ops_per_instruction < 2) {
+ 901                     regs.lr_address = regs.lr_address + (operation_advance *
+
+test case:
+divisionbyzero.elf
+===============
+And also:
+ 145     {
+ 146         Dwarf_Unsigned address_size = cieptr->ci_address_size;
+ 147         Dwarf_Unsigned length_field_summed = length_size + extension_size;
+ 148         Dwarf_Unsigned total_len = length + length_field_summed;
+ 149         Dwarf_Unsigned mod = total_len % address_size;              <- $pc
+ 150     
+ 151         if (mod != 0) {
+ 152             char msg[DW_HARMLESS_ERROR_MSG_STRING_SIZE];
+ 153             Dwarf_Unsigned sectionoffset = ciefde_start - section_ptr;
+
+test case:
+divisonbyzero02.elf
+==========
+And also
+
+------------------------------------------------[source:dwarf_frame.c+344]--------------------------
+ 340             Dwarf_Small opcode = 0;
+ 341             reg_num_type reg_no = 0;
+ 342     
+ 343             fp_instr_offset = instr_ptr - start_instr_ptr;
+ 344             instr = *(Dwarf_Small *) instr_ptr;             <- $pc
+ 345             instr_ptr += sizeof(Dwarf_Small);
+ 346     
+ 347             fp_base_op = (instr & 0xc0) >> 6;
+ 348             if ((instr & 0xc0) == 0x00) {
+-----------------------------------------------------------------------------
+test case:
+outofboundread2.elf
+========== 
+
+When there were bogus relocation records
+we could write outside the malloc space in memory.
+Now we check for that. And in the case of dwarf_srcfiles()
+in dwarfdump (this test case) we report that we had an error and
+are attempting to continue.
+
+test case:
+heapoverflow01.elf
+========== 
+
+This test exposed a logic bug in dwarf 5 macros.
+In case of error there would be a duplicate free
+in dwarf_finish(). 
+
+
+test case:
+outofbound01.elf
+
+============
+This is an info section with zero length, so 
+there is no pointer to the section in libdwarf.
+
+test case:
+null01.elf
+
+==========
+
+Corrupt dwarf in the aranges section showed
+some checks were needed in dwarf_arange.c
+
+testcase:
+infiniteloop.elf

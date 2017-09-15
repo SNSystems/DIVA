@@ -1,0 +1,8 @@
+
+With 2008 dwarfdump, these get
+
+.debug_line: line number info for a single cu
+dwarfdump ERROR:  dwarf_srclines:  DW_DLE_LINE_NUM_OPERANDS_BAD (56)
+
+
+Submitted by Remki Troncon.  Feb 13, 2009

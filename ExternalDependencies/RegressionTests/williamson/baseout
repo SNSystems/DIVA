@@ -1,0 +1,21 @@
+
+.debug_info
+
+COMPILE_UNIT<header overall offset = 0x00000000>:
+< 0><0x0000000b GOFF=0x0000000b>  DW_TAG_compile_unit
+                                    <Unknown AT value 0x30>     <no string provided?>
+                                    <Unknown AT value 0x30>     48
+                                    <Unknown AT value 0x30>     <no string provided?>
+                                    <Unknown AT value 0x30>     <no string provided?>
+                                    <Unknown AT value 0x30>     0x3030303030303030
+                                    <Unknown AT value 0x30>     3472328296227680304
+                                    <Unknown AT value 0x30>     0x30303030
+
+LOCAL_SYMBOLS:
+< 1><0x0000002d GOFF=0x0000002d>    DW_TAG_template_value_parameter
+
+dwarfdump ERROR:  dwarf_attrlist:  DW_DLE_DW_DLE_ATTR_OUTSIDE_SECTION(274) (274)
+
+CU Name = <unknown>
+CU Producer = "<CU-missing-DW_AT_producer>"
+DIE OFF = 0x0000002d GOFF = 0x0000002d, Low PC = 0x00000000, High PC = 0x00000000

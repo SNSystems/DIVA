@@ -1,0 +1,51 @@
+
+However, I have recently observed some weirdness in some
+cases. After some debugging I think I have been able to
+track down the problems. The problem will arise when calling
+dwarf_next_cu_header() and dwarf_offdie() in a certain order.
+
+I have attached an object file and an example source to
+demonstrate the problem. Note that I have gathered the die
+offsets using another program, so they are hardcoded in the
+example. The die offsets point to type information entries in
+five different compile units. One of them (at offset 0xb5)
+is an array, and does therefore not have any DW_AT_name. In
+the case where WORKING is defined to 1, this will be shown
+in the programs output ("0xb5 die has NO DW_AT_name"). But
+when WORKING is defined to 0, the 0xb5 die will be reported
+as actually having a name attribute.
+
+The problems appears to be caused in dwarf_die_deliv.c. The
+problem appears when you call dwarf_offdie with an
+offset to a cu_context that still does not exist in the
+dbg->de_cu_context_list, then you call dwarf_next_cu_header a
+couple of times, then dwarf_offdie once again with an offset
+to a cu_context not in the de_cu_context_list.
+
+In the second dwarf_offdie call, the
+dbg->de_offdie_cu_context_end will point to the cu_context
+created in the previous call to dwarf_offdie. The
+cc_next pointer in that context will be updated to point
+to a cu_context that is newly created. This destroys the
+de_cu_context_list by losing the references to the cu_context
+items created after the previous dwarf_offdie call.
+
+The hole in the de_cu_context_list may then cause further
+problems when calling dwarf_offdie, for example returning a
+die with an abbreviation list that belongs to another die...
+
+For my purposes it seems to work if I remove the line
+dbg->de_offdie_cu_context_end->cc_next = cu_context; (line
+760 in my version of dwarf_die_deliv.c)
+
+However, I have not analyzed if this could have any adverse
+effects. I believe I have not really understood the point
+with the de_offdie_cu_context pointers.
+
+I apologize for this somewhat messy bug report and
+example. Don't hesitate to contact me if you have any further
+questions.
+
+Best regards,
+Mattias Lindblad
+

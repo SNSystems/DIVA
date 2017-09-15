@@ -1,0 +1,59 @@
+# Clean up the temp files left behind by a test.
+set -x
+(cd dwgena ; make clean)
+(cd debugfission ; make clean)
+# The /tmp/dwa* files are lock files to prevent running two regr.
+# tests at the same time as two-at-once will not work!
+rm -f /tmp/dwa.*
+rm -f /tmp/dwb.*
+rm -f tmp*
+rm -f tmp*err*
+rm -f core
+rm -f junk*
+rm -f ALL*
+rm -f libdwarf.a
+rm -f testoutput
+rm -f libdwoldframecol.a
+rm -f test_harmless
+rm -f baddie1/testincorrect*
+rm -f test-alex1/test1
+rm -f        test-alex1/test2
+rm -f        test-alex1/outdiffs
+rm -f        test-alex1/out1
+rm -f        test-alex1/out2
+rm -f        test-alex2/test2
+rm -f        test-alex2/out1
+rm -f        dwarfextract/test1.new
+rm -f        dwarfextract/test1out
+rm -f        dwarfextract/dwarfextractc
+rm -f   dwarfextract/test2out
+rm -f dwarfextract/testc.new
+rm -f williamson/newout
+rm -f williamson/newunminout
+rm -f williamson/core*
+rm -f williamson/vgcore*
+rm -f hughes2/*core*
+rm -f dwarfextract/testcout
+rm -f dwarfextract/basecstdout
+rm -f dwarfextract/basestdout
+rm -f        dwarfextract/dwarfextract
+rm -f        findcu/testoutput
+rm -f        findcu/cutest
+rm -f        kartashev/kart2.tar
+rm -f        tn
+rm -f        to
+rm -f */junk*
+rm -f  dwarfnames-s.c
+rm -f  dwarfnames-s
+rm -f  dwarfnames-t.c
+rm -f  dwarfnames-t
+rm -f dwarfdump2
+rm -f OF*
+rm -f dwarfdump
+rm -f dwarfdumpW
+rm -f gennames
+rm -f dwarfgen
+rm -f simplereader
+rm -f BASEFILES
+rm -f junkckpath
+

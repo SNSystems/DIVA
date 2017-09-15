@@ -1,0 +1,5 @@
+Hex key = 0x032ccfcfbc7c9d26
+
+Getting die for CU key 032ccfcfbc7c9d26
+Hash found.
+<0> tag: 17 DW_TAG_compile_unit  name: "../../binutils-gdb/gold/dirsearch.cc" FORM 0x1f02 "DW_FORM_GNU_str_index"

@@ -1,0 +1,23 @@
+
+Paul Marinescu writes:
+
+
+I attached two files that crash dwarfdump, apparently in different places. I compiled dwarfdump from source on Ubuntu 10.04 x86_64. The command lines are
+
+dwarfdump -ka -vvv -R -M hello.test
+dwarfdump -ka -x abi=arm armcc-test-dwarf2.test
+
+
+The objects have bogus address_size in debug_info and those
+being way too large (ie, 120) we read in too much to local variables
+and trash memory.  Fixed in dwarfdump/libdwarf Sep 14, 2011
+
+
+dwarfdump -a tcombined.o.div gave a divide by zero error because  the SYMTAB
+sh_entrysize was zero (bogus). Now we test for zero.
+
+dwarfdump -a tcombined.o.seg: The test for 
+past-end-of-symtab was off by one, now
+we test >= instead of >.  Valgrind noticed we stepped off end
+of data.
+

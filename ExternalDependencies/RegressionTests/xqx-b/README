@@ -1,0 +1,45 @@
+
+Qixue Xiao writes, Jan 12, 2016:
+
+an out of bound read is found in libdwarf.
+
+the result of valgrind as follows:
+
+=========================================================
+
+*** DWARF CHECK: DW_DLE_DEBUG_FRAME_LENGTH_NOT_MULTIPLE
+len=0x00000010, len size=0x00000004, extn size=0x00000000, totl
+length=0x00000014, addr size=0x00000008, mod=0x00000004 must be zero
+in cie, offset 0x00000000. ***
+7   ==53495== Invalid read of size 2
+  1 ==53495==    at 0x4C2F7E0: memcpy@@GLIBC_2.14 (in
+/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+  2 ==53495==    by 0x43287F: dwarf_read_cie_fde_prefix (dwarf_frame2.c:934)
+  3 ==53495==    by 0x431305: _dwarf_get_fde_list_internal (dwarf_frame2.c:268)
+  4 ==53495==    by 0x42EB5F: dwarf_get_fde_list_eh (dwarf_frame.c:1101)
+  5 ==53495==    by 0x41BABE: print_frames (print_frames.c:1835)
+  6 ==53495==    by 0x40485B: process_one_file (dwarfdump.c:1323)
+  7 ==53495==    by 0x403529: main (dwarfdump.c:630)
+  8 ==53495==  Address 0x548b3c0 is 0 bytes inside a block of size 1 alloc'd
+  9 ==53495==    at 0x4C2AB80: malloc (in
+/usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+ 10 ==53495==    by 0x4E40600: ??? (in
+/usr/lib/x86_64-linux-gnu/libelf-0.158.so)
+ 11 ==53495==    by 0x4E40873: ??? (in
+/usr/lib/x86_64-linux-gnu/libelf-0.158.so)
+ 12 ==53495==    by 0x42A0E1: dwarf_elf_object_access_load_section
+(dwarf_elf_access.c:1230)
+ 13 ==53495==    by 0x437715: _dwarf_load_section (dwarf_init_finish.c:1072)
+ 14 ==53495==    by 0x42EAEB: dwarf_get_fde_list_eh (dwarf_frame.c:1096)
+ 15 ==53495==    by 0x41BABE: print_frames (print_frames.c:1835)
+ 16 ==53495==    by 0x40485B: process_one_file (dwarfdump.c:1323)
+ 17 ==53495==    by 0x403529: main (dwarfdump.c:630)
+ 18 ==53495==
+
+------------------
+As of Jan 12, 2016 I do not see these errors, I just
+get an error report from dwarfdump.
+Well, there is an oddity but it is not in libdwarf.
+An abbrev-code jumps from low to high and print_abbrevs.c
+does not handle that well as of Jan 1, 2016.
+(being fixed Jan 12).

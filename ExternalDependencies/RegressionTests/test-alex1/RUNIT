@@ -1,0 +1,2 @@
+
+dwarfdump -a orig.a.out >dw.out

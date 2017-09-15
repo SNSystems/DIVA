@@ -1,0 +1,17 @@
+
+# should get error on following line.
+beginabi: mips junk
+reg: cfa 0 junk2   # Used with MIPS/IRIX original DWARF2 interface
+reg: r1/at 1 junk3
+reg b6  foo
+reg: b7  foo
+frame_interface: 2 
+frame_interface: n 
+cfa_reg: 0
+cfa_reg: j
+cfa_reg: 0 junk4
+initial_reg_value:  1035  # DW_FRAME_SAME_VAL
+initial_reg_value:  j  # DW_FRAME_SAME_VAL
+initial_reg_value:  4 junk  # DW_FRAME_SAME_VAL
+
+endabi: mipsx

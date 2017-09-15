@@ -1,0 +1,18 @@
+
+The libc6 here is X86_64 from Fedora 18.
+
+Using 20121130 libdwarf we get:
+
+		ranges: 3 at .debug_ranges offset 480 (0x000001e0) (48 bytes)
+			[ 0] range entry    0x00000080 0x000000a3
+			[ 1] range entry    0x000000a6 0x000000b2
+			[ 2] range end      0x00000000 0x00000000
+                          DW_AT_call_file             0x00000001 ../sysdeps/x86_64/multiarch/init-arch.c
+                          DW_AT_call_line             0x0000007c
+< 4><0x0000036b>          DW_TAG_formal_parameter
+                            DW_AT_abstract_origin       <0x0000027c>
+abort() in libdwarf. No error argument, no handler.
+                            Aborted (core dumped)
+
+
+Very bad indeed.

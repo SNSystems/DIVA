@@ -1,0 +1,9 @@
+
+This object is from Andres Charif Rubial
+and its relocations are not handled  in
+libdwarf as of March 8, 2013.
+
+It is an Intel K1OM object, according to
+readelf.
+
+

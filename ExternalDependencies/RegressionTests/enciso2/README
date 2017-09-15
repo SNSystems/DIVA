@@ -1,0 +1,7 @@
+
+Test case supplied by Carlos Alberto Enciso 8 February 2010.
+
+To show template information.
+
+The .o is ppc 64bit and has .rela, so as of this date (8 Feb)
+it is a bit hard to use (dwarfdump does not do these relocations)!

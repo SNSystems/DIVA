@@ -1,0 +1,20 @@
+September 13, 2015.
+Arnaud Diederen contributed the test case here and writes:
+
+we have a fuzzed DWARF file that contains a .debug_str section that
+contains strings that are not properly 0-terminated.
+Some DIEs in that file refer to offsets in that .debug_str section,
+which never encounter any '\0' within.
+Attached, you'll find said file (password for the .zip is: 123. You'll
+have to unpack twice.)
+
+You'll notice that the .debug_str section ends with '0x13 0x11', and
+some DIEs point to close to the end of that section.
+For example, the DIE at offset 45141, has a string offset of 0x39ef,
+which is damn close to the end of the section, whose size is 0x39fe.
+
+Therefore,  programs using libdwarf and reading such DIEs & their
+associated strings will be reading memory that might be
+unitialized/protected.
+
+------

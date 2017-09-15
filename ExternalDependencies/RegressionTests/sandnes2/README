@@ -1,0 +1,44 @@
+Torleif writes:
+
+I have come across a problem in libdwarf 20090330.  I see
+that there are newer versions released, but none of them
+mention fixes in retrieval of line number information.
+
+The problem, it seems, is that the compilation directory is
+added to a file with an absolute file name.
+
+Looking at the sourcelines with avr-readelf -wL:
+
+I2C.c                                        448               0x51c
+I2C.c                                        449               0x522
+I2C.c                                        453               0x52a
+I2C.c                                        454               0x536
+
+c:/programs/winavr-20081205/lib/gcc/../../avr/include/util/delay_basic.h:
+util/delay_basic.h                           105               0x538
+
+../I2C.c:
+I2C.c                                        454               0x53c
+I2C.c                                        457               0x54c
+
+It seems that a source lookup for address 0x538 we
+should expect to get the file util/delay_basic.h.
+Unfortunately, I get "C:\Documents and
+Settings\tsandnes\Desktop\elfdwarfparser\at90usb128-i2c\at90usb128\demo\hid_generic_std\gcc/c:/programs/winavr-20081205/lib/gcc/../../avr/include/util/delay_basic.h"
+
+I have stepped down into dwarf_linesrc() and seen that the
+compilation dir is prepended to the header file.
+
+I have attached the object file. Can you verify that this is
+in case a bug in the libdwarf library?
+
+
+One must use a libdwarf configured with  --enable-windowspath
+to get correct Windows path concatenation.
+
+
+grep 'path/c:/programs/'
+
+should show nothing (in dwarfdump -a output) if the libdwarf configured
+with --enable-windowspath and should show something if
+the libdwarf not configured that way.

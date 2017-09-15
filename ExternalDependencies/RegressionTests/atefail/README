@@ -1,0 +1,18 @@
+
+dwarfdump -kt  ig_server 
+
+With dwarfdump before fixes it crashes.
+
+With latest (June 19 2008 or so) it gets an error.
+The problem is that its a relocatable and without
+doing the relocation the .debug_strp offset is wrong.
+
+The Processor is  QUALCOMM DSP6 Processor
+and neither readelf nor libdwarf knows how
+to actually do relocations with this object,
+so anything one tries to do that involves this
+won't work very well.
+
+Relocation types found are 1 and 6. Whatever those mean.
+
+DavidA.

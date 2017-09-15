@@ -1,0 +1,4 @@
+
+The dwarfdumpv4.3 here is compiled with gcc Version 4.3, which
+introduces a relatively new use of inlined function data.
+

@@ -1,0 +1,19 @@
+#  This is really a test of the new dwarf_get_form_class function.
+set -x
+l=$1
+i=$2
+gcc -DWORKING=1 -I $i    test.c $l -lelf -o test2
+
+./test2 orig.a.out >out1
+if [ $? != 0 ]
+then
+    echo FAIL dwarf_get_form_class, oops, in test-alex2
+    exit 1
+fi
+grep "DW_FORM_CLASS_STRING" out1 >/dev/null
+if [ $? != 0 ]
+then
+    echo FAIL dwarf_get_form_class in test-alex2
+    exit 1
+fi
+exit 0

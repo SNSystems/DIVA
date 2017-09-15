@@ -1,0 +1,17 @@
+June 2011. Remaining known issues.
+
+Need to print the new SIG8 section.
+
+Check for FIXME in the source.
+
+DW_DLE_REF_SIG8_NOT_HANDLED (228) 
+ -ka -vvv -R -M dwarf4/dd2g4.5dwarf-4
+
+dwarfdump2 needs to be brought up to match dwarfdump,
+starting with dwarfdump2.cc
+
+
+
+
+
+

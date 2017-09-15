@@ -1,0 +1,140 @@
+high_pc checking printf 
+high_pc checking open 
+high_pc checking memset 
+high_pc checking strcpy 
+high_pc checking print_object_header 
+high_pc checking do_uri_translation 
+high_pc checking do_all 
+high_pc checking atoi 
+high_pc checking fprintf 
+high_pc checking suppress_print_dwarf 
+high_pc checking PRINT_CU_INFO 
+high_pc checking checking_this_compiler 
+high_pc checking close_a_file 
+high_pc checking process_one_file 
+high_pc checking hasprefix 
+high_pc checking suppress_check_dwarf dwarf_highpc() error not class address highpcb  0x0000003d highoff  0x0000003d lowpc    0x00000000 
+high_pc checking PRINT_CHECK_RESULT dwarf_highpc() error not class address highpcb  0x00000070 highoff  0x00000030 lowpc    0x00000040 
+high_pc checking print_specific_checks_results dwarf_highpc() error not class address highpcb  0x0000037e highoff  0x0000030e lowpc    0x00000070 
+high_pc checking qsort_compare_compiler dwarf_highpc() error not class address highpcb  0x000003d7 highoff  0x00000057 lowpc    0x00000380 
+high_pc checking reset_overall_CU_error_data dwarf_highpc() error not class address highpcb  0x00000493 highoff  0x000000b3 lowpc    0x000003e0 
+high_pc checking remove_quotes_pair dwarf_highpc() error not class address highpcb  0x00000528 highoff  0x00000088 lowpc    0x000004a0 
+high_pc checking <no DW_AT_name attr> dwarf_highpc() error not class address highpcb  0x00000625 highoff  0x000000f5 lowpc    0x00000530 
+high_pc checking build_linkonce_info dwarf_highpc() error not class address highpcb  0x00000794 highoff  0x00000164 lowpc    0x00000630 
+high_pc checking tag_specific_checks_setup dwarf_highpc() error not class address highpcb  0x0000082b highoff  0x0000008b lowpc    0x000007a0 
+high_pc checking <no DW_AT_name attr> dwarf_highpc() error not class address highpcb  0x00000836 highoff  0x00000006 lowpc    0x00000830 
+high_pc checking reset_compiler_entry 
+high_pc checking update_compiler_target dwarf_highpc() error not class address highpcb  0x00000a8d highoff  0x0000024d lowpc    0x00000840 
+high_pc checking add_cu_name_compiler_target dwarf_highpc() error not class address highpcb  0x00000b2a highoff  0x0000009a lowpc    0x00000a90 
+high_pc checking cu_data_is_set 
+high_pc checking <no DW_AT_name attr> dwarf_highpc() error not class address highpcb  0x00000cb9 highoff  0x00000189 lowpc    0x00000b30 
+high_pc checking print_error_and_continue dwarf_highpc() error not class address highpcb  0x00000dee highoff  0x0000012e lowpc    0x00000cc0 
+high_pc checking print_error dwarf_highpc() error not class address highpcb  0x00000e34 highoff  0x00000044 lowpc    0x00000df0 
+high_pc checking get_producer_name dwarf_highpc() error not class address highpcb  0x00000f4e highoff  0x0000010e lowpc    0x00000e40 
+high_pc checking get_cu_name dwarf_highpc() error not class address highpcb  0x000010cd highoff  0x0000017d lowpc    0x00000f50 
+high_pc checking old_get_cu_name dwarf_highpc() error not class address highpcb  0x0000126c highoff  0x0000019c lowpc    0x000010d0 
+high_pc checking should_skip_this_cu dwarf_highpc() error not class address highpcb  0x00001423 highoff  0x000001b3 lowpc    0x00001270 
+high_pc checking DWARF_CHECK_COUNT dwarf_highpc() error not class address highpcb  0x00001479 highoff  0x00000049 lowpc    0x00001430 
+high_pc checking DWARF_ERROR_COUNT dwarf_highpc() error not class address highpcb  0x000014bf highoff  0x0000003f lowpc    0x00001480 
+high_pc checking DWARF_CHECK_ERROR_PRINT_CU dwarf_highpc() error not class address highpcb  0x000014e6 highoff  0x00000026 lowpc    0x000014c0 
+high_pc checking DWARF_CHECK_ERROR dwarf_highpc() error not class address highpcb  0x00001559 highoff  0x00000069 lowpc    0x000014f0 
+high_pc checking print_any_harmless_errors dwarf_highpc() error not class address highpcb  0x00001649 highoff  0x000000e9 lowpc    0x00001560 
+high_pc checking print_search_results 
+high_pc checking print_checks_results 
+high_pc checking <no DW_AT_name attr> dwarf_highpc() error not class address highpcb  0x0000232b highoff  0x00000cdb lowpc    0x00001650 
+high_pc checking process_args 
+high_pc checking open_a_file 
+high_pc checking main dwarf_highpc() error not class address highpcb  0x00001317 highoff  0x00001317 lowpc    0x00000000 
+high_pc checking DWARF_CHECK_ERROR2 dwarf_highpc() error not class address highpcb  0x000023bc highoff  0x0000008c lowpc    0x00002330 
+high_pc checking DWARF_CHECK_ERROR3 dwarf_highpc() error not class address highpcb  0x00002452 highoff  0x00000092 lowpc    0x000023c0 
+high_pc checking __builtin_puts 
+high_pc checking __printf_chk 
+high_pc checking fflush 
+high_pc checking __builtin_strcmp 
+high_pc checking __builtin_strcpy 
+high_pc checking calloc 
+high_pc checking makename 
+high_pc checking free 
+high_pc checking strlen 
+high_pc checking esb_get_string 
+high_pc checking esb_constructor 
+high_pc checking translate_from_uri 
+high_pc checking esb_destructor 
+high_pc checking dwarf_get_section_count 
+high_pc checking dwarf_get_section_info_by_index 
+high_pc checking strstr 
+high_pc checking AddEntryIntoBucketGroup 
+high_pc checking PrintBucketGroup 
+high_pc checking ResetBucketGroup 
+high_pc checking safe_strcpy 
+high_pc checking is_strstrnocase 
+high_pc checking __fprintf_chk 
+high_pc checking malloc 
+high_pc checking exit 
+high_pc checking __builtin_putchar 
+high_pc checking dwarf_errmsg 
+high_pc checking dwarf_errno 
+high_pc checking dwarf_finish 
+high_pc checking dwarf_attr 
+high_pc checking get_attr_value 
+high_pc checking dwarf_dealloc 
+high_pc checking esb_append 
+high_pc checking esb_empty_string 
+high_pc checking strrchr 
+high_pc checking dwarf_formstring 
+high_pc checking dwarf_tag 
+high_pc checking dwarf_whatform 
+high_pc checking dwarf_get_harmless_error_list 
+high_pc checking qsort 
+high_pc checking dwarf_get_section_info_by_name 
+high_pc checking SetLimitsBucketGroup 
+high_pc checking elf_getarhdr 
+high_pc checking dwarf_elf_init 
+high_pc checking dwarf_set_frame_rule_initial_value 
+high_pc checking dwarf_set_frame_rule_table_size 
+high_pc checking dwarf_set_frame_cfa_value 
+high_pc checking dwarf_set_frame_same_value 
+high_pc checking dwarf_set_frame_undefined_value 
+high_pc checking dwarf_set_harmless_error_list_size 
+high_pc checking dwarf_get_address_size 
+high_pc checking print_infos 
+high_pc checking print_frames 
+high_pc checking print_static_funcs 
+high_pc checking print_static_vars 
+high_pc checking print_types 
+high_pc checking print_weaknames 
+high_pc checking print_relocinfo 
+high_pc checking print_ranges 
+high_pc checking print_aranges 
+high_pc checking print_strings 
+high_pc checking print_abbrevs 
+high_pc checking print_locs 
+high_pc checking print_macinfo 
+high_pc checking print_pubnames 
+high_pc checking print_attributes_encoding 
+high_pc checking dwarf_set_default_address_size 
+high_pc checking __builtin_fwrite 
+high_pc checking strncmp 
+high_pc checking regcomp 
+high_pc checking strtol 
+high_pc checking print_usage_message 
+high_pc checking find_conf_file_and_read_config 
+high_pc checking getopt 
+high_pc checking init_conf_file_data 
+high_pc checking print_version_details 
+high_pc checking init_generic_config_1200_regs 
+high_pc checking dwarf_record_cmdline_options 
+high_pc checking __open_alias 
+high_pc checking elf_next 
+high_pc checking elf_end 
+high_pc checking elf32_getehdr 
+high_pc checking elf64_getehdr 
+high_pc checking close 
+high_pc checking elf_version 
+high_pc checking print_args 
+high_pc checking elf_begin 
+high_pc checking elf_kind 
+high_pc checking AllocateBucketGroup 
+high_pc checking clean_up_syms_malloc_data 
+high_pc checking ReleaseBucketGroup 
+high_pc checking regfree 

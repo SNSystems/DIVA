@@ -1,0 +1,14 @@
+#valgrind --leak-check=full --log-file=./vg.log ./dwarfdump.O -i -M diederen3/pc_dwarf_bad_name3.elf
+exit 0
+
+#hxdump  -s 0x76a0 -l 0x128a  emre4/test19_64_dbg >junkhxmacro
+#readelf  -S  emre4/test19_64_dbg >junksects
+#readelf  --debug-dump=macro  emre4/test19_64_dbg >junkre-emre
+
+# Useful with big ALLdd:
+#grep -B 100 FAIL ALLdd >fails
+
+#valgrind --leak-check=full --log-file=./vg.log ./dwarfdump.O -i -M diederen3/pc_dwarf_bad_name3.elf
+#exit 0
+#readelf --debug-dump=decodedline dwarf4/ddg4.5dwarf-4 >junk.readelf
+
