@@ -63,7 +63,7 @@ class ScopeRoot;
 class ScopePrinter : private ConstScopeVisitor {
 public:
   ScopePrinter() : OutputStream(nullptr) {}
-  virtual ~ScopePrinter() {}
+  virtual ~ScopePrinter() override {}
 
   /// \brief Print Obj to Output.
   void print(const Object *Obj, std::ostream &Output);

@@ -58,7 +58,7 @@ protected:
 /// \brief A ScopeVisitor that traverses and visits const Objects.
 class ConstScopeVisitor : private ScopeVisitor {
 public:
-  virtual ~ConstScopeVisitor();
+  virtual ~ConstScopeVisitor() override;
 
   /// \brief Visit an object.
   void visit(const Object *Obj) {

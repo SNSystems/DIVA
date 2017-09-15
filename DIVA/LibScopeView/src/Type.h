@@ -38,7 +38,7 @@ class Type : public Element {
 public:
   Type();
   Type(LevelType Lvl);
-  virtual ~Type();
+  virtual ~Type() override;
 
   Type &operator=(const Type &) = delete;
   Type(const Type &) = delete;
@@ -240,7 +240,7 @@ class TypeDefinition : public Type {
 public:
   TypeDefinition();
   TypeDefinition(LevelType Lvl);
-  virtual ~TypeDefinition();
+  virtual ~TypeDefinition() override;
 
   TypeDefinition &operator=(const TypeDefinition &) = delete;
   TypeDefinition(const TypeDefinition &) = delete;
@@ -267,7 +267,7 @@ class TypeEnumerator : public Type {
 public:
   TypeEnumerator();
   TypeEnumerator(LevelType Lvl);
-  virtual ~TypeEnumerator();
+  virtual ~TypeEnumerator() override;
 
   TypeEnumerator &operator=(const TypeEnumerator &) = delete;
   TypeEnumerator(const TypeEnumerator &) = delete;
@@ -297,7 +297,7 @@ class TypeImport : public Type {
 public:
   TypeImport();
   TypeImport(LevelType Lvl);
-  virtual ~TypeImport();
+  virtual ~TypeImport() override;
 
   TypeImport &operator=(const TypeImport &) = delete;
   TypeImport(const TypeImport &) = delete;
@@ -335,7 +335,7 @@ class TypeParam : public Type {
 public:
   TypeParam();
   TypeParam(LevelType Lvl);
-  virtual ~TypeParam();
+  virtual ~TypeParam() override;
 
   TypeParam &operator=(const TypeParam &) = delete;
   TypeParam(const TypeParam &) = delete;
@@ -365,7 +365,7 @@ class TypeSubrange : public Type {
 public:
   TypeSubrange();
   TypeSubrange(LevelType Lvl);
-  virtual ~TypeSubrange();
+  virtual ~TypeSubrange() override;
 
   TypeSubrange &operator=(const TypeSubrange &) = delete;
   TypeSubrange(const TypeSubrange &) = delete;
