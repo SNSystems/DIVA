@@ -347,7 +347,7 @@ class Element : public Object {
 public:
   Element();
   Element(LevelType Lvl);
-  virtual ~Element() {}
+  virtual ~Element() override {}
 
   Element &operator=(const Element &) = delete;
   Element(const Element &) = delete;

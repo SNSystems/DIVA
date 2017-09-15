@@ -48,7 +48,7 @@ public:
   explicit DwarfReader(LibScopeView::ViewSpecification *spec)
       : LibScopeView::Reader(spec) {}
 
-  ~DwarfReader() {}
+  ~DwarfReader() override {}
 
   DwarfReader(const DwarfReader &) = delete;
   DwarfReader &operator=(const DwarfReader &) = delete;

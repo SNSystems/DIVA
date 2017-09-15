@@ -41,7 +41,7 @@ class Line : public Element {
 public:
   Line();
   Line(LevelType Lvl);
-  virtual ~Line();
+  virtual ~Line() override;
 
   Line &operator=(const Line &) = delete;
   Line(const Line &) = delete;

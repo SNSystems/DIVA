@@ -39,7 +39,7 @@ class Symbol : public Element {
 public:
   Symbol();
   Symbol(LevelType Lvl);
-  virtual ~Symbol();
+  virtual ~Symbol() override;
 
   Symbol &operator=(const Symbol &) = delete;
   Symbol(const Symbol &) = delete;
