@@ -8,11 +8,9 @@ For instructions on using DIVA please refer to the [user guide](./DIVA/Documenta
 
 ## Feature requests, bug reports and general feedback/comments
 
-Please create an "issue" in Github for any bug reports, feature requests and feedback:
-    https://github.com/SNSystems/DIVA/issues
+Please create an [issue in Github](https://github.com/SNSystems/DIVA/issues) for any bug reports, feature requests and feedback:
 
-Please see the projects list for a backlog of ideas for feature items:
-    https://github.com/SNSystems/DIVA/projects
+Please see the [projects list](https://github.com/SNSystems/DIVA/projects) for a backlog of ideas for feature items:
 
 ## Building DIVA
 
