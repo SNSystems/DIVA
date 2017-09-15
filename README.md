@@ -4,7 +4,7 @@ DIVA is a command line tool that processes DWARF debug information contained wit
 
 ## User Guide
 
-For instructions on using DIVA please refer to the [user guide](./DIVA/Documentation/user-guide.md).
+For instructions on using DIVA please refer to the [user guide](./DIVA/Documentation/user_guide.md).
 
 ## Feature requests, bug reports and general feedback/comments
 
