@@ -30,29 +30,24 @@
 #ifndef READER_H
 #define READER_H
 
+#include "PrintSettings.h"
 #include "Scope.h"
 #include "SummaryTable.h"
-#include "ViewSpecification.h"
 
 namespace LibScopeView {
 
 class Scope;
-class ViewSpecification;
 
 /// \brief Representation for a generic reader.
 class Reader {
-protected:
-  /// \brief View Specification options.
-  ViewSpecification Spec;
-
-private:
+public:
   Reader() : Scopes(nullptr), PrintedHeader(false) {}
 
-public:
-  Reader(ViewSpecification *Spec);
+  Reader(const PrintSettings &PrintingSettings)
+    : Scopes(nullptr), PrintedHeader(false), Settings(PrintingSettings) {}
 
-  virtual bool loadFile(const char *FileName);
-  virtual void print();
+  bool loadFile(const std::string &FileName);
+  void print();
 
   virtual ~Reader() { delete Scopes; }
 
@@ -69,17 +64,17 @@ private:
     Scopes = nullptr;
   }
 
-  void setInputFile(const char *Name) { Spec.setInputFile(Name); }
-
 protected:
-  std::string Error;
-
   Scope *Scopes;
 
   // A header has been printed.
   bool PrintedHeader;
 
 private:
+  std::string InputFile;
+  
+  PrintSettings Settings;
+  
   // Summary table member used with --show-summary.
   SummaryTable TheSummaryTable;
 
@@ -118,16 +113,11 @@ public:
   void resolveFilterPatternMatch(Line *line);
 
 public:
-  // Access to command line options.
-  CmdOptions &getOptions() { return Spec.getOptions(); }
-  ViewSpecification *getSpecification() { return &Spec; }
+  // Access to settings.
+  PrintSettings &getPrintSettings() { return Settings; }
+  const PrintSettings &getPrintSettings() const { return Settings; }
 
-  // Access to the View Specification Block.
-  std::string getID() const { return Spec.getID(); }
-  ReaderType getReaderType() const { return Spec.getReaderType(); }
-
-  std::string getInputFile() const { return Spec.getInputFile(); }
-  std::string getPrintSplitDir() const { return Spec.getPrintSplitDir(); }
+  std::string getInputFile() const { return InputFile; }
 
   // Shortcut for any printing.
   static bool getPrintObjects() { return true; }
@@ -137,12 +127,6 @@ public:
 
   // Execute the required actions on the reader.
   bool executeActions();
-
-  // Access to the error.
-  const std::string *getError() const { return &Error; }
-
-  // Set the error string.
-  void setError(const std::string *Err);
 };
 
 /// \brief Get the current Reader.

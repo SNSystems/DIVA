@@ -64,7 +64,7 @@ private:
 } // end anonymous namespace
 
 TEST(ScopePrinter, StandardPrint) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   std::stringstream Output;
@@ -80,7 +80,7 @@ TEST(ScopePrinter, StandardPrint) {
 }
 
 TEST(ScopePrinter, SplitPrint) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;

@@ -41,7 +41,7 @@ class CmdOptions;
 void initialize();
 
 /// \brief Termination for LibScopeView.
-void terminate(const CmdOptions &Options);
+void terminate();
 
 /// \brief Get the peak memory usage of the current executable.
 size_t getPeakMemoryUsage();

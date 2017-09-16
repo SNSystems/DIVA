@@ -37,12 +37,15 @@
 using namespace LibScopeView;
 
 TEST(Symbol, getAsText_Member) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym;
   Sym.setIsMember();
   Sym.setAccessSpecifier(AccessSpecifier::Private);
+  EXPECT_EQ(Sym.getAsText(), "{Member} private -> \"void\"");
+
+  R.getPrintSettings().ShowVoid = false;
   EXPECT_EQ(Sym.getAsText(), "{Member} private -> \"\"");
 
   Sym.setName("Var");
@@ -76,7 +79,7 @@ TEST(Symbol, getAsText_Member) {
 }
 
 TEST(Symbol, getAsYAML_Member) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym;
@@ -139,11 +142,14 @@ TEST(Symbol, getAsYAML_Member) {
 }
 
 TEST(Symbol, getAsText_Parameter) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym(0);
   Sym.setIsParameter();
+  EXPECT_EQ(Sym.getAsText(), "{Parameter} -> \"void\"");
+
+  R.getPrintSettings().ShowVoid = false;
   EXPECT_EQ(Sym.getAsText(), "{Parameter} -> \"\"");
 
   Sym.setName("qaz");
@@ -168,7 +174,7 @@ TEST(Symbol, getAsText_Parameter) {
 }
 
 TEST(Symbol, getAsYAML_Parameter) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym;
@@ -213,11 +219,14 @@ TEST(Symbol, getAsYAML_Parameter) {
 }
 
 TEST(Symbol, getAsText_Variable) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym;
   Sym.setIsVariable();
+  EXPECT_EQ(Sym.getAsText(), "{Variable} -> \"void\"");
+
+  R.getPrintSettings().ShowVoid = false;
   EXPECT_EQ(Sym.getAsText(), "{Variable} -> \"\"");
 
   Sym.setName("Var");
@@ -234,17 +243,12 @@ TEST(Symbol, getAsText_Variable) {
 
   Sym.setQualifiedName("Base::Class::");
   Sym.setHasQualifiedName();
-  EXPECT_EQ(Sym.getAsText(), "{Variable} static \"Var\" -> \"VarType\"")
-      << "Qualified name should not be printed if the show-qualified option is "
-         "not set";
-
-  R.getOptions().setFormatQualifiedName();
   EXPECT_EQ(Sym.getAsText(),
             "{Variable} static \"Base::Class::Var\" -> \"VarType\"");
 }
 
 TEST(Symbol, getAsYAML_Variable) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Symbol Sym;

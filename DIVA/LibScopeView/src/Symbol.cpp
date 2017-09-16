@@ -102,8 +102,6 @@ void Symbol::setAccessSpecifier(AccessSpecifier Access) {
   TheAccessSpecifier = Access;
 }
 
-const char *Symbol::getObjectType() const { return "ST"; }
-
 const char *Symbol::resolveName() {
   // If the symbol has a DW_AT_specification or DW_AT_abstract_origin,
   // follow the chain to resolve the name from those references.
@@ -118,7 +116,7 @@ const char *Symbol::resolveName() {
 }
 
 void Symbol::dump() {
-  if (getReader()->getSpecification()->printObject(this)) {
+  if (getReader()->getPrintSettings().printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
@@ -181,8 +179,7 @@ std::string Symbol::getAsText() const {
   } else {
     if (Sym->getNameIndex() != 0) {
       Result << " \"";
-      if (Sym->getHasQualifiedName() &&
-          getReader()->getOptions().getFormatQualifiedName())
+      if (Sym->getHasQualifiedName())
         Result << Sym->getQualifiedName();
       Result << getName() << "\"";
     }

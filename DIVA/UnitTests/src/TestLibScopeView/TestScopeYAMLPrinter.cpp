@@ -55,7 +55,7 @@ public:
 }
 
 TEST(ScopeYAMLPrinter, PrintNoChildren) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;
@@ -77,7 +77,7 @@ TEST(ScopeYAMLPrinter, PrintNoChildren) {
 }
 
 TEST(ScopeYAMLPrinter, Print) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;
@@ -119,7 +119,7 @@ TEST(ScopeYAMLPrinter, Print) {
 }
 
 TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;
@@ -152,7 +152,7 @@ TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
 }
 
 TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;
@@ -177,7 +177,7 @@ TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
 
 TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
 
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;

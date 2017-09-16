@@ -86,15 +86,13 @@ const char *Line::getKindAsString() const {
   return Kind;
 }
 
-const char *Line::getObjectType() const { return "LI"; }
-
 std::string Line::getLineNumberAsStringStripped() {
   std::string number = getLineNumberAsString();
   return trim(number);
 }
 
 void Line::dump() {
-  if (getReader()->getSpecification()->printObject(this)) {
+  if (getReader()->getPrintSettings().printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
@@ -113,8 +111,7 @@ void Line::dumpExtra() {
 std::string Line::getAsText() const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
-  if (getReader()->getOptions().getFormatLine() ||
-      getReader()->getOptions().getPrintCodelineAttributes()) {
+  if (getReader()->getPrintSettings().ShowCodelineAttributes) {
     if (getIsNewStatement()) {
       Result << '\n' << getAttributeInfoAsText(KindNewStatement);
     }

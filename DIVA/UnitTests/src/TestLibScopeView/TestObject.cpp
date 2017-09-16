@@ -43,7 +43,6 @@ class TestObject : public Object {
 public:
   TestObject() : Object(), Type(nullptr) {}
 
-  const char *getObjectType() const override { return nullptr; };
   const char *getKindAsString() const override {
     static std::string Kind("ObjKind");
     return Kind.c_str();
@@ -96,7 +95,7 @@ private:
 }
 
 TEST(Object, getCommonYAML) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   TestObject TO;
@@ -224,7 +223,7 @@ TEST(Object, getCommonYAML) {
 }
 
 TEST(Object, ResolveQualifiedName) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeNamespace NS1;

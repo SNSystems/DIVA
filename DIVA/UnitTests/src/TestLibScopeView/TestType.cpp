@@ -37,7 +37,7 @@
 using namespace LibScopeView;
 
 TEST(Type, getAsText_Enumerator) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   TypeEnumerator TyEnumerator;
@@ -49,7 +49,7 @@ TEST(Type, getAsText_Enumerator) {
   EXPECT_EQ(TyEnumerator.getAsText(), "  - \"mon\" = 10");
 
 
-  R.getOptions().setAttributeOffset();
+  R.getPrintSettings().ShowDWARFOffset = true;
   TyEnumerator.setDieOffset(0x0);
   EXPECT_EQ(TyEnumerator.getAsText(), "  - \"mon\" = 10 [0x00000000]");
 }
@@ -61,7 +61,7 @@ TEST(Type, getAsYAML_Enumerator) {
 }
 
 TEST(Type, getAsText_Inheritance) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Type Base;
@@ -93,7 +93,7 @@ TEST(Type, getAsText_Inheritance) {
 }
 
 TEST(Type, getAsText_Param) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Type Ty;
@@ -110,11 +110,6 @@ TEST(Type, getAsText_Param) {
 
   Ty.setQualifiedName("base::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(TyParam.getAsText(), "{TemplateParameter} \"qaz\" <- \"wsx\"")
-      << "Qualified name should not be printed if the show-qualified option is "
-         "not set";
-
-  R.getOptions().setFormatQualifiedName();
   EXPECT_EQ(TyParam.getAsText(), "{TemplateParameter} \"qaz\" <- \"base::wsx\"");
 
   TyParam.setQualifiedName("base::");
@@ -146,7 +141,7 @@ TEST(Type, getAsText_Param) {
 }
 
 TEST(Type, getAsYAML_Param) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Type Ty;
@@ -238,8 +233,7 @@ TEST(Type, getAsYAML_Param) {
 }
 
 TEST(Type, getAsText_PrimitiveType) {
-  Reader R(nullptr);
-  R.getOptions().setFormatIndentation();
+  Reader R;
   setReader(&R);
 
   Type Ty(/*level*/3);
@@ -264,8 +258,7 @@ TEST(Type, getAsText_PrimitiveType) {
 }
 
 TEST(Type, getAsYAML_PrimitiveType) {
-  Reader R(nullptr);
-  R.getOptions().setFormatIndentation();
+  Reader R;
   setReader(&R);
 
   Type Ty;
@@ -291,7 +284,7 @@ TEST(Type, getAsYAML_PrimitiveType) {
 }
 
 TEST(Type, getAsText_Typedef) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   TypeDefinition TyDef(0);
@@ -313,7 +306,7 @@ TEST(Type, getAsText_Typedef) {
 }
 
 TEST(Type, getAsYAML_Typedef) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   TypeDefinition TD(0);
@@ -340,7 +333,7 @@ TEST(Type, getAsYAML_Typedef) {
 }
 
 TEST(Type, getAsText_Using) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Scope CU(0);
@@ -428,7 +421,7 @@ TEST(Type, getAsText_Using) {
 }
 
 TEST(Type, getAsYAML_Using) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Scope CU(0);

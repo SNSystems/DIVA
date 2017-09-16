@@ -45,8 +45,8 @@ class DwarfDie;
 
 class DwarfReader : public LibScopeView::Reader {
 public:
-  explicit DwarfReader(LibScopeView::ViewSpecification *spec)
-      : LibScopeView::Reader(spec) {}
+  explicit DwarfReader(const LibScopeView::PrintSettings &PrintingSettings)
+      : LibScopeView::Reader(PrintingSettings) {}
 
   ~DwarfReader() override {}
 

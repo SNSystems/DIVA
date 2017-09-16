@@ -39,8 +39,6 @@
 
 namespace LibScopeView {
 
-class CmdOptions;
-
 /// \brief This class implements a String Pool for deduplicating strings.
 ///
 /// The deduplicated strings are stored in one contiguous bit of memory, and a
@@ -56,7 +54,9 @@ public:
   static const char *getStringValue(size_t Index);
 
   static void create();
-  static void destroy(const CmdOptions &Options);
+  static void destroy();
+  static void dumpPool();
+  static void poolInfo();
 
 public:
   /// \brief Inserts a string in the pool, if required, and then returns an
@@ -95,9 +95,6 @@ private:
 
   // Creates a specific string in this String Pool and returns it's index.
   size_t insert(const char *Str, size_t Bucket);
-
-  // Display information requested by the user.
-  void printInfo(const CmdOptions &Options);
 
 private:
   // All the strings in the pool, as null-terminated char sequences.

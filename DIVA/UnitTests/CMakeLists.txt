@@ -36,6 +36,7 @@ create_target(EXE UnitTests
         "src/TestLibScopeView/TestLine.cpp"
         "src/TestLibScopeView/TestObject.cpp"
         "src/TestLibScopeView/TestObjectAttributes.cpp"
+        "src/TestLibScopeView/TestPrintSettings.cpp"
         "src/TestLibScopeView/TestScope.cpp"
         "src/TestLibScopeView/TestScopePrinter.cpp"
         "src/TestLibScopeView/TestScopeVisitor.cpp"
@@ -43,7 +44,6 @@ create_target(EXE UnitTests
         "src/TestLibScopeView/TestSummaryTable.cpp"
         "src/TestLibScopeView/TestSymbol.cpp"
         "src/TestLibScopeView/TestType.cpp"
-        "src/TestLibScopeView/TestViewSpecification.cpp"
         "src/TestElfDwarfReader/TestElfDwarfReader.cpp"
         "src/TestElfDwarfReader/TestLibDwarfHelpers.cpp"
         # Source to be tested

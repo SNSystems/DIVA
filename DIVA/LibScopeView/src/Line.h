@@ -79,7 +79,6 @@ private:
 
 public:
   // Gets the line kind as a string (eg, "LINE").
-  const char *getObjectType() const override;
   const char *getKindAsString() const override;
 
 public:
@@ -136,7 +135,7 @@ public:
   /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
   /// otherwise use DW_AT_decl_line attribute.
   const char *getLineNumberAsString() const override {
-    return getLineAsString(getLineNumber(), getDiscriminator());
+    return getLineAsString(getLineNumber());
   }
   std::string getLineNumberAsStringStripped() override;
 

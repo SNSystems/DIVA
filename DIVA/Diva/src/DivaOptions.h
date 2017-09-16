@@ -30,7 +30,7 @@
 #ifndef DIVAOPTIONS_H_
 #define DIVAOPTIONS_H_
 
-#include "ViewSpecification.h"
+#include "PrintSettings.h"
 
 #include <iostream>
 #include <set>
@@ -38,8 +38,6 @@
 #include <vector>
 
 enum class OutputFormat { TEXT, YAML };
-
-enum class SortingKey { LINE, OFFSET, NAME };
 
 /// \brief Class that parses command line arguments into DIVA's options (using
 /// ArgumentParser).
@@ -53,80 +51,28 @@ public:
   DivaOptions(const std::vector<std::string> &CMDArgs, std::ostream &HelpOut,
               std::ostream &VersionOut, std::ostream &ErrOut);
 
-  /// \brief Get the view specifications.
-  std::vector<LibScopeView::ViewSpecification> convertToViewSpecs() const;
-
-  /// \brief Get the command line options.
-  LibScopeView::CmdOptions convertToCmdOptions() const;
-
   std::vector<std::string> InputFiles;
-
-  bool QuietMode;
-  bool ShowSummary;
-
-  bool SplitOutput;
-  std::string OutputDirectory;
+  
   std::set<OutputFormat> OutputFormats;
 
-  SortingKey SortKey;
+  LibScopeView::PrintSettings PrintingSettings;
 
-  std::vector<std::string> Filters;
-  std::vector<std::string> FilterAnys;
-  std::vector<std::string> WithChildrenFilters;
-  std::vector<std::string> WithChildrenFilterAnys;
-
-  bool ShowAlias;
-  bool ShowBlock;
-  bool ShowBlockAttributes;
-  bool ShowClass;
-  bool ShowEnum;
-  bool ShowFunction;
-  bool ShowMember;
-  bool ShowNamespace;
-  bool ShowParameter;
-  bool ShowPrimitivetype;
-  bool ShowStruct;
-  bool ShowTemplate;
-  bool ShowUnion;
-  bool ShowUsing;
-  bool ShowVariable;
-
-  bool ShowCodeline;
-  bool ShowCodelineAttributes;
-  bool ShowCombined;
-  bool ShowDWARFOffset;
-  bool ShowDWARFParent;
-  bool ShowDWARFTag;
-  bool ShowGenerated;
-  bool ShowIsGlobal;
-  bool ShowIndent;
-  bool ShowLevel;
-  bool ShowOnlyGlobals;
-  bool ShowOnlyLocals;
-  bool ShowQualified;
-  bool ShowUnderlying;
-  bool ShowVoid;
-  bool ShowZeroLine;
-
-  bool ShowPerformanceTime;
-  bool ShowPerformanceMemory;
-  bool ShowScopeAllocation;
-  bool ShowStringPoolInfo;
-  bool DumpStringPool;
+  bool ShowPerformanceTime = false;
+  bool ShowPerformanceMemory = false;
+  bool ShowScopeAllocation = false;
+  bool ShowStringPoolInfo = false;
+  bool DumpStringPool = false;
 
 private:
   void parseArgs(const std::vector<std::string> &CMDArgs, std::ostream &HelpOut,
                  std::ostream &VersionOut);
 
-  void showNone() { setMoreShowOptions(false); }
-  void showBrief();
-  void showAll() { setMoreShowOptions(true); }
-  // Set the show options from "More object options" to true/false.
-  void setMoreShowOptions(bool SetTo);
-
   // Some options need to be translated from input strings to enum values.
   std::set<std::string> OutputFormatStrings;
   std::string SortKeyString;
+  // Or from strings to regular expressions.
+  std::vector<std::string> RawFilters;
+  std::vector<std::string> RawWithChildrenFilters;
 };
 
 #endif // DIVAOPTIONS_H_

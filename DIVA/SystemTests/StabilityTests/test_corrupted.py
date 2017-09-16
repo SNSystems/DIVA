@@ -4,11 +4,11 @@ file.
 """
 expected_rel = """\
 
-ERR_INVALID_DWARF: Failed to read DWARF from 'corrupted.o'
+ERR_INVALID_DWARF: Failed to read DWARF from 'corrupted.o'.
 """
 expected_dbg = """\
 DW_DLE_ELF_GETIDENT_ERROR (148)
-ERR_INVALID_DWARF: Failed to read DWARF from 'corrupted.o'
+ERR_INVALID_DWARF: Failed to read DWARF from 'corrupted.o'.
 """
 
 

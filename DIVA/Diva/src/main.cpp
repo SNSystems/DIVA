@@ -30,28 +30,26 @@
 #include "DivaOptions.h"
 #include "ElfDwarfReader.h"
 #include "Error.h"
+#include "FileUtilities.h"
+#include "PrintSettings.h"
 #include "ScopeYAMLPrinter.h"
+#include "StringPool.h"
 #include "Utilities.h"
-#include "ViewSpecification.h"
 
+#include <assert.h>
 #include <memory>
 
 namespace {
 
 typedef std::unique_ptr<LibScopeView::Reader> ReaderUPtr;
 
-/// \brief Allocate an appropriate reader for the given specification.
-ReaderUPtr createReader(LibScopeView::ViewSpecification &Spec) {
-  ReaderUPtr CreatedReader;
-  switch (Spec.getReaderType()) {
-  case LibScopeView::rt_libdwarf:
-    CreatedReader = std::make_unique<ElfDwarfReader::DwarfReader>(&Spec);
-    break;
-  case LibScopeView::rt_unknown:
-    // Unknown kind of reader.
-    break;
-  }
-  return CreatedReader;
+/// \brief Allocate an appropriate reader for the given file.
+ReaderUPtr createReader(const std::string &InputFilePath,
+                        const LibScopeView::PrintSettings &PrintingSettings) {
+  if (LibScopeView::isFileFormatElf(InputFilePath))
+    return std::make_unique<ElfDwarfReader::DwarfReader>(PrintingSettings);
+  
+  fatalError(LibScopeError::ErrorCode::ERR_INVALID_FILE, InputFilePath);
 }
 
 } // namespace
@@ -68,60 +66,56 @@ int main(int argc, char *argv[]) {
                             /*VersionOut*/ std::cerr,
                             /*ErrOut*/ std::cerr);
 
-  auto ViewSpecs = Options.convertToViewSpecs();
+  std::vector<ReaderUPtr> Readers;
 
-  std::map<std::string, std::unique_ptr<LibScopeView::Reader>> ReaderMap;
-
-  // Create readers and load in the options.
-  for (auto &Spec : ViewSpecs) {
-    ReaderUPtr pReader(createReader(Spec));
-
-    if (pReader) {
-      ReaderMap.emplace(Spec.getID(), std::move(pReader));
-    } else {
-      // Reader was not created. Report failure.
-      fatalError(LibScopeError::ErrorCode::ERR_VIEW_OBJECT_FAILURE,
-                 Spec.getID());
-    }
-  }
-
-  // Execute actions on readers.
-  for (auto &MapPair : ReaderMap) {
-    LibScopeView::Reader &AReader = *MapPair.second;
-    bool Result = AReader.executeActions();
+  // Create readers and load the input files.
+  for (const std::string &InputFilePath : Options.InputFiles) {
+    // Check that the file exists.
+    if (!LibScopeView::doesFileExist(InputFilePath))
+      fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
+    
+    Readers.push_back(createReader(InputFilePath, Options.PrintingSettings));
+    assert(Readers.back());
+    bool Result = Readers.back()->loadFile(InputFilePath);
 
     if (!Result)
-      fatalError(LibScopeError::ErrorCode::ERR_VIEW_SCOPE_FAILURE,
-                 MapPair.first, *AReader.getError());
+      // Currently the ElfDwarfReader will always call fatalError itself so we
+      // should never reach this code.
+      fatalError(LibScopeError::ErrorCode::ERR_READ_FAILED, InputFilePath);
   }
 
   if (Options.ShowScopeAllocation)
     LibScopeView::printAllocationInfo();
 
   // Print the scope views in the readers.
-  for (auto &MapPair : ReaderMap) {
-    LibScopeView::Reader &AReader = *MapPair.second;
+  for (auto &AReader : Readers) {
     // Print the Logical View.
     if (Options.OutputFormats.count(OutputFormat::TEXT)) {
-      AReader.print();
+      AReader->print();
     }
     // Print YAML.
     if (Options.OutputFormats.count(OutputFormat::YAML)) {
       // YAML_OUTPUT_VERSION_STR is defined by CMake.
-      LibScopeView::ScopeYAMLPrinter YAMLPrinter(AReader.getInputFile(),
+      LibScopeView::ScopeYAMLPrinter YAMLPrinter(AReader->getInputFile(),
                                                  YAML_OUTPUT_VERSION_STR);
-      if (AReader.getOptions().getViewSplit()) {
+      if (AReader->getPrintSettings().SplitOutput) {
         YAMLPrinter.print(
-            static_cast<LibScopeView::ScopeRoot *>(AReader.getScopesRoot()),
-          AReader.getPrintSplitDir());
+            static_cast<LibScopeView::ScopeRoot *>(AReader->getScopesRoot()),
+            AReader->getPrintSettings().OutputDirectory);
       } else {
-        YAMLPrinter.print(AReader.getScopesRoot(), std::cout);
+        YAMLPrinter.print(AReader->getScopesRoot(), std::cout);
       }
     }
   }
 
+  // Print string pool data.
+  if (Options.DumpStringPool)
+    LibScopeView::StringPool::dumpPool();
+  if (Options.ShowStringPoolInfo)
+    LibScopeView::StringPool::poolInfo();
+
   // Library termination.
-  LibScopeView::terminate(Options.convertToCmdOptions());
+  LibScopeView::terminate();
 
   // Print performance data.
   if (Options.ShowPerformanceTime) {

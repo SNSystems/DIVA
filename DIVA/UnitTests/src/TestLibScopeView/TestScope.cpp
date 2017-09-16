@@ -37,11 +37,14 @@
 using namespace LibScopeView;
 
 TEST(Scope, getAsText_Alias) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAlias Alias;
   Alias.setIsTemplateAlias();
+  EXPECT_EQ(Alias.getAsText(), "{Alias} \"\" -> \"void\"");
+  
+  R.getPrintSettings().ShowVoid = false;
   EXPECT_EQ(Alias.getAsText(), "{Alias} \"\" -> \"\"");
 
   Alias.setName("test<int>");
@@ -56,17 +59,12 @@ TEST(Scope, getAsText_Alias) {
 
   Ty.setQualifiedName("Class::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"test<int>\" -> \"foo<int, int>\"")
-      << "Qualified name should not be printed if the show-qualified option is "
-         "not set";
-
-  R.getOptions().setFormatQualifiedName();
   EXPECT_EQ(Alias.getAsText(),
             "{Alias} \"test<int>\" -> \"Class::foo<int, int>\"");
 }
 
 TEST(Scope, getAsYAML_Alias) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAlias Alias;
@@ -106,7 +104,7 @@ TEST(Scope, getAsYAML_Alias) {
 }
 
 TEST(Scope, getAsText_Array) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeArray Array;
@@ -116,9 +114,8 @@ TEST(Scope, getAsText_Array) {
 }
 
 TEST(Scope, getAsText_Block) {
-  Reader R(nullptr);
-  R.getOptions().setFormatIndentation();
-  R.getOptions().setPrintBlockAttributes();
+  Reader R;
+  R.getPrintSettings().ShowBlockAttributes = true;
   setReader(&R);
 
   Scope Block(/*Level*/ 3);
@@ -142,7 +139,7 @@ TEST(Scope, getAsText_Block) {
 }
 
 TEST(Scope, getAsYAML_Block) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Scope Block;
@@ -206,7 +203,7 @@ TEST(Scope, getAsYAML_Block) {
 }
 
 TEST(Scope, getAsText_Class) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Class;
@@ -216,7 +213,7 @@ TEST(Scope, getAsText_Class) {
   EXPECT_EQ(Class.getAsText(), "{Class} \"TestClass\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getOptions().resetFormatIndentation();
+  R.getPrintSettings().ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -226,7 +223,7 @@ TEST(Scope, getAsText_Class) {
 }
 
 TEST(Scope, getAsYAML_Class) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Class;
@@ -274,7 +271,7 @@ TEST(Scope, getAsYAML_Class) {
 }
 
 TEST(Scope, getAsYAML_multiInheritance) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Class;
@@ -324,7 +321,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
 }
 
 TEST(Scope, getAsYAML_Unspecified_Class) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Class;
@@ -363,7 +360,7 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
 }
 
 TEST(Scope, getAsText_CompileUnit) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeCompileUnit compileUnit;
@@ -376,7 +373,7 @@ TEST(Scope, getAsText_CompileUnit) {
 }
 
 TEST(Scope, getAsYAML_CompileUnit) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeCompileUnit CompileUnit;
@@ -397,7 +394,7 @@ TEST(Scope, getAsYAML_CompileUnit) {
 }
 
 TEST(Scope, getAsText_Enumeration) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeEnumeration ScpEnumeration;
@@ -420,7 +417,7 @@ TEST(Scope, getAsText_Enumeration) {
 }
 
 TEST(Scope, getAsYAML_Enumeration) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeEnumeration Enum;
@@ -472,19 +469,23 @@ TEST(Scope, getAsYAML_Enumeration) {
 }
 
 TEST(Scope, getAsText_Function) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getOptions().resetFormatIndentation();
+  R.getPrintSettings().ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
-
-  R.getOptions().setFormatQualifiedName();
 
   ScopeFunction ScpFunc(0);
   ScpFunc.setIsScope();
   ScpFunc.setIsFunction();
+  
+  EXPECT_EQ(ScpFunc.getAsText(),
+            std::string("{Function} \"\" -> \"void\"\n" + AttrIndent +
+                        std::string("No declaration")));
+
+  R.getPrintSettings().ShowVoid = false;
   EXPECT_EQ(ScpFunc.getAsText(),
             std::string("{Function} \"\" -> \"\"\n" + AttrIndent +
                         std::string("No declaration")));
@@ -553,29 +554,15 @@ TEST(Scope, getAsText_Function) {
   EXPECT_EQ(ScpQualFunc.getAsText(),
             std::string("{Function} \"qaz\" -> \"base::wsx\"\n" + AttrIndent +
                         std::string("No declaration")));
-
-  R.getOptions().resetFormatQualifiedName();
-
-  const std::string ErrorMessage("Qualified name should not be printed if the "
-                                 "show-qualified option is not set");
-
-  EXPECT_EQ(ScpQualFunc.getAsText(),
-            std::string("{Function} \"qaz\" -> \"wsx\"\n" + AttrIndent +
-                        std::string("No declaration")))
-      << ErrorMessage;
-
-  EXPECT_EQ(ScpFunc.getAsText(),
-            std::string("{Function} \"qaz\" -> \"wsx\"\n" + AttrIndent +
-                        std::string("No declaration")))
-      << ErrorMessage;
 }
 
 TEST(Scope, getAsText_Function_Attributes) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
+  R.getPrintSettings().ShowVoid = false;
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getOptions().resetFormatIndentation();
+  R.getPrintSettings().ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -597,9 +584,6 @@ TEST(Scope, getAsText_Function_Attributes) {
   DeclFunc.setLineNumber(24);
   Func.setReference(&DeclFunc);
   Expected.append("Declaration @ ");
-  EXPECT_EQ(Func.getAsText(), Expected + std::string("test/file.h,24"));
-
-  R.getOptions().setFormatFileName();
   EXPECT_EQ(Func.getAsText(), Expected + std::string("file.h,24"));
 
   DeclFunc.setInvalidFileName();
@@ -639,7 +623,7 @@ TEST(Scope, getAsText_Function_Attributes) {
 }
 
 TEST(Scope, getAsYAML_Function) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeFunction Func(0);
@@ -855,7 +839,7 @@ TEST(Scope, getAsYAML_Function) {
 }
 
 TEST(Scope, getAsText_Namespace) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeNamespace NS;
@@ -865,7 +849,6 @@ TEST(Scope, getAsText_Namespace) {
   NS.setName("TestNamespace");
   EXPECT_EQ(NS.getAsText(), "{Namespace} \"TestNamespace\"");
 
-  R.getOptions().setFormatQualifiedName();
   ScopeNamespace Parent;
   Parent.setName("Base");
   NS.setParent(&Parent);
@@ -873,7 +856,7 @@ TEST(Scope, getAsText_Namespace) {
 }
 
 TEST(Scope, getAsYAML_Namespace) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeNamespace NS;
@@ -896,7 +879,7 @@ TEST(Scope, getAsYAML_Namespace) {
 }
 
 TEST(Scope, getAsText_Root) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeRoot Root;
@@ -908,7 +891,7 @@ TEST(Scope, getAsText_Root) {
 }
 
 TEST(Scope, getAsText_Struct) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Struct;
@@ -918,7 +901,7 @@ TEST(Scope, getAsText_Struct) {
   EXPECT_EQ(Struct.getAsText(), "{Struct} \"TestStruct\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getOptions().resetFormatIndentation();
+  R.getPrintSettings().ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -928,7 +911,7 @@ TEST(Scope, getAsText_Struct) {
 }
 
 TEST(Scope, getAsYAML_Struct) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Struct;
@@ -976,7 +959,7 @@ TEST(Scope, getAsYAML_Struct) {
 }
 
 TEST(Scope, getAsYAML_Unspecified_Struct) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Struct;
@@ -1017,7 +1000,7 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
 }
 
 TEST(Scope, getAsText_TemplatePack) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeTemplatePack ScpTP;
@@ -1030,7 +1013,7 @@ TEST(Scope, getAsText_TemplatePack) {
 }
 
 TEST(Scope, getAsYAML_TemplatePack) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeTemplatePack Pack;
@@ -1082,7 +1065,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
 }
 
 TEST(Scope, getAsText_Union) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Union;
@@ -1092,7 +1075,7 @@ TEST(Scope, getAsText_Union) {
   EXPECT_EQ(Union.getAsText(), "{Union} \"TestUnion\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getOptions().resetFormatIndentation();
+  R.getPrintSettings().ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -1102,7 +1085,7 @@ TEST(Scope, getAsText_Union) {
 }
 
 TEST(Scope, getAsYAML_Union) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   ScopeAggregate Union;

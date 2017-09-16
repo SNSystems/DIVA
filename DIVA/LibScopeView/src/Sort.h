@@ -32,15 +32,6 @@
 
 namespace LibScopeView {
 
-/// \brief Object Sorting Mode.
-enum SortMode {
-  sr_none = 0, // No given sort.
-  sr_kind,     // Sort by kind.
-  sr_line,     // Sort by line.
-  sr_name,     // Sort by name.
-  sr_offset    // Sort by offset.
-};
-
 class Object;
 
 typedef bool (*SortFunction)(const Object *LHS, const Object *RHS);
@@ -51,7 +42,6 @@ int compareKind(const Object *LHS, const Object *RHS);
 int compareLine(const Object *LHS, const Object *RHS);
 int compareName(const Object *LHS, const Object *RHS);
 int compareOffset(const Object *LHS, const Object *RHS);
-bool sortByKind(const Object *LHS, const Object *RHS);
 bool sortByLine(const Object *LHS, const Object *RHS);
 bool sortByName(const Object *LHS, const Object *RHS);
 bool sortByOffset(const Object *LHS, const Object *RHS);

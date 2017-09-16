@@ -91,18 +91,16 @@ std::string getSourceFileName(LibScopeView::Element *E, bool Format = true) {
 // Test fixture providing helpers to load a Scope tree using the DwarfReader.
 class TestElfDwarfReader : public ::testing::Test {
 public:
-  AssertionResult loadRootFromTestFile(std::string TestFile,
-                                       LibScopeView::Scope **Root,
-                                       LibScopeView::CmdOptions &Options) {
+  AssertionResult loadRootFromTestFile(
+      std::string TestFile, LibScopeView::Scope **Root,
+      LibScopeView::PrintSettings Settings = LibScopeView::PrintSettings()) {
     if (!LibScopeView::doesFileExist(getTestInputFilePath(TestFile)))
       return ::testing::AssertionFailure() << "Test file does not exist";
 
-    LibScopeView::ViewSpecification Spec(Options);
-    Spec.setInputFile(getTestInputFilePath(TestFile));
-    Reader = std::unique_ptr<DwarfReader>(new DwarfReader(&Spec));
-    Reader->getOptions().setFormatFileName();
+    Settings.SortKey = LibScopeView::SortingKey::OFFSET;
+    Reader = std::make_unique<DwarfReader>(Settings);
 
-    if (!Reader->executeActions())
+    if (!Reader->loadFile(getTestInputFilePath(TestFile)))
       return ::testing::AssertionFailure() << "Failed to load test file";
 
     *Root = Reader->getScopesRoot();
@@ -113,17 +111,11 @@ public:
     return ::testing::AssertionSuccess();
   }
 
-  AssertionResult loadRootFromTestFile(std::string TestFile,
-                                       LibScopeView::Scope **Root) {
-    LibScopeView::CmdOptions Options;
-    return loadRootFromTestFile(TestFile, Root, Options);
-  }
-
-  AssertionResult loadSingleCUFromTestFile(std::string TestFile,
-                                           LibScopeView::Scope **CU,
-                                           LibScopeView::CmdOptions &Options) {
+  AssertionResult loadSingleCUFromTestFile(
+      std::string TestFile, LibScopeView::Scope **CU,
+      LibScopeView::PrintSettings Settings = LibScopeView::PrintSettings()) {
     LibScopeView::Scope *Root = nullptr;
-    AssertionResult Res = loadRootFromTestFile(TestFile, &Root, Options);
+    AssertionResult Res = loadRootFromTestFile(TestFile, &Root, Settings);
     if (!Res)
       return Res;
     if (Root->getScopeCount() == 0)
@@ -139,12 +131,6 @@ public:
              << "Top level scope in test file was not a CU";
 
     return ::testing::AssertionSuccess();
-  }
-
-  AssertionResult loadSingleCUFromTestFile(std::string TestFile,
-                                           LibScopeView::Scope **CU) {
-    LibScopeView::CmdOptions Options;
-    return loadSingleCUFromTestFile(TestFile, CU, Options);
   }
 
   LibScopeView::Reader &getReader() { return *Reader; }
@@ -696,17 +682,22 @@ TEST_F(TestElfDwarfReader, ReadMembers) {
 
   auto Struct = CU->getScopeAt(0);
   ASSERT_STREQ(Struct->getName(), "A");
+  ASSERT_TRUE(checkChildCount(Struct, 1, 0, 4));
 
   // m_unspecified
+  EXPECT_STREQ(Struct->getSymbolAt(0)->getName(), "m_unspecified");
   EXPECT_EQ(Struct->getSymbolAt(0)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Unspecified);
   // m_private
+  EXPECT_STREQ(Struct->getSymbolAt(1)->getName(), "m_private");
   EXPECT_EQ(Struct->getSymbolAt(1)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Private);
   // m_public - Clang just puts unspecified for structs.
+  EXPECT_STREQ(Struct->getSymbolAt(2)->getName(), "m_public");
   EXPECT_EQ(Struct->getSymbolAt(2)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Unspecified);
   // m_protected
+  EXPECT_STREQ(Struct->getSymbolAt(3)->getName(), "m_protected");
   EXPECT_EQ(Struct->getSymbolAt(3)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Protected);
 }
@@ -837,16 +828,6 @@ TEST_F(TestElfDwarfReader, ReadTemplates) {
   EXPECT_EQ(NegativeValParam->getType(), IntType);
   EXPECT_STREQ(NegativeValParam->getName(), "VAL");
   EXPECT_STREQ(NegativeValParam->getValue(), "-1");
-
-  // Test showing template names.
-  LibScopeView::CmdOptions Options;
-  Options.setFormatTemplatesEncoded();
-  ASSERT_TRUE(
-      loadSingleCUFromTestFile("ElfDwarfReader/template.o", &CU, Options));
-  ASSERT_TRUE(checkChildCount(CU, 3, 1, 0));
-  // The compiler already added the template parameters to the name so here we
-  // get it twice.
-  ASSERT_STREQ(CU->getScopeAt(1)->getName(), "t_func<1, int><1,int>");
 }
 
 TEST_F(TestElfDwarfReader, ReadTemplatePacks) {

@@ -36,21 +36,10 @@
 #include "Symbol.h"
 #include "Type.h"
 
+#include <algorithm>
 #include <sstream>
 
 using namespace LibScopeView;
-
-struct LogFunction {
-  LogFunction(std::string f) : f_(f) {
-    if (getReader()->getOptions().getTraceVerbose())
-      printf(">%s\n", f_.c_str());
-  }
-  ~LogFunction() {
-    if (getReader()->getOptions().getTraceVerbose())
-      printf("<%s\n", f_.c_str());
-  }
-  std::string f_;
-};
 
 Scope::Scope(LevelType Lvl) : Element(Lvl) {
   setIsScope();
@@ -147,8 +136,6 @@ const char *Scope::getKindAsString() const {
   return Kind;
 }
 
-const char *Scope::getObjectType() const { return "SC"; }
-
 void Scope::addObject(Line *Ln) {
   if (getCanHaveLines()) {
     // Add it to parent.
@@ -237,8 +224,6 @@ void Scope::addObject(Type *Ty) {
 }
 
 void Scope::getQualifiedName(std::string &qualified_name) const {
-  LogFunction Log(__FUNCTION__);
-
   if (getIsRoot() || getIsCompileUnit()) {
     return;
   }
@@ -253,115 +238,7 @@ void Scope::getQualifiedName(std::string &qualified_name) const {
   qualified_name.append(getName());
 }
 
-std::string Scope::encodeTemplateArgument(Type &Ty) {
-  LogFunction Log(__FUNCTION__);
-
-  // The incoming type is a template parameter; we have 3 kinds of parameters:
-  // - type parameter: resolve the instance (type);
-  // - value parameter: resolve the constant value
-  // - template parameter: resolve the name of the template.
-  // If the parameter type is a template instance (STL sample), we need to
-  // expand the type (template template case). For the following variable
-  // declarations:
-  //   std::type<float> a_float;
-  //   std::type<int> a_int;
-  // We must generate names like:
-  //   "std::type<float, std::less<float>, std::allocator<float>, false>"
-  //   "std::type<int, std::less<int>, std::allocator<int>, false>"
-  // Instead of the the incomplete names:
-  //   "type<float, less, allocator, false>"
-  //   "type<int, less, allocator, false>"
-  std::string Arg;
-
-  // Get if the qualified type name is requested.
-  if (getReader()->getOptions().getFormatQualifiedName()) {
-    Arg = Ty.getTypeQualifiedName();
-  }
-
-  if (Ty.getIsTemplateType()) {
-    // Get the type instance recorded in the template type; it can be a
-    // reference to a type or to a scope.
-
-    if (Ty.getIsKindType()) {
-      auto ArgType = static_cast<Type *>(Ty.getType());
-      // For template arguments that are typedefs, use the underlying type,
-      // which can be a type or scope.
-      if (ArgType->getIsTypedef()) {
-        Object *BaseType = ArgType->getUnderlyingType();
-        Arg.append(BaseType->getName());
-      } else {
-        Arg.append(ArgType->getName());
-      }
-    } else {
-      if (Ty.getIsKindScope()) {
-        auto ArgScope = static_cast<Scope *>(Ty.getType());
-        // If the scope is a template, we have to resolve that template,
-        // by recursively traversing its arguments.
-        if (ArgScope->getIsTemplate()) {
-          std::string args_tmpl = ArgScope->encodeTemplateArguments(true);
-          Arg.append(args_tmpl);
-        } else {
-          Arg.append(ArgScope->getName());
-        }
-      }
-    }
-  } else {
-    // Template value parameter or template template parameter.
-    Arg.append(Ty.getValue());
-  }
-  return Arg;
-}
-
-std::string Scope::encodeTheTemplateArguments(const std::vector<Type *> &Types,
-                                              bool qualify_base) {
-  LogFunction Log(__FUNCTION__);
-
-  // Get the template base name and parameters.
-  std::string BaseName(getName());
-
-  // 'qualify_base' is true only when we are resolving a template parameter
-  // which is another template. If that template is already resolved, just get
-  // the qualified name and return.
-  if (qualify_base) {
-    BaseName.clear();
-    getQualifiedName(BaseName);
-  }
-
-  // The encoded string will start with the scope name.
-  std::string Args(BaseName);
-  Args.append("<");
-
-  // The scope contains a list of types that are declared within; traverse
-  // them, looking for those that are template parameters; the order is set
-  // based on the DIE offset.
-  bool AddComma = false;
-  for (Type *Ty : Types) {
-    if (Ty->getIsTemplateParam()) {
-      std::string Arg = encodeTemplateArgument(*Ty);
-      if (AddComma) {
-        Args.append(",");
-      }
-      Args.append(Arg);
-      AddComma = true;
-    }
-  }
-
-  Args.append(">");
-  return Args;
-}
-
-std::string Scope::encodeTemplateArguments(const std::vector<Type *> &types,
-                                           bool qualify_base) {
-  return encodeTheTemplateArguments(types, qualify_base);
-}
-
-std::string Scope::encodeTemplateArguments(bool qualify_base) {
-  return encodeTheTemplateArguments(getTypes(), qualify_base);
-}
-
 void Scope::sortScopes() {
-  LogFunction Log(__FUNCTION__);
-
   // Get the sorting callback function.
   SortFunction SortFunc = getSortFunction();
   if (SortFunc) {
@@ -384,8 +261,6 @@ void Scope::sortScopes(SortFunction SortFunc) {
 }
 
 void Scope::sortCompileUnits() {
-  LogFunction Log(__FUNCTION__);
-
   // Sort the contained objects, using the sort criteria.
   SortFunction SortFunc = getSortFunction();
   if (SortFunc) {
@@ -453,8 +328,8 @@ void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc) {
 bool Scope::resolvePrinting() {
   bool DoPrint = true;
 
-  bool Globals = getReader()->getOptions().getFormatOnlyGlobals();
-  bool Locals = getReader()->getOptions().getFormatOnlyLocals();
+  bool Globals = getReader()->getPrintSettings().ShowOnlyGlobals;
+  bool Locals = getReader()->getPrintSettings().ShowOnlyLocals;
   if (Globals == Locals) {
     // Print both Global and Local.
   } else {
@@ -468,7 +343,7 @@ bool Scope::resolvePrinting() {
   // For the case of functions, skip it if unnamed (name is NULL) or
   // unlined (line number is zero).
   if (DoPrint && getIsFunction()) {
-    if (!getReader()->getOptions().getFormatGenerated() && isNotPrintable()) {
+    if (!getReader()->getPrintSettings().ShowGenerated && isNotPrintable()) {
       DoPrint = false;
     }
   }
@@ -476,8 +351,9 @@ bool Scope::resolvePrinting() {
   // Check if we are using any pattern.
   if (DoPrint) {
     // Indicate that this tree branch has a matched pattern.
-    ViewSpecification *ViewSpec = getReader()->getSpecification();
-    if (ViewSpec->getAnyTreePattern()) {
+    const PrintSettings &Settings = getReader()->getPrintSettings();
+    if (!Settings.WithChildrenFilters.empty() ||
+        !Settings.WithChildrenFilterAnys.empty()) {
       DoPrint = getHasPattern();
     }
   }
@@ -486,8 +362,6 @@ bool Scope::resolvePrinting() {
 }
 
 void Scope::print(bool SplitCU, bool Match, bool IsNull) {
-  LogFunction Log(__FUNCTION__);
-
   // If 'split_cu', we use the scope name (CU name) as the ouput file.
   if (SplitCU && getIsCompileUnit()) {
     std::string OutFilePath(GlobalPrintContext->getLocation() +
@@ -504,8 +378,8 @@ void Scope::print(bool SplitCU, bool Match, bool IsNull) {
   bool DoPrint = resolvePrinting();
 
   // Don't print in quiet mode unless splitting output.
-  DoPrint = DoPrint && (!getReader()->getOptions().getTraceQuiet() ||
-                        getReader()->getOptions().getViewSplit());
+  DoPrint = DoPrint && (!getReader()->getPrintSettings().QuietMode ||
+                        getReader()->getPrintSettings().SplitOutput);
 
   if (DoPrint) {
     // Dump the object itself.
@@ -532,8 +406,6 @@ void Scope::print(bool SplitCU, bool Match, bool IsNull) {
 }
 
 const char *Scope::resolveName() {
-  LogFunction Log(__FUNCTION__);
-
   // If the scope has a DW_AT_specification or DW_AT_abstract_origin,
   // follow the chain to resolve the name from those references.
   if (getHasReference()) {
@@ -547,7 +419,7 @@ const char *Scope::resolveName() {
 
 void Scope::dump() {
   // Check if the object needs to be printed.
-  if (dumpAllowed() || getReader()->getSpecification()->printObject(this)) {
+  if (dumpAllowed() || getReader()->getPrintSettings().printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
@@ -581,7 +453,7 @@ std::string Scope::getAsText() const {
   std::stringstream Result;
   if (getIsBlock()) {
     Result << '{' << getKindAsString() << '}';
-    if (getReader()->getOptions().getPrintBlockAttributes()) {
+    if (getReader()->getPrintSettings().ShowBlockAttributes) {
       if (getIsTryBlock())
         Result << '\n' << getAttributeInfoAsText("try");
       else if (getIsCatchBlock())
@@ -710,7 +582,7 @@ void ScopeCompileUnit::setName(const char *Name) {
 
 void ScopeCompileUnit::dump() {
   // An extra line to improve readibility.
-  if (getReader()->getSpecification()->printObject(this)) {
+  if (getReader()->getPrintSettings().printObject(*this)) {
     GlobalPrintContext->print("\n");
   }
   Scope::dump();
@@ -815,15 +687,11 @@ std::string ScopeFunction::getAsText() const {
     Result += " inline";
 
   std::string Name;
-  if (getReader()->getOptions().getFormatQualifiedName())
-    getQualifiedName(Name);
-  else
-    Name = getName();
+  getQualifiedName(Name);
 
   Result += " \"";
   Result += Name;
   Result += "\"";
-  Result += getDiscriminatorAsString();
   Result += " -> ";
   Result += getDieOffsetAsString();
   Result += "\"";
@@ -926,10 +794,7 @@ std::string ScopeNamespace::getAsText() const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
   std::string Name;
-  if (getReader()->getOptions().getFormatQualifiedName())
-    getQualifiedName(Name);
-  else
-    Name = getName();
+  getQualifiedName(Name);
   if (!Name.empty())
     Result << " \"" << Name << '"';
   return Result.str();
@@ -996,7 +861,7 @@ void ScopeRoot::setName(const char *Name) {
 }
 
 void ScopeRoot::dump() {
-  if (!getReader()->getOptions().getViewSplit()) {
+  if (!getReader()->getPrintSettings().SplitOutput) {
     Scope::dump();
   }
 }

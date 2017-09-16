@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "StringPool.h"
-#include "CmdOptions.h"
 #include "PrintContext.h"
 
 #include <assert.h>
@@ -55,13 +54,21 @@ void StringPool::create() {
   GlobalStringPool->getIndex("");
 }
 
-void StringPool::destroy(const CmdOptions &Options) {
+void StringPool::destroy() {
   if (GlobalStringPool) {
-    GlobalStringPool->printInfo(Options);
-
     delete GlobalStringPool;
     GlobalStringPool = nullptr;
   }
+}
+
+void StringPool::dumpPool() {
+  if (GlobalStringPool)
+    GlobalStringPool->dump();
+}
+
+void StringPool::poolInfo() {
+  if (GlobalStringPool)
+    GlobalStringPool->info();
 }
 
 size_t StringPool::getStringIndex(const char *Str) {
@@ -152,16 +159,6 @@ const char *StringPool::getString(size_t Index) {
     throw std::logic_error("Invalid string index in String Pool.\n");
   }
   return &(TheStrings[Index]);
-}
-
-void StringPool::printInfo(const CmdOptions &Options) {
-  if (Options.getUsageStringPoolTable()) {
-    dump();
-  }
-
-  if (Options.getUsageStringPoolInfo()) {
-    info();
-  }
 }
 
 void StringPool::info(const char *Title) {
