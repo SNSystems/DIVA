@@ -96,7 +96,6 @@ private:
 
 public:
   /// \brief Gets the Type kind as a string (eg, "ARRAY").
-  const char *getObjectType() const override;
   const char *getKindAsString() const override;
 
 public:

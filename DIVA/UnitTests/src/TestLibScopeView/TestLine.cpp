@@ -35,7 +35,7 @@
 using namespace LibScopeView;
 
 TEST(Line, getAsText_Line) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Line Ln(0);
@@ -44,7 +44,7 @@ TEST(Line, getAsText_Line) {
 }
 
 TEST(Line, getAsYAML_Line) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Line Ln;
@@ -72,9 +72,9 @@ TEST(Line, getAsYAML_Line) {
 }
 
 TEST(Line, getAsText_Line_Attributes) {
-  Reader R(nullptr);
-  R.getOptions().setFormatIndentation();
-  R.getOptions().setPrintCodelineAttributes();
+  PrintSettings Settings;
+  Settings.ShowCodelineAttributes = true;
+  Reader R(Settings);
   setReader(&R);
 
   Line Ln(/*level*/ 3);
@@ -110,7 +110,7 @@ TEST(Line, getAsText_Line_Attributes) {
 }
 
 TEST(Line, getAsYAML_Line_Attributes) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   Line Ln;

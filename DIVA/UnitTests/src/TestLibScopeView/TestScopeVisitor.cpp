@@ -99,7 +99,7 @@ TEST(ScopeVisitor, ConstScopeVisitor) {
 // Test using the visitChildren method.
 TEST(ScopeVisitor, VisitChildren) {
   // Create a global reader object as Scope.AddObject uses it.
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   StrictMockVisitor Visitor;
@@ -139,7 +139,7 @@ TEST(ScopeVisitor, VisitChildren) {
 
 // Test lines are always visited after other children.
 TEST(ScopeVisitor, VisitLineChildren) {
-  Reader R(nullptr);
+  Reader R;
   setReader(&R);
 
   StrictMockVisitor Visitor;

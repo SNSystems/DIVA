@@ -97,9 +97,6 @@ private:
   std::bitset<ObjectAttributesSize> ObjectAttributesFlags;
 
 public:
-  /// \brief Get the object's type as a string.
-  virtual const char *getObjectType() const = 0;
-
   /// \brief Get the object kind as a string.
   virtual const char *getKindAsString() const = 0;
 
@@ -187,9 +184,8 @@ protected:
   void printFileIndex();
 
 protected:
-  // Get a string representation for the given number and discriminator.
-  const char *getLineAsString(uint64_t LineNumber,
-                              Dwarf_Half Discriminator) const;
+  // Get a string representation for the given line number.
+  const char *getLineAsString(uint64_t LineNumber) const;
 
   // Get a string representation for the given number.
   const char *getReferenceAsString(uint64_t LineNumber, bool Spaces) const;
@@ -277,8 +273,6 @@ public:
   /// \brief If the Object is a Compile Unit.
   virtual bool getIsCompileUnit() const { return false; }
 
-  virtual const char *getDiscriminatorAsString() const;
-
   // Get some attributes as string.
   const char *getDieOffsetAsString() const;
   const char *getTypeDieOffsetAsString() const;
@@ -292,7 +286,7 @@ public:
   /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
   /// otherwise use the DW_AT_decl_line attribute.
   virtual const char *getLineNumberAsString() const {
-    return getLineAsString(getLineNumber(), 0);
+    return getLineAsString(getLineNumber());
   }
   virtual std::string getLineNumberAsStringStripped();
 
@@ -397,7 +391,7 @@ public:
   const char *getTypeName() const override;
 
   /// \brief The Object's filename.
-  std::string getFileName(bool FormatOptions) const override;
+  std::string getFileName(bool NameOnly) const override;
   void setFileName(const char *FileName) override;
 
   /// \brief The StringPool index of the Object's filename.

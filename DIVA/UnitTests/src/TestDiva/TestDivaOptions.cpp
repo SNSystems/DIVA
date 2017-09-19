@@ -40,56 +40,57 @@ TEST(DivaOptions, Defaults) {
   std::stringstream Output;
   DivaOptions DOpt({"--quiet"}, Output, Output, Output);
   DivaOptions DOptForQuietDefault({"--show-summary"}, Output, Output, Output);
+  LibScopeView::PrintSettings &PSet = DOpt.PrintingSettings;
 
   EXPECT_EQ(Output.str(), "");
 
   EXPECT_TRUE(DOpt.InputFiles.empty());
 
-  EXPECT_FALSE(DOptForQuietDefault.QuietMode);
-  EXPECT_FALSE(DOpt.ShowSummary);
-  EXPECT_FALSE(DOpt.SplitOutput);
-  EXPECT_TRUE(DOpt.OutputDirectory.empty());
+  EXPECT_FALSE(DOptForQuietDefault.PrintingSettings.QuietMode);
+  EXPECT_FALSE(PSet.ShowSummary);
+  EXPECT_FALSE(PSet.SplitOutput);
+  EXPECT_TRUE(PSet.OutputDirectory.empty());
   EXPECT_EQ(DOpt.OutputFormats, std::set<OutputFormat>({OutputFormat::TEXT}));
 
-  EXPECT_EQ(DOpt.SortKey, SortingKey::LINE);
+  EXPECT_EQ(PSet.SortKey, LibScopeView::SortingKey::LINE);
 
-  EXPECT_TRUE(DOpt.Filters.empty());
-  EXPECT_TRUE(DOpt.FilterAnys.empty());
-  EXPECT_TRUE(DOpt.WithChildrenFilters.empty());
-  EXPECT_TRUE(DOpt.WithChildrenFilterAnys.empty());
+  EXPECT_TRUE(PSet.Filters.empty());
+  EXPECT_TRUE(PSet.FilterAnys.empty());
+  EXPECT_TRUE(PSet.WithChildrenFilters.empty());
+  EXPECT_TRUE(PSet.WithChildrenFilterAnys.empty());
 
-  EXPECT_TRUE(DOpt.ShowAlias);
-  EXPECT_TRUE(DOpt.ShowBlock);
-  EXPECT_FALSE(DOpt.ShowBlockAttributes);
-  EXPECT_TRUE(DOpt.ShowClass);
-  EXPECT_TRUE(DOpt.ShowEnum);
-  EXPECT_TRUE(DOpt.ShowFunction);
-  EXPECT_TRUE(DOpt.ShowMember);
-  EXPECT_TRUE(DOpt.ShowNamespace);
-  EXPECT_TRUE(DOpt.ShowParameter);
-  EXPECT_FALSE(DOpt.ShowPrimitivetype);
-  EXPECT_TRUE(DOpt.ShowStruct);
-  EXPECT_TRUE(DOpt.ShowTemplate);
-  EXPECT_TRUE(DOpt.ShowUnion);
-  EXPECT_TRUE(DOpt.ShowUsing);
-  EXPECT_TRUE(DOpt.ShowVariable);
+  EXPECT_TRUE(PSet.ShowAlias);
+  EXPECT_TRUE(PSet.ShowBlock);
+  EXPECT_FALSE(PSet.ShowBlockAttributes);
+  EXPECT_TRUE(PSet.ShowClass);
+  EXPECT_TRUE(PSet.ShowEnum);
+  EXPECT_TRUE(PSet.ShowFunction);
+  EXPECT_TRUE(PSet.ShowMember);
+  EXPECT_TRUE(PSet.ShowNamespace);
+  EXPECT_TRUE(PSet.ShowParameter);
+  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_TRUE(PSet.ShowStruct);
+  EXPECT_TRUE(PSet.ShowTemplate);
+  EXPECT_TRUE(PSet.ShowUnion);
+  EXPECT_TRUE(PSet.ShowUsing);
+  EXPECT_TRUE(PSet.ShowVariable);
 
-  EXPECT_FALSE(DOpt.ShowCodeline);
-  EXPECT_FALSE(DOpt.ShowCodelineAttributes);
-  EXPECT_FALSE(DOpt.ShowCombined);
-  EXPECT_FALSE(DOpt.ShowDWARFOffset);
-  EXPECT_FALSE(DOpt.ShowDWARFParent);
-  EXPECT_FALSE(DOpt.ShowDWARFTag);
-  EXPECT_FALSE(DOpt.ShowGenerated);
-  EXPECT_FALSE(DOpt.ShowIsGlobal);
-  EXPECT_TRUE(DOpt.ShowIndent);
-  EXPECT_FALSE(DOpt.ShowLevel);
-  EXPECT_FALSE(DOpt.ShowOnlyGlobals);
-  EXPECT_FALSE(DOpt.ShowOnlyLocals);
-  EXPECT_FALSE(DOpt.ShowQualified);
-  EXPECT_FALSE(DOpt.ShowUnderlying);
-  EXPECT_TRUE(DOpt.ShowVoid);
-  EXPECT_FALSE(DOpt.ShowZeroLine);
+  EXPECT_FALSE(PSet.ShowCodeline);
+  EXPECT_FALSE(PSet.ShowCodelineAttributes);
+  EXPECT_FALSE(PSet.ShowCombined);
+  EXPECT_FALSE(PSet.ShowDWARFOffset);
+  EXPECT_FALSE(PSet.ShowDWARFParent);
+  EXPECT_FALSE(PSet.ShowDWARFTag);
+  EXPECT_FALSE(PSet.ShowGenerated);
+  EXPECT_FALSE(PSet.ShowIsGlobal);
+  EXPECT_TRUE(PSet.ShowIndent);
+  EXPECT_FALSE(PSet.ShowLevel);
+  EXPECT_FALSE(PSet.ShowOnlyGlobals);
+  EXPECT_FALSE(PSet.ShowOnlyLocals);
+  EXPECT_FALSE(PSet.ShowQualified);
+  EXPECT_FALSE(PSet.ShowUnderlying);
+  EXPECT_TRUE(PSet.ShowVoid);
+  EXPECT_FALSE(PSet.ShowZeroLine);
 
   EXPECT_FALSE(DOpt.ShowPerformanceTime);
   EXPECT_FALSE(DOpt.ShowPerformanceMemory);
@@ -114,20 +115,20 @@ TEST(DivaOptions, OutputDir) {
   {
     DivaOptions DOpt({"-d"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_TRUE(DOpt.SplitOutput);
-    EXPECT_EQ(DOpt.OutputDirectory, "");
+    EXPECT_TRUE(DOpt.PrintingSettings.SplitOutput);
+    EXPECT_EQ(DOpt.PrintingSettings.OutputDirectory, "");
   }
   {
     DivaOptions DOpt({"--output-dir"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_TRUE(DOpt.SplitOutput);
-    EXPECT_EQ(DOpt.OutputDirectory, "");
+    EXPECT_TRUE(DOpt.PrintingSettings.SplitOutput);
+    EXPECT_EQ(DOpt.PrintingSettings.OutputDirectory, "");
   }
   {
     DivaOptions DOpt({"--output-dir=test/dir/"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_TRUE(DOpt.SplitOutput);
-    EXPECT_EQ(DOpt.OutputDirectory, "test/dir/");
+    EXPECT_TRUE(DOpt.PrintingSettings.SplitOutput);
+    EXPECT_EQ(DOpt.PrintingSettings.OutputDirectory, "test/dir/");
   }
 }
 
@@ -188,17 +189,17 @@ TEST(DivaOptions, Sorting) {
   {
     DivaOptions DOpt({"--sort=name", "--sort=line"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_EQ(DOpt.SortKey, SortingKey::LINE);
+    EXPECT_EQ(DOpt.PrintingSettings.SortKey, LibScopeView::SortingKey::LINE);
   }
   {
     DivaOptions DOpt({"--sort=line", "--sort=name"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_EQ(DOpt.SortKey, SortingKey::NAME);
+    EXPECT_EQ(DOpt.PrintingSettings.SortKey, LibScopeView::SortingKey::NAME);
   }
   {
     DivaOptions DOpt({"--sort=line", "--sort=offset"}, Output, Output, Output);
     EXPECT_EQ(Output.str(), "");
-    EXPECT_EQ(DOpt.SortKey, SortingKey::OFFSET);
+    EXPECT_EQ(DOpt.PrintingSettings.SortKey, LibScopeView::SortingKey::OFFSET);
   }
 }
 
@@ -209,75 +210,92 @@ TEST(DivaOptions, Filters) {
                     "--tree-any=ta1", "--tree-any=ta2,ta3"},
                    Output, Output, Output);
   EXPECT_EQ(Output.str(), "");
-  EXPECT_EQ(DOpt.Filters, std::vector<std::string>({"f1", "f2", "f3"}));
-  EXPECT_EQ(DOpt.FilterAnys, std::vector<std::string>({"fa1", "fa2", "fa3"}));
-  EXPECT_EQ(DOpt.WithChildrenFilters,
-            std::vector<std::string>({"t1", "t2", "t3"}));
-  EXPECT_EQ(DOpt.WithChildrenFilterAnys,
+  EXPECT_EQ(DOpt.PrintingSettings.FilterAnys,
+            std::vector<std::string>({"fa1", "fa2", "fa3"}));
+  EXPECT_EQ(DOpt.PrintingSettings.WithChildrenFilterAnys,
             std::vector<std::string>({"ta1", "ta2", "ta3"}));
+
+  ASSERT_EQ(DOpt.PrintingSettings.Filters.size(), 3);
+  EXPECT_TRUE(std::regex_match("f1", DOpt.PrintingSettings.Filters[0]));
+  EXPECT_TRUE(std::regex_match("f2", DOpt.PrintingSettings.Filters[1]));
+  EXPECT_TRUE(std::regex_match("f3", DOpt.PrintingSettings.Filters[2]));
+
+  ASSERT_EQ(DOpt.PrintingSettings.WithChildrenFilters.size(), 3);
+  EXPECT_TRUE(std::regex_match(
+      "t1", DOpt.PrintingSettings.WithChildrenFilters[0]));
+  EXPECT_TRUE(std::regex_match(
+      "t2", DOpt.PrintingSettings.WithChildrenFilters[1]));
+  EXPECT_TRUE(std::regex_match(
+      "t3", DOpt.PrintingSettings.WithChildrenFilters[2]));
 }
 
 TEST(DivaOptions, ShowNone) {
   std::stringstream Output;
   DivaOptions DOpt({"--show-all", "--show-none"}, Output, Output, Output);
+  LibScopeView::PrintSettings &PSet = DOpt.PrintingSettings;
+
   EXPECT_EQ(Output.str(), "");
-  EXPECT_FALSE(DOpt.ShowAlias);
-  EXPECT_FALSE(DOpt.ShowBlock);
-  EXPECT_FALSE(DOpt.ShowBlockAttributes);
-  EXPECT_FALSE(DOpt.ShowClass);
-  EXPECT_FALSE(DOpt.ShowEnum);
-  EXPECT_FALSE(DOpt.ShowFunction);
-  EXPECT_FALSE(DOpt.ShowMember);
-  EXPECT_FALSE(DOpt.ShowNamespace);
-  EXPECT_FALSE(DOpt.ShowParameter);
-  EXPECT_FALSE(DOpt.ShowPrimitivetype);
-  EXPECT_FALSE(DOpt.ShowStruct);
-  EXPECT_FALSE(DOpt.ShowTemplate);
-  EXPECT_FALSE(DOpt.ShowUnion);
-  EXPECT_FALSE(DOpt.ShowUsing);
-  EXPECT_FALSE(DOpt.ShowVariable);
+  EXPECT_FALSE(PSet.ShowAlias);
+  EXPECT_FALSE(PSet.ShowBlock);
+  EXPECT_FALSE(PSet.ShowBlockAttributes);
+  EXPECT_FALSE(PSet.ShowClass);
+  EXPECT_FALSE(PSet.ShowEnum);
+  EXPECT_FALSE(PSet.ShowFunction);
+  EXPECT_FALSE(PSet.ShowMember);
+  EXPECT_FALSE(PSet.ShowNamespace);
+  EXPECT_FALSE(PSet.ShowParameter);
+  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_FALSE(PSet.ShowStruct);
+  EXPECT_FALSE(PSet.ShowTemplate);
+  EXPECT_FALSE(PSet.ShowUnion);
+  EXPECT_FALSE(PSet.ShowUsing);
+  EXPECT_FALSE(PSet.ShowVariable);
 }
 
 TEST(DivaOptions, ShowBrief) {
   std::stringstream Output;
   DivaOptions DOpt({"--show-none", "--show-brief"}, Output, Output, Output);
+  LibScopeView::PrintSettings &PSet = DOpt.PrintingSettings;
+
   EXPECT_EQ(Output.str(), "");
-  EXPECT_TRUE(DOpt.ShowAlias);
-  EXPECT_TRUE(DOpt.ShowBlock);
-  EXPECT_FALSE(DOpt.ShowBlockAttributes);
-  EXPECT_TRUE(DOpt.ShowClass);
-  EXPECT_TRUE(DOpt.ShowEnum);
-  EXPECT_TRUE(DOpt.ShowFunction);
-  EXPECT_TRUE(DOpt.ShowMember);
-  EXPECT_TRUE(DOpt.ShowNamespace);
-  EXPECT_TRUE(DOpt.ShowParameter);
-  EXPECT_FALSE(DOpt.ShowPrimitivetype);
-  EXPECT_TRUE(DOpt.ShowStruct);
-  EXPECT_TRUE(DOpt.ShowTemplate);
-  EXPECT_TRUE(DOpt.ShowUnion);
-  EXPECT_TRUE(DOpt.ShowUsing);
-  EXPECT_TRUE(DOpt.ShowVariable);
+  EXPECT_TRUE(PSet.ShowAlias);
+  EXPECT_TRUE(PSet.ShowBlock);
+  EXPECT_FALSE(PSet.ShowBlockAttributes);
+  EXPECT_TRUE(PSet.ShowClass);
+  EXPECT_TRUE(PSet.ShowEnum);
+  EXPECT_TRUE(PSet.ShowFunction);
+  EXPECT_TRUE(PSet.ShowMember);
+  EXPECT_TRUE(PSet.ShowNamespace);
+  EXPECT_TRUE(PSet.ShowParameter);
+  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_TRUE(PSet.ShowStruct);
+  EXPECT_TRUE(PSet.ShowTemplate);
+  EXPECT_TRUE(PSet.ShowUnion);
+  EXPECT_TRUE(PSet.ShowUsing);
+  EXPECT_TRUE(PSet.ShowVariable);
 }
 
 TEST(DivaOptions, ShowAll) {
   std::stringstream Output;
   DivaOptions DOpt({"--show-none", "--show-all"}, Output, Output, Output);
+  LibScopeView::PrintSettings &PSet = DOpt.PrintingSettings;
+
   EXPECT_EQ(Output.str(), "");
-  EXPECT_TRUE(DOpt.ShowAlias);
-  EXPECT_TRUE(DOpt.ShowBlock);
-  EXPECT_TRUE(DOpt.ShowBlockAttributes);
-  EXPECT_TRUE(DOpt.ShowClass);
-  EXPECT_TRUE(DOpt.ShowEnum);
-  EXPECT_TRUE(DOpt.ShowFunction);
-  EXPECT_TRUE(DOpt.ShowMember);
-  EXPECT_TRUE(DOpt.ShowNamespace);
-  EXPECT_TRUE(DOpt.ShowParameter);
-  EXPECT_TRUE(DOpt.ShowPrimitivetype);
-  EXPECT_TRUE(DOpt.ShowStruct);
-  EXPECT_TRUE(DOpt.ShowTemplate);
-  EXPECT_TRUE(DOpt.ShowUnion);
-  EXPECT_TRUE(DOpt.ShowUsing);
-  EXPECT_TRUE(DOpt.ShowVariable);
+  EXPECT_TRUE(PSet.ShowAlias);
+  EXPECT_TRUE(PSet.ShowBlock);
+  EXPECT_TRUE(PSet.ShowBlockAttributes);
+  EXPECT_TRUE(PSet.ShowClass);
+  EXPECT_TRUE(PSet.ShowEnum);
+  EXPECT_TRUE(PSet.ShowFunction);
+  EXPECT_TRUE(PSet.ShowMember);
+  EXPECT_TRUE(PSet.ShowNamespace);
+  EXPECT_TRUE(PSet.ShowParameter);
+  EXPECT_TRUE(PSet.ShowPrimitivetype);
+  EXPECT_TRUE(PSet.ShowStruct);
+  EXPECT_TRUE(PSet.ShowTemplate);
+  EXPECT_TRUE(PSet.ShowUnion);
+  EXPECT_TRUE(PSet.ShowUsing);
+  EXPECT_TRUE(PSet.ShowVariable);
 }
 
 TEST(DivaOptions, FlagArguments) {
@@ -292,41 +310,42 @@ TEST(DivaOptions, FlagArguments) {
     EXPECT_FALSE(DOpt2.VAL);                                                   \
   } while (0)
 
-  CHECK_FLAG("quiet", QuietMode);
-  CHECK_FLAG("show-summary", ShowSummary);
+  CHECK_FLAG("quiet", PrintingSettings.QuietMode);
+  CHECK_FLAG("show-summary", PrintingSettings.ShowSummary);
 
-  CHECK_FLAG("show-alias", ShowAlias);
-  CHECK_FLAG("show-block", ShowBlock);
-  CHECK_FLAG("show-block-attributes", ShowBlockAttributes);
-  CHECK_FLAG("show-class", ShowClass);
-  CHECK_FLAG("show-enum", ShowEnum);
-  CHECK_FLAG("show-function", ShowFunction);
-  CHECK_FLAG("show-member", ShowMember);
-  CHECK_FLAG("show-namespace", ShowNamespace);
-  CHECK_FLAG("show-parameter", ShowParameter);
-  CHECK_FLAG("show-primitivetype", ShowPrimitivetype);
-  CHECK_FLAG("show-struct", ShowStruct);
-  CHECK_FLAG("show-template", ShowTemplate);
-  CHECK_FLAG("show-union", ShowUnion);
-  CHECK_FLAG("show-using", ShowUsing);
-  CHECK_FLAG("show-variable", ShowVariable);
+  CHECK_FLAG("show-alias", PrintingSettings.ShowAlias);
+  CHECK_FLAG("show-block", PrintingSettings.ShowBlock);
+  CHECK_FLAG("show-block-attributes", PrintingSettings.ShowBlockAttributes);
+  CHECK_FLAG("show-class", PrintingSettings.ShowClass);
+  CHECK_FLAG("show-enum", PrintingSettings.ShowEnum);
+  CHECK_FLAG("show-function", PrintingSettings.ShowFunction);
+  CHECK_FLAG("show-member", PrintingSettings.ShowMember);
+  CHECK_FLAG("show-namespace", PrintingSettings.ShowNamespace);
+  CHECK_FLAG("show-parameter", PrintingSettings.ShowParameter);
+  CHECK_FLAG("show-primitivetype", PrintingSettings.ShowPrimitivetype);
+  CHECK_FLAG("show-struct", PrintingSettings.ShowStruct);
+  CHECK_FLAG("show-template", PrintingSettings.ShowTemplate);
+  CHECK_FLAG("show-union", PrintingSettings.ShowUnion);
+  CHECK_FLAG("show-using", PrintingSettings.ShowUsing);
+  CHECK_FLAG("show-variable", PrintingSettings.ShowVariable);
 
-  CHECK_FLAG("show-codeline", ShowCodeline);
-  CHECK_FLAG("show-codeline-attributes", ShowCodelineAttributes);
-  CHECK_FLAG("show-combined", ShowCombined);
-  CHECK_FLAG("show-DWARF-offset", ShowDWARFOffset);
-  CHECK_FLAG("show-DWARF-parent", ShowDWARFParent);
-  CHECK_FLAG("show-DWARF-tag", ShowDWARFTag);
-  CHECK_FLAG("show-generated", ShowGenerated);
-  CHECK_FLAG("show-global", ShowIsGlobal);
-  CHECK_FLAG("show-indent", ShowIndent);
-  CHECK_FLAG("show-level", ShowLevel);
-  CHECK_FLAG("show-only-globals", ShowOnlyGlobals);
-  CHECK_FLAG("show-only-locals", ShowOnlyLocals);
-  CHECK_FLAG("show-qualified", ShowQualified);
-  CHECK_FLAG("show-underlying", ShowUnderlying);
-  CHECK_FLAG("show-void", ShowVoid);
-  CHECK_FLAG("show-zero", ShowZeroLine);
+  CHECK_FLAG("show-codeline", PrintingSettings.ShowCodeline);
+  CHECK_FLAG("show-codeline-attributes",
+             PrintingSettings.ShowCodelineAttributes);
+  CHECK_FLAG("show-combined", PrintingSettings.ShowCombined);
+  CHECK_FLAG("show-DWARF-offset", PrintingSettings.ShowDWARFOffset);
+  CHECK_FLAG("show-DWARF-parent", PrintingSettings.ShowDWARFParent);
+  CHECK_FLAG("show-DWARF-tag", PrintingSettings.ShowDWARFTag);
+  CHECK_FLAG("show-generated", PrintingSettings.ShowGenerated);
+  CHECK_FLAG("show-global", PrintingSettings.ShowIsGlobal);
+  CHECK_FLAG("show-indent", PrintingSettings.ShowIndent);
+  CHECK_FLAG("show-level", PrintingSettings.ShowLevel);
+  CHECK_FLAG("show-only-globals", PrintingSettings.ShowOnlyGlobals);
+  CHECK_FLAG("show-only-locals", PrintingSettings.ShowOnlyLocals);
+  CHECK_FLAG("show-qualified", PrintingSettings.ShowQualified);
+  CHECK_FLAG("show-underlying", PrintingSettings.ShowUnderlying);
+  CHECK_FLAG("show-void", PrintingSettings.ShowVoid);
+  CHECK_FLAG("show-zero", PrintingSettings.ShowZeroLine);
 
   CHECK_FLAG("performance-time", ShowPerformanceTime);
   CHECK_FLAG("performance-memory", ShowPerformanceMemory);

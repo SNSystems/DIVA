@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Utilities.h"
-#include "CmdOptions.h"
 #include "Platform.h"
 #include "PrintContext.h"
 #include "StringPool.h"
@@ -60,9 +59,9 @@ void LibScopeView::initialize() {
   PrintContext::create(stdout);
 }
 
-void LibScopeView::terminate(const CmdOptions &options) {
+void LibScopeView::terminate() {
   // Delete the String Pool.
-  StringPool::destroy(options);
+  StringPool::destroy();
 }
 
 size_t  LibScopeView::getPeakMemoryUsage() {

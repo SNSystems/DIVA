@@ -65,7 +65,6 @@ private:
 
 public:
   /// \brief Gets the object kind as a string.
-  const char *getObjectType() const override;
   const char *getKindAsString() const override;
 
 public:

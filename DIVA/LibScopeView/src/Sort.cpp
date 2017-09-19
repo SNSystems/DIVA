@@ -56,23 +56,6 @@ int LibScopeView::compareOffset(const Object *LHS, const Object *RHS) {
   return compare(LHS->getDieOffset(), RHS->getDieOffset());
 }
 
-bool LibScopeView::sortByKind(const Object *LHS, const Object *RHS) {
-  // Use the kind as the first key.
-  int Comp = compareKind(LHS, RHS);
-  if (Comp != 0)
-    return Comp < 0;
-  // Kinds are the same; use the names.
-  Comp = compareName(LHS, RHS);
-  if (Comp != 0)
-    return Comp < 0;
-  // Names are the same; use the lines.
-  Comp = compareLine(LHS, RHS);
-  if (Comp != 0)
-    return Comp < 0;
-  // Lines are the same; use the offset.
-  return compareOffset(LHS, RHS) < 0;
-}
-
 bool LibScopeView::sortByLine(const Object *LHS, const Object *RHS) {
   // Use the line number as the first key.
   int Comp = compareLine(LHS, RHS);
@@ -112,22 +95,13 @@ bool LibScopeView::sortByOffset(const Object *LHS, const Object *RHS) {
 }
 
 SortFunction LibScopeView::getSortFunction() {
-  // Sort function callback based on sort mode.
-  struct SortInfo {
-    SortMode Mode;
-    SortFunction SortFunc;
-  };
-
-  static SortInfo sort_info[] = {
-      {sr_none, nullptr},    {sr_kind, sortByKind},     {sr_line, sortByLine},
-      {sr_name, sortByName}, {sr_offset, sortByOffset},
-  };
-
-  SortFunction sort_function = nullptr;
-  if (LibScopeView::getReader()->getOptions().getViewSort()) {
-    SortMode sort_mode =
-        LibScopeView::getReader()->getSpecification()->getSortMode();
-    sort_function = sort_info[sort_mode].SortFunc;
+  switch (getReader()->getPrintSettings().SortKey) {
+  case SortingKey::LINE:
+    return sortByLine;
+  case SortingKey::OFFSET:
+    return sortByOffset;
+  case SortingKey::NAME:
+    return sortByName;
   }
-  return sort_function;
+  return nullptr;
 }

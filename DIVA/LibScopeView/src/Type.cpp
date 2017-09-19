@@ -130,8 +130,6 @@ const char *Type::getKindAsString() const {
   return kind;
 }
 
-const char *Type::getObjectType() const { return "TY"; }
-
 const char *Type::resolveName() { return getName(); }
 
 bool Type::setFullName() {
@@ -157,7 +155,7 @@ bool Type::setFullName() {
 }
 
 void Type::dump() {
-  if (getReader()->getSpecification()->printObject(this)) {
+  if (getReader()->getPrintSettings().printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
@@ -552,8 +550,7 @@ std::string TypeParam::getAsText() const {
     Result += "{";
     Result += getKindAsString();
     Result += "} \"";
-    if (getReader()->getOptions().getFormatQualifiedName())
-      Result += getQualifiedName();
+    Result += getQualifiedName();
     Result += getName();
     Result += "\" ";
   }

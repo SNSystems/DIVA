@@ -129,15 +129,14 @@ const char *OffsetAsString(Dwarf_Off Offset) {
 
 const char *Object::getDieOffsetAsString() const {
   const char *Str = "";
-  if (getReader()->getOptions().getAttributeOffset()) {
+  if (getReader()->getPrintSettings().ShowDWARFOffset)
     Str = OffsetAsString(getDieOffset());
-  }
   return Str;
 }
 
 const char *Object::getTypeDieOffsetAsString() const {
   const char *Str = "";
-  if (getReader()->getOptions().getAttributeOffset()) {
+  if (getReader()->getPrintSettings().ShowDWARFOffset) {
     Str = OffsetAsString(getType() ? getType()->getDieOffset() : 0);
   }
   return Str;
@@ -148,40 +147,19 @@ Dwarf_Off Object::getDieParent() const {
   return DieParent ? DieParent->getDieOffset() : 0;
 }
 
-const char *Object::getDiscriminatorAsString() const {
-  Dwarf_Half Discriminator = getDiscriminator();
-  const char *Str = "";
-  if (Discriminator && getReader()->getOptions().getFormatDiscriminators()) {
-    const unsigned MaxLineSize = 16;
-    static char Buffer[MaxLineSize];
-    int Res = snprintf(Buffer, MaxLineSize, ":%d", Discriminator);
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
-           "string overflow");
-    (void)Res;
-    Str = Buffer;
-  }
-  return Str;
-}
-
 const char *Object::getNoLineString() const {
   static const char *NoLine = "        ";
   return NoLine;
 }
 
-const char *Object::getLineAsString(uint64_t LnNumber,
-                                    Dwarf_Half Discriminator) const {
+const char *Object::getLineAsString(uint64_t LnNumber) const {
   const unsigned MaxLineSize = 16;
   static char Buffer[MaxLineSize];
   const char *Str = Buffer;
   if (LnNumber) {
     int Res;
-    if (Discriminator && getReader()->getOptions().getFormatDiscriminators()) {
-      Res = snprintf(Buffer, MaxLineSize, "%5s:%-2d",
-                     std::to_string(LnNumber).c_str(), Discriminator);
-    } else {
-      Res = snprintf(Buffer, MaxLineSize, "%5s %s",
-                     std::to_string(LnNumber).c_str(), "  ");
-    }
+    Res = snprintf(Buffer, MaxLineSize, "%5s %s",
+                   std::to_string(LnNumber).c_str(), "  ");
     assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
            "string overflow");
     (void)Res;
@@ -213,7 +191,7 @@ const char *Object::getReferenceAsString(uint64_t LnNumber, bool Spaces) const {
 const char *Object::getTypeAsString() const {
   return getHasType()
              ? (getTypeName())
-             : (getReader()->getOptions().getFormatVoidType() ? "void" : "");
+             : (getReader()->getPrintSettings().ShowVoid ? "void" : "");
 }
 
 void Object::resolveQualifiedName(const Scope *ExplicitParent) {
@@ -244,7 +222,7 @@ std::string Object::getIndentString() const {
   // No indent for root.
   if (getLevel() == 0 && getIsScope() && getParent() == nullptr)
     return "";
-  return getReader()->getOptions().getFormatIndentation()
+  return getReader()->getPrintSettings().ShowIndent
              ? std::string((getLevel() + 1) * 2, ' ')
              : "";
 }
@@ -321,10 +299,8 @@ bool Object::setFullName(Type *BaseType, Scope *BaseScope, Scope *SpecScope,
     //                  DW_AT_type <0x0000003f>
     //   <0x0000003f> DW_TAG_pointer_type
     // For that case, we can emit the 'void' type.
-    if (!BaseType && !getType() &&
-        getReader()->getOptions().getFormatVoidType()) {
+    if (!BaseType && !getType() && getReader()->getPrintSettings().ShowVoid)
       ParentTypename = "void";
-    }
     break;
   case DW_TAG_ptr_to_member_type:
     PostText = "*";
@@ -442,29 +418,25 @@ std::string Object::getAttributesAsText() {
   // the first object.
   if (CalculateIndentation) {
     CalculateIndentation = false;
-    if (getReader()->getOptions().getAttributeOffset()) {
+    if (getReader()->getPrintSettings().ShowDWARFOffset) {
       OffsetWidth = static_cast<size_t>(
           snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieOffset()));
       IndentationSize += OffsetWidth;
     }
-    if (getReader()->getOptions().getAttributeParent()) {
+    if (getReader()->getPrintSettings().ShowDWARFParent) {
       ParentWidth = static_cast<size_t>(
           snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieParent()));
       IndentationSize += ParentWidth;
     }
-    if (getReader()->getOptions().getAttributeType()) {
-      IndentationSize +=
-          static_cast<size_t>(snprintf(nullptr, 0, "[%s]", getObjectType()));
-    }
-    if (getReader()->getOptions().getAttributeLevel()) {
+    if (getReader()->getPrintSettings().ShowLevel) {
       IndentationSize +=
           static_cast<size_t>(snprintf(nullptr, 0, "%03d", getLevel()));
     }
-    if (getReader()->getOptions().getAttributeGlobal()) {
+    if (getReader()->getPrintSettings().ShowIsGlobal) {
       IndentationSize += static_cast<size_t>(
           snprintf(nullptr, 0U, "%c", getIsGlobalReference() ? 'X' : ' '));
     }
-    if (getReader()->getOptions().getAttributeTag()) {
+    if (getReader()->getPrintSettings().ShowDWARFTag) {
       std::string tag_str = getTagString(getDieTag(), getIsLine());
       TagWidth =
           static_cast<size_t>(snprintf(nullptr, 0U, "%-42s", tag_str.c_str()));
@@ -484,7 +456,7 @@ std::string Object::getAttributesAsText() {
 
   // Do not print the DIE offset, Level or DWARF TAG for a {InputFile} object.
   bool IsInputFileObject = (getIsScope() && !getParent());
-  if (getReader()->getOptions().getAttributeOffset()) {
+  if (getReader()->getPrintSettings().ShowDWARFOffset) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(OffsetWidth, ' ').c_str());
@@ -496,7 +468,7 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getOptions().getAttributeParent()) {
+  if (getReader()->getPrintSettings().ShowDWARFParent) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(ParentWidth, ' ').c_str());
@@ -508,13 +480,7 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getOptions().getAttributeType()) {
-    Res = std::snprintf(Literal, MaxSize, "[%s]", getObjectType());
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  if (getReader()->getOptions().getAttributeLevel()) {
+  if (getReader()->getPrintSettings().ShowLevel) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "   ");
     } else {
@@ -524,14 +490,14 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getOptions().getAttributeGlobal()) {
+  if (getReader()->getPrintSettings().ShowIsGlobal) {
     Res = std::snprintf(Literal, MaxSize, "%c",
                         getIsGlobalReference() ? 'X' : ' ');
     assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getOptions().getAttributeTag()) {
+  if (getReader()->getPrintSettings().ShowDWARFTag) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(TagWidth, ' ').c_str());
@@ -579,10 +545,8 @@ void Object::printFileIndex() {
 
 void Object::dump() {
   // Print the File ID if needed.
-  if (getFileNameIndex() && (getReader()->getOptions().getFormatFileName() ||
-                             getReader()->getOptions().getFormatPathName())) {
+  if (getFileNameIndex())
     printFileIndex();
-  }
 
   // Print Debug Data (tag, offset, etc).
   printAttributes();
@@ -727,14 +691,13 @@ const char *Element::getTypeName() const {
   return getType() ? getType()->getName() : "";
 }
 
-std::string Element::getFileName(bool FormatOptions) const {
+std::string Element::getFileName(bool NameOnly) const {
   // If 'format_options', then we use the format command line options, to
   // return the full pathname or just the filename. The string stored in
   // the string pool, is the full pathname.
   std::string FName = StringPool::getStringValue(getFileNameIndex());
-  if (FormatOptions && getReader()->getOptions().getFormatFileName()) {
+  if (NameOnly)
     FName = LibScopeView::getFileName(FName);
-  }
   return FName;
 }
 
@@ -749,7 +712,7 @@ void Element::setFileNameIndex(size_t FNameIndex) {
 }
 
 const char *Element::getTypeQualifiedName() const {
-  if (!getType() || !getReader()->getOptions().getFormatQualifiedName())
+  if (!getType())
     return "";
   return getType()->getQualifiedName();
 }

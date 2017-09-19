@@ -29,7 +29,6 @@
 
 #include "gtest/gtest.h"
 
-#include "CmdOptions.h"
 #include "Utilities.h"
 
 int main(int argc, char **argv) {
@@ -41,8 +40,7 @@ int main(int argc, char **argv) {
     (void) Ret; // Always return 0.
 
     // Library termination.
-    const LibScopeView::CmdOptions options;
-    LibScopeView::terminate(options);
+    LibScopeView::terminate();
 
     return 0;
 }

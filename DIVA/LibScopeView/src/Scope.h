@@ -120,9 +120,6 @@ public:
   std::bitset<ScopeAttributesSize> ScopeAttributesFlags;
 
 public:
-  /// \brief Get the object's type as a string.
-  const char *getObjectType() const override;
-
   /// \brief Get the object kind as a string.
   const char *getKindAsString() const override;
 
@@ -354,21 +351,10 @@ public:
   void sortScopes();
   void sortCompileUnits();
 
-private:
-  std::string encodeTheTemplateArguments(const std::vector<Type *> &Types,
-                                         bool QualifyBase = false);
-
-public:
   // bring parent method getQualifiedName into scope.
   using Element::getQualifiedName;
   /// \brief Return the chain of parents as a string.
   void getQualifiedName(std::string &QualifiedName) const;
-
-  /// \brief Get a string representation of the template arguments.
-  std::string encodeTemplateArguments(const std::vector<Type *> &Types,
-                                      bool QualifyBase = false);
-  std::string encodeTemplateArguments(bool QualifyBase = false);
-  static std::string encodeTemplateArgument(Type &Ty);
 
 protected:
   void sortScopes(SortFunction SortFunc);
@@ -610,7 +596,7 @@ public:
   /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
   /// otherwise use the DW_AT_decl_line attribute.
   const char *getLineNumberAsString() const override {
-    return getLineAsString(getCallLineNumber(), getDiscriminator());
+    return getLineAsString(getCallLineNumber());
   }
 };
 

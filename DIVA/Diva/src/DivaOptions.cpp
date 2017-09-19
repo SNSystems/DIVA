@@ -72,41 +72,23 @@ void printVersionDetails(std::ostream &VersionOut) {
              << "\n";
 }
 
+void compileRegexs(std::vector<std::string> &Patterns,
+                   std::vector<std::regex> &RegexsOut) {
+  for (const std::string &Pattern : Patterns) {
+    try {
+      RegexsOut.emplace_back(Pattern);
+    }
+    catch (std::regex_error &) {
+      fatalError(LibScopeError::ErrorCode::ERR_CMD_INVALID_REGEX, Pattern);
+    }
+  }
+}
+
 } // end anonymous namespace.
 
 DivaOptions::DivaOptions(const std::vector<std::string> &CMDArgs,
                          std::ostream &HelpOut, std::ostream &VersionOut,
                          std::ostream &) {
-  // Set some initial defaults.
-  QuietMode = false;
-  ShowSummary = false;
-  SplitOutput = false;
-  SortKey = SortingKey::LINE;
-
-  showBrief();
-
-  ShowCodeline = false;
-  ShowCodelineAttributes = false;
-  ShowCombined = false;
-  ShowDWARFOffset = false;
-  ShowDWARFParent = false;
-  ShowDWARFTag = false;
-  ShowGenerated = false;
-  ShowIsGlobal = false;
-  ShowIndent = true;
-  ShowLevel = false;
-  ShowOnlyGlobals = false;
-  ShowOnlyLocals = false;
-  ShowQualified = false;
-  ShowUnderlying = false;
-  ShowVoid = true;
-  ShowZeroLine = false;
-
-  ShowPerformanceTime = false;
-  ShowPerformanceMemory = false;
-  ShowScopeAllocation = false;
-  ShowStringPoolInfo = false;
-  DumpStringPool = false;
 
   // Parsing.
   try {
@@ -140,11 +122,15 @@ DivaOptions::DivaOptions(const std::vector<std::string> &CMDArgs,
 
   // Set sort key.
   if (SortKeyString == "line")
-    SortKey = SortingKey::LINE;
+    PrintingSettings.SortKey = LibScopeView::SortingKey::LINE;
   if (SortKeyString == "offset")
-    SortKey = SortingKey::OFFSET;
+    PrintingSettings.SortKey = LibScopeView::SortingKey::OFFSET;
   if (SortKeyString == "name")
-    SortKey = SortingKey::NAME;
+    PrintingSettings.SortKey = LibScopeView::SortingKey::NAME;
+
+  // Compile filter regexs.
+  compileRegexs(RawFilters, PrintingSettings.Filters);
+  compileRegexs(RawWithChildrenFilters, PrintingSettings.WithChildrenFilters);
 }
 
 void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
@@ -186,30 +172,30 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
                  HelpOrVersionPrinted = true;
                }),
       Argument::switchArg('q', "quiet", "Suppress output to stdout",
-                          GeneralHelp, QuietMode)
+                          GeneralHelp, PrintingSettings.QuietMode)
     }),
 
     ArgumentGroup("Output options", {
       Argument('a', "show-all",
                "Print all (expect advanced) objects and attributes", BasicHelp,
-               [&](const Parser &) { showAll(); }),
+               [&](const Parser &) { PrintingSettings.showAll(); }),
       Argument('b', "show-brief",
                "Print all common objects and attributes (default)", BasicHelp,
-               [&](const Parser &) { showBrief(); }),
+               [&](const Parser &) { PrintingSettings.showBrief(); }),
       Argument::switchArg('t', "show-summary", "Print the summary table",
-                          BasicHelp, ShowSummary),
+                          BasicHelp, PrintingSettings.ShowSummary),
       Argument('d', "output-dir", "[=<dir>]",
                "Print the output into a directory with each compile unit's "
                "output in a separate file. If no dir is given, then diva will "
                "use the input_file string to create an output directory.",
                BasicHelp,
                // This argument behaves like a switch that can also set a value.
-               [&](const Parser &) { SplitOutput = true; },
+               [&](const Parser &) { PrintingSettings.SplitOutput = true; },
                [&](const Parser &, const std::string &Opt) {
-                 SplitOutput = true;
-                 OutputDirectory = Opt;
+                 PrintingSettings.SplitOutput = true;
+                 PrintingSettings.OutputDirectory = Opt;
                },
-               [&](const Parser &) { SplitOutput = false; }),
+               [&](const Parser &) { PrintingSettings.SplitOutput = false; }),
       Argument::multiChoiceArg(
           NSC, "output",
           "A comma separated list of output formats.", BasicHelp,
@@ -230,20 +216,20 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
           "Only show objects with <text> as its instance name. The output will "
           "only include exact matches, Regex is accepted. Multiple filters can "
           "be given to show objects that match either.",
-          BasicHelp, Filters),
+          BasicHelp, RawFilters),
       Argument::multiStringArg(
           NSC, "filter-any", "text",
           "Only show objects with <text> in their instance name.",
-          BasicHelp, FilterAnys),
+          BasicHelp, PrintingSettings.FilterAnys),
       Argument::multiStringArg(
           NSC, "tree", "text",
           "Same as --filter, except the whole subtree of any matching object "
           "will printed.",
-          BasicHelp, WithChildrenFilters),
+          BasicHelp, RawWithChildrenFilters),
       Argument::multiStringArg(
           NSC, "tree-any", "text",
           "Same as --filter-any with the whole subtree.", BasicHelp,
-          WithChildrenFilterAnys),
+        PrintingSettings.WithChildrenFilterAnys),
     }),
 
     ArgumentGroup("More object options", {
@@ -252,7 +238,7 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
           "Print no objects, use this to hide all default objects and then "
           "individual objects can be added to the output using the options "
           "below.",
-          MoreHelp, [&](const Parser &) { showNone(); }),
+          MoreHelp, [&](const Parser &) { PrintingSettings.showNone(); }),
       Argument::rawHelpText(
           "\n"
           "The following options can be used to show/hide specific objects and attributes.\n"
@@ -271,36 +257,36 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
           "\"--show-all\" is given.\n",
           MoreHelp),
       Argument::switchArg(NSC, "show-alias", "Print alias*", MoreHelp,
-                          ShowAlias),
+                          PrintingSettings.ShowAlias),
       Argument::switchArg(NSC, "show-block", "Print blocks*", MoreHelp,
-                          ShowBlock),
+                          PrintingSettings.ShowBlock),
       Argument::switchArg(NSC, "show-block-attributes",
                           "Print block attributes (e.g. try,catch)", MoreHelp,
-                          ShowBlockAttributes),
+                          PrintingSettings.ShowBlockAttributes),
       Argument::switchArg(NSC, "show-class", "Print classes*", MoreHelp,
-                          ShowClass),
+                          PrintingSettings.ShowClass),
       Argument::switchArg(NSC, "show-enum", "Print enums*", MoreHelp,
-                          ShowEnum),
+                          PrintingSettings.ShowEnum),
       Argument::switchArg(NSC, "show-function", "Print functions*", MoreHelp,
-                          ShowFunction),
+                          PrintingSettings.ShowFunction),
       Argument::switchArg(NSC, "show-member", "Print class members*", MoreHelp,
-                          ShowMember),
+                          PrintingSettings.ShowMember),
       Argument::switchArg(NSC, "show-namespace", "Print namespaces*", MoreHelp,
-                          ShowNamespace),
+                          PrintingSettings.ShowNamespace),
       Argument::switchArg(NSC, "show-parameter", "Print parameters*", MoreHelp,
-                          ShowParameter),
+                          PrintingSettings.ShowParameter),
       Argument::switchArg(NSC, "show-primitivetype", "Print primitives",
-                          MoreHelp, ShowPrimitivetype),
+                          MoreHelp, PrintingSettings.ShowPrimitivetype),
       Argument::switchArg(NSC, "show-struct", "Print structures*", MoreHelp,
-                          ShowStruct),
+                          PrintingSettings.ShowStruct),
       Argument::switchArg(NSC, "show-template", "Print templates*", MoreHelp,
-                          ShowTemplate),
+                          PrintingSettings.ShowTemplate),
       Argument::switchArg(NSC, "show-union", "Print unions*", MoreHelp,
-                          ShowUnion),
+                          PrintingSettings.ShowUnion),
       Argument::switchArg(NSC, "show-using", "Print using instances*", MoreHelp,
-                          ShowUsing),
+                          PrintingSettings.ShowUsing),
       Argument::switchArg(NSC, "show-variable", "Print variables*", MoreHelp,
-                          ShowVariable)
+                          PrintingSettings.ShowVariable)
     }),
 
     ArgumentGroup("Advanced object options", {
@@ -314,48 +300,48 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
           "To disable an option, insert 'no-' after the '--'.\n",
           AdvancedHelp),
       Argument::switchArg(NSC, "show-codeline", "Print code lines",
-                          AdvancedHelp, ShowCodeline),
+                          AdvancedHelp, PrintingSettings.ShowCodeline),
       Argument::switchArg(
           NSC, "show-codeline-attributes",
           "Print code line attributes (NewStatement, PrologueEnd)",
-          AdvancedHelp, ShowCodelineAttributes),
+          AdvancedHelp, PrintingSettings.ShowCodelineAttributes),
       Argument::switchArg(NSC, "show-combined",
                           "Print combined scope attributes", AdvancedHelp,
-                          ShowCombined),
+                          PrintingSettings.ShowCombined),
       Argument::switchArg(NSC, "show-DWARF-offset", "Print DWARF offsets",
-                          AdvancedHelp, ShowDWARFOffset),
+                          AdvancedHelp, PrintingSettings.ShowDWARFOffset),
       Argument::switchArg(NSC, "show-DWARF-parent",
                           "Print parent object DWARF offsets", AdvancedHelp,
-                          ShowDWARFParent),
+                          PrintingSettings.ShowDWARFParent),
       Argument::switchArg(NSC, "show-DWARF-tag", "Print DWARF tag attribute",
-                          AdvancedHelp, ShowDWARFTag),
+                          AdvancedHelp, PrintingSettings.ShowDWARFTag),
       Argument::switchArg(NSC, "show-generated",
                           "Print compiler generated attributes", AdvancedHelp,
-                          ShowGenerated),
+                          PrintingSettings.ShowGenerated),
       Argument::switchArg(NSC, "show-global", "Print \"global\" attributes",
-                          AdvancedHelp, ShowIsGlobal),
+                          AdvancedHelp, PrintingSettings.ShowIsGlobal),
       Argument::switchArg(NSC, "show-indent",
                           "Print indentations to reflect context (default on)",
-                          AdvancedHelp, ShowIndent),
+                          AdvancedHelp, PrintingSettings.ShowIndent),
       Argument::switchArg(NSC, "show-level", "Print lexical block levels",
-                          AdvancedHelp, ShowLevel),
+                          AdvancedHelp, PrintingSettings.ShowLevel),
       Argument::switchArg(NSC, "show-only-globals",
                           "Print only \"global\" objects", AdvancedHelp,
-                          ShowOnlyGlobals),
+                          PrintingSettings.ShowOnlyGlobals),
       Argument::switchArg(NSC, "show-only-locals",
                           "Print only \"local\" objects", AdvancedHelp,
-                          ShowOnlyLocals),
+                          PrintingSettings.ShowOnlyLocals),
       Argument::switchArg(NSC, "show-qualified",
                           "Print \"qualified name\" attributes*", AdvancedHelp,
-                          ShowQualified),
+                          PrintingSettings.ShowQualified),
       Argument::switchArg(NSC, "show-underlying",
                           "Print underlying type attributes", AdvancedHelp,
-                          ShowUnderlying),
+                          PrintingSettings.ShowUnderlying),
       Argument::switchArg(NSC, "show-void",
                           "Print \"void\" type attributes (default on)",
-                          AdvancedHelp, ShowVoid),
+                          AdvancedHelp, PrintingSettings.ShowVoid),
       Argument::switchArg(NSC, "show-zero", "Print zero line number attributes",
-                          AdvancedHelp, ShowZeroLine),
+                          AdvancedHelp, PrintingSettings.ShowZeroLine),
 
     }),
 
@@ -386,203 +372,4 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
   InputFiles = DivaArgParser.parseCommandLineArgs(CMDArgs);
   if (HelpOrVersionPrinted)
     earlyExitSuccess();
-}
-
-void DivaOptions::showBrief() {
-  ShowAlias = true;
-  ShowBlock = true;
-  ShowBlockAttributes = false;
-  ShowClass = true;
-  ShowEnum = true;
-  ShowFunction = true;
-  ShowMember = true;
-  ShowNamespace = true;
-  ShowParameter = true;
-  ShowPrimitivetype = false;
-  ShowStruct = true;
-  ShowTemplate = true;
-  ShowUnion = true;
-  ShowUsing = true;
-  ShowVariable = true;
-}
-
-void DivaOptions::setMoreShowOptions(bool SetTo) {
-  ShowAlias = SetTo;
-  ShowBlock = SetTo;
-  ShowBlockAttributes = SetTo;
-  ShowClass = SetTo;
-  ShowEnum = SetTo;
-  ShowFunction = SetTo;
-  ShowMember = SetTo;
-  ShowNamespace = SetTo;
-  ShowParameter = SetTo;
-  ShowPrimitivetype = SetTo;
-  ShowStruct = SetTo;
-  ShowTemplate = SetTo;
-  ShowUnion = SetTo;
-  ShowUsing = SetTo;
-  ShowVariable = SetTo;
-}
-
-LibScopeView::CmdOptions DivaOptions::convertToCmdOptions() const {
-  LibScopeView::CmdOptions Result;
-
-  Result.setViewSort();
-  Result.setPrintScopes();
-  Result.setPrintSymbols();
-  Result.setPrintLines();
-  Result.setFormatFileName();
-  Result.setFormatQualifiedName();
-
-  if (QuietMode)
-    Result.setTraceQuiet();
-  if (ShowSummary)
-    Result.setPrintSummary();
-
-  if (SplitOutput)
-    Result.setViewSplit();
-
-  Result.setPrintNone();
-  if (ShowAlias)
-    Result.setPrintAlias();
-  if (ShowBlock)
-    Result.setPrintBlock();
-  if (ShowBlockAttributes)
-    Result.setPrintBlockAttributes();
-  if (ShowClass)
-    Result.setPrintClass();
-  if (ShowEnum)
-    Result.setPrintEnum();
-  if (ShowFunction)
-    Result.setPrintFunction();
-  if (ShowMember)
-    Result.setPrintMember();
-  if (ShowNamespace)
-    Result.setPrintNamespace();
-  if (ShowParameter)
-    Result.setPrintParameter();
-  if (ShowPrimitivetype)
-    Result.setPrintPrimitivetype();
-  if (ShowStruct)
-    Result.setPrintStruct();
-  if (ShowTemplate)
-    Result.setPrintTemplate();
-  if (ShowUnion)
-    Result.setPrintUnion();
-  if (ShowUsing)
-    Result.setPrintUsing();
-  if (ShowVariable)
-    Result.setPrintVariable();
-
-  if (ShowCodeline)
-    Result.setPrintCodeline();
-  if (ShowCodelineAttributes)
-    Result.setPrintCodelineAttributes();
-  if (ShowCombined)
-    Result.setFormatCombineScopes();
-  if (ShowDWARFOffset)
-    Result.setAttributeOffset();
-  if (ShowDWARFParent)
-    Result.setAttributeParent();
-  if (ShowDWARFTag)
-    Result.setAttributeTag();
-  if (ShowGenerated)
-    Result.setFormatGenerated();
-  if (ShowIsGlobal)
-    Result.setAttributeGlobal();
-  if (ShowIndent)
-    Result.setFormatIndentation();
-  if (ShowLevel)
-    Result.setAttributeLevel();
-  if (ShowOnlyGlobals)
-    Result.setFormatOnlyGlobals();
-  if (ShowOnlyLocals)
-    Result.setFormatOnlyLocals();
-  if (ShowQualified)
-    Result.setFormatQualifiedName();
-  if (ShowUnderlying)
-    Result.setFormatUnderlyingType();
-  if (ShowVoid)
-    Result.setFormatVoidType();
-  if (ShowZeroLine)
-    Result.setFormatZeroLineNumbers();
-
-  if (ShowStringPoolInfo)
-    Result.setUsageStringPoolInfo();
-  if (DumpStringPool)
-    Result.setUsageStringPoolTable();
-
-  return Result;
-}
-
-std::vector<LibScopeView::ViewSpecification>
-DivaOptions::convertToViewSpecs() const {
-  std::vector<LibScopeView::ViewSpecification> Result;
-  auto CMDOptions = convertToCmdOptions();
-
-  unsigned int SpecID = 0;
-  for (const auto &InputFile : InputFiles) {
-    Result.emplace_back(CMDOptions);
-    LibScopeView::ViewSpecification &Spec = Result.back();
-    Spec.setID(std::to_string(++SpecID));
-    Spec.setInputFile(InputFile);
-
-    if (SplitOutput) {
-      if (OutputDirectory.empty())
-        Spec.setPrintSplitDir(Spec.getInputFile() + "_CUs");
-      else
-        Spec.setPrintSplitDir(OutputDirectory);
-    }
-
-    switch (SortKey) {
-    case SortingKey::LINE:
-      Spec.setSortMode(LibScopeView::SortMode::sr_line);
-      break;
-    case SortingKey::NAME:
-      Spec.setSortMode(LibScopeView::SortMode::sr_name);
-      break;
-    case SortingKey::OFFSET:
-      Spec.setSortMode(LibScopeView::SortMode::sr_offset);
-      break;
-    }
-
-    for (const auto &Filter : Filters) {
-      LibScopeView::Match FilterMatcher;
-      FilterMatcher.Pattern = Filter;
-      FilterMatcher.Mode = LibScopeView::MatchMode::mm_regex;
-      try {
-        FilterMatcher.RE = std::regex(Filter);
-      } catch (std::regex_error &) {
-        fatalError(LibScopeError::ErrorCode::ERR_CMD_INVALID_REGEX,
-                   Filter.c_str());
-      }
-      Spec.addFilterPattern(FilterMatcher);
-    }
-    for (const auto &Filter : FilterAnys) {
-      LibScopeView::Match FilterMatcher;
-      FilterMatcher.Pattern = Filter;
-      FilterMatcher.Mode = LibScopeView::MatchMode::mm_any;
-      Spec.addFilterPattern(FilterMatcher);
-    }
-    for (const auto &Filter : WithChildrenFilters) {
-      LibScopeView::Match FilterMatcher;
-      FilterMatcher.Pattern = Filter;
-      FilterMatcher.Mode = LibScopeView::MatchMode::mm_regex;
-      try {
-        FilterMatcher.RE = std::regex(Filter);
-      } catch (std::regex_error &) {
-        fatalError(LibScopeError::ErrorCode::ERR_CMD_INVALID_REGEX,
-                   Filter.c_str());
-      }
-      Spec.addTreePattern(FilterMatcher);
-    }
-    for (const auto &Filter : WithChildrenFilterAnys) {
-      LibScopeView::Match FilterMatcher;
-      FilterMatcher.Pattern = Filter;
-      FilterMatcher.Mode = LibScopeView::MatchMode::mm_any;
-      Spec.addTreePattern(FilterMatcher);
-    }
-  }
-
-  return Result;
 }

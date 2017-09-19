@@ -35,6 +35,7 @@
 #include "Type.h"
 #include "Utilities.h"
 
+#include <algorithm>
 #include <assert.h>
 #include <iostream>
 #include <sstream>
@@ -48,17 +49,6 @@ Reader *GlobalReader = nullptr;
 
 Reader *LibScopeView::getReader() { return GlobalReader; }
 void LibScopeView::setReader(Reader *Rdr) { GlobalReader = Rdr; }
-
-Reader::Reader(ViewSpecification *ViewSpec)
-    : PrintedHeader(false) {
-  // Input specifications.
-  if (ViewSpec) {
-    Spec = *ViewSpec;
-  }
-
-  // Let the specific reader Create the scope root.
-  Scopes = nullptr;
-}
 
 bool Reader::executeActions() {
   destroyScopes();
@@ -85,7 +75,7 @@ void Reader::printSummary() {
 
 void Reader::print() {
   // If doing any search (--filter), do not do any scope tree printing.
-  if (getSpecification()->getAnyFilterPattern()) {
+  if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
     printObjects();
   } else {
     printScopes();
@@ -108,9 +98,8 @@ void Reader::printObjects() {
       Matched->dump();
   }
 
-  if (getReader()->getOptions().getPrintSummary()) {
+  if (Settings.ShowSummary)
     printSummary();
-  }
 }
 
 void Reader::printScopes() {
@@ -120,8 +109,8 @@ void Reader::printScopes() {
     propagatePatternMatch();
 
     Scope *Scp = getScopesRoot();
-    bool DoSplit = getOptions().getViewSplit();
-    std::string SplitDir = getPrintSplitDir();
+    bool DoSplit = Settings.SplitOutput;
+    std::string SplitDir = Settings.OutputDirectory;
     if (DoSplit) {
       if (SplitDir.empty()) {
         // If no split location, use the scope root name.
@@ -137,46 +126,17 @@ void Reader::printScopes() {
     PrintedHeader = true;
 
     // We do a normal print, using the standard settings.
-    bool Match = getSpecification()->getAnyTreePattern();
+    bool Match = (!Settings.WithChildrenFilters.empty() ||
+                  !Settings.WithChildrenFilterAnys.empty());
     Scp->print(DoSplit, Match, DoPrint);
-
-    // Check if we need to reprint, using extra settings; in that case we
-    // add the offset and level to the printing options.
-    if (getOptions().getViewDualPrint()) {
-      // Preserve original settings.
-      bool DumpObjectOffset = getOptions().getAttributeOffset();
-      bool DumpObjectLevel = getOptions().getAttributeLevel();
-      getOptions().setAttributeOffset();
-      getOptions().setAttributeLevel();
-
-      // Append a prefix to indicate, the location contains extra info.
-      SplitDir.append("_ext");
-      if (DoSplit && !GlobalPrintContext->createLocation(SplitDir)) {
-        // If enable to create a print context location, reset the given
-        // location option and swith to non-split mode.
-        DoSplit = false;
-      }
-
-      // Print the Scopes Tree.
-      Scp->print(DoSplit, Match, DoPrint);
-
-      // Restore the original settings.
-      DumpObjectOffset ? getOptions().setAttributeOffset()
-                         : getOptions().resetAttributeOffset();
-      DumpObjectLevel ? getOptions().setAttributeLevel()
-                        : getOptions().resetAttributeLevel();
-    }
   }
 
-  if (getReader()->getOptions().getPrintSummary()) {
+  if (Settings.ShowSummary)
     printSummary();
-  }
 }
 
-void Reader::setError(const std::string *Err) { Error = *Err; }
-
-bool Reader::loadFile(const char *FileName) {
-  setInputFile(FileName);
+bool Reader::loadFile(const std::string &FileName) {
+  InputFile = FileName;
   return executeActions();
 }
 
@@ -329,8 +289,8 @@ private:
 // it has been created and the type names and references have been resolved.
 class TreeResolver : public ScopeVisitor {
 public:
-  TreeResolver(Reader &Reader, CmdOptions &Opts)
-      : ReaderInstance(Reader), Options(Opts) {}
+  TreeResolver(Reader &Reader)
+      : ReaderInstance(Reader) {}
 
 private:
   void visitImpl(Object *Obj) override {
@@ -349,16 +309,9 @@ private:
       Obj->setIsGlobalReference();
 
     visitChildren(Obj);
-
-    // Template name resolution.
-    if (auto *ObjScope = dynamic_cast<Scope *>(Obj))
-      if (Options.getFormatTemplatesEncoded() && ObjScope->getIsTemplate())
-        ObjScope->setName(
-            ObjScope->encodeTemplateArguments(/*qualify_base=*/false).c_str());
   }
 
   Reader &ReaderInstance;
-  const CmdOptions &Options;
 };
 } // namespace
 
@@ -367,7 +320,7 @@ void Reader::postCreationActions() {
 
   NameResolver().visit(Scopes);
   ReferenceAttributeResolver().visit(Scopes);
-  TreeResolver(*this, getOptions()).visit(Scopes);
+  TreeResolver(*this).visit(Scopes);
 
   Scopes->sortScopes();
 }
@@ -383,29 +336,21 @@ void Reader::propagatePatternMatch() {
 }
 
 void Reader::resolveTreePatternMatch(Scope *Scp) {
-  ViewSpecification *ViewSpec = getReader()->getSpecification();
-  if (ViewSpec->getAnyTreePattern()) {
-    if (Scp->isNamed() && ViewSpec->matchTreePattern(Scp->getName())) {
-      ViewMatchedScopes.push_back(Scp);
-    }
+  if (Scp->isNamed() &&
+      Settings.matchesWithChildrenFilterPattern(Scp->getName())) {
+    ViewMatchedScopes.push_back(Scp);
   }
 }
 
 void Reader::resolveFilterPatternMatch(Object *Object) {
-  ViewSpecification *ViewSpec = getReader()->getSpecification();
-  if (ViewSpec->getAnyFilterPattern()) {
-    if (Object->isNamed() && ViewSpec->matchFilterPattern(Object->getName())) {
-      ViewMatchedObjects.push_back(Object);
-    }
+  if (Object->isNamed() && Settings.matchesFilterPattern(Object->getName())) {
+    ViewMatchedObjects.push_back(Object);
   }
 }
 
 void Reader::resolveFilterPatternMatch(Line *Line) {
-  ViewSpecification *ViewSpec = getReader()->getSpecification();
-  if (ViewSpec->getAnyFilterPattern()) {
-    if (ViewSpec->matchFilterPattern(
-            trim(Line->getLineNumberAsString()).c_str())) {
-      ViewMatchedObjects.push_back(Line);
-    }
+  if (Settings.matchesFilterPattern(
+      trim(Line->getLineNumberAsString()).c_str())) {
+    ViewMatchedObjects.push_back(Line);
   }
 }

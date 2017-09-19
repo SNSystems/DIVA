@@ -44,16 +44,6 @@ struct ErrorEntry {
   const char *Format;
 };
 const ErrorEntry ErrorTable[] = {
-    // View Specification.
-    {"ERR_VIEW_MISSING_SPEC", "Not enough input files specified."},
-    {"ERR_VIEW_MISSING_ID", "View ID is not set."},
-    {"ERR_VIEW_DUPLICATED_ID", "Duplicated View ID '%s'."},
-    {"ERR_VIEW_INVALID_TYPE", "Invalid View Type for '%s'."},
-    {"ERR_VIEW_MISSING_FILE", "No file to load supplied for View '%s'."},
-    {"ERR_VIEW_OBJECT_FAILURE", "Creation of View '%s' failed."},
-    {"ERR_VIEW_INVALID_OPEN", "Unable to open file '%s'."},
-    {"ERR_VIEW_SCOPE_FAILURE", "Scope creation for View '%s' failed. '%s'."},
-
     // Parsing Options.
     {"ERR_CMD_UNKNOWN_ARG", "Unknown argument '%s'."},
     {"ERR_CMD_MISSING_VALUE", "Argument '%s' requires a value."},
@@ -65,8 +55,11 @@ const ErrorEntry ErrorTable[] = {
      "Shortcut arguments can not be given values '%s'."},
     {"ERR_CMD_INVALID_REGEX", "Invalid Regular Expression '%s'."},
 
+    // Reading.
+    {"ERR_READ_FAILED", "Failed to read '%s'."},
+
     // ElfDwarfReader.
-    {"ERR_INVALID_DWARF", "Failed to read DWARF from '%s'"},
+    {"ERR_INVALID_DWARF", "Failed to read DWARF from '%s'."},
 
     // FileIO Error.
     {"ERR_FILEIO_GET_CWD", "Unable to get current working directory."},
@@ -81,6 +74,7 @@ const ErrorEntry ErrorTable[] = {
      "Unable to open file '%s' for Logical View Split."},
 
     // Start up Error.
+    {"ERR_FILE_NOT_FOUND", "Unable to open file '%s'."},
     {"ERR_INVALID_FILE",
      "Invalid input file '%s', please provide a file in a supported format."},
 };

@@ -15,7 +15,7 @@ def test_output_dir_preexisting(diva, tmpdir_autodel):
 
 expected = """\
 
-ERR_VIEW_INVALID_OPEN: Unable to open file 'not_a_file.o'.
+ERR_FILE_NOT_FOUND: Unable to open file 'not_a_file.o'.
 """
 
 

@@ -36,23 +36,16 @@ namespace LibScopeError {
 
 /// \brief Error Codes.
 enum class ErrorCode {
-  // View Specification.
-  ERR_VIEW_MISSING_SPEC = 0,
-  ERR_VIEW_MISSING_ID,
-  ERR_VIEW_DUPLICATED_ID,
-  ERR_VIEW_INVALID_TYPE,
-  ERR_VIEW_MISSING_FILE,
-  ERR_VIEW_OBJECT_FAILURE,
-  ERR_VIEW_INVALID_OPEN,
-  ERR_VIEW_SCOPE_FAILURE,
-
   // Parsing Options.
-  ERR_CMD_UNKNOWN_ARG,
+  ERR_CMD_UNKNOWN_ARG = 0,
   ERR_CMD_MISSING_VALUE,
   ERR_CMD_UNEXPECTED_VALUE,
   ERR_CMD_INVALID_VALUE,
   ERR_CMD_SHORTCUT_WITH_VALUE,
   ERR_CMD_INVALID_REGEX,
+
+  // Reading.
+  ERR_READ_FAILED,
 
   // ElfDwarfReader.
   ERR_INVALID_DWARF,
@@ -68,6 +61,7 @@ enum class ErrorCode {
   ERR_SPLIT_UNABLE_TO_OPEN_FILE,
 
   // Start up Error.
+  ERR_FILE_NOT_FOUND,
   ERR_INVALID_FILE,
 
   // Last Error.

@@ -1,0 +1,4 @@
+# Ignore test artifacts.
+DIVA/SystemTests/**/*cache*
+DIVA/UnitTests/testoutputs
+DIVA/UnitTests/TestOutputs
