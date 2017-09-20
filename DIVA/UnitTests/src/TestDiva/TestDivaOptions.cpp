@@ -215,12 +215,12 @@ TEST(DivaOptions, Filters) {
   EXPECT_EQ(DOpt.PrintingSettings.WithChildrenFilterAnys,
             std::vector<std::string>({"ta1", "ta2", "ta3"}));
 
-  ASSERT_EQ(DOpt.PrintingSettings.Filters.size(), 3);
+  ASSERT_EQ(DOpt.PrintingSettings.Filters.size(), 3U);
   EXPECT_TRUE(std::regex_match("f1", DOpt.PrintingSettings.Filters[0]));
   EXPECT_TRUE(std::regex_match("f2", DOpt.PrintingSettings.Filters[1]));
   EXPECT_TRUE(std::regex_match("f3", DOpt.PrintingSettings.Filters[2]));
 
-  ASSERT_EQ(DOpt.PrintingSettings.WithChildrenFilters.size(), 3);
+  ASSERT_EQ(DOpt.PrintingSettings.WithChildrenFilters.size(), 3U);
   EXPECT_TRUE(std::regex_match(
       "t1", DOpt.PrintingSettings.WithChildrenFilters[0]));
   EXPECT_TRUE(std::regex_match(
