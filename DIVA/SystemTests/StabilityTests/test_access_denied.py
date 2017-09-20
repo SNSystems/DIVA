@@ -7,7 +7,7 @@ this_dir = py.path.local(__file__).dirpath()
 
 expected = """\
 
-ERR_VIEW_INVALID_OPEN: Unable to open file 'HelloWorld.o'.
+ERR_FILE_NOT_FOUND: Unable to open file 'HelloWorld.o'.
 """
 
 
