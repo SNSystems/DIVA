@@ -58,6 +58,7 @@ std::string getDwarfTagAsString(Dwarf_Half Tag);
 struct DwarfCompileUnit;
 class DwarfDie;
 class DwarfDieChildIterator;
+class DwarfAttrValue;
 class DwarfLineTable;
 
 /// \brief Exception wrapping a LibDwarf error code.
@@ -256,6 +257,67 @@ public:
 
 private:
   std::shared_ptr<DwarfDie> Child;
+};
+
+/// \brief Discriminated union for the values of DWARF attributes.
+///
+/// Can be 'Empty' signifying there was no attribute, or 'UnknownForm' where
+/// the DWARF form for the attribtue is not supported.
+class DwarfAttrValue {
+public:
+  /// \brief the kind of value being held (or empty).
+  enum class ValueKind {
+    Empty,
+    UnknownForm,
+    Offset,
+    Address,
+    Boolean,
+    Unsigned,
+    Signed,
+    Bytes,
+    String,
+  };
+
+  ~DwarfAttrValue();
+
+  ValueKind getKind() const { return Kind; }
+
+  Dwarf_Half getUnknownForm() const;
+  Dwarf_Off getOffset() const;
+  Dwarf_Addr getAddress() const;
+  Dwarf_Bool getBool() const;
+  Dwarf_Unsigned getUnsigned() const;
+  Dwarf_Signed getSigned() const;
+  const std::vector<uint8_t> &getBytes() const;
+  const std::string &getString() const;
+
+private:
+  friend class DwarfDie;
+
+  DwarfAttrValue(); // Empty.
+  DwarfAttrValue(Dwarf_Half Val); // Unknown Form.
+  DwarfAttrValue(Dwarf_Bool Val);
+  DwarfAttrValue(Dwarf_Signed Val);
+  DwarfAttrValue(std::vector<uint8_t> &&Val);
+  DwarfAttrValue(std::string &&Val);
+
+  // Dwarf_Off, Dwarf_Addr and Dwarf_Unsigned have the same underlying type.
+  DwarfAttrValue(Dwarf_Unsigned Val, ValueKind ValKind);
+
+  ValueKind Kind;
+  union ValueUnion {
+    Dwarf_Half UnknownForm;
+    Dwarf_Off Offset;
+    Dwarf_Addr Address;
+    Dwarf_Bool Boolean;
+    Dwarf_Unsigned Unsigned;
+    Dwarf_Signed Signed;
+    std::vector<uint8_t> Bytes;
+    std::string String;
+
+    ValueUnion() {}
+    ~ValueUnion() {}
+  } Value;
 };
 
 struct DwarfLineEntry {

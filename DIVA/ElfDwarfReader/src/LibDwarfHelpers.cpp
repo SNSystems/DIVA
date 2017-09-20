@@ -341,6 +341,112 @@ DwarfDieChildIterator &DwarfDieChildIterator::operator++() {
   return *this;
 }
 
+// DwarfAttrValue methods.
+
+DwarfAttrValue::~DwarfAttrValue() {
+  switch (Kind) {
+  case ValueKind::Empty:
+  case ValueKind::UnknownForm:
+  case ValueKind::Offset:
+  case ValueKind::Address:
+  case ValueKind::Boolean:
+  case ValueKind::Unsigned:
+  case ValueKind::Signed:
+    break;
+  case ValueKind::Bytes:
+    Value.Bytes.~vector();
+    break;
+  case ValueKind::String:
+    Value.String.~basic_string();
+    break;
+  }
+}
+
+Dwarf_Half DwarfAttrValue::getUnknownForm() const {
+  assert(Kind == ValueKind::UnknownForm);
+  return Value.UnknownForm;
+}
+
+Dwarf_Off DwarfAttrValue::getOffset() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Offset;
+}
+
+Dwarf_Addr DwarfAttrValue::getAddress() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Address;
+}
+
+Dwarf_Bool DwarfAttrValue::getBool() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Boolean;
+}
+
+Dwarf_Unsigned DwarfAttrValue::getUnsigned() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Unsigned;
+}
+
+Dwarf_Signed DwarfAttrValue::getSigned() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Signed;
+}
+
+const std::vector<uint8_t> &DwarfAttrValue::getBytes() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.Bytes;
+}
+
+const std::string &DwarfAttrValue::getString() const {
+  assert(Kind == ValueKind::Offset);
+  return Value.String;
+}
+
+DwarfAttrValue::DwarfAttrValue() : Kind(ValueKind::Empty) {}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Half Val) : Kind(ValueKind::UnknownForm) {
+  Value.UnknownForm = Val;
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Bool Val) : Kind(ValueKind::Boolean) {
+  Value.Boolean = Val;
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Signed Val) : Kind(ValueKind::Signed) {
+  Value.Signed = Val;
+}
+
+DwarfAttrValue::DwarfAttrValue(std::vector<uint8_t> &&Val)
+    : Kind(ValueKind::Bytes) {
+  new (&Value.Bytes) std::vector<uint8_t>(std::move(Val));
+}
+
+DwarfAttrValue::DwarfAttrValue(std::string &&Val) : Kind(ValueKind::String) {
+  new (&Value.String) std::string(std::move(Val));
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Unsigned Val, ValueKind ValKind)
+    : Kind(ValKind) {
+  switch (Kind) {
+  case ValueKind::Offset:
+    Value.Offset = Val;
+    break;
+  case ValueKind::Address:
+    Value.Address = Val;
+    break;
+  case ValueKind::Unsigned:
+    Value.Unsigned = Val;
+    break;
+  case ValueKind::Empty:
+  case ValueKind::UnknownForm:
+  case ValueKind::Boolean:
+  case ValueKind::Signed:
+  case ValueKind::Bytes:
+  case ValueKind::String:
+    assert(false && "Bad ValueKind");
+  }
+}
+
 // DwarfLineTable methods.
 
 DwarfLineTable::DwarfLineTable(const DwarfDie &CU) {
