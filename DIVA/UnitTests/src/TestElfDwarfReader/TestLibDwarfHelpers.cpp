@@ -108,44 +108,34 @@ TEST_F(LibDwarfHelpers, DwarfDie) {
   EXPECT_TRUE(TestDie.hasAttr(DW_AT_name));
   EXPECT_FALSE(TestDie.hasAttr(DW_AT_decl_file));
 
-  // We need other DIEs to test all the attribute types.
+  // We need other DIEs to test other attribute types.
   auto IT = TestDie.childrenBegin();
   ASSERT_FALSE(IT.atEnd());
   const DwarfDie &TestDie2 = *IT;
 
-  // Test getting attributes that are there.
-  EXPECT_TRUE(TestDie2.getAttrAsFlag(DW_AT_external));
-  EXPECT_EQ(TestDie2.getAttrAsAddr(DW_AT_low_pc),
-            DwarfDie::OptionalAttrValue<Dwarf_Addr>(0x004004e0U));
-  EXPECT_EQ(TestDie2.getAttrAsRef(DW_AT_type),
-            DwarfDie::OptionalAttrValue<Dwarf_Off>(0x52U));
-  EXPECT_EQ(TestDie2.getAttrAsUnsigned(DW_AT_decl_file),
-            DwarfDie::OptionalAttrValue<Dwarf_Unsigned>(1U));
-  EXPECT_EQ(TestDie2.getAttrAsSigned(DW_AT_decl_file),
-            DwarfDie::OptionalAttrValue<Dwarf_Signed>(1));
-  EXPECT_EQ(TestDie.getAttrAsString(DW_AT_name),
-            DwarfDie::OptionalAttrValue<std::string>(TestDie.getName()));
+  // Test getAttr.
+  DwarfAttrValue Flag(TestDie2.getAttr(DW_AT_external));
+  ASSERT_EQ(Flag.getKind(), DwarfAttrValue::ValueKind::Boolean);
+  EXPECT_GT(Flag.getBool(), 0);
 
-  // With defaults.
-  EXPECT_EQ(TestDie2.getAttrAsAddr(DW_AT_low_pc, 0), 0x004004e0U);
-  EXPECT_EQ(TestDie2.getAttrAsRef(DW_AT_type, 0), 0x52U);
-  EXPECT_EQ(TestDie2.getAttrAsUnsigned(DW_AT_decl_file, 0), 1U);
-  EXPECT_EQ(TestDie2.getAttrAsSigned(DW_AT_decl_file, 0), 1);
-  EXPECT_EQ(TestDie.getAttrAsString(DW_AT_name, ""), TestDie.getName());
+  DwarfAttrValue Addr(TestDie2.getAttr(DW_AT_low_pc));
+  ASSERT_EQ(Addr.getKind(), DwarfAttrValue::ValueKind::Address);
+  EXPECT_EQ(Addr.getAddress(), 0x004004e0U);
 
-  // Test getting attributes that aren't there.
-  EXPECT_FALSE(TestDie.getAttrAsFlag(DW_AT_decl_line));
-  EXPECT_FALSE(TestDie.getAttrAsAddr(DW_AT_decl_line).hasValue());
-  EXPECT_FALSE(TestDie.getAttrAsRef(DW_AT_decl_line).hasValue());
-  EXPECT_FALSE(TestDie.getAttrAsUnsigned(DW_AT_decl_line).hasValue());
-  EXPECT_FALSE(TestDie.getAttrAsSigned(DW_AT_decl_line).hasValue());
-  EXPECT_FALSE(TestDie.getAttrAsString(DW_AT_decl_line).hasValue());
-  // With defaults.
-  EXPECT_EQ(TestDie.getAttrAsAddr(DW_AT_decl_line, 0x04U), 0x04U);
-  EXPECT_EQ(TestDie.getAttrAsRef(DW_AT_decl_line, 0x08U), 0x08U);
-  EXPECT_EQ(TestDie.getAttrAsUnsigned(DW_AT_decl_line, 12U), 12U);
-  EXPECT_EQ(TestDie.getAttrAsSigned(DW_AT_decl_line, -5), -5);
-  EXPECT_EQ(TestDie.getAttrAsString(DW_AT_decl_line, "default"), "default");
+  DwarfAttrValue Off(TestDie2.getAttr(DW_AT_type));
+  ASSERT_EQ(Off.getKind(), DwarfAttrValue::ValueKind::Offset);
+  EXPECT_EQ(Off.getOffset(), 0x52U);
+
+  DwarfAttrValue Unsigned(TestDie2.getAttr(DW_AT_decl_file));
+  ASSERT_EQ(Unsigned.getKind(), DwarfAttrValue::ValueKind::Unsigned);
+  EXPECT_EQ(Unsigned.getUnsigned(), 1U);
+
+  DwarfAttrValue String(TestDie.getAttr(DW_AT_name));
+  ASSERT_EQ(String.getKind(), DwarfAttrValue::ValueKind::String);
+  EXPECT_EQ(String.getString(), "test1.cpp");
+
+  EXPECT_EQ(TestDie.getAttr(DW_AT_decl_line).getKind(),
+            DwarfAttrValue::ValueKind::Empty);
 }
 
 // Simple tree of dwarf tags for testing.

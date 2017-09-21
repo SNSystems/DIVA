@@ -169,6 +169,7 @@ public:
 
   // Attribute getters.
   bool hasAttr(Dwarf_Half Attr) const;
+  DwarfAttrValue getAttr(Dwarf_Half Attr) const;
   bool getAttrAsFlag(Dwarf_Half Attr) const;
   const OptionalAttrValue<Dwarf_Addr> getAttrAsAddr(Dwarf_Half Attr) const;
   const OptionalAttrValue<Dwarf_Off> getAttrAsRef(Dwarf_Half Attr) const;
@@ -278,7 +279,11 @@ public:
     String,
   };
 
+  DwarfAttrValue(); // Empty.
   ~DwarfAttrValue();
+
+  DwarfAttrValue(const DwarfAttrValue &Other);
+  DwarfAttrValue(DwarfAttrValue &&Other);
 
   ValueKind getKind() const { return Kind; }
 
@@ -294,7 +299,6 @@ public:
 private:
   friend class DwarfDie;
 
-  DwarfAttrValue(); // Empty.
   DwarfAttrValue(Dwarf_Half Val); // Unknown Form.
   DwarfAttrValue(Dwarf_Bool Val);
   DwarfAttrValue(Dwarf_Signed Val);
@@ -304,7 +308,6 @@ private:
   // Dwarf_Off, Dwarf_Addr and Dwarf_Unsigned have the same underlying type.
   DwarfAttrValue(Dwarf_Unsigned Val, ValueKind ValKind);
 
-  ValueKind Kind;
   union ValueUnion {
     Dwarf_Half UnknownForm;
     Dwarf_Off Offset;
@@ -317,7 +320,10 @@ private:
 
     ValueUnion() {}
     ~ValueUnion() {}
-  } Value;
+  };
+
+  ValueKind Kind;
+  ValueUnion Value;
 };
 
 struct DwarfLineEntry {
