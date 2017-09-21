@@ -1,0 +1,117 @@
+language: C++
+
+matrix:
+  include:
+    - os: linux
+      compiler: gcc-5
+      addons:
+        apt:
+          sources: [ ubuntu-toolchain-r-test ]
+          packages:
+            - ninja-build
+            - cmake
+            - g++-5
+      env:
+        - CMAKE_BUILD_TYPE=DEBUG
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+    - os: linux
+      compiler: gcc-5
+      addons:
+        apt:
+          sources: [ ubuntu-toolchain-r-test ]
+          packages:
+            - ninja-build
+            - cmake
+            - g++-5
+      env:
+        - CMAKE_BUILD_TYPE=RELEASE
+        - MATRIX_EVAL="CC=gcc-5 && CXX=g++-5"
+
+    - os: linux
+      compiler: gcc-7
+      addons:
+        apt:
+          sources: [ ubuntu-toolchain-r-test ]
+          packages:
+            - ninja-build
+            - cmake
+            - g++-7
+      env:
+        - CMAKE_BUILD_TYPE=DEBUG
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+    - os: linux
+      compiler: gcc-7
+      addons:
+        apt:
+          sources: [ ubuntu-toolchain-r-test ]
+          packages:
+            - ninja-build
+            - cmake
+            - g++-7
+      env:
+        - CMAKE_BUILD_TYPE=RELEASE
+        - MATRIX_EVAL="CC=gcc-7 && CXX=g++-7"
+
+    - os: linux
+      compiler: clang-3.9
+      addons:
+        apt:
+          packages:
+            - ninja-build
+            - cmake
+            - libc++-dev
+      env:
+        - CMAKE_BUILD_TYPE=DEBUG
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
+
+    - os: linux
+      compiler: clang-3.9
+      addons:
+        apt:
+          packages:
+            - ninja-build
+            - cmake
+            - libc++-dev
+      env:
+        - CMAKE_BUILD_TYPE=RELEASE
+        - MATRIX_EVAL="CC=clang && CXX=clang++ && CXXFLAGS=-stdlib=libc++"
+
+    - os: linux
+      compiler: clang-5.0
+      addons:
+        apt:
+          sources: [ 'llvm-toolchain-trusty-5.0' ]
+          packages:
+            - ninja-build
+            - cmake
+            - clang-5.0
+            - libc++-dev
+      env:
+        - CMAKE_BUILD_TYPE=DEBUG
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CXXFLAGS=-stdlib=libc++"
+
+    - os: linux
+      compiler: clang-5.0
+      addons:
+        apt:
+          sources: [ 'llvm-toolchain-trusty-5.0' ]
+          packages:
+            - ninja-build
+            - cmake
+            - clang-5.0
+            - libc++-dev
+      env:
+        - CMAKE_BUILD_TYPE=RELEASE
+        - MATRIX_EVAL="CC=clang-5.0 && CXX=clang++-5.0 && CXXFLAGS=-stdlib=libc++"
+
+
+before_install:
+  - eval "${MATRIX_EVAL}"
+  - sudo pip install -r DIVA/SystemTests/requirements.txt
+
+script:
+  - cd DIVA
+  - cmake . -Bbuild -G Ninja -DCMAKE_CXX_FLAGS=$CXXFLAGS -DCMAKE_BUILD_TYPE=$CMAKE_BUILD_TYPE
+  - cmake --build build
+  - ./build/bin/unittests
+  - pytest SystemTests --divadir=build/bin

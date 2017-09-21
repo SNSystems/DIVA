@@ -24,6 +24,8 @@ On Linux you will need either GCC or Clang installed (other compilers might work
 cd DIVA
 mkdir build
 cd build
+# OPTIONAL: to build with libc++ rather than libstdc++
+export CXXFLAGS=-stdlib=libc++
 # You can change the build type to "Release"
 cmake .. -DCMAKE_BUILD_TYPE=Debug
 # For subsequent builds you only need to run this second cmake command again

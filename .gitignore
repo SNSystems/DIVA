@@ -2,3 +2,5 @@
 DIVA/SystemTests/**/*cache*
 DIVA/UnitTests/testoutputs
 DIVA/UnitTests/TestOutputs
+# Ignore build directories
+DIVA/build*

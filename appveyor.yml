@@ -1,0 +1,37 @@
+image:
+  - Visual Studio 2015
+  - Visual Studio 2017
+
+configuration:
+  - Debug
+  - Release
+
+platform:
+  - x64
+
+init:
+  - cmd: cmake --version
+  - cmd: msbuild /version
+
+clone_folder: c:\projects\DIVA
+
+# scripts to run before build
+before_build:
+  - cmd: cd c:\projects\DIVA\DIVA
+  - cmd: if "%platform%"=="Win32" set CMAKE_GENERATOR_NAME=Visual Studio 14 2015
+  - cmd: if "%platform%"=="x64"   set CMAKE_GENERATOR_NAME=Visual Studio 14 2015 Win64
+  - cmd: cmake . -Bbuild -G "%CMAKE_GENERATOR_NAME%" -DCMAKE_BUILD_TYPE=%configuration%
+  - cmd: pip install -r SystemTests\requirements.txt
+
+build:
+  project: C:\projects\DIVA\DIVA\build\DIVA.sln
+  parallel: true
+  verbosity: quiet
+
+test_script:
+  - cmd: C:\projects\DIVA\DIVA\build\bin\%configuration%\unittests.exe --gtest_output=xml:unittests.xml
+  - cmd: pytest C:\projects\DIVA\DIVA\SystemTests --divadir=C:\projects\DIVA\DIVA\build\bin\%configuration% --junitxml=systemtests.xml
+
+after_test:
+  - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\unittests.xml))
+  - ps: (new-object net.webclient).UploadFile("https://ci.appveyor.com/api/testresults/junit/$($env:APPVEYOR_JOB_ID)", (Resolve-Path .\systemtests.xml))
