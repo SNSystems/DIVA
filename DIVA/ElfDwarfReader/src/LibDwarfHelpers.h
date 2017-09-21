@@ -170,34 +170,6 @@ public:
   // Attribute getters.
   bool hasAttr(Dwarf_Half Attr) const;
   DwarfAttrValue getAttr(Dwarf_Half Attr) const;
-  bool getAttrAsFlag(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Addr> getAttrAsAddr(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Off> getAttrAsRef(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Unsigned>
-  getAttrAsUnsigned(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Signed> getAttrAsSigned(Dwarf_Half Attr) const;
-  const OptionalAttrValue<std::string> getAttrAsString(Dwarf_Half Attr) const;
-
-  struct SignedUnsigned {
-    bool IsSigned;
-    union {
-      Dwarf_Signed SignedValue;
-      Dwarf_Unsigned UnsignedValue;
-    };
-  };
-
-  /// \brief get an attribute as either a signed or unsigned value.
-  const OptionalAttrValue<SignedUnsigned>
-  getAttrAsSignedOrUnsigned(Dwarf_Half Attr) const;
-
-  // Attribute getters with defaults.
-  Dwarf_Addr getAttrAsAddr(Dwarf_Half Attr, Dwarf_Addr Default) const;
-  Dwarf_Off getAttrAsRef(Dwarf_Half Attr, Dwarf_Off Default) const;
-  Dwarf_Unsigned getAttrAsUnsigned(Dwarf_Half Attr,
-                                   Dwarf_Unsigned Default) const;
-  Dwarf_Signed getAttrAsSigned(Dwarf_Half Attr, Dwarf_Signed Default) const;
-  std::string getAttrAsString(Dwarf_Half Attr,
-                              const std::string &Default) const;
 
   /// \brief get the line table. Only valid for compile units.
   DwarfLineTable getLineTable() const;
@@ -208,10 +180,6 @@ private:
 
   const DwarfDebugData &DebugData;
   Dwarf_Die Die;
-
-  // Common functionality for attribute getters.
-  template <typename ValTy, typename getterFunc>
-  OptionalAttrValue<ValTy> getAttr(Dwarf_Half Attr, getterFunc getter) const;
 };
 
 /// \brief Container for the CU Die and its metadata.
@@ -270,7 +238,7 @@ public:
   enum class ValueKind {
     Empty,
     UnknownForm,
-    Offset,
+    Reference,
     Address,
     Boolean,
     Unsigned,
@@ -280,15 +248,19 @@ public:
   };
 
   DwarfAttrValue(); // Empty.
-  ~DwarfAttrValue();
+  ~DwarfAttrValue() { destroyValue(); }
 
   DwarfAttrValue(const DwarfAttrValue &Other);
   DwarfAttrValue(DwarfAttrValue &&Other);
 
+  DwarfAttrValue &operator=(const DwarfAttrValue &Other);
+  DwarfAttrValue &operator=(DwarfAttrValue &&Other);
+
+  bool empty() const { return Kind == ValueKind::Empty; }
   ValueKind getKind() const { return Kind; }
 
   Dwarf_Half getUnknownForm() const;
-  Dwarf_Off getOffset() const;
+  Dwarf_Off getReference() const;
   Dwarf_Addr getAddress() const;
   Dwarf_Bool getBool() const;
   Dwarf_Unsigned getUnsigned() const;
@@ -308,9 +280,11 @@ private:
   // Dwarf_Off, Dwarf_Addr and Dwarf_Unsigned have the same underlying type.
   DwarfAttrValue(Dwarf_Unsigned Val, ValueKind ValKind);
 
+  void destroyValue();
+
   union ValueUnion {
     Dwarf_Half UnknownForm;
-    Dwarf_Off Offset;
+    Dwarf_Off Reference;
     Dwarf_Addr Address;
     Dwarf_Bool Boolean;
     Dwarf_Unsigned Unsigned;

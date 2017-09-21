@@ -123,8 +123,8 @@ TEST_F(LibDwarfHelpers, DwarfDie) {
   EXPECT_EQ(Addr.getAddress(), 0x004004e0U);
 
   DwarfAttrValue Off(TestDie2.getAttr(DW_AT_type));
-  ASSERT_EQ(Off.getKind(), DwarfAttrValue::ValueKind::Offset);
-  EXPECT_EQ(Off.getOffset(), 0x52U);
+  ASSERT_EQ(Off.getKind(), DwarfAttrValue::ValueKind::Reference);
+  EXPECT_EQ(Off.getReference(), 0x52U);
 
   DwarfAttrValue Unsigned(TestDie2.getAttr(DW_AT_decl_file));
   ASSERT_EQ(Unsigned.getKind(), DwarfAttrValue::ValueKind::Unsigned);

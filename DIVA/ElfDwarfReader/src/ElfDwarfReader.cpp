@@ -67,10 +67,20 @@ std::vector<std::string> getSourceFileMapping(const DwarfDebugData &DebugData,
   return Mapping;
 }
 
+// Return true if Die has Attr and the value is a flag set to true.
+bool attrIsTrueFlag(const DwarfDie &Die, const Dwarf_Half Attr) {
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue AttrVal(Die.getAttr(Attr));
+  return (AttrVal.getKind() == DwarfAttrValue::ValueKind::Boolean &&
+          AttrVal.getBool());
+}
+
 // Get the access specifier (Public, Private, etc.).
 LibScopeView::AccessSpecifier getAccessSpecifier(const DwarfDie &Die) {
-  if (auto Access = Die.getAttrAsSigned(DW_AT_accessibility)) {
-    switch (*Access) {
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue AttrVal(Die.getAttr(DW_AT_accessibility));
+  if (AttrVal.getKind() == DwarfAttrValue::ValueKind::Unsigned) {
+    switch (AttrVal.getUnsigned()) {
     case DW_ACCESS_private:
       return LibScopeView::AccessSpecifier::Private;
     case DW_ACCESS_protected:
@@ -85,6 +95,9 @@ LibScopeView::AccessSpecifier getAccessSpecifier(const DwarfDie &Die) {
 // Set the source file of an Object from a DWARF file ID.
 static void setSourceFile(LibScopeView::Object &Obj, const std::vector<std::string> &Mapping,
                           Dwarf_Unsigned ID) {
+  if (ID == 0)
+    return;
+
   // size_t is smaller than Dwarf_Unsigned on 32 bit, but this shouldn't be a
   // problem unless there are 2^32 file names in the ELF.
   assert(ID < std::numeric_limits<size_t>::max());
@@ -423,11 +436,18 @@ void DwarfReader::initObjectFromAttrs(LibScopeView::Object &Obj,
   Obj.setDieOffset(ObjOffset);
   Obj.setDieTag(ObjTag);
   Obj.setName(Die.getName().c_str());
-  Obj.setLineNumber(Die.getAttrAsUnsigned(DW_AT_decl_line, 0U));
 
-  auto DeclFileID = Die.getAttrAsUnsigned(DW_AT_decl_file);
-  if (DeclFileID)
-    setSourceFile(Obj, SourceFileMapping, *DeclFileID);
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue LineNo(Die.getAttr(DW_AT_decl_line));
+  if (LineNo.getKind() == DwarfAttrValue::ValueKind::Unsigned)
+    Obj.setLineNumber(LineNo.getUnsigned());
+  else
+    Obj.setLineNumber(0);
+
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue DeclFileID(Die.getAttr(DW_AT_decl_file));
+  if (DeclFileID.getKind() == DwarfAttrValue::ValueKind::Unsigned)
+    setSourceFile(Obj, SourceFileMapping, DeclFileID.getUnsigned());
 
   if (auto Scp = dynamic_cast<LibScopeView::Scope *>(&Obj))
     initScopeFromAttrs(*Scp, Die);
@@ -452,25 +472,30 @@ void DwarfReader::initScopeFromAttrs(LibScopeView::Scope &Scp,
   // Enum class.
   else if (auto ScpEnum =
                dynamic_cast<LibScopeView::ScopeEnumeration *>(&Scp)) {
-    if (Die.getAttrAsFlag(DW_AT_enum_class))
+    if (attrIsTrueFlag(Die, DW_AT_enum_class))
       ScpEnum->setIsClass();
   }
   // Functions.
   else if (auto Func = dynamic_cast<LibScopeView::ScopeFunction *>(&Scp)) {
-    if (Die.getAttrAsFlag(DW_AT_declaration))
+    if (attrIsTrueFlag(Die, DW_AT_declaration))
       Func->setIsDeclaration();
 
     // A function is static if it is missing DW_AT_external and its declaration
     // (if it exists) is missing DW_AT_external.
-    if (!Die.hasAttr(DW_AT_specification) && !Die.getAttrAsFlag(DW_AT_external))
+    if (!Die.hasAttr(DW_AT_specification) &&
+        !attrIsTrueFlag(Die, DW_AT_external))
       Func->setIsStatic();
     // The references aren't set up yet, so addObjectReference checks if the
     // declaration is static.
 
-    if (auto Inline = Die.getAttrAsUnsigned(DW_AT_inline))
-      if (*Inline == DW_INL_declared_inlined ||
-          *Inline == DW_INL_declared_not_inlined)
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue InlineAttrVal(Die.getAttr(DW_AT_inline));
+    if (InlineAttrVal.getKind() == DwarfAttrValue::ValueKind::Unsigned) {
+      auto Inline = InlineAttrVal.getUnsigned();
+      if (Inline == DW_INL_declared_inlined ||
+          Inline == DW_INL_declared_not_inlined)
         Func->setIsDeclaredInline();
+    }
   }
 }
 
@@ -485,23 +510,29 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
 
   // PrimitiveType byte size.
   if (Ty.getIsBaseType()) {
-    Dwarf_Unsigned ByteSize = Die.getAttrAsUnsigned(DW_AT_byte_size, 0U);
-    assert(ByteSize < std::numeric_limits<unsigned>::max());
-    Ty.setByteSize(static_cast<unsigned>(ByteSize));
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue ByteSize(Die.getAttr(DW_AT_byte_size));
+    if (ByteSize.getKind() == DwarfAttrValue::ValueKind::Unsigned) {
+      assert(ByteSize.getUnsigned() < std::numeric_limits<unsigned>::max());
+      Ty.setByteSize(static_cast<unsigned>(ByteSize.getUnsigned()));
+    } else
+      Ty.setByteSize(0U);
   }
   // Enum values and template values.
   else if (Ty.getIsEnumerator() || Ty.getIsTemplateValue()) {
-    if (auto Val = Die.getAttrAsSignedOrUnsigned(DW_AT_const_value)) {
-      if (Val->IsSigned)
-        Ty.setValue(std::to_string(Val->SignedValue).c_str());
-      else
-        Ty.setValue(std::to_string(Val->UnsignedValue).c_str());
-    }
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue Val(Die.getAttr(DW_AT_const_value));
+    if (Val.getKind() == DwarfAttrValue::ValueKind::Unsigned)
+      Ty.setValue(std::to_string(Val.getUnsigned()).c_str());
+    else if (Val.getKind() == DwarfAttrValue::ValueKind::Signed)
+      Ty.setValue(std::to_string(Val.getSigned()).c_str());
   }
   // Template template value.
   else if (Ty.getIsTemplateTemplate()) {
-    if (auto TemplateName = Die.getAttrAsString(DW_AT_GNU_template_name))
-      Ty.setValue(TemplateName.getValue().c_str());
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue TemplateName(Die.getAttr(DW_AT_GNU_template_name));
+    if (TemplateName.getKind() == DwarfAttrValue::ValueKind::String)
+      Ty.setValue(TemplateName.getString().c_str());
   }
   // Subranges.
   else if (Ty.getIsSubrangeType()) {
@@ -509,24 +540,28 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
     SubrangeName << "[";
 
     // Default lower bound for C++ is 0.
-    Dwarf_Unsigned Lower = Die.getAttrAsUnsigned(DW_AT_lower_bound, 0U);
-    try {
-      if (auto Count = Die.getAttrAsUnsigned(DW_AT_count))
-        SubrangeName << (Lower + *Count);
-      else if (auto Upper = Die.getAttrAsUnsigned(DW_AT_upper_bound)) {
-        if (Lower != 0)
-          SubrangeName << Lower << ".." << *Upper;
-        else
-          SubrangeName << (*Upper + 1);
-      } else
-        // Invalid subrange (no count or upper).
-        SubrangeName << "?";
-    } catch (LibDwarfError &Err) {
-      if (Err.getErrorNumber() != DW_DLE_ATTR_FORM_BAD)
-        throw;
+    Dwarf_Unsigned Lower = 0U;
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue LowerBound(Die.getAttr(DW_AT_lower_bound));
+    if (LowerBound.getKind() == DwarfAttrValue::ValueKind::Unsigned)
+      Lower = LowerBound.getUnsigned();
+
+    // TODO: Unrecognised/Unknown form.
+    DwarfAttrValue Count(Die.getAttr(DW_AT_count));
+    DwarfAttrValue Upper(Die.getAttr(DW_AT_upper_bound));
+    if (Count.getKind() == DwarfAttrValue::ValueKind::Unsigned)
+      SubrangeName << (Lower + Count.getUnsigned());
+    else if (Upper.getKind() == DwarfAttrValue::ValueKind::Unsigned) {
+      if (Lower != 0)
+        SubrangeName << Lower << ".." << Upper.getUnsigned();
+      else
+        SubrangeName << (Upper.getUnsigned() + 1);
+    } else if (Upper.getKind() == DwarfAttrValue::ValueKind::Reference)
       // TODO: Handle DW_AT_upper_bounds that are references properly.
       SubrangeName << "?";
-    }
+    else
+      // Invalid subrange (no count or upper).
+      SubrangeName << "?";
 
     SubrangeName << "]";
     Ty.setName(SubrangeName.str().c_str());
@@ -578,43 +613,46 @@ void DwarfReader::createLines(const DwarfDie &CUDie,
 void DwarfReader::initObjectReferences(LibScopeView::Object &Obj,
                                        const DwarfDie &Die) {
   // Set type or add to missing list to be resolved later.
-  auto TypeOffset = Die.getAttrAsRef(DW_AT_type);
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue TypeRef(Die.getAttr(DW_AT_type));
   // DW_AT_import is treated as a type by LibScopeView.
-  if (!TypeOffset)
-    TypeOffset = Die.getAttrAsRef(DW_AT_import);
+  if (TypeRef.empty())
+    TypeRef = Die.getAttr(DW_AT_import);
 
-  if (TypeOffset) {
-    auto IT = CreatedObjects.find(*TypeOffset);
+  if (TypeRef.getKind() == DwarfAttrValue::ValueKind::Reference) {
+    auto TypeOffset = TypeRef.getReference();
+    auto IT = CreatedObjects.find(TypeOffset);
     if (IT != CreatedObjects.end()) {
       Obj.setType(IT->second);
       // If the type is in another CU mark it as global.
-      if (*TypeOffset < CurrentCURange.first ||
-          *TypeOffset > CurrentCURange.second)
+      if (TypeOffset < CurrentCURange.first ||
+          TypeOffset > CurrentCURange.second)
         IT->second->setIsGlobalReference();
     } else
       // Set the type for this Object when we encounter TypeOffset.
-      TypesToBeSet.emplace(*TypeOffset, &Obj);
+      TypesToBeSet.emplace(TypeOffset, &Obj);
   }
 
   // Set reference from a DW_AT_specification / DW_AT_abstract_origin /
   // DW_AT_extension or add to list to be resolved later.
-  auto ReferenceOffset = Die.getAttrAsRef(DW_AT_specification);
-  if (!ReferenceOffset)
-    ReferenceOffset = Die.getAttrAsRef(DW_AT_abstract_origin);
-  if (!ReferenceOffset)
-    ReferenceOffset = Die.getAttrAsRef(DW_AT_extension);
+  // TODO: Unrecognised/Unknown form.
+  DwarfAttrValue ReferenceOffset(Die.getAttr(DW_AT_specification));
+  if (ReferenceOffset.empty())
+    ReferenceOffset = Die.getAttr(DW_AT_abstract_origin);
+  if (ReferenceOffset.empty())
+    ReferenceOffset = Die.getAttr(DW_AT_extension);
 
-  if (ReferenceOffset) {
-    auto IT = CreatedObjects.find(*ReferenceOffset);
+  if (ReferenceOffset.getKind() == DwarfAttrValue::ValueKind::Reference) {
+    auto RefOffset = ReferenceOffset.getReference();
+    auto IT = CreatedObjects.find(RefOffset);
     // If the referenced function hasn't been created yet, add to
     // ReferencesToBeSet for later.
     if (IT == CreatedObjects.end())
-      ReferencesToBeSet.emplace(*ReferenceOffset, &Obj);
+      ReferencesToBeSet.emplace(RefOffset, &Obj);
     else {
       addObjectReference(&Obj, IT->second);
       // If the reference is in another CU mark it as global.
-      if (*ReferenceOffset < CurrentCURange.first ||
-          *ReferenceOffset > CurrentCURange.second)
+      if (RefOffset < CurrentCURange.first || RefOffset > CurrentCURange.second)
         IT->second->setIsGlobalReference();
     }
   }
