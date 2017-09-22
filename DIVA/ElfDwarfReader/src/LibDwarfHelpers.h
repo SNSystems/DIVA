@@ -91,12 +91,15 @@ public:
   DwarfDebugData(const DwarfDebugData &) = delete;
   DwarfDebugData &operator=(const DwarfDebugData &) = delete;
 
-  /// \brief get the wrapped Dwarf_Debug instance.
+  /// \brief Return true if there is no debug data.
+  bool empty() const { return Dbg == nullptr; }
+
+  /// \brief Get the wrapped Dwarf_Debug instance.
   Dwarf_Debug get() const { return Dbg; }
-  /// \brief get the wrapped Dwarf_Debug instance.
+  /// \brief Get the wrapped Dwarf_Debug instance.
   Dwarf_Debug operator*() const { return Dbg; }
 
-  /// \brief get all the compile units in the debug data.
+  /// \brief Get all the compile units in the debug data.
   std::vector<DwarfCompileUnit> getCompileUnits() const;
 
   /// \brief Return a copy of a libdwarf c string and then free the libdwarf
