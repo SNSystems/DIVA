@@ -73,6 +73,20 @@ std::string ElfDwarfReader::getDwarfTagAsString(Dwarf_Half Tag) {
   return std::string();
 }
 
+std::string ElfDwarfReader::getDwarfAttrAsString(Dwarf_Half Attr) {
+  const char *Result;
+  if (dwarf_get_AT_name(Attr, &Result) == DW_DLV_OK)
+    return std::string(Result);
+  return std::string();
+}
+
+std::string ElfDwarfReader::getDwarfFormAsString(Dwarf_Half Form) {
+  const char *Result;
+  if (dwarf_get_FORM_name(Form, &Result) == DW_DLV_OK)
+    return std::string(Result);
+  return std::string();
+}
+
 // DwarfDebugData methods.
 
 DwarfDebugData::DwarfDebugData(int FileDescriptor) : Dbg(nullptr) {
@@ -83,7 +97,7 @@ DwarfDebugData::DwarfDebugData(int FileDescriptor) : Dbg(nullptr) {
                        /*errarg*/ &Dbg, &Dbg, &Err);
   if (ret != DW_DLV_OK) {
     LibDwarfError LibErr(Err, Dbg); // Create the error before freeing Dbg.
-    freeDbg(); // If Dbg was set we need to free it.
+    freeDbg();                      // If Dbg was set we need to free it.
     throw LibErr;
   }
 }
@@ -209,113 +223,90 @@ bool DwarfDie::hasAttr(Dwarf_Half Attr) const {
   return Result != 0;
 }
 
-#define GET_ATTR(TYPE, GETTER_FUNC, ATTR)                                      \
-  getAttr<TYPE, decltype(GETTER_FUNC)>(ATTR, GETTER_FUNC)
-
-bool DwarfDie::getAttrAsFlag(Dwarf_Half Attr) const {
-  auto Ret = GET_ATTR(Dwarf_Bool, dwarf_formflag, Attr);
-  return Ret.hasValue() && Ret.getValue() != 0;
-}
-const DwarfDie::OptionalAttrValue<Dwarf_Addr>
-DwarfDie::getAttrAsAddr(Dwarf_Half Attr) const {
-  return GET_ATTR(Dwarf_Addr, dwarf_formaddr, Attr);
-}
-const DwarfDie::OptionalAttrValue<Dwarf_Off>
-DwarfDie::getAttrAsRef(Dwarf_Half Attr) const {
-  return GET_ATTR(Dwarf_Off, dwarf_global_formref, Attr);
-}
-const DwarfDie::OptionalAttrValue<Dwarf_Unsigned>
-
-DwarfDie::getAttrAsUnsigned(Dwarf_Half Attr) const {
-  return GET_ATTR(Dwarf_Unsigned, dwarf_formudata, Attr);
-}
-const DwarfDie::OptionalAttrValue<Dwarf_Signed>
-DwarfDie::getAttrAsSigned(Dwarf_Half Attr) const {
-  return GET_ATTR(Dwarf_Signed, dwarf_formsdata, Attr);
-}
-const DwarfDie::OptionalAttrValue<std::string>
-DwarfDie::getAttrAsString(Dwarf_Half Attr) const {
-  if (auto Ret = GET_ATTR(char *, dwarf_formstring, Attr))
-    return OptionalAttrValue<std::string>(
-        DebugData.copyAndFreeDwarfString(*Ret));
-  return OptionalAttrValue<std::string>();
-}
-
-#undef GET_ATTR
-
-const DwarfDie::OptionalAttrValue<DwarfDie::SignedUnsigned>
-DwarfDie::getAttrAsSignedOrUnsigned(Dwarf_Half Attr) const {
+DwarfAttrValue DwarfDie::getAttr(Dwarf_Half Attr) const {
   // Get attr.
   Dwarf_Attribute Attribute;
   int ret = dwarf_attr(Die, Attr, &Attribute, nullptr);
   if (ret != DW_DLV_OK)
-    return OptionalAttrValue<SignedUnsigned>();
-  SignedUnsigned Result;
-  // Check sign.
-  Dwarf_Bool IsSigned;
-  dwarf_hasform(Attribute, DW_FORM_sdata, &IsSigned, nullptr);
-  Result.IsSigned = (IsSigned != 0);
-  // Get value.
-  if (Result.IsSigned)
-    dwarf_formsdata(Attribute, &Result.SignedValue, nullptr);
-  else
-    dwarf_formudata(Attribute, &Result.UnsignedValue, nullptr);
-  dwarf_dealloc(*DebugData, Attribute, DW_DLA_ATTR);
-  return OptionalAttrValue<SignedUnsigned>(Result);
-}
+    return DwarfAttrValue(); // Empty.
 
-Dwarf_Addr DwarfDie::getAttrAsAddr(Dwarf_Half Attr, Dwarf_Addr Default) const {
-  if (auto Ret = getAttrAsAddr(Attr))
-    return *Ret;
-  return Default;
-}
-Dwarf_Off DwarfDie::getAttrAsRef(Dwarf_Half Attr, Dwarf_Off Default) const {
-  if (auto Ret = getAttrAsRef(Attr))
-    return *Ret;
-  return Default;
-}
-Dwarf_Unsigned DwarfDie::getAttrAsUnsigned(Dwarf_Half Attr,
-                                           Dwarf_Unsigned Default) const {
-  if (auto Ret = getAttrAsUnsigned(Attr))
-    return *Ret;
-  return Default;
-}
-Dwarf_Signed DwarfDie::getAttrAsSigned(Dwarf_Half Attr,
-                                       Dwarf_Signed Default) const {
-  if (auto Ret = getAttrAsSigned(Attr))
-    return *Ret;
-  return Default;
-}
-std::string DwarfDie::getAttrAsString(Dwarf_Half Attr,
-                                      const std::string &Default) const {
-  if (auto Ret = getAttrAsString(Attr))
-    return *Ret;
-  return Default;
-}
+  Dwarf_Half Form;
+  dwarf_whatform(Attribute, &Form, nullptr);
+  switch (Form) {
+  case DW_FORM_ref_addr:
+  case DW_FORM_ref1:
+  case DW_FORM_ref2:
+  case DW_FORM_ref4:
+  case DW_FORM_ref8:
+  case DW_FORM_ref_udata:
+  case DW_FORM_ref_sig8:
+  case DW_FORM_sec_offset: {
+    Dwarf_Off Reference;
+    dwarf_global_formref(Attribute, &Reference, nullptr);
+    return DwarfAttrValue(Reference, DwarfAttrValueKind::Reference, Form);
+  }
+  case DW_FORM_addr:
+  case DW_FORM_addrx:
+  case DW_FORM_GNU_addr_index: {
+    Dwarf_Addr Address;
+    dwarf_formaddr(Attribute, &Address, nullptr);
+    return DwarfAttrValue(Address, DwarfAttrValueKind::Address, Form);
+  }
+  case DW_FORM_flag:
+  case DW_FORM_flag_present: {
+    Dwarf_Bool Boolean;
+    dwarf_formflag(Attribute, &Boolean, nullptr);
+    return DwarfAttrValue(Boolean, Form);
+  }
+  case DW_FORM_data1:
+  case DW_FORM_data2:
+  case DW_FORM_data4:
+  case DW_FORM_data8:
+  case DW_FORM_udata:
+  case DW_FORM_implicit_const: {
+    Dwarf_Unsigned Unsigned;
+    dwarf_formudata(Attribute, &Unsigned, nullptr);
+    return DwarfAttrValue(Unsigned, DwarfAttrValueKind::Unsigned, Form);
+  }
+  case DW_FORM_sdata: {
+    Dwarf_Signed Signed;
+    dwarf_formsdata(Attribute, &Signed, nullptr);
+    return DwarfAttrValue(Signed, Form);
+  }
+  case DW_FORM_block:
+  case DW_FORM_block1:
+  case DW_FORM_block2:
+  case DW_FORM_block4: {
+    Dwarf_Block *Blocks;
+    dwarf_formblock(Attribute, &Blocks, nullptr);
+    uint8_t *Data = reinterpret_cast<uint8_t *>(Blocks->bl_data);
+    DwarfAttrValue Result(std::vector<uint8_t>(Data, Data + Blocks->bl_len),
+                          DwarfAttrValueKind::Bytes, Form);
 
-// Common functionality for attribute getters.
-//
-// Template Params
-//   ValTy: Type of the attribute value being retrieved
-//   getterFunc: int(*)(Dwarf_Attribute, T*, Dwarf_Error *)
-//
-// This template function:
-//   - gets the attribute with tag Attr
-//   - If the attribute was not found returns an empty optional
-//   - gets the value of the attribute (type T) with the getter
-//   - Frees the attribute memory
-//   - Returns an optional containing the value
-template <typename ValTy, typename getterFunc>
-DwarfDie::OptionalAttrValue<ValTy> DwarfDie::getAttr(Dwarf_Half Attr,
-                                                     getterFunc getter) const {
-  Dwarf_Attribute Attribute;
-  int Ret = dwarf_attr(Die, Attr, &Attribute, nullptr);
-  if (Ret != DW_DLV_OK)
-    return OptionalAttrValue<ValTy>();
-  ValTy Result;
-  getter(Attribute, &Result, nullptr);
-  dwarf_dealloc(*DebugData, Attribute, DW_DLA_ATTR);
-  return OptionalAttrValue<ValTy>(Result);
+    dwarf_dealloc(DebugData.get(), Blocks, DW_DLA_BLOCK);
+    return Result;
+  }
+  case DW_FORM_exprloc: {
+    Dwarf_Unsigned ExprLen;
+    Dwarf_Ptr Blocks;
+    dwarf_formexprloc(Attribute, &ExprLen, &Blocks, nullptr);
+    uint8_t *Data = reinterpret_cast<uint8_t *>(Blocks);
+    return DwarfAttrValue(std::vector<uint8_t>(Data, Data + ExprLen),
+                          DwarfAttrValueKind::Exprloc, Form);
+  }
+  case DW_FORM_string:
+  case DW_FORM_strp:
+  case DW_FORM_strp_sup:
+  case DW_FORM_strx:
+  case DW_FORM_GNU_strp_alt:
+  case DW_FORM_GNU_str_index: {
+    char *Str;
+    dwarf_formstring(Attribute, &Str, nullptr);
+    return DwarfAttrValue(DebugData.copyAndFreeDwarfString(Str), Form);
+  }
+  default:
+    return DwarfAttrValue(Form); // Unknown Form.
+  }
 }
 
 // DwarfDieChildIterator methods.
@@ -339,6 +330,279 @@ DwarfDieChildIterator &DwarfDieChildIterator::operator++() {
       Child = nullptr;
   }
   return *this;
+}
+
+// DwarfAttrValue methods.
+
+DwarfAttrValue::DwarfAttrValue() : Kind(DwarfAttrValueKind::Empty) {}
+
+DwarfAttrValue::DwarfAttrValue(const DwarfAttrValue &Other) {
+  Kind = Other.Kind;
+  Form = Other.Form;
+  switch (Kind) {
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+    break;
+  case DwarfAttrValueKind::Reference:
+    Value.Reference = Other.Value.Reference;
+    break;
+  case DwarfAttrValueKind::Address:
+    Value.Address = Other.Value.Address;
+    break;
+  case DwarfAttrValueKind::Boolean:
+    Value.Boolean = Other.Value.Boolean;
+    break;
+  case DwarfAttrValueKind::Unsigned:
+    Value.Unsigned = Other.Value.Unsigned;
+    break;
+  case DwarfAttrValueKind::Signed:
+    Value.Signed = Other.Value.Signed;
+    break;
+  case DwarfAttrValueKind::Bytes:
+    new (&Value.Bytes) std::vector<uint8_t>(Other.Value.Bytes);
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    new (&Value.Exprloc) std::vector<uint8_t>(Other.Value.Exprloc);
+    break;
+  case DwarfAttrValueKind::String:
+    new (&Value.String) std::string(Other.Value.String);
+    break;
+  }
+}
+
+DwarfAttrValue::DwarfAttrValue(DwarfAttrValue &&Other) {
+  Kind = Other.Kind;
+  Form = Other.Form;
+  switch (Kind) {
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+    break;
+  case DwarfAttrValueKind::Reference:
+    Value.Reference = Other.Value.Reference;
+    break;
+  case DwarfAttrValueKind::Address:
+    Value.Address = Other.Value.Address;
+    break;
+  case DwarfAttrValueKind::Boolean:
+    Value.Boolean = Other.Value.Boolean;
+    break;
+  case DwarfAttrValueKind::Unsigned:
+    Value.Unsigned = Other.Value.Unsigned;
+    break;
+  case DwarfAttrValueKind::Signed:
+    Value.Signed = Other.Value.Signed;
+    break;
+  case DwarfAttrValueKind::Bytes:
+    new (&Value.Bytes) std::vector<uint8_t>(std::move(Other.Value.Bytes));
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    new (&Value.Exprloc) std::vector<uint8_t>(std::move(Other.Value.Exprloc));
+    break;
+  case DwarfAttrValueKind::String:
+    new (&Value.String) std::string(std::move(Other.Value.String));
+    break;
+  }
+}
+
+DwarfAttrValue &DwarfAttrValue::operator=(const DwarfAttrValue &Other) {
+  destroyValue();
+
+  Kind = Other.Kind;
+  Form = Other.Form;
+  switch (Kind) {
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+    break;
+  case DwarfAttrValueKind::Reference:
+    Value.Reference = Other.Value.Reference;
+    break;
+  case DwarfAttrValueKind::Address:
+    Value.Address = Other.Value.Address;
+    break;
+  case DwarfAttrValueKind::Boolean:
+    Value.Boolean = Other.Value.Boolean;
+    break;
+  case DwarfAttrValueKind::Unsigned:
+    Value.Unsigned = Other.Value.Unsigned;
+    break;
+  case DwarfAttrValueKind::Signed:
+    Value.Signed = Other.Value.Signed;
+    break;
+  case DwarfAttrValueKind::Bytes:
+    new (&Value.Bytes) std::vector<uint8_t>(Other.Value.Bytes);
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    new (&Value.Exprloc) std::vector<uint8_t>(Other.Value.Exprloc);
+    break;
+  case DwarfAttrValueKind::String:
+    new (&Value.String) std::string(Other.Value.String);
+    break;
+  }
+  return *this;
+}
+
+DwarfAttrValue &DwarfAttrValue::operator=(DwarfAttrValue &&Other) {
+  destroyValue();
+
+  Kind = Other.Kind;
+  Form = Other.Form;
+  switch (Kind) {
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+    break;
+  case DwarfAttrValueKind::Reference:
+    Value.Reference = Other.Value.Reference;
+    break;
+  case DwarfAttrValueKind::Address:
+    Value.Address = Other.Value.Address;
+    break;
+  case DwarfAttrValueKind::Boolean:
+    Value.Boolean = Other.Value.Boolean;
+    break;
+  case DwarfAttrValueKind::Unsigned:
+    Value.Unsigned = Other.Value.Unsigned;
+    break;
+  case DwarfAttrValueKind::Signed:
+    Value.Signed = Other.Value.Signed;
+    break;
+  case DwarfAttrValueKind::Bytes:
+    new (&Value.Bytes) std::vector<uint8_t>(std::move(Other.Value.Bytes));
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    new (&Value.Exprloc) std::vector<uint8_t>(std::move(Other.Value.Exprloc));
+    break;
+  case DwarfAttrValueKind::String:
+    new (&Value.String) std::string(std::move(Other.Value.String));
+    break;
+  }
+  return *this;
+}
+
+Dwarf_Off DwarfAttrValue::getReference() const {
+  assert(Kind == DwarfAttrValueKind::Reference);
+  return Value.Reference;
+}
+
+Dwarf_Addr DwarfAttrValue::getAddress() const {
+  assert(Kind == DwarfAttrValueKind::Address);
+  return Value.Address;
+}
+
+Dwarf_Bool DwarfAttrValue::getBool() const {
+  assert(Kind == DwarfAttrValueKind::Boolean);
+  return Value.Boolean;
+}
+
+Dwarf_Unsigned DwarfAttrValue::getUnsigned() const {
+  assert(Kind == DwarfAttrValueKind::Unsigned);
+  return Value.Unsigned;
+}
+
+Dwarf_Signed DwarfAttrValue::getSigned() const {
+  assert(Kind == DwarfAttrValueKind::Signed);
+  return Value.Signed;
+}
+
+const std::vector<uint8_t> &DwarfAttrValue::getBytes() const {
+  assert(Kind == DwarfAttrValueKind::Bytes);
+  return Value.Bytes;
+}
+
+const std::vector<uint8_t> &DwarfAttrValue::getExprloc() const {
+  assert(Kind == DwarfAttrValueKind::Exprloc);
+  return Value.Exprloc;
+}
+
+const std::string &DwarfAttrValue::getString() const {
+  assert(Kind == DwarfAttrValueKind::String);
+  return Value.String;
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Half ValForm)
+    : Kind(DwarfAttrValueKind::UnknownForm), Form(ValForm) {}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Bool Val, Dwarf_Half ValForm)
+    : Kind(DwarfAttrValueKind::Boolean), Form(ValForm) {
+  Value.Boolean = Val;
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Signed Val, Dwarf_Half ValForm)
+    : Kind(DwarfAttrValueKind::Signed), Form(ValForm) {
+  Value.Signed = Val;
+}
+
+DwarfAttrValue::DwarfAttrValue(std::vector<uint8_t> &&Val,
+                               DwarfAttrValueKind ValKind, Dwarf_Half ValForm)
+    : Kind(ValKind), Form(ValForm) {
+  switch (Kind) {
+  case DwarfAttrValueKind::Bytes:
+    new (&Value.Bytes) std::vector<uint8_t>(std::move(Val));
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    new (&Value.Exprloc) std::vector<uint8_t>(std::move(Val));
+    break;
+  case DwarfAttrValueKind::UnknownForm:
+  case DwarfAttrValueKind::Boolean:
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::Reference:
+  case DwarfAttrValueKind::Address:
+  case DwarfAttrValueKind::Unsigned:
+  case DwarfAttrValueKind::Signed:
+  case DwarfAttrValueKind::String:
+    assert(false && "Bad DwarfAttrValueKind");
+  }
+}
+
+DwarfAttrValue::DwarfAttrValue(std::string &&Val, Dwarf_Half ValForm)
+    : Kind(DwarfAttrValueKind::String), Form(ValForm) {
+  new (&Value.String) std::string(std::move(Val));
+}
+
+DwarfAttrValue::DwarfAttrValue(Dwarf_Unsigned Val, DwarfAttrValueKind ValKind,
+                               Dwarf_Half ValForm)
+    : Kind(ValKind), Form(ValForm) {
+  switch (Kind) {
+  case DwarfAttrValueKind::Reference:
+    Value.Reference = Val;
+    break;
+  case DwarfAttrValueKind::Address:
+    Value.Address = Val;
+    break;
+  case DwarfAttrValueKind::Unsigned:
+    Value.Unsigned = Val;
+    break;
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+  case DwarfAttrValueKind::Boolean:
+  case DwarfAttrValueKind::Signed:
+  case DwarfAttrValueKind::Bytes:
+  case DwarfAttrValueKind::Exprloc:
+  case DwarfAttrValueKind::String:
+    assert(false && "Bad DwarfAttrValueKind");
+  }
+}
+
+void DwarfAttrValue::destroyValue() {
+  switch (Kind) {
+  case DwarfAttrValueKind::Empty:
+  case DwarfAttrValueKind::UnknownForm:
+  case DwarfAttrValueKind::Reference:
+  case DwarfAttrValueKind::Address:
+  case DwarfAttrValueKind::Boolean:
+  case DwarfAttrValueKind::Unsigned:
+  case DwarfAttrValueKind::Signed:
+    break;
+  case DwarfAttrValueKind::Bytes:
+    Value.Bytes.~vector();
+    break;
+  case DwarfAttrValueKind::Exprloc:
+    Value.Exprloc.~vector();
+    break;
+  case DwarfAttrValueKind::String:
+    Value.String.~basic_string();
+    break;
+  }
+  Kind = DwarfAttrValueKind::Empty;
 }
 
 // DwarfLineTable methods.

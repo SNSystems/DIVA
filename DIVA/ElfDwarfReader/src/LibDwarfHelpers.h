@@ -54,10 +54,13 @@
 namespace ElfDwarfReader {
 
 std::string getDwarfTagAsString(Dwarf_Half Tag);
+std::string getDwarfAttrAsString(Dwarf_Half Attr);
+std::string getDwarfFormAsString(Dwarf_Half Form);
 
 struct DwarfCompileUnit;
 class DwarfDie;
 class DwarfDieChildIterator;
+class DwarfAttrValue;
 class DwarfLineTable;
 
 /// \brief Exception wrapping a LibDwarf error code.
@@ -135,67 +138,9 @@ public:
   Dwarf_Half getTag() const;
   std::string getTagName() const;
 
-  // TODO: Replace with std::optional (C++17).
-  /// \brief Result of an attribute getter where the value might not exist.
-  template <typename ValTy> class OptionalAttrValue {
-  public:
-    OptionalAttrValue() : Exists(false) {}
-    OptionalAttrValue(const ValTy &Val) : Exists(true), Value(Val) {}
-
-    explicit operator bool() const { return hasValue(); }
-    const ValTy &operator*() const { return getValue(); }
-    const ValTy *operator->() const { return &getValue(); }
-
-    friend bool operator==(const OptionalAttrValue &A,
-                           const OptionalAttrValue &B) {
-      return A.Exists == B.Exists && (!A.Exists || A.Value == B.Value);
-    }
-    friend bool operator!=(const OptionalAttrValue &A,
-                           const OptionalAttrValue &B) {
-      return !(A == B);
-    }
-
-    bool hasValue() const { return Exists; }
-    const ValTy &getValue() const {
-      assert(hasValue());
-      return Value;
-    }
-
-  private:
-    bool Exists;
-    ValTy Value;
-  };
-
   // Attribute getters.
   bool hasAttr(Dwarf_Half Attr) const;
-  bool getAttrAsFlag(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Addr> getAttrAsAddr(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Off> getAttrAsRef(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Unsigned>
-  getAttrAsUnsigned(Dwarf_Half Attr) const;
-  const OptionalAttrValue<Dwarf_Signed> getAttrAsSigned(Dwarf_Half Attr) const;
-  const OptionalAttrValue<std::string> getAttrAsString(Dwarf_Half Attr) const;
-
-  struct SignedUnsigned {
-    bool IsSigned;
-    union {
-      Dwarf_Signed SignedValue;
-      Dwarf_Unsigned UnsignedValue;
-    };
-  };
-
-  /// \brief get an attribute as either a signed or unsigned value.
-  const OptionalAttrValue<SignedUnsigned>
-  getAttrAsSignedOrUnsigned(Dwarf_Half Attr) const;
-
-  // Attribute getters with defaults.
-  Dwarf_Addr getAttrAsAddr(Dwarf_Half Attr, Dwarf_Addr Default) const;
-  Dwarf_Off getAttrAsRef(Dwarf_Half Attr, Dwarf_Off Default) const;
-  Dwarf_Unsigned getAttrAsUnsigned(Dwarf_Half Attr,
-                                   Dwarf_Unsigned Default) const;
-  Dwarf_Signed getAttrAsSigned(Dwarf_Half Attr, Dwarf_Signed Default) const;
-  std::string getAttrAsString(Dwarf_Half Attr,
-                              const std::string &Default) const;
+  DwarfAttrValue getAttr(Dwarf_Half Attr) const;
 
   /// \brief get the line table. Only valid for compile units.
   DwarfLineTable getLineTable() const;
@@ -206,10 +151,6 @@ private:
 
   const DwarfDebugData &DebugData;
   Dwarf_Die Die;
-
-  // Common functionality for attribute getters.
-  template <typename ValTy, typename getterFunc>
-  OptionalAttrValue<ValTy> getAttr(Dwarf_Half Attr, getterFunc getter) const;
 };
 
 /// \brief Container for the CU Die and its metadata.
@@ -256,6 +197,88 @@ public:
 
 private:
   std::shared_ptr<DwarfDie> Child;
+};
+
+/// \brief the kind of an attribute value.
+enum class DwarfAttrValueKind {
+  Empty,
+  UnknownForm,
+  Reference,
+  Address,
+  Boolean,
+  Unsigned,
+  Signed,
+  Bytes,
+  Exprloc,
+  String,
+};
+
+/// \brief Discriminated union for the values of DWARF attributes.
+///
+/// Can be 'Empty' signifying there was no attribute, or 'UnknownForm' where
+/// the DWARF form for the attribtue is not supported.
+class DwarfAttrValue {
+public:
+  DwarfAttrValue(); // Empty.
+  ~DwarfAttrValue() { destroyValue(); }
+
+  DwarfAttrValue(const DwarfAttrValue &Other);
+  DwarfAttrValue(DwarfAttrValue &&Other);
+
+  DwarfAttrValue &operator=(const DwarfAttrValue &Other);
+  DwarfAttrValue &operator=(DwarfAttrValue &&Other);
+
+  bool empty() const { return Kind == DwarfAttrValueKind::Empty; }
+  DwarfAttrValueKind getKind() const { return Kind; }
+  Dwarf_Half getForm() const {
+    assert(!empty());
+    return Form;
+  }
+
+  Dwarf_Off getReference() const;
+  Dwarf_Addr getAddress() const;
+  Dwarf_Bool getBool() const;
+  Dwarf_Unsigned getUnsigned() const;
+  Dwarf_Signed getSigned() const;
+  const std::vector<uint8_t> &getBytes() const;
+  const std::vector<uint8_t> &getExprloc() const;
+  const std::string &getString() const;
+
+private:
+  friend class DwarfDie;
+
+  explicit DwarfAttrValue(Dwarf_Half Form); // Unknown Form.
+  explicit DwarfAttrValue(Dwarf_Bool Val, Dwarf_Half Form);
+  explicit DwarfAttrValue(Dwarf_Signed Val, Dwarf_Half Form);
+  explicit DwarfAttrValue(std::string &&Val, Dwarf_Half Form);
+
+  // Reference, Address and Unsigned have the same underlying type.
+  explicit DwarfAttrValue(Dwarf_Unsigned Val, DwarfAttrValueKind ValKind,
+                          Dwarf_Half Form);
+
+  // Bytes and Exprloc have the same underlying type.
+  explicit DwarfAttrValue(std::vector<uint8_t> &&Val,
+                          DwarfAttrValueKind ValKind, Dwarf_Half Form);
+
+  void destroyValue();
+
+  union ValueUnion {
+    Dwarf_Off Reference;
+    Dwarf_Addr Address;
+    Dwarf_Bool Boolean;
+    Dwarf_Unsigned Unsigned;
+    Dwarf_Signed Signed;
+    std::vector<uint8_t> Bytes;
+    std::vector<uint8_t> Exprloc;
+    std::string String;
+
+    ValueUnion() {}
+    ~ValueUnion() {}
+  };
+
+  DwarfAttrValueKind Kind;
+  Dwarf_Half Form;
+  ValueUnion Value;
 };
 
 struct DwarfLineEntry {
