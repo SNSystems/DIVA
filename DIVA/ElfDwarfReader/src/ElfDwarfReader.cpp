@@ -118,8 +118,8 @@ bool DwarfReader::createScopes() {
   Root->setName(getInputFile().c_str());
   Scopes = Root;
 
+  LibScopeView::FileDescriptor FD(getInputFile());
   try {
-    LibScopeView::FileDescriptor FD(getInputFile());
     const DwarfDebugData DebugData(FD.get());
     createCompileUnits(DebugData, *Root);
   } catch (LibDwarfError &Err) {
@@ -131,6 +131,9 @@ bool DwarfReader::createScopes() {
     LibScopeError::fatalError(LibScopeError::ErrorCode::ERR_INVALID_DWARF,
                               getInputFile());
   }
+
+  if (Root->getChildren().empty())
+    LibScopeError::warning("No DWARF debug data found.");
 
   return true;
 }

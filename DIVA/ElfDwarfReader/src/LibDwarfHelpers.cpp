@@ -81,6 +81,10 @@ DwarfDebugData::DwarfDebugData(int FileDescriptor) : Dbg(nullptr) {
   Dwarf_Error Err;
   int ret = dwarf_init(FileDescriptor, DW_DLC_READ, dwarfErrorHandler,
                        /*errarg*/ &Dbg, &Dbg, &Err);
+  if (ret == DW_DLV_NO_ENTRY) {
+    Dbg = nullptr;
+    return;
+  }
   if (ret != DW_DLV_OK) {
     LibDwarfError LibErr(Err, Dbg); // Create the error before freeing Dbg.
     freeDbg(); // If Dbg was set we need to free it.
@@ -110,6 +114,8 @@ void DwarfDebugData::freeDbg() {
 
 std::vector<DwarfCompileUnit> DwarfDebugData::getCompileUnits() const {
   std::vector<DwarfCompileUnit> Result;
+  if (empty())
+    return Result;
 
   Dwarf_Unsigned CurrentHeader = 0U;
   for (;;) {

@@ -70,6 +70,18 @@ TEST(DwarfHelpers, getDwarfTagAsString) {
   EXPECT_EQ(getDwarfTagAsString(DW_TAG_member), "DW_TAG_member");
 }
 
+TEST(DwarfHelpers, Empty) {
+  // repro8.o came from a crtbegin.o file as described in:
+  // https://github.com/SNSystems/DIVA/issues/8
+  std::string TestElfPath = getTestInputFilePath("DwarfHelpers/empty.o");
+  ASSERT_TRUE(LibScopeView::doesFileExist(TestElfPath));
+  LibScopeView::FileDescriptor FD(TestElfPath);
+  ASSERT_GT(*FD, 0);
+
+  DwarfDebugData EmptyDebugData(*FD);
+  EXPECT_TRUE(EmptyDebugData.empty());
+}
+
 TEST_F(LibDwarfHelpers, DwarfDebugData) {
   EXPECT_NE(*TestDebugData, nullptr);
 
