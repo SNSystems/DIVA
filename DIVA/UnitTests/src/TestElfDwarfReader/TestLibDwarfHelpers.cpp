@@ -68,6 +68,19 @@ private:
 TEST(DwarfHelpers, getDwarfTagAsString) {
   EXPECT_EQ(getDwarfTagAsString(DW_TAG_class_type), "DW_TAG_class_type");
   EXPECT_EQ(getDwarfTagAsString(DW_TAG_member), "DW_TAG_member");
+  EXPECT_EQ(getDwarfTagAsString(0), "");
+}
+
+TEST(DwarfHelpers, getDwarfAttrAsString) {
+  EXPECT_EQ(getDwarfAttrAsString(DW_AT_accessibility), "DW_AT_accessibility");
+  EXPECT_EQ(getDwarfAttrAsString(DW_AT_member), "DW_AT_member");
+  EXPECT_EQ(getDwarfAttrAsString(0), "");
+}
+
+TEST(DwarfHelpers, getDwarfFormAsString) {
+  EXPECT_EQ(getDwarfFormAsString(DW_FORM_addr), "DW_FORM_addr");
+  EXPECT_EQ(getDwarfFormAsString(DW_FORM_data1), "DW_FORM_data1");
+  EXPECT_EQ(getDwarfFormAsString(0), "");
 }
 
 TEST_F(LibDwarfHelpers, DwarfDebugData) {
@@ -115,27 +128,27 @@ TEST_F(LibDwarfHelpers, DwarfDie) {
 
   // Test getAttr.
   DwarfAttrValue Flag(TestDie2.getAttr(DW_AT_external));
-  ASSERT_EQ(Flag.getKind(), DwarfAttrValue::ValueKind::Boolean);
+  ASSERT_EQ(Flag.getKind(), DwarfAttrValueKind::Boolean);
   EXPECT_GT(Flag.getBool(), 0);
 
   DwarfAttrValue Addr(TestDie2.getAttr(DW_AT_low_pc));
-  ASSERT_EQ(Addr.getKind(), DwarfAttrValue::ValueKind::Address);
+  ASSERT_EQ(Addr.getKind(), DwarfAttrValueKind::Address);
   EXPECT_EQ(Addr.getAddress(), 0x004004e0U);
 
   DwarfAttrValue Off(TestDie2.getAttr(DW_AT_type));
-  ASSERT_EQ(Off.getKind(), DwarfAttrValue::ValueKind::Reference);
+  ASSERT_EQ(Off.getKind(), DwarfAttrValueKind::Reference);
   EXPECT_EQ(Off.getReference(), 0x52U);
 
   DwarfAttrValue Unsigned(TestDie2.getAttr(DW_AT_decl_file));
-  ASSERT_EQ(Unsigned.getKind(), DwarfAttrValue::ValueKind::Unsigned);
+  ASSERT_EQ(Unsigned.getKind(), DwarfAttrValueKind::Unsigned);
   EXPECT_EQ(Unsigned.getUnsigned(), 1U);
 
   DwarfAttrValue String(TestDie.getAttr(DW_AT_name));
-  ASSERT_EQ(String.getKind(), DwarfAttrValue::ValueKind::String);
+  ASSERT_EQ(String.getKind(), DwarfAttrValueKind::String);
   EXPECT_EQ(String.getString(), "test1.cpp");
 
   EXPECT_EQ(TestDie.getAttr(DW_AT_decl_line).getKind(),
-            DwarfAttrValue::ValueKind::Empty);
+            DwarfAttrValueKind::Empty);
 }
 
 // Simple tree of dwarf tags for testing.

@@ -42,6 +42,8 @@ namespace ElfDwarfReader {
 
 class DwarfDebugData;
 class DwarfDie;
+class DwarfAttrValue;
+enum class DwarfAttrValueKind;
 
 class DwarfReader : public LibScopeView::Reader {
 public:
@@ -77,22 +79,39 @@ private:
                            Dwarf_Off ObjOffset, Dwarf_Half ObjTag);
 
   void initScopeFromAttrs(LibScopeView::Scope &Scp, const DwarfDie &Die);
-  void initTypeFromAttrs(LibScopeView::Type &Ty, const DwarfDie &Die) const;
-  static void initSymbolFromAttrs(LibScopeView::Symbol &Sym,
-                                  const DwarfDie &Die);
+  void initTypeFromAttrs(LibScopeView::Type &Ty, const DwarfDie &Die);
+  void initSymbolFromAttrs(LibScopeView::Symbol &Sym, const DwarfDie &Die);
 
   /// Create all the lines in a compile unit.
   void createLines(const DwarfDie &CUDie,
                    LibScopeView::ScopeCompileUnit &CUObj);
 
-  /// setup any references from this object to other objects.
+  /// Setup any references from this object to other objects.
   ///
   /// If the other object doesn't exist yet, then record that this reference
   /// needs to be updated when the other object is created.
   void initObjectReferences(LibScopeView::Object &Obj, const DwarfDie &Die);
 
-  /// set any references from other objects to this object now that it exists.
+  /// Set any references from other objects to this object now that it exists.
   void updateReferencesToObject(LibScopeView::Object &Obj, Dwarf_Off ObjOffset);
+
+  /// Get an attribute, but produce a warning an return an empty DwarfAttrValue
+  /// if the value is not the ExpectedKind or ValueKind::Empty.
+  DwarfAttrValue
+  getAttrExpectingKind(const DwarfDie &Die, const Dwarf_Half Attr,
+                       const DwarfAttrValueKind ExpectedKind);
+
+  /// Get an attribute, but produce a warning an return an empty DwarfAttrValue
+  /// if the value is not in the ExpectedKinds or ValueKind::Empty.
+  DwarfAttrValue getAttrExpectingKinds(
+      const DwarfDie &Die, const Dwarf_Half Attr,
+      const std::set<DwarfAttrValueKind> &ExpectedKinds);
+
+  /// Return true if Die has Attr and the value is a flag set to true.
+  bool attrIsTrueFlag(const DwarfDie &Die, const Dwarf_Half Attr);
+
+  /// Get the access specifier (Public, Private, etc.) of a Die.
+  LibScopeView::AccessSpecifier getAccessSpecifier(const DwarfDie &Die);
 
   // Offset range of the current CU.
   std::pair<Dwarf_Off, Dwarf_Off> CurrentCURange;
@@ -115,6 +134,8 @@ private:
 
   // Unknown DWARF tags that have already been seen (avoids duplicate warnings).
   std::set<Dwarf_Half> UnknownDWTags;
+  // Unrecognised Attr-Form combinations that have already been seen.
+  std::set<std::pair<Dwarf_Half, Dwarf_Half>> UnknownAttrFormPairs;
 };
 
 } // end namespace ElfDwarfReader
