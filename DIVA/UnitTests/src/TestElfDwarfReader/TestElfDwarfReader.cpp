@@ -98,9 +98,9 @@ public:
       return ::testing::AssertionFailure() << "Test file does not exist";
 
     Settings.SortKey = LibScopeView::SortingKey::OFFSET;
-    Reader = std::make_unique<DwarfReader>(Settings);
+    Reader = std::make_unique<DwarfReader>();
 
-    if (!Reader->loadFile(getTestInputFilePath(TestFile)))
+    if (!Reader->loadFile(getTestInputFilePath(TestFile), Settings))
       return ::testing::AssertionFailure() << "Failed to load test file";
 
     *Root = Reader->getScopesRoot();

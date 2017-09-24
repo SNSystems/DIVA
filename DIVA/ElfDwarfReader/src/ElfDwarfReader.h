@@ -47,9 +47,7 @@ enum class DwarfAttrValueKind;
 
 class DwarfReader : public LibScopeView::Reader {
 public:
-  explicit DwarfReader(const LibScopeView::PrintSettings &PrintingSettings)
-      : LibScopeView::Reader(PrintingSettings) {}
-
+  DwarfReader() : LibScopeView::Reader() {}
   ~DwarfReader() override {}
 
   DwarfReader(const DwarfReader &) = delete;

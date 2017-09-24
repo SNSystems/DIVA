@@ -44,10 +44,9 @@ namespace {
 typedef std::unique_ptr<LibScopeView::Reader> ReaderUPtr;
 
 /// \brief Allocate an appropriate reader for the given file.
-ReaderUPtr createReader(const std::string &InputFilePath,
-                        const LibScopeView::PrintSettings &PrintingSettings) {
+ReaderUPtr createReader(const std::string &InputFilePath) {
   if (LibScopeView::isFileFormatElf(InputFilePath))
-    return std::make_unique<ElfDwarfReader::DwarfReader>(PrintingSettings);
+    return std::make_unique<ElfDwarfReader::DwarfReader>();
   
   fatalError(LibScopeError::ErrorCode::ERR_INVALID_FILE, InputFilePath);
 }
@@ -74,9 +73,10 @@ int main(int argc, char *argv[]) {
     if (!LibScopeView::doesFileExist(InputFilePath))
       fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
     
-    Readers.push_back(createReader(InputFilePath, Options.PrintingSettings));
+    Readers.push_back(createReader(InputFilePath));
     assert(Readers.back());
-    bool Result = Readers.back()->loadFile(InputFilePath);
+    bool Result = Readers.back()->loadFile(InputFilePath,
+                                           Options.PrintingSettings);
 
     if (!Result)
       // Currently the ElfDwarfReader will always call fatalError itself so we
@@ -91,7 +91,7 @@ int main(int argc, char *argv[]) {
   for (auto &AReader : Readers) {
     // Print the Logical View.
     if (Options.OutputFormats.count(OutputFormat::TEXT)) {
-      AReader->print();
+      AReader->print(Options.PrintingSettings);
     }
     // Print YAML.
     if (Options.OutputFormats.count(OutputFormat::YAML)) {

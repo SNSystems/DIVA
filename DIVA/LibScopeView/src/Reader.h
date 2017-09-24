@@ -43,11 +43,8 @@ class Reader {
 public:
   Reader() : Scopes(nullptr), PrintedHeader(false) {}
 
-  Reader(const PrintSettings &PrintingSettings)
-    : Scopes(nullptr), PrintedHeader(false), Settings(PrintingSettings) {}
-
-  bool loadFile(const std::string &FileName);
-  void print();
+  bool loadFile(const std::string &FileName, const PrintSettings &Settings);
+  void print(const PrintSettings &Settings);
 
   virtual ~Reader() { delete Scopes; }
 
@@ -57,7 +54,7 @@ private:
   /// \brief Implements the creation of the tree from a file.
   virtual bool createScopes() { return false; }
 
-  void postCreationActions();
+  void postCreationActions(const PrintSettings &Settings);
 
   void destroyScopes() {
     delete Scopes;
@@ -72,8 +69,6 @@ protected:
 
 private:
   std::string InputFile;
-  
-  PrintSettings Settings;
   
   // Summary table member used with --show-summary.
   SummaryTable TheSummaryTable;
@@ -102,15 +97,15 @@ protected:
   MatchedObjects ViewMatchedObjects;
 
 protected:
-  virtual void printObjects();
-  virtual void printScopes();
-  virtual void printSummary();
+  virtual void printObjects(const PrintSettings &Settings);
+  virtual void printScopes(const PrintSettings &Settings);
+  virtual void printSummary(const PrintSettings &Settings);
 
 public:
   void propagatePatternMatch();
-  void resolveTreePatternMatch(Scope *scope);
-  void resolveFilterPatternMatch(Object *object);
-  void resolveFilterPatternMatch(Line *line);
+  void resolveTreePatternMatch(Scope *scope, const PrintSettings &Settings);
+  void resolveFilterPatternMatch(Object *object, const PrintSettings &Settings);
+  void resolveFilterPatternMatch(Line *line, const PrintSettings &Settings);
 
 public:
   std::string getInputFile() const { return InputFile; }
@@ -120,9 +115,6 @@ public:
 
   // Access to the scopes root.
   Scope *getScopesRoot() const { return Scopes; }
-
-  // Execute the required actions on the reader.
-  bool executeActions();
 };
 
 /// \brief Get the current Reader.

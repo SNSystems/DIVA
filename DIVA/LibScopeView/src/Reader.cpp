@@ -50,40 +50,25 @@ Reader *GlobalReader = nullptr;
 Reader *LibScopeView::getReader() { return GlobalReader; }
 void LibScopeView::setReader(Reader *Rdr) { GlobalReader = Rdr; }
 
-bool Reader::executeActions() {
-  destroyScopes();
-
-  // Record current Reader, so it will be available to places where is hard
-  // to access it.
-  setReader(this);
-
-  // Delegate the scope tree creation to the respective reader.
-  if (!createScopes())
-    return false;
-
-  postCreationActions();
-  return true;
-}
-
 // Print summary details for the Scopes Tree.
-void Reader::printSummary() {
+void Reader::printSummary(const PrintSettings &Settings) {
   if (!PrintedHeader) {
     getScopesRoot()->dump(Settings);
   }
   TheSummaryTable.getPrintedSummaryTable(std::cout);
 }
 
-void Reader::print() {
+void Reader::print(const PrintSettings &Settings) {
   // If doing any search (--filter), do not do any scope tree printing.
   if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
-    printObjects();
+    printObjects(Settings);
   } else {
-    printScopes();
+    printScopes(Settings);
   }
   std::cout << "\n";
 }
 
-void Reader::printObjects() {
+void Reader::printObjects(const PrintSettings &Settings) {
   if (getPrintObjects() && ViewMatchedObjects.size()) {
     // Get the sorting callback function.
     SortFunction SortFunc = getSortFunction(Settings.SortKey);
@@ -99,10 +84,10 @@ void Reader::printObjects() {
   }
 
   if (Settings.ShowSummary)
-    printSummary();
+    printSummary(Settings);
 }
 
-void Reader::printScopes() {
+void Reader::printScopes(const PrintSettings &Settings) {
   bool DoPrint = getPrintObjects();
   if (DoPrint) {
     // Propagate any matching information into the scopes tree.
@@ -132,12 +117,24 @@ void Reader::printScopes() {
   }
 
   if (Settings.ShowSummary)
-    printSummary();
+    printSummary(Settings);
 }
 
-bool Reader::loadFile(const std::string &FileName) {
+bool Reader::loadFile(const std::string &FileName,
+                      const PrintSettings &Settings) {
+  destroyScopes();
   InputFile = FileName;
-  return executeActions();
+
+  // Record current Reader, so it will be available to places where is hard
+  // to access it.
+  setReader(this);
+
+  // Delegate the scope tree creation to the respective reader.
+  if (!createScopes())
+    return false;
+
+  postCreationActions(Settings);
+  return true;
 }
 
 // Visitors for post-creation actions.
@@ -294,8 +291,8 @@ private:
 // it has been created and the type names and references have been resolved.
 class TreeResolver : public ScopeVisitor {
 public:
-  TreeResolver(Reader &Reader)
-      : ReaderInstance(Reader) {}
+  TreeResolver(Reader &Reader, const PrintSettings &PrintingSettings)
+      : ReaderInstance(Reader), Settings(PrintingSettings) {}
 
 private:
   void visitImpl(Object *Obj) override {
@@ -305,9 +302,9 @@ private:
 
     // Resolve any filters.
     // TODO: Filters should be evaluated while printing.
-    ReaderInstance.resolveFilterPatternMatch(Obj);
+    ReaderInstance.resolveFilterPatternMatch(Obj, Settings);
     if (auto Scp = dynamic_cast<Scope *>(Obj))
-      ReaderInstance.resolveTreePatternMatch(Scp);
+      ReaderInstance.resolveTreePatternMatch(Scp, Settings);
 
     // If the parent is global then mark this as global.
     if (Obj->getParent() && Obj->getParent()->getIsGlobalReference())
@@ -317,15 +314,16 @@ private:
   }
 
   Reader &ReaderInstance;
+  const PrintSettings &Settings;
 };
 } // namespace
 
-void Reader::postCreationActions() {
+void Reader::postCreationActions(const PrintSettings &Settings) {
   assert(Scopes);
 
   NameResolver(Settings).visit(Scopes);
   ReferenceAttributeResolver().visit(Scopes);
-  TreeResolver(*this).visit(Scopes);
+  TreeResolver(*this, Settings).visit(Scopes);
 
   Scopes->sortScopes(Settings.SortKey);
 }
@@ -340,20 +338,23 @@ void Reader::propagatePatternMatch() {
                       /*down=*/true);
 }
 
-void Reader::resolveTreePatternMatch(Scope *Scp) {
+void Reader::resolveTreePatternMatch(Scope *Scp,
+                                     const PrintSettings &Settings) {
   if (Scp->isNamed() &&
       Settings.matchesWithChildrenFilterPattern(Scp->getName())) {
     ViewMatchedScopes.push_back(Scp);
   }
 }
 
-void Reader::resolveFilterPatternMatch(Object *Object) {
+void Reader::resolveFilterPatternMatch(Object *Object,
+                                       const PrintSettings &Settings) {
   if (Object->isNamed() && Settings.matchesFilterPattern(Object->getName())) {
     ViewMatchedObjects.push_back(Object);
   }
 }
 
-void Reader::resolveFilterPatternMatch(Line *Line) {
+void Reader::resolveFilterPatternMatch(Line *Line,
+                                       const PrintSettings &Settings) {
   if (Settings.matchesFilterPattern(
       trim(Line->getLineNumberAsString()).c_str())) {
     ViewMatchedObjects.push_back(Line);
