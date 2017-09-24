@@ -68,7 +68,7 @@ bool Reader::executeActions() {
 // Print summary details for the Scopes Tree.
 void Reader::printSummary() {
   if (!PrintedHeader) {
-    getScopesRoot()->dump();
+    getScopesRoot()->dump(Settings);
   }
   TheSummaryTable.getPrintedSummaryTable(std::cout);
 }
@@ -86,16 +86,16 @@ void Reader::print() {
 void Reader::printObjects() {
   if (getPrintObjects() && ViewMatchedObjects.size()) {
     // Get the sorting callback function.
-    SortFunction SortFunc = getSortFunction();
+    SortFunction SortFunc = getSortFunction(Settings.SortKey);
     if (SortFunc) {
       std::sort(ViewMatchedObjects.begin(), ViewMatchedObjects.end(), SortFunc);
     }
 
-    getScopesRoot()->dump();
+    getScopesRoot()->dump(Settings);
     PrintedHeader = true;
 
     for (Object *Matched : ViewMatchedObjects)
-      Matched->dump();
+      Matched->dump(Settings);
   }
 
   if (Settings.ShowSummary)
@@ -128,7 +128,7 @@ void Reader::printScopes() {
     // We do a normal print, using the standard settings.
     bool Match = (!Settings.WithChildrenFilters.empty() ||
                   !Settings.WithChildrenFilterAnys.empty());
-    Scp->print(DoSplit, Match, DoPrint);
+    Scp->print(DoSplit, Match, DoPrint, Settings);
   }
 
   if (Settings.ShowSummary)
@@ -212,7 +212,7 @@ private:
     if (Ty->getType())
       resolve(Ty->getType());
 
-    bool Ret = Ty->setFullName();
+    bool Ret = Ty->setFullName(Settings);
     // setFullName keys off DWARF tags and will return false if it doesn't
     // recognise the tag.
     assert(Ret && "Unrecognised DWARF Tag in Object::setFullName");
@@ -327,7 +327,7 @@ void Reader::postCreationActions() {
   ReferenceAttributeResolver().visit(Scopes);
   TreeResolver(*this).visit(Scopes);
 
-  Scopes->sortScopes();
+  Scopes->sortScopes(Settings.SortKey);
 }
 
 void Reader::propagatePatternMatch() {

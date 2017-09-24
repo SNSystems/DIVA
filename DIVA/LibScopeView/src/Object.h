@@ -300,11 +300,12 @@ public:
   virtual void setType(Object *Obj) = 0;
 
   /// \brief Generate the full name for the object.
-  bool setFullName(Type *BaseType, Scope *BaseScope, Scope *SpecScope,
+  bool setFullName(const PrintSettings &Settings, Type *BaseType,
+                   Scope *BaseScope, Scope *SpecScope,
                    const char *BaseText = nullptr);
 
 public:
-  virtual void printAttributes();
+  virtual void printAttributes(const PrintSettings &Settings);
 
   /// \brief Get the attributes associated with the object as string.
   std::string getAttributesAsText(const PrintSettings &Settings);
@@ -313,8 +314,9 @@ public:
   static size_t getIndentationSize() { return IndentationSize; }
 
 public:
-  virtual void dump();
-  virtual void print(bool SplitCU, bool Match, bool IsNull);
+  virtual void dump(const PrintSettings &Settings);
+  virtual void print(bool SplitCU, bool Match, bool IsNull,
+                     const PrintSettings &Settings);
   virtual uint32_t getTag() const;
   virtual void setTag();
 

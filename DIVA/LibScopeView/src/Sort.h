@@ -34,10 +34,12 @@ namespace LibScopeView {
 
 class Object;
 
+enum class SortingKey { LINE, OFFSET, NAME };
+
 typedef bool (*SortFunction)(const Object *LHS, const Object *RHS);
 
 // Callback functions to sort objects.
-SortFunction getSortFunction();
+SortFunction getSortFunction(const SortingKey &SortKey);
 int compareKind(const Object *LHS, const Object *RHS);
 int compareLine(const Object *LHS, const Object *RHS);
 int compareName(const Object *LHS, const Object *RHS);

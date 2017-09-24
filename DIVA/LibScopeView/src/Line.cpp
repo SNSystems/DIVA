@@ -91,22 +91,21 @@ std::string Line::getLineNumberAsStringStripped() {
   return trim(number);
 }
 
-void Line::dump() {
-  if (getReader()->getPrintSettings().printObject(*this)) {
+void Line::dump(const PrintSettings &Settings) {
+  if (Settings.printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
     // Common Object Data.
-    Element::dump();
+    Element::dump(Settings);
 
     // Specific Object Data.
-    dumpExtra();
+    dumpExtra(Settings);
   }
 }
 
-void Line::dumpExtra() {
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+void Line::dumpExtra(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string Line::getAsText(const PrintSettings &Settings) const {

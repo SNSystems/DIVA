@@ -98,10 +98,10 @@ int main(int argc, char *argv[]) {
       // YAML_OUTPUT_VERSION_STR is defined by CMake.
       LibScopeView::ScopeYAMLPrinter YAMLPrinter(AReader->getInputFile(),
                                                  YAML_OUTPUT_VERSION_STR);
-      if (AReader->getPrintSettings().SplitOutput) {
+      if (Options.PrintingSettings.SplitOutput) {
         YAMLPrinter.print(
             static_cast<LibScopeView::ScopeRoot *>(AReader->getScopesRoot()),
-            AReader->getPrintSettings().OutputDirectory);
+            Options.PrintingSettings.OutputDirectory);
       } else {
         YAMLPrinter.print(AReader->getScopesRoot(), std::cout);
       }

@@ -236,7 +236,8 @@ bool Object::referenceMatch(const Object *Obj) const {
   return true;
 }
 
-bool Object::setFullName(Type *BaseType, Scope *BaseScope, Scope *SpecScope,
+bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
+                         Scope *BaseScope, Scope *SpecScope,
                          const char *BaseText) {
   // In the case of scopes that have been updated using the specification
   // or abstract_origin attributes, the name already contain some patterns,
@@ -299,7 +300,7 @@ bool Object::setFullName(Type *BaseType, Scope *BaseScope, Scope *SpecScope,
     //                  DW_AT_type <0x0000003f>
     //   <0x0000003f> DW_TAG_pointer_type
     // For that case, we can emit the 'void' type.
-    if (!BaseType && !getType() && getReader()->getPrintSettings().ShowVoid)
+    if (!BaseType && !getType() && Settings.ShowVoid)
       ParentTypename = "void";
     break;
   case DW_TAG_ptr_to_member_type:
@@ -514,9 +515,8 @@ std::string Object::getAttributesAsText(const PrintSettings &Settings) {
   return Attributes;
 }
 
-void Object::printAttributes() {
-  GlobalPrintContext->print(
-      "%s", getAttributesAsText(getReader()->getPrintSettings()).c_str());
+void Object::printAttributes(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s", getAttributesAsText(Settings).c_str());
 }
 
 // Record the last seen filename index. It is reset after the object that
@@ -544,22 +544,22 @@ void Object::printFileIndex() {
   }
 }
 
-void Object::dump() {
+void Object::dump(const PrintSettings &Settings) {
   // Print the File ID if needed.
   if (getFileNameIndex())
     printFileIndex();
 
   // Print Debug Data (tag, offset, etc).
-  printAttributes();
+  printAttributes(Settings);
 
   // Print the line and any discriminator.
-  GlobalPrintContext->print(
-      " %5s %s ", getLineNumberAsString(),
-      getIndentString(getReader()->getPrintSettings()).c_str());
+  GlobalPrintContext->print(" %5s %s ", getLineNumberAsString(),
+                            getIndentString(Settings).c_str());
 }
 
-void Object::print(bool /*SplitCU*/, bool /*Match*/, bool /*IsNull*/) {
-  dump();
+void Object::print(bool /*SplitCU*/, bool /*Match*/, bool /*IsNull*/,
+                   const PrintSettings &Settings) {
+  dump(Settings);
 }
 
 std::string

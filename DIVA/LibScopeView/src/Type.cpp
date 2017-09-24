@@ -132,7 +132,7 @@ const char *Type::getKindAsString() const {
 
 const char *Type::resolveName() { return getName(); }
 
-bool Type::setFullName() {
+bool Type::setFullName(const PrintSettings &Settings) {
   if (getIsTemplateParam())
     return true;
 
@@ -151,35 +151,35 @@ bool Type::setFullName() {
     BaseScope = static_cast<Scope *>(getType());
   }
 
-  return setFullName(BaseType, BaseScope, nullptr, BaseText);
+  return setFullName(Settings, BaseType, BaseScope, nullptr, BaseText);
 }
 
-void Type::dump() {
-  if (getReader()->getPrintSettings().printObject(*this)) {
+void Type::dump(const PrintSettings &Settings) {
+  if (Settings.printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
     // Common Object Data.
-    Element::dump();
+    Element::dump(Settings);
 
     // Specific Object Data.
-    dumpExtra();
+    dumpExtra(Settings);
   }
 }
 
-void Type::dumpExtra() {
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+void Type::dumpExtra(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
-bool Type::dump(bool DoHeader, const char *Header) {
+bool Type::dump(bool DoHeader, const char *Header,
+                const PrintSettings &Settings) {
   if (DoHeader) {
     GlobalPrintContext->print("\n%s\n", Header);
     DoHeader = false;
   }
 
   // Dump object.
-  dump();
+  dump(Settings);
 
   return DoHeader;
 }
@@ -254,10 +254,9 @@ Object *TypeDefinition::getUnderlyingType() {
 
 void TypeDefinition::setUnderlyingType(Object *Obj) { setType(Obj); }
 
-void TypeDefinition::dumpExtra() {
+void TypeDefinition::dumpExtra(const PrintSettings &Settings) {
   // Print the full type name.
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string TypeDefinition::getAsText(const PrintSettings &Settings) const {
@@ -296,10 +295,9 @@ void TypeEnumerator::setValue(const char *value) {
 
 size_t TypeEnumerator::getValueIndex() const { return ValueIndex; }
 
-void TypeEnumerator::dumpExtra() {
+void TypeEnumerator::dumpExtra(const PrintSettings &Settings) {
   // Print the full type.
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string TypeEnumerator::getAsText(const PrintSettings &Settings) const {
@@ -341,9 +339,8 @@ void TypeImport::setInheritanceAccess(AccessSpecifier access) {
   InheritanceAccess = access;
 }
 
-void TypeImport::dumpExtra() {
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+void TypeImport::dumpExtra(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 bool TypeImport::getIsPrintedAsObject() const { return !getIsInheritance(); }
@@ -529,11 +526,10 @@ void TypeParam::setValue(const char *value) {
 
 size_t TypeParam::getValueIndex() const { return ValueIndex; }
 
-void TypeParam::dumpExtra() {
+void TypeParam::dumpExtra(const PrintSettings &Settings) {
   // Depending on the type of parameter, the dump includes different
   // information: type, value or reference to a template.
-  GlobalPrintContext->print("%s\n",
-                            getAsText(getReader()->getPrintSettings()).c_str());
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 bool TypeParam::getIsPrintedAsObject() const {
@@ -597,10 +593,9 @@ TypeSubrange::TypeSubrange() : Type() {}
 
 TypeSubrange::~TypeSubrange() {}
 
-void TypeSubrange::dumpExtra() {
+void TypeSubrange::dumpExtra(const PrintSettings &Settings) {
   // Print the full type name.
-  GlobalPrintContext->print(
-      "{%s} -> %s'%s' '%s'\n", getKindAsString(),
-      getTypeDieOffsetAsString(getReader()->getPrintSettings()), getTypeName(),
-      getName());
+  GlobalPrintContext->print("{%s} -> %s'%s' '%s'\n", getKindAsString(),
+                            getTypeDieOffsetAsString(Settings), getTypeName(),
+                            getName());
 }

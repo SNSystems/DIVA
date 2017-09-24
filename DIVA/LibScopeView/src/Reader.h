@@ -113,10 +113,6 @@ public:
   void resolveFilterPatternMatch(Line *line);
 
 public:
-  // Access to settings.
-  PrintSettings &getPrintSettings() { return Settings; }
-  const PrintSettings &getPrintSettings() const { return Settings; }
-
   std::string getInputFile() const { return InputFile; }
 
   // Shortcut for any printing.
