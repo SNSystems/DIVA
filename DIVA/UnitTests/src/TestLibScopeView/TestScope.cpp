@@ -37,36 +37,33 @@
 using namespace LibScopeView;
 
 TEST(Scope, getAsText_Alias) {
-  Reader R;
-  setReader(&R);
-
+  PrintSettings Settings;
+  
   ScopeAlias Alias;
   Alias.setIsTemplateAlias();
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"\" -> \"void\"");
+  EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"\" -> \"void\"");
   
-  R.getPrintSettings().ShowVoid = false;
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"\" -> \"\"");
+  Settings.ShowVoid = false;
+  EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"\" -> \"\"");
 
   Alias.setName("test<int>");
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"test<int>\" -> \"\"");
+  EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"test<int>\" -> \"\"");
 
   Type Ty;
   Alias.setType(&Ty);
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"test<int>\" -> \"\"");
+  EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"test<int>\" -> \"\"");
 
   Ty.setName("foo<int, int>");
-  EXPECT_EQ(Alias.getAsText(), "{Alias} \"test<int>\" -> \"foo<int, int>\"");
+  EXPECT_EQ(Alias.getAsText(Settings),
+            "{Alias} \"test<int>\" -> \"foo<int, int>\"");
 
   Ty.setQualifiedName("Class::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(Alias.getAsText(),
+  EXPECT_EQ(Alias.getAsText(Settings),
             "{Alias} \"test<int>\" -> \"Class::foo<int, int>\"");
 }
 
 TEST(Scope, getAsYAML_Alias) {
-  Reader R;
-  setReader(&R);
-
   ScopeAlias Alias;
   Alias.setIsTemplateAlias();
   Alias.setName("test<int>");
@@ -104,23 +101,19 @@ TEST(Scope, getAsYAML_Alias) {
 }
 
 TEST(Scope, getAsText_Array) {
-  Reader R;
-  setReader(&R);
-
   ScopeArray Array;
   Array.setIsArrayType();
   Array.setName("int 5,10");
-  EXPECT_EQ(Array.getAsText(), "{Array} \"int 5,10\"");
+  EXPECT_EQ(Array.getAsText(PrintSettings()), "{Array} \"int 5,10\"");
 }
 
 TEST(Scope, getAsText_Block) {
-  Reader R;
-  R.getPrintSettings().ShowBlockAttributes = true;
-  setReader(&R);
+  PrintSettings Settings;
+  Settings.ShowBlockAttributes = true;
 
   Scope Block(/*Level*/ 3);
   Block.setIsBlock();
-  EXPECT_EQ(Block.getAsText(), "{Block}");
+  EXPECT_EQ(Block.getAsText(Settings), "{Block}");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
   const std::string AttrIndent(3 + 4 + 8 + ((Block.getLevel() + 1) * 2), ' ');
@@ -128,20 +121,17 @@ TEST(Scope, getAsText_Block) {
   Scope TryBlock(/*Level*/ 3);
   TryBlock.setIsBlock();
   TryBlock.setIsTryBlock();
-  EXPECT_EQ(TryBlock.getAsText(),
+  EXPECT_EQ(TryBlock.getAsText(Settings),
     std::string("{Block}\n") + AttrIndent + std::string("- try"));
 
   Scope CatchBlock(/*Level*/ 3);
   CatchBlock.setIsBlock();
   CatchBlock.setIsCatchBlock();
-  EXPECT_EQ(CatchBlock.getAsText(),
+  EXPECT_EQ(CatchBlock.getAsText(Settings),
     std::string("{Block}\n") + AttrIndent + std::string("- catch"));
 }
 
 TEST(Scope, getAsYAML_Block) {
-  Reader R;
-  setReader(&R);
-
   Scope Block;
   Block.setIsBlock();
   Block.setLineNumber(10);
@@ -203,29 +193,28 @@ TEST(Scope, getAsYAML_Block) {
 }
 
 TEST(Scope, getAsText_Class) {
-  Reader R;
-  setReader(&R);
-
+  PrintSettings Settings;
+  
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
   Class.setName("TestClass");
-  EXPECT_EQ(Class.getAsText(), "{Class} \"TestClass\"");
+  EXPECT_EQ(Class.getAsText(Settings), "{Class} \"TestClass\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getPrintSettings().ShowIndent = false;
+  Settings.ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
   Class.setIsTemplate();
-  EXPECT_EQ(Class.getAsText(), std::string("{Class} \"TestClass\"\n") +
+  EXPECT_EQ(Class.getAsText(Settings), std::string("{Class} \"TestClass\"\n") +
                                    AttrIndent + std::string("Template"));
 }
 
 TEST(Scope, getAsYAML_Class) {
   Reader R;
   setReader(&R);
-
+  
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -273,7 +262,7 @@ TEST(Scope, getAsYAML_Class) {
 TEST(Scope, getAsYAML_multiInheritance) {
   Reader R;
   setReader(&R);
-
+  
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -323,7 +312,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
 TEST(Scope, getAsYAML_Unspecified_Class) {
   Reader R;
   setReader(&R);
-
+  
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -360,16 +349,14 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
 }
 
 TEST(Scope, getAsText_CompileUnit) {
-  Reader R;
-  setReader(&R);
-
   ScopeCompileUnit compileUnit;
   compileUnit.setIsCompileUnit();
-  EXPECT_EQ(compileUnit.getAsText(), "{CompileUnit} \"\"");
+  EXPECT_EQ(compileUnit.getAsText(PrintSettings()), "{CompileUnit} \"\"");
 
   compileUnit.setName("c:/fakedir/fakefile.cpp");
 
-  EXPECT_EQ(compileUnit.getAsText(), "{CompileUnit} \"c:/fakedir/fakefile.cpp\"");
+  EXPECT_EQ(compileUnit.getAsText(PrintSettings()),
+            "{CompileUnit} \"c:/fakedir/fakefile.cpp\"");
 }
 
 TEST(Scope, getAsYAML_CompileUnit) {
@@ -394,32 +381,29 @@ TEST(Scope, getAsYAML_CompileUnit) {
 }
 
 TEST(Scope, getAsText_Enumeration) {
-  Reader R;
-  setReader(&R);
-
   ScopeEnumeration ScpEnumeration;
   ScpEnumeration.setIsEnumerationType();
-  EXPECT_EQ(ScpEnumeration.getAsText(), "{Enum} \"\"");
+  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()), "{Enum} \"\"");
 
   ScpEnumeration.setName("days");
-  EXPECT_EQ(ScpEnumeration.getAsText(), "{Enum} \"days\"");
+  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()), "{Enum} \"days\"");
 
   ScpEnumeration.setIsClass();
-  EXPECT_EQ(ScpEnumeration.getAsText(),
+  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()),
             "{Enum} class \"days\"");
 
   Type Ty;
   Ty.setName("unsigned int");
   ScpEnumeration.setName("days");
   ScpEnumeration.setType(&Ty);
-  EXPECT_EQ(ScpEnumeration.getAsText(),
+  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()),
             "{Enum} class \"days\" -> \"unsigned int\"");
 }
 
 TEST(Scope, getAsYAML_Enumeration) {
   Reader R;
   setReader(&R);
-
+  
   ScopeEnumeration Enum;
   Enum.setIsEnumerationType();
   Enum.setName("days");
@@ -469,11 +453,10 @@ TEST(Scope, getAsYAML_Enumeration) {
 }
 
 TEST(Scope, getAsText_Function) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getPrintSettings().ShowIndent = false;
+  Settings.ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -481,24 +464,24 @@ TEST(Scope, getAsText_Function) {
   ScpFunc.setIsScope();
   ScpFunc.setIsFunction();
   
-  EXPECT_EQ(ScpFunc.getAsText(),
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"\" -> \"void\"\n" + AttrIndent +
                         std::string("No declaration")));
 
-  R.getPrintSettings().ShowVoid = false;
-  EXPECT_EQ(ScpFunc.getAsText(),
+  Settings.ShowVoid = false;
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"\" -> \"\"\n" + AttrIndent +
                         std::string("No declaration")));
 
   ScpFunc.setName("qaz");
-  EXPECT_EQ(ScpFunc.getAsText(),
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"qaz\" -> \"\"\n" + AttrIndent +
                         std::string("No declaration")));
 
   Type RetType(0);
   RetType.setName("wsx");
   ScpFunc.setType(&RetType);
-  EXPECT_EQ(ScpFunc.getAsText(),
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"qaz\" -> \"wsx\"\n" + AttrIndent +
                         std::string("No declaration")));
 
@@ -507,7 +490,7 @@ TEST(Scope, getAsText_Function) {
   NS.setName("TestNamespace");
   ScpFunc.setParent(&NS);
   ScpFunc.resolveName();
-  EXPECT_EQ(ScpFunc.getAsText(),
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"TestNamespace::qaz\" -> \"wsx\"\n" +
                         AttrIndent + std::string("No declaration")));
 
@@ -517,7 +500,7 @@ TEST(Scope, getAsText_Function) {
   NS.setParent(&NS2);
   ScpFunc.resolveName();
   EXPECT_EQ(
-      ScpFunc.getAsText(),
+      ScpFunc.getAsText(Settings),
       std::string(
           "{Function} \"BaseNamespace::TestNamespace::qaz\" -> \"wsx\"\n" +
           AttrIndent + std::string("No declaration")));
@@ -527,7 +510,7 @@ TEST(Scope, getAsText_Function) {
   StaticFunc.setIsFunction();
   StaticFunc.setName("sf");
   StaticFunc.setIsStatic();
-  EXPECT_EQ(StaticFunc.getAsText(),
+  EXPECT_EQ(StaticFunc.getAsText(Settings),
             std::string("{Function} static \"sf\" -> \"\"\n" + AttrIndent +
                         std::string("No declaration")));
 
@@ -536,7 +519,7 @@ TEST(Scope, getAsText_Function) {
   DecInlineFunc.setIsFunction();
   DecInlineFunc.setName("dif");
   DecInlineFunc.setIsDeclaredInline();
-  EXPECT_EQ(DecInlineFunc.getAsText(),
+  EXPECT_EQ(DecInlineFunc.getAsText(Settings),
             std::string("{Function} inline \"dif\" -> \"\"\n" + AttrIndent +
                         std::string("No declaration")));
 
@@ -545,24 +528,23 @@ TEST(Scope, getAsText_Function) {
   ScpQualFunc.setIsFunction();
   ScpQualFunc.setName("qaz");
   ScpQualFunc.setType(&RetType);
-  EXPECT_EQ(ScpQualFunc.getAsText(),
+  EXPECT_EQ(ScpQualFunc.getAsText(Settings),
             std::string("{Function} \"qaz\" -> \"wsx\"\n" + AttrIndent +
                         std::string("No declaration")));
 
   RetType.setHasQualifiedName();
   RetType.setQualifiedName("base::");
-  EXPECT_EQ(ScpQualFunc.getAsText(),
+  EXPECT_EQ(ScpQualFunc.getAsText(Settings),
             std::string("{Function} \"qaz\" -> \"base::wsx\"\n" + AttrIndent +
                         std::string("No declaration")));
 }
 
 TEST(Scope, getAsText_Function_Attributes) {
-  Reader R;
-  setReader(&R);
-  R.getPrintSettings().ShowVoid = false;
+  PrintSettings Settings;
+  Settings.ShowVoid = false;
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getPrintSettings().ShowIndent = false;
+  Settings.ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
@@ -574,33 +556,35 @@ TEST(Scope, getAsText_Function_Attributes) {
   ScopeFunction DeclFunc;
   DeclFunc.setIsFunction();
   Expected.append("\n").append(AttrIndent);
-  EXPECT_EQ(DeclFunc.getAsText(), Expected + std::string("No declaration"));
+  EXPECT_EQ(DeclFunc.getAsText(Settings),
+            Expected + std::string("No declaration"));
 
   DeclFunc.setIsDeclaration();
-  EXPECT_EQ(DeclFunc.getAsText(), Expected + std::string("Is declaration"));
+  EXPECT_EQ(DeclFunc.getAsText(Settings),
+            Expected + std::string("Is declaration"));
 
   DeclFunc.setIsFunction();
   DeclFunc.setFileName("test/file.h");
   DeclFunc.setLineNumber(24);
   Func.setReference(&DeclFunc);
   Expected.append("Declaration @ ");
-  EXPECT_EQ(Func.getAsText(), Expected + std::string("file.h,24"));
+  EXPECT_EQ(Func.getAsText(Settings), Expected + std::string("file.h,24"));
 
   DeclFunc.setInvalidFileName();
   Expected.append("?,24");
-  EXPECT_EQ(Func.getAsText(), Expected);
+  EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   Func.setIsTemplate();
   Expected.append("\n").append(AttrIndent).append("Template");
-  EXPECT_EQ(Func.getAsText(), Expected);
+  EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   Func.setIsInlined();
   Expected.append("\n").append(AttrIndent).append("Inlined");
-  EXPECT_EQ(Func.getAsText(), Expected);
+  EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   Func.setIsDeclaration();
   Expected.append("\n").append(AttrIndent).append("Is declaration");
-  EXPECT_EQ(Func.getAsText(), Expected);
+  EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   Line Low1;
   Line Low2;
@@ -610,22 +594,19 @@ TEST(Scope, getAsText_Function_Attributes) {
   Low2.setLineNumber(4);
   High1.setLineNumber(20);
   High2.setLineNumber(30);
-  EXPECT_EQ(Func.getAsText(), Expected);
+  EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   // ScopeFunctionInlined.
   ScopeFunctionInlined inlined(0);
   inlined.setIsInlinedSubroutine();
   inlined.setName("Foo");
-  EXPECT_EQ(inlined.getAsText(),
+  EXPECT_EQ(inlined.getAsText(Settings),
     std::string("{Function} \"Foo\" -> \"\"\n") +
       AttrIndent + std::string("No declaration\n") +
       AttrIndent + std::string("Inlined"));
 }
 
 TEST(Scope, getAsYAML_Function) {
-  Reader R;
-  setReader(&R);
-
   ScopeFunction Func(0);
   Func.setIsScope();
   Func.setIsFunction();
@@ -839,26 +820,21 @@ TEST(Scope, getAsYAML_Function) {
 }
 
 TEST(Scope, getAsText_Namespace) {
-  Reader R;
-  setReader(&R);
-
   ScopeNamespace NS;
   NS.setIsNamespace();
-  EXPECT_EQ(NS.getAsText(), "{Namespace}");
+  EXPECT_EQ(NS.getAsText(PrintSettings()), "{Namespace}");
 
   NS.setName("TestNamespace");
-  EXPECT_EQ(NS.getAsText(), "{Namespace} \"TestNamespace\"");
+  EXPECT_EQ(NS.getAsText(PrintSettings()), "{Namespace} \"TestNamespace\"");
 
   ScopeNamespace Parent;
   Parent.setName("Base");
   NS.setParent(&Parent);
-  EXPECT_EQ(NS.getAsText(), "{Namespace} \"Base::TestNamespace\"");
+  EXPECT_EQ(NS.getAsText(PrintSettings()),
+            "{Namespace} \"Base::TestNamespace\"");
 }
 
 TEST(Scope, getAsYAML_Namespace) {
-  Reader R;
-  setReader(&R);
-
   ScopeNamespace NS;
   NS.setIsNamespace();
   NS.setName("TestNamespace");
@@ -879,41 +855,38 @@ TEST(Scope, getAsYAML_Namespace) {
 }
 
 TEST(Scope, getAsText_Root) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
-  EXPECT_EQ(Root.getAsText(), "{InputFile} \"\"");
+  EXPECT_EQ(Root.getAsText(PrintSettings()), "{InputFile} \"\"");
 
   Root.setName("test/file.o");
-  EXPECT_EQ(Root.getAsText(), "{InputFile} \"test/file.o\"");
+  EXPECT_EQ(Root.getAsText(PrintSettings()), "{InputFile} \"test/file.o\"");
 }
 
 TEST(Scope, getAsText_Struct) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
   Struct.setName("TestStruct");
-  EXPECT_EQ(Struct.getAsText(), "{Struct} \"TestStruct\"");
+  EXPECT_EQ(Struct.getAsText(Settings), "{Struct} \"TestStruct\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getPrintSettings().ShowIndent = false;
+  Settings.ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
   Struct.setIsTemplate();
-  EXPECT_EQ(Struct.getAsText(), std::string("{Struct} \"TestStruct\"\n") +
-                                    AttrIndent + std::string("Template"));
+  EXPECT_EQ(Struct.getAsText(Settings),
+            std::string("{Struct} \"TestStruct\"\n") + AttrIndent +
+                std::string("Template"));
 }
 
 TEST(Scope, getAsYAML_Struct) {
   Reader R;
   setReader(&R);
-
+  
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -961,7 +934,7 @@ TEST(Scope, getAsYAML_Struct) {
 TEST(Scope, getAsYAML_Unspecified_Struct) {
   Reader R;
   setReader(&R);
-
+  
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -1000,22 +973,19 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
 }
 
 TEST(Scope, getAsText_TemplatePack) {
-  Reader R;
-  setReader(&R);
-
   ScopeTemplatePack ScpTP;
   ScpTP.setIsScope();
   ScpTP.setIsTemplatePack();
-  EXPECT_EQ(ScpTP.getAsText(), "{TemplateParameter} \"\"");
+  EXPECT_EQ(ScpTP.getAsText(PrintSettings()), "{TemplateParameter} \"\"");
 
   ScpTP.setName("qaz");
-  EXPECT_EQ(ScpTP.getAsText(), "{TemplateParameter} \"qaz\"");
+  EXPECT_EQ(ScpTP.getAsText(PrintSettings()), "{TemplateParameter} \"qaz\"");
 }
 
 TEST(Scope, getAsYAML_TemplatePack) {
   Reader R;
   setReader(&R);
-
+  
   ScopeTemplatePack Pack;
   Pack.setIsTemplatePack();
   Pack.setName("TPack");
@@ -1065,29 +1035,25 @@ TEST(Scope, getAsYAML_TemplatePack) {
 }
 
 TEST(Scope, getAsText_Union) {
-  Reader R;
-  setReader(&R);
-
+  PrintSettings Settings;
+  
   ScopeAggregate Union;
   Union.setIsAggregate();
   Union.setIsUnionType();
   Union.setName("TestUnion");
-  EXPECT_EQ(Union.getAsText(), "{Union} \"TestUnion\"");
+  EXPECT_EQ(Union.getAsText(Settings), "{Union} \"TestUnion\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
-  R.getPrintSettings().ShowIndent = false;
+  Settings.ShowIndent = false;
   std::string AttrIndent(3 + 4 + 8, ' ');
   AttrIndent += "- ";
 
   Union.setIsTemplate();
-  EXPECT_EQ(Union.getAsText(), std::string("{Union} \"TestUnion\"\n") +
-                                   AttrIndent + std::string("Template"));
+  EXPECT_EQ(Union.getAsText(Settings), std::string("{Union} \"TestUnion\"\n") +
+                AttrIndent + std::string("Template"));
 }
 
 TEST(Scope, getAsYAML_Union) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Union;
   Union.setIsAggregate();
   Union.setIsUnionType();

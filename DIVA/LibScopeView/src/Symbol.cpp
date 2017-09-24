@@ -129,7 +129,8 @@ void Symbol::dump() {
 }
 
 void Symbol::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
 bool Symbol::dump(bool DoHeader, const char *Header) {
@@ -144,7 +145,7 @@ bool Symbol::dump(bool DoHeader, const char *Header) {
   return DoHeader;
 }
 
-std::string Symbol::getAsText() const {
+std::string Symbol::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   const Symbol *Sym = getIsInlined() ? Reference : this;
   Result << "{" << Sym->getKindAsString() << "}";
@@ -189,8 +190,9 @@ std::string Symbol::getAsText() const {
       Result << " <- ";
     else
       Result << " -> ";
-    Result << Sym->getTypeDieOffsetAsString() << "\""
-           << Sym->getTypeQualifiedName() << Sym->getTypeAsString() << "\"";
+    Result << Sym->getTypeDieOffsetAsString(Settings) << "\""
+           << Sym->getTypeQualifiedName() << Sym->getTypeAsString(Settings)
+           << "\"";
   }
 
   return Result.str();

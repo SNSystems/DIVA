@@ -146,6 +146,10 @@ namespace {
 // Visitor that creates all the full type names once the CU tree has been
 // created.
 class NameResolver : public ScopeVisitor {
+public:
+  NameResolver(const PrintSettings &PrintingSettings)
+      : Settings(PrintingSettings) {}
+
 private:
   void visitImpl(Object *Obj) override {
     resolve(Obj);
@@ -185,7 +189,7 @@ private:
       resolve(Func->getType());
 
     std::stringstream ResolvedName;
-    ResolvedName << Func->getTypeAsString() << " (*)(";
+    ResolvedName << Func->getTypeAsString(Settings) << " (*)(";
 
     // Add the parameters.
     bool First = true;
@@ -232,6 +236,7 @@ private:
     Array->setName(ResolvedName.c_str());
   }
 
+  const PrintSettings &Settings;
   std::unordered_set<Object *> AlreadyResolved;
 };
 
@@ -318,7 +323,7 @@ private:
 void Reader::postCreationActions() {
   assert(Scopes);
 
-  NameResolver().visit(Scopes);
+  NameResolver(Settings).visit(Scopes);
   ReferenceAttributeResolver().visit(Scopes);
   TreeResolver(*this).visit(Scopes);
 

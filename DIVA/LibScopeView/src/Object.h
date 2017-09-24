@@ -49,6 +49,7 @@
 namespace LibScopeView {
 
 class Object;
+class PrintSettings;
 class Scope;
 class Type;
 
@@ -262,7 +263,7 @@ public:
   /// \brief The level where this object is located.
   LevelType getLevel() const { return Level; }
   void setLevel(LevelType Lvl) { Level = Lvl; }
-  std::string getIndentString() const;
+  std::string getIndentString(const PrintSettings &Settings) const;
 
   bool referenceMatch(const Object *Obj) const;
 
@@ -274,9 +275,9 @@ public:
   virtual bool getIsCompileUnit() const { return false; }
 
   // Get some attributes as string.
-  const char *getDieOffsetAsString() const;
-  const char *getTypeDieOffsetAsString() const;
-  const char *getTypeAsString() const;
+  const char *getDieOffsetAsString(const PrintSettings &Settings) const;
+  const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
+  const char *getTypeAsString(const PrintSettings &Settings) const;
 
   /// \brief String to be used for objects with no line number.
   virtual const char *getNoLineString() const;
@@ -306,7 +307,7 @@ public:
   virtual void printAttributes();
 
   /// \brief Get the attributes associated with the object as string.
-  std::string getAttributesAsText();
+  std::string getAttributesAsText(const PrintSettings &Settings);
 
 public:
   static size_t getIndentationSize() { return IndentationSize; }
@@ -320,13 +321,14 @@ public:
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
   /// \brief Returns a text representation of this DIVA Object.
-  virtual std::string getAsText() const = 0;
+  virtual std::string getAsText(const PrintSettings &Settings) const = 0;
   /// \brief Returns a YAML representation of this DIVA Object.
   virtual std::string getAsYAML() const = 0;
 
 protected:
   /// \brief Returns a text representation of attribute information.
-  std::string getAttributeInfoAsText(const std::string &AttributeText) const;
+  std::string getAttributeInfoAsText(const std::string &AttributeText,
+                                     const PrintSettings &Settings) const;
   /// \brief Returns the common YAML information for this object.
   std::string getCommonYAML() const;
 

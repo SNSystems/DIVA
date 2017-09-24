@@ -80,8 +80,8 @@ public:
     Type = object;
   }
 
-  std::string getAsText() const { return nullptr; };
-  std::string getAsYAML() const { return nullptr; };
+  std::string getAsText(const PrintSettings &) const override { return ""; };
+  std::string getAsYAML() const override { return ""; };
 
   using Object::getCommonYAML;
 

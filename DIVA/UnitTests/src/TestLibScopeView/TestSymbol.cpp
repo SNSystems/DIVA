@@ -37,51 +37,49 @@
 using namespace LibScopeView;
 
 TEST(Symbol, getAsText_Member) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Symbol Sym;
   Sym.setIsMember();
   Sym.setAccessSpecifier(AccessSpecifier::Private);
-  EXPECT_EQ(Sym.getAsText(), "{Member} private -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private -> \"void\"");
 
-  R.getPrintSettings().ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(), "{Member} private -> \"\"");
+  Settings.ShowVoid = false;
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private -> \"\"");
 
   Sym.setName("Var");
-  EXPECT_EQ(Sym.getAsText(), "{Member} private \"Var\" -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"Var\" -> \"\"");
 
   Type Ty;
   Ty.setIsBaseType();
   Ty.setName("VarType");
   Sym.setType(&Ty);
-  EXPECT_EQ(Sym.getAsText(), "{Member} private \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"Var\" -> \"VarType\"");
 
   Sym.setAccessSpecifier(AccessSpecifier::Protected);
-  EXPECT_EQ(Sym.getAsText(), "{Member} protected \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings),
+            "{Member} protected \"Var\" -> \"VarType\"");
 
   Sym.setAccessSpecifier(AccessSpecifier::Public);
-  EXPECT_EQ(Sym.getAsText(), "{Member} public \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} public \"Var\" -> \"VarType\"");
 
   ScopeAggregate ParentClass;
   ParentClass.setIsClassType();
   Sym.setParent(&ParentClass);
   Sym.setAccessSpecifier(AccessSpecifier::Unspecified);
-  EXPECT_EQ(Sym.getAsText(), "{Member} private \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"Var\" -> \"VarType\"");
 
   ScopeAggregate ParentStruct;
   ParentStruct.setIsStructType();
   Sym.setParent(&ParentStruct);
-  EXPECT_EQ(Sym.getAsText(), "{Member} public \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} public \"Var\" -> \"VarType\"");
 
   Sym.setIsStatic();
-  EXPECT_EQ(Sym.getAsText(), "{Member} public static \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings),
+            "{Member} public static \"Var\" -> \"VarType\"");
 }
 
 TEST(Symbol, getAsYAML_Member) {
-  Reader R;
-  setReader(&R);
-
   Symbol Sym;
   Sym.setIsMember();
   Sym.setName("Var");
@@ -142,41 +140,37 @@ TEST(Symbol, getAsYAML_Member) {
 }
 
 TEST(Symbol, getAsText_Parameter) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Symbol Sym(0);
   Sym.setIsParameter();
-  EXPECT_EQ(Sym.getAsText(), "{Parameter} -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} -> \"void\"");
 
-  R.getPrintSettings().ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(), "{Parameter} -> \"\"");
+  Settings.ShowVoid = false;
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} -> \"\"");
 
   Sym.setName("qaz");
-  EXPECT_EQ(Sym.getAsText(), "{Parameter} \"qaz\" -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" -> \"\"");
 
   Type Ty(0);
   Ty.setIsBaseType();
   Ty.setName("wsx");
   Sym.setType(&Ty);
-  EXPECT_EQ(Sym.getAsText(), "{Parameter} \"qaz\" -> \"wsx\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" -> \"wsx\"");
 
   // Templates have the indicator reversed '<-'.
   Scope Scp(0);
   Scp.setIsScope();
   Scp.setIsTemplate();
   Sym.setParent(&Scp);
-  EXPECT_EQ(Sym.getAsText(), "{Parameter} \"qaz\" <- \"wsx\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" <- \"wsx\"");
 
   Symbol Unspec;
   Unspec.setIsUnspecifiedParameter();
-  EXPECT_EQ(Unspec.getAsText(), "{Parameter} \"...\"");
+  EXPECT_EQ(Unspec.getAsText(Settings), "{Parameter} \"...\"");
 }
 
 TEST(Symbol, getAsYAML_Parameter) {
-  Reader R;
-  setReader(&R);
-
   Symbol Sym;
   Sym.setIsParameter();
   Sym.setName("qaz");
@@ -219,38 +213,35 @@ TEST(Symbol, getAsYAML_Parameter) {
 }
 
 TEST(Symbol, getAsText_Variable) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Symbol Sym;
   Sym.setIsVariable();
-  EXPECT_EQ(Sym.getAsText(), "{Variable} -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} -> \"void\"");
 
-  R.getPrintSettings().ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(), "{Variable} -> \"\"");
+  Settings.ShowVoid = false;
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} -> \"\"");
 
   Sym.setName("Var");
-  EXPECT_EQ(Sym.getAsText(), "{Variable} \"Var\" -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} \"Var\" -> \"\"");
 
   Type Ty;
   Ty.setIsBaseType();
   Ty.setName("VarType");
   Sym.setType(&Ty);
-  EXPECT_EQ(Sym.getAsText(), "{Variable} \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} \"Var\" -> \"VarType\"");
 
   Sym.setIsStatic();
-  EXPECT_EQ(Sym.getAsText(), "{Variable} static \"Var\" -> \"VarType\"");
+  EXPECT_EQ(Sym.getAsText(Settings),
+            "{Variable} static \"Var\" -> \"VarType\"");
 
   Sym.setQualifiedName("Base::Class::");
   Sym.setHasQualifiedName();
-  EXPECT_EQ(Sym.getAsText(),
+  EXPECT_EQ(Sym.getAsText(Settings),
             "{Variable} static \"Base::Class::Var\" -> \"VarType\"");
 }
 
 TEST(Symbol, getAsYAML_Variable) {
-  Reader R;
-  setReader(&R);
-
   Symbol Sym;
   Sym.setIsVariable();
   Sym.setName("Var");

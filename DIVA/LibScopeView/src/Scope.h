@@ -386,7 +386,7 @@ public:
   virtual bool dumpAllowed() { return false; }
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -422,7 +422,7 @@ public:
 
 public:
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -441,7 +441,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -461,7 +461,7 @@ public:
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
 };
 
 /// \brief Class to represent a DWARF Compilation Unit (CU) object.
@@ -482,7 +482,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -503,7 +503,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -554,7 +554,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -626,7 +626,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -647,7 +647,7 @@ public:
   void dumpExtra() override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -673,7 +673,7 @@ public:
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
 };
 
 } // namespace LibScopeView

@@ -105,30 +105,31 @@ void Line::dump() {
 }
 
 void Line::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string Line::getAsText() const {
+std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
-  if (getReader()->getPrintSettings().ShowCodelineAttributes) {
+  if (Settings.ShowCodelineAttributes) {
     if (getIsNewStatement()) {
-      Result << '\n' << getAttributeInfoAsText(KindNewStatement);
+      Result << '\n' << getAttributeInfoAsText(KindNewStatement, Settings);
     }
     if (getIsPrologueEnd()) {
-      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd);
+      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd, Settings);
     }
     if (getIsLineEndSequence()) {
-      Result << '\n' << getAttributeInfoAsText(KindEndSequence);
+      Result << '\n' << getAttributeInfoAsText(KindEndSequence, Settings);
     }
     if (getIsNewBasicBlock()) {
-      Result << '\n' << getAttributeInfoAsText(KindBasicBlock);
+      Result << '\n' << getAttributeInfoAsText(KindBasicBlock, Settings);
     }
     if (getHasDiscriminator()) {
-      Result << '\n' << getAttributeInfoAsText(KindDiscriminator);
+      Result << '\n' << getAttributeInfoAsText(KindDiscriminator, Settings);
     }
     if (getIsEpilogueBegin()) {
-      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin);
+      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin, Settings);
     }
   }
   return Result.str();

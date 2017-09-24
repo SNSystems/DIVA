@@ -213,7 +213,7 @@ public:
 
   bool getIsPrintedAsObject() const override;
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -256,7 +256,7 @@ public:
 
   bool getIsPrintedAsObject() const override { return true; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -285,7 +285,7 @@ public:
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -315,13 +315,13 @@ public:
   bool getIsPrintedAsObject() const override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
 private:
   virtual std::string getInheritanceAsText() const;
-  virtual std::string getUsingAsText() const;
+  virtual std::string getUsingAsText(const PrintSettings &Settings) const;
   // Gets a YAML representation of DIVA Object as an Inheritance attribute.
   virtual std::string getInheritanceAsYAML() const;
   virtual std::string getUsingAsYAML() const;
@@ -354,7 +354,7 @@ public:
   bool getIsPrintedAsObject() const override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };

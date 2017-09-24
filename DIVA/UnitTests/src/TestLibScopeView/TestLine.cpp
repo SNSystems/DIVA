@@ -35,18 +35,12 @@
 using namespace LibScopeView;
 
 TEST(Line, getAsText_Line) {
-  Reader R;
-  setReader(&R);
-
   Line Ln(0);
   Ln.setIsLineRecord();
-  EXPECT_EQ(Ln.getAsText(), "{CodeLine}");
+  EXPECT_EQ(Ln.getAsText(PrintSettings()), "{CodeLine}");
 }
 
 TEST(Line, getAsYAML_Line) {
-  Reader R;
-  setReader(&R);
-
   Line Ln;
   Ln.setIsLineRecord();
   Ln.setLineNumber(52);
@@ -74,8 +68,6 @@ TEST(Line, getAsYAML_Line) {
 TEST(Line, getAsText_Line_Attributes) {
   PrintSettings Settings;
   Settings.ShowCodelineAttributes = true;
-  Reader R(Settings);
-  setReader(&R);
 
   Line Ln(/*level*/ 3);
   Ln.setIsLineRecord();
@@ -86,33 +78,30 @@ TEST(Line, getAsText_Line_Attributes) {
   Ln.setIsNewStatement();
   std::string Expected(
     std::string("{CodeLine}\n") + AttrIndent + std::string("- NewStatement"));
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsPrologueEnd();
   Expected += '\n' + AttrIndent + std::string("- PrologueEnd");
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsLineEndSequence();
   Expected += '\n' + AttrIndent + std::string("- EndSequence");
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsNewBasicBlock();
   Expected += '\n' + AttrIndent + std::string("- BasicBlock");
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setHasDiscriminator();
   Expected += '\n' + AttrIndent + std::string("- Discriminator");
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsEpilogueBegin();
   Expected += '\n' + AttrIndent + std::string("- EpilogueBegin");
-  EXPECT_EQ(Ln.getAsText(), Expected);
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 }
 
 TEST(Line, getAsYAML_Line_Attributes) {
-  Reader R;
-  setReader(&R);
-
   Line Ln;
   Ln.setIsLineRecord();
   Ln.setLineNumber(52);

@@ -128,16 +128,17 @@ const char *OffsetAsString(Dwarf_Off Offset) {
 
 } // namespace
 
-const char *Object::getDieOffsetAsString() const {
+const char *Object::getDieOffsetAsString(const PrintSettings &Settings) const {
   const char *Str = "";
-  if (getReader()->getPrintSettings().ShowDWARFOffset)
+  if (Settings.ShowDWARFOffset)
     Str = OffsetAsString(getDieOffset());
   return Str;
 }
 
-const char *Object::getTypeDieOffsetAsString() const {
+const char *Object::getTypeDieOffsetAsString(
+    const PrintSettings &Settings) const {
   const char *Str = "";
-  if (getReader()->getPrintSettings().ShowDWARFOffset) {
+  if (Settings.ShowDWARFOffset) {
     Str = OffsetAsString(getType() ? getType()->getDieOffset() : 0);
   }
   return Str;
@@ -189,10 +190,10 @@ const char *Object::getReferenceAsString(uint64_t LnNumber, bool Spaces) const {
   return Str;
 }
 
-const char *Object::getTypeAsString() const {
+const char *Object::getTypeAsString(const PrintSettings &Settings) const {
   return getHasType()
              ? (getTypeName())
-             : (getReader()->getPrintSettings().ShowVoid ? "void" : "");
+             : (Settings.ShowVoid ? "void" : "");
 }
 
 void Object::resolveQualifiedName(const Scope *ExplicitParent) {
@@ -219,13 +220,11 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
   }
 }
 
-std::string Object::getIndentString() const {
+std::string Object::getIndentString(const PrintSettings &Settings) const {
   // No indent for root.
   if (getLevel() == 0 && getIsScope() && getParent() == nullptr)
     return "";
-  return getReader()->getPrintSettings().ShowIndent
-             ? std::string((getLevel() + 1) * 2, ' ')
-             : "";
+  return Settings.ShowIndent ? std::string((getLevel() + 1) * 2, ' ') : "";
 }
 
 bool Object::referenceMatch(const Object *Obj) const {
@@ -406,7 +405,7 @@ std::string getTagString(const Dwarf_Half DWTag, const bool IsLine) {
 // Number of characters written by PrintAttributes.
 size_t Object::IndentationSize = 0;
 
-std::string Object::getAttributesAsText() {
+std::string Object::getAttributesAsText(const PrintSettings &Settings) {
   static bool CalculateIndentation = true;
   // Record the required space for the offsets (object and parent) and
   // DWARF tag. These fields are not required for the {InputFile} object.
@@ -419,25 +418,25 @@ std::string Object::getAttributesAsText() {
   // the first object.
   if (CalculateIndentation) {
     CalculateIndentation = false;
-    if (getReader()->getPrintSettings().ShowDWARFOffset) {
+    if (Settings.ShowDWARFOffset) {
       OffsetWidth = static_cast<size_t>(
           snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieOffset()));
       IndentationSize += OffsetWidth;
     }
-    if (getReader()->getPrintSettings().ShowDWARFParent) {
+    if (Settings.ShowDWARFParent) {
       ParentWidth = static_cast<size_t>(
           snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieParent()));
       IndentationSize += ParentWidth;
     }
-    if (getReader()->getPrintSettings().ShowLevel) {
+    if (Settings.ShowLevel) {
       IndentationSize +=
           static_cast<size_t>(snprintf(nullptr, 0, "%03d", getLevel()));
     }
-    if (getReader()->getPrintSettings().ShowIsGlobal) {
+    if (Settings.ShowIsGlobal) {
       IndentationSize += static_cast<size_t>(
           snprintf(nullptr, 0U, "%c", getIsGlobalReference() ? 'X' : ' '));
     }
-    if (getReader()->getPrintSettings().ShowDWARFTag) {
+    if (Settings.ShowDWARFTag) {
       std::string tag_str = getTagString(getDieTag(), getIsLine());
       TagWidth =
           static_cast<size_t>(snprintf(nullptr, 0U, "%-42s", tag_str.c_str()));
@@ -457,7 +456,7 @@ std::string Object::getAttributesAsText() {
 
   // Do not print the DIE offset, Level or DWARF TAG for a {InputFile} object.
   bool IsInputFileObject = (getIsScope() && !getParent());
-  if (getReader()->getPrintSettings().ShowDWARFOffset) {
+  if (Settings.ShowDWARFOffset) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(OffsetWidth, ' ').c_str());
@@ -469,7 +468,7 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getPrintSettings().ShowDWARFParent) {
+  if (Settings.ShowDWARFParent) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(ParentWidth, ' ').c_str());
@@ -481,7 +480,7 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getPrintSettings().ShowLevel) {
+  if (Settings.ShowLevel) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "   ");
     } else {
@@ -491,14 +490,14 @@ std::string Object::getAttributesAsText() {
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getPrintSettings().ShowIsGlobal) {
+  if (Settings.ShowIsGlobal) {
     Res = std::snprintf(Literal, MaxSize, "%c",
                         getIsGlobalReference() ? 'X' : ' ');
     assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
            "string overflow");
     Attributes += std::string(Literal);
   }
-  if (getReader()->getPrintSettings().ShowDWARFTag) {
+  if (Settings.ShowDWARFTag) {
     if (IsInputFileObject) {
       Res = std::snprintf(Literal, MaxSize, "%s",
                           std::string(TagWidth, ' ').c_str());
@@ -516,7 +515,8 @@ std::string Object::getAttributesAsText() {
 }
 
 void Object::printAttributes() {
-  GlobalPrintContext->print("%s", getAttributesAsText().c_str());
+  GlobalPrintContext->print(
+      "%s", getAttributesAsText(getReader()->getPrintSettings()).c_str());
 }
 
 // Record the last seen filename index. It is reset after the object that
@@ -553,20 +553,18 @@ void Object::dump() {
   printAttributes();
 
   // Print the line and any discriminator.
-  GlobalPrintContext->print(" %5s %s ", getLineNumberAsString(),
-                            getIndentString().c_str());
+  GlobalPrintContext->print(
+      " %5s %s ", getLineNumberAsString(),
+      getIndentString(getReader()->getPrintSettings()).c_str());
 }
 
 void Object::print(bool /*SplitCU*/, bool /*Match*/, bool /*IsNull*/) {
   dump();
 }
 
-std::string Object::getAsText() const { return ""; }
-
-std::string Object::getAsYAML() const { return ""; }
-
 std::string
-Object::getAttributeInfoAsText(const std::string &AttributeText) const {
+Object::getAttributeInfoAsText(const std::string &AttributeText,
+                               const PrintSettings &Settings) const {
   // First we want to indent for any left aligned info being printed
   // (indentation_size). An extra space is printed before the line number, after
   // the line number and after the level indent so we need to indent an extra 3
@@ -578,7 +576,7 @@ Object::getAttributeInfoAsText(const std::string &AttributeText) const {
       getNoLineString() + std::string(4, ' '));
 
   // Then we want to indent based on the object level and add the dash.
-  return ConstantIndent + getIndentString() + "- " + AttributeText;
+  return ConstantIndent + getIndentString(Settings) + "- " + AttributeText;
 }
 
 std::string Object::getCommonYAML() const {

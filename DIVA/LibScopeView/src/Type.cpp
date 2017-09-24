@@ -168,7 +168,8 @@ void Type::dump() {
 }
 
 void Type::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
 bool Type::dump(bool DoHeader, const char *Header) {
@@ -185,7 +186,7 @@ bool Type::dump(bool DoHeader, const char *Header) {
 
 bool Type::getIsPrintedAsObject() const { return getIsBaseType(); }
 
-std::string Type::getAsText() const {
+std::string Type::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
@@ -195,7 +196,7 @@ std::string Type::getAsText() const {
   unsigned byte_size = getByteSize();
   if (byte_size) {
     Result += '\n';
-    Result += getAttributeInfoAsText(std::to_string(byte_size));
+    Result += getAttributeInfoAsText(std::to_string(byte_size), Settings);
     Result += " bytes";
   }
   return Result;
@@ -255,17 +256,18 @@ void TypeDefinition::setUnderlyingType(Object *Obj) { setType(Obj); }
 
 void TypeDefinition::dumpExtra() {
   // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string TypeDefinition::getAsText() const {
+std::string TypeDefinition::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
   Result += "} \"";
   Result += getName();
   Result += "\" -> ";
-  Result += getTypeDieOffsetAsString();
+  Result += getTypeDieOffsetAsString(Settings);
   Result += "\"";
   if (getType() != nullptr)
     Result += getType()->getName();
@@ -296,14 +298,15 @@ size_t TypeEnumerator::getValueIndex() const { return ValueIndex; }
 
 void TypeEnumerator::dumpExtra() {
   // Print the full type.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string TypeEnumerator::getAsText() const {
+std::string TypeEnumerator::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText = "  -";
   std::string Name = getName();
   std::string Value = getValue();
-  std::string DieOffset = getTypeDieOffsetAsString();
+  std::string DieOffset = getTypeDieOffsetAsString(Settings);
 
   ObjectAsText.append(" \"").append(Name).append("\" = ").append(Value);
 
@@ -339,21 +342,17 @@ void TypeImport::setInheritanceAccess(AccessSpecifier access) {
 }
 
 void TypeImport::dumpExtra() {
-  if (getIsInheritance()) {
-    GlobalPrintContext->print("%s\n", getAsText().c_str());
-    return;
-  }
-  // Do not print the full type name; just the imported object.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
 bool TypeImport::getIsPrintedAsObject() const { return !getIsInheritance(); }
 
-std::string TypeImport::getAsText() const {
+std::string TypeImport::getAsText(const PrintSettings &Settings) const {
   if (getIsInheritance())
     return getInheritanceAsText();
   else
-    return getUsingAsText();
+    return getUsingAsText(Settings);
 }
 
 std::string TypeImport::getInheritanceAsText() const {
@@ -381,10 +380,10 @@ std::string TypeImport::getInheritanceAsText() const {
   return Result.str();
 }
 
-std::string TypeImport::getUsingAsText() const {
+std::string TypeImport::getUsingAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "}";
-  Result << getTypeDieOffsetAsString();
+  Result << getTypeDieOffsetAsString(Settings);
   Object *objtype = getType();
   if (objtype) {
     Scope *Parent = nullptr;
@@ -533,7 +532,8 @@ size_t TypeParam::getValueIndex() const { return ValueIndex; }
 void TypeParam::dumpExtra() {
   // Depending on the type of parameter, the dump includes different
   // information: type, value or reference to a template.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
 bool TypeParam::getIsPrintedAsObject() const {
@@ -541,7 +541,7 @@ bool TypeParam::getIsPrintedAsObject() const {
   return !(getParent() && getParent()->getIsTemplatePack());
 }
 
-std::string TypeParam::getAsText() const {
+std::string TypeParam::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   // Template packs print differently.
   const Scope *Parent = getParent();
@@ -555,7 +555,7 @@ std::string TypeParam::getAsText() const {
     Result += "\" ";
   }
   Result += "<- ";
-  Result += getTypeDieOffsetAsString();
+  Result += getTypeDieOffsetAsString(Settings);
 
   if (getIsTemplateType()) {
     Result += "\"";
@@ -599,7 +599,8 @@ TypeSubrange::~TypeSubrange() {}
 
 void TypeSubrange::dumpExtra() {
   // Print the full type name.
-  GlobalPrintContext->print("{%s} -> %s'%s' '%s'\n", getKindAsString(),
-                            getTypeDieOffsetAsString(), getTypeName(),
-                            getName());
+  GlobalPrintContext->print(
+      "{%s} -> %s'%s' '%s'\n", getKindAsString(),
+      getTypeDieOffsetAsString(getReader()->getPrintSettings()), getTypeName(),
+      getName());
 }

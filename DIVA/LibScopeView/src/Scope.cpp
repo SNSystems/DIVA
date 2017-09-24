@@ -432,7 +432,7 @@ void Scope::dump() {
 }
 
 void Scope::dumpExtra() {
-  std::string Text = getAsText();
+  std::string Text = getAsText(getReader()->getPrintSettings());
   if (!Text.empty())
     GlobalPrintContext->print("%s\n", Text.c_str());
 }
@@ -449,15 +449,15 @@ bool Scope::dump(bool DoHeader, const char *Header) {
   return DoHeader;
 }
 
-std::string Scope::getAsText() const {
+std::string Scope::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   if (getIsBlock()) {
     Result << '{' << getKindAsString() << '}';
-    if (getReader()->getPrintSettings().ShowBlockAttributes) {
+    if (Settings.ShowBlockAttributes) {
       if (getIsTryBlock())
-        Result << '\n' << getAttributeInfoAsText("try");
+        Result << '\n' << getAttributeInfoAsText("try", Settings);
       else if (getIsCatchBlock())
-        Result << '\n' << getAttributeInfoAsText("catch");
+        Result << '\n' << getAttributeInfoAsText("catch", Settings);
     }
   }
   return Result.str();
@@ -483,7 +483,7 @@ ScopeAggregate::ScopeAggregate() : Scope() { Reference = nullptr; }
 
 ScopeAggregate::~ScopeAggregate() {}
 
-std::string ScopeAggregate::getAsText() const {
+std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   const char *Name = getName();
   Result = "{";
@@ -495,7 +495,7 @@ std::string ScopeAggregate::getAsText() const {
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template");
+    Result += getAttributeInfoAsText("Template", Settings);
   }
 
   return Result;
@@ -536,14 +536,15 @@ ScopeAlias::ScopeAlias() : Scope() {}
 ScopeAlias::~ScopeAlias() {}
 
 void ScopeAlias::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeAlias::getAsText() const {
+std::string ScopeAlias::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} \"" << getName() << "\" -> "
-         << getTypeDieOffsetAsString() << '"' << getTypeQualifiedName()
-         << getTypeAsString() << '"';
+         << getTypeDieOffsetAsString(Settings) << '"' << getTypeQualifiedName()
+         << getTypeAsString(Settings) << '"';
   return Result.str();
 }
 
@@ -558,13 +559,14 @@ ScopeArray::ScopeArray() : Scope() {}
 ScopeArray::~ScopeArray() {}
 
 void ScopeArray::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeArray::getAsText() const {
+std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
-  Result << "{" << getKindAsString() << "} " << getTypeDieOffsetAsString()
-         << '"' << getName() << '"';
+  Result << "{" << getKindAsString() << "} "
+         << getTypeDieOffsetAsString(Settings) << '"' << getName() << '"';
   return Result.str();
 }
 
@@ -589,11 +591,12 @@ void ScopeCompileUnit::dump() {
 }
 
 void ScopeCompileUnit::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
   resetFileIndex();
 }
 
-std::string ScopeCompileUnit::getAsText() const {
+std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
   std::string ObjectAsText;
   ObjectAsText.append("{").append(getKindAsString()).append("}");
   ObjectAsText.append(" \"").append(getName()).append("\"");
@@ -614,10 +617,11 @@ ScopeEnumeration::~ScopeEnumeration() {}
 
 void ScopeEnumeration::dumpExtra() {
   // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeEnumeration::getAsText() const {
+std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
   std::string ObjectAsText;
   std::string Name = getName();
 
@@ -673,10 +677,11 @@ ScopeFunction::ScopeFunction()
 ScopeFunction::~ScopeFunction() {}
 
 void ScopeFunction::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeFunction::getAsText() const {
+std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
   Result += getKindAsString();
   Result += "}";
@@ -693,16 +698,16 @@ std::string ScopeFunction::getAsText() const {
   Result += Name;
   Result += "\"";
   Result += " -> ";
-  Result += getDieOffsetAsString();
+  Result += getDieOffsetAsString(Settings);
   Result += "\"";
   Result += getTypeQualifiedName();
-  Result += getTypeAsString();
+  Result += getTypeAsString(Settings);
   Result += "\"";
 
   // Attributes.
   if (Reference && Reference->getIsFunction()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Declaration @ ");
+    Result += getAttributeInfoAsText("Declaration @ ", Settings);
     // Cast to element as Scope has a different overload (not override) of
     // getFileName that returns nothing.
     if (!Reference->getInvalidFileName())
@@ -715,21 +720,21 @@ std::string ScopeFunction::getAsText() const {
   } else {
     if (!getIsDeclaration()) {
       Result += '\n';
-      Result += getAttributeInfoAsText("No declaration");
+      Result += getAttributeInfoAsText("No declaration", Settings);
     }
   }
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template");
+    Result += getAttributeInfoAsText("Template", Settings);
   }
   if (getIsInlined()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Inlined");
+    Result += getAttributeInfoAsText("Inlined", Settings);
   }
   if (getIsDeclaration()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Is declaration");
+    Result += getAttributeInfoAsText("Is declaration", Settings);
   }
 
   return Result;
@@ -787,10 +792,11 @@ ScopeNamespace::ScopeNamespace() : Scope() { Reference = nullptr; }
 ScopeNamespace::~ScopeNamespace() {}
 
 void ScopeNamespace::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeNamespace::getAsText() const {
+std::string ScopeNamespace::getAsText(const PrintSettings &) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
   std::string Name;
@@ -813,10 +819,11 @@ ScopeTemplatePack::~ScopeTemplatePack() {}
 
 void ScopeTemplatePack::dumpExtra() {
   // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeTemplatePack::getAsText() const {
+std::string ScopeTemplatePack::getAsText(const PrintSettings &) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
@@ -867,10 +874,11 @@ void ScopeRoot::dump() {
 }
 
 void ScopeRoot::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+  GlobalPrintContext->print("%s\n",
+                            getAsText(getReader()->getPrintSettings()).c_str());
 }
 
-std::string ScopeRoot::getAsText() const {
+std::string ScopeRoot::getAsText(const PrintSettings &) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} \"" << getName() << '"';
   return Result.str();
