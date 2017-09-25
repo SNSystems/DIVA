@@ -297,14 +297,10 @@ public:
 
 public:
   /// \brief Gets the child symbol at the specified index.
-  Symbol *getSymbolAt(size_t Index) const {
-    return TheSymbols.at(Index);
-  }
+  Symbol *getSymbolAt(size_t Index) const { return TheSymbols.at(Index); }
 
   /// \brief Gets the child scope at the specified index.
-  Scope *getScopeAt(size_t Index) const {
-    return TheScopes.at(Index);
-  }
+  Scope *getScopeAt(size_t Index) const { return TheScopes.at(Index); }
 
 public:
   const std::vector<Object *> &getChildren() const { return Children; }
@@ -318,9 +314,7 @@ public:
   const std::vector<Type *> &getTypes() const { return TheTypes; }
 
   /// \brief Get the number of children.
-  size_t getChildrenCount() const {
-    return getChildren().size();
-  }
+  size_t getChildrenCount() const { return getChildren().size(); }
 
   /// \brief Get the number of lines.
   size_t getLineCount() const { return getLines().size(); }
@@ -344,12 +338,13 @@ public:
   void traverse(ScopeGetFunction GetFunc, ScopeSetFunction SetFunc, bool down);
 
   /// \brief Navigate down the current scope and perform the callback.
-  void print(bool SplitCU, bool Match, bool IsNull) override;
+  void print(bool SplitCU, bool Match, bool IsNull,
+             const PrintSettings &Settings) override;
 
   const char *resolveName();
 
-  void sortScopes();
-  void sortCompileUnits();
+  void sortScopes(const SortingKey &SortKey);
+  void sortCompileUnits(const SortingKey &SortKey);
 
   // bring parent method getQualifiedName into scope.
   using Element::getQualifiedName;
@@ -377,16 +372,17 @@ protected:
 
 public:
   /// \brief Decide if the object will be printed.
-  bool resolvePrinting();
+  bool resolvePrinting(const PrintSettings &Settings);
 
 public:
-  void dump() override;
-  virtual void dumpExtra();
-  virtual bool dump(bool DoHeader, const char *Header);
+  void dump(const PrintSettings &Settings) override;
+  virtual void dumpExtra(const PrintSettings &Settings);
+  virtual bool dump(bool DoHeader, const char *Header,
+                    const PrintSettings &Settings);
   virtual bool dumpAllowed() { return false; }
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -422,7 +418,7 @@ public:
 
 public:
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -438,10 +434,10 @@ public:
   ScopeAlias(const ScopeAlias &) = delete;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -457,11 +453,11 @@ public:
   ScopeArray(const ScopeArray &) = delete;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
 };
 
 /// \brief Class to represent a DWARF Compilation Unit (CU) object.
@@ -478,11 +474,11 @@ public:
   void setName(const char *Name) override;
 
 public:
-  void dump() override;
-  void dumpExtra() override;
+  void dump(const PrintSettings &Settings) override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -500,10 +496,10 @@ public:
   ScopeEnumeration(const ScopeEnumeration &) = delete;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -551,10 +547,10 @@ public:
   void setIsDeclaration() { IsDeclaration = true; }
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -623,10 +619,10 @@ public:
   }
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -644,10 +640,10 @@ public:
   ScopeTemplatePack(const ScopeTemplatePack &) = delete;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -666,14 +662,14 @@ public:
   void setName(const char *Name) override;
 
 public:
-  void dump() override;
-  void dumpExtra() override;
+  void dump(const PrintSettings &Settings) override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool dumpAllowed() override { return true; }
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
 };
 
 } // namespace LibScopeView

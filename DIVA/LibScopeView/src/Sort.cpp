@@ -94,8 +94,8 @@ bool LibScopeView::sortByOffset(const Object *LHS, const Object *RHS) {
   return compareOffset(LHS, RHS) < 0;
 }
 
-SortFunction LibScopeView::getSortFunction() {
-  switch (getReader()->getPrintSettings().SortKey) {
+SortFunction LibScopeView::getSortFunction(const SortingKey &SortKey) {
+  switch (SortKey) {
   case SortingKey::LINE:
     return sortByLine;
   case SortingKey::OFFSET:

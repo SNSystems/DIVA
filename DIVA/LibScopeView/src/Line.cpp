@@ -36,8 +36,7 @@
 
 using namespace LibScopeView;
 
-Line::Line(LevelType Lvl)
-    : Element(Lvl), Discriminator(0) {
+Line::Line(LevelType Lvl) : Element(Lvl), Discriminator(0) {
   setIsLine();
 
   Line::setTag();
@@ -91,44 +90,44 @@ std::string Line::getLineNumberAsStringStripped() {
   return trim(number);
 }
 
-void Line::dump() {
-  if (getReader()->getPrintSettings().printObject(*this)) {
+void Line::dump(const PrintSettings &Settings) {
+  if (Settings.printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
     // Common Object Data.
-    Element::dump();
+    Element::dump(Settings);
 
     // Specific Object Data.
-    dumpExtra();
+    dumpExtra(Settings);
   }
 }
 
-void Line::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+void Line::dumpExtra(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
-std::string Line::getAsText() const {
+std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
-  if (getReader()->getPrintSettings().ShowCodelineAttributes) {
+  if (Settings.ShowCodelineAttributes) {
     if (getIsNewStatement()) {
-      Result << '\n' << getAttributeInfoAsText(KindNewStatement);
+      Result << '\n' << getAttributeInfoAsText(KindNewStatement, Settings);
     }
     if (getIsPrologueEnd()) {
-      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd);
+      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd, Settings);
     }
     if (getIsLineEndSequence()) {
-      Result << '\n' << getAttributeInfoAsText(KindEndSequence);
+      Result << '\n' << getAttributeInfoAsText(KindEndSequence, Settings);
     }
     if (getIsNewBasicBlock()) {
-      Result << '\n' << getAttributeInfoAsText(KindBasicBlock);
+      Result << '\n' << getAttributeInfoAsText(KindBasicBlock, Settings);
     }
     if (getHasDiscriminator()) {
-      Result << '\n' << getAttributeInfoAsText(KindDiscriminator);
+      Result << '\n' << getAttributeInfoAsText(KindDiscriminator, Settings);
     }
     if (getIsEpilogueBegin()) {
-      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin);
+      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin, Settings);
     }
   }
   return Result.str();

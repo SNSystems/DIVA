@@ -37,21 +37,19 @@
 using namespace LibScopeView;
 
 TEST(Type, getAsText_Enumerator) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   TypeEnumerator TyEnumerator;
 
   TyEnumerator.setName("mon");
-  EXPECT_EQ(TyEnumerator.getAsText(), "  - \"mon\" = ");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = ");
 
   TyEnumerator.setValue("10");
-  EXPECT_EQ(TyEnumerator.getAsText(), "  - \"mon\" = 10");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10");
 
-
-  R.getPrintSettings().ShowDWARFOffset = true;
+  Settings.ShowDWARFOffset = true;
   TyEnumerator.setDieOffset(0x0);
-  EXPECT_EQ(TyEnumerator.getAsText(), "  - \"mon\" = 10 [0x00000000]");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10 [0x00000000]");
 }
 
 TEST(Type, getAsYAML_Enumerator) {
@@ -61,8 +59,7 @@ TEST(Type, getAsYAML_Enumerator) {
 }
 
 TEST(Type, getAsText_Inheritance) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Type Base;
   Base.setName("Base");
@@ -75,26 +72,25 @@ TEST(Type, getAsText_Inheritance) {
   TypeImport Inherit;
   Inherit.setIsInheritance();
   Inherit.setParent(&ParentClass);
-  EXPECT_EQ(Inherit.getAsText(), "  - private \"\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "  - private \"\"");
 
   // Test type name, no access, struct parent.
   Inherit.setType(&Base);
   Inherit.setParent(&ParentStruct);
-  EXPECT_EQ(Inherit.getAsText(), "  - public \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "  - public \"Base\"");
 
   // Test different access.
   Inherit.setParent(nullptr); // Parent should not be checked.
   Inherit.setInheritanceAccess(AccessSpecifier::Private);
-  EXPECT_EQ(Inherit.getAsText(), "  - private \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "  - private \"Base\"");
   Inherit.setInheritanceAccess(AccessSpecifier::Protected);
-  EXPECT_EQ(Inherit.getAsText(), "  - protected \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "  - protected \"Base\"");
   Inherit.setInheritanceAccess(AccessSpecifier::Public);
-  EXPECT_EQ(Inherit.getAsText(), "  - public \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "  - public \"Base\"");
 }
 
 TEST(Type, getAsText_Param) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Type Ty;
   Ty.setName("wsx");
@@ -106,15 +102,17 @@ TEST(Type, getAsText_Param) {
   TyParam.setName("qaz");
   TyParam.setType(&Ty);
   TyParam.setIsTemplateType();
-  EXPECT_EQ(TyParam.getAsText(), "{TemplateParameter} \"qaz\" <- \"wsx\"");
+  EXPECT_EQ(TyParam.getAsText(Settings),
+            "{TemplateParameter} \"qaz\" <- \"wsx\"");
 
   Ty.setQualifiedName("base::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(TyParam.getAsText(), "{TemplateParameter} \"qaz\" <- \"base::wsx\"");
+  EXPECT_EQ(TyParam.getAsText(Settings),
+            "{TemplateParameter} \"qaz\" <- \"base::wsx\"");
 
   TyParam.setQualifiedName("base::");
   TyParam.setHasQualifiedName();
-  EXPECT_EQ(TyParam.getAsText(),
+  EXPECT_EQ(TyParam.getAsText(Settings),
             "{TemplateParameter} \"base::qaz\" <- \"base::wsx\"");
 
   // Template value.
@@ -122,14 +120,15 @@ TEST(Type, getAsText_Param) {
   TemplateValue.setIsTemplateValue();
   TemplateValue.setName("TVal");
   TemplateValue.setValue("101");
-  EXPECT_EQ(TemplateValue.getAsText(), "{TemplateParameter} \"TVal\" <- 101");
+  EXPECT_EQ(TemplateValue.getAsText(Settings),
+            "{TemplateParameter} \"TVal\" <- 101");
 
   // Template template.
   TypeParam TemplateTemplate;
   TemplateTemplate.setIsTemplateTemplate();
   TemplateTemplate.setName("TTemp");
   TemplateTemplate.setValue("vector");
-  EXPECT_EQ(TemplateTemplate.getAsText(),
+  EXPECT_EQ(TemplateTemplate.getAsText(Settings),
             "{TemplateParameter} \"TTemp\" <- \"vector\"");
 
   // Template packs print differently.
@@ -137,13 +136,10 @@ TEST(Type, getAsText_Param) {
   ScpTP.setIsScope();
   ScpTP.setIsTemplatePack();
   TyParam.setParent(&ScpTP);
-  EXPECT_EQ(TyParam.getAsText(), "<- \"base::wsx\"");
+  EXPECT_EQ(TyParam.getAsText(Settings), "<- \"base::wsx\"");
 }
 
 TEST(Type, getAsYAML_Param) {
-  Reader R;
-  setReader(&R);
-
   Type Ty;
   Ty.setName("Ty");
 
@@ -233,34 +229,32 @@ TEST(Type, getAsYAML_Param) {
 }
 
 TEST(Type, getAsText_PrimitiveType) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
-  Type Ty(/*level*/3);
+  Type Ty(/*level*/ 3);
   Ty.setIsBaseType();
   Ty.setIncludeInPrint();
 
-  EXPECT_EQ(Ty.getAsText(), "{PrimitiveType} -> \"\"");
+  EXPECT_EQ(Ty.getAsText(Settings), "{PrimitiveType} -> \"\"");
 
   Ty.setName("qaz");
-  EXPECT_EQ(Ty.getAsText(), "{PrimitiveType} -> \"qaz\"");
+  EXPECT_EQ(Ty.getAsText(Settings), "{PrimitiveType} -> \"qaz\"");
 
   // See Object::getAttributeInfoAsText() for why the indent is this size.
   std::string AttrIndent(3 + 4 + 8 + ((Ty.getLevel() + 1) * 2), ' ');
 
   Ty.setByteSize(4);
-  EXPECT_EQ(Ty.getAsText(), std::string("{PrimitiveType} -> \"qaz\"") +
-    '\n' + AttrIndent + std::string("- 4 bytes"));
+  EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
+                                        '\n' + AttrIndent +
+                                        std::string("- 4 bytes"));
 
   Ty.setByteSize(23);
-  EXPECT_EQ(Ty.getAsText(), std::string("{PrimitiveType} -> \"qaz\"") +
-    '\n' + AttrIndent + std::string("- 23 bytes"));
+  EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
+                                        '\n' + AttrIndent +
+                                        std::string("- 23 bytes"));
 }
 
 TEST(Type, getAsYAML_PrimitiveType) {
-  Reader R;
-  setReader(&R);
-
   Type Ty;
   Ty.setIsBaseType();
   Ty.setName("qaz");
@@ -284,31 +278,27 @@ TEST(Type, getAsYAML_PrimitiveType) {
 }
 
 TEST(Type, getAsText_Typedef) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   TypeDefinition TyDef(0);
   ASSERT_TRUE(TyDef.getIsPrintedAsObject());
   TyDef.setIsTypedef();
   TyDef.setIncludeInPrint();
 
-  EXPECT_EQ(TyDef.getAsText(), "{Alias} \"\" -> \"\"");
+  EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"\" -> \"\"");
 
   TyDef.setName("qaz");
-  EXPECT_EQ(TyDef.getAsText(), "{Alias} \"qaz\" -> \"\"");
+  EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"qaz\" -> \"\"");
 
   TypeDefinition TyDef2(0);
   TyDef2.setIsTypedef();
   TyDef2.setIncludeInPrint();
   TyDef2.setName("wsx");
   TyDef.setType(&TyDef2);
-  EXPECT_EQ(TyDef.getAsText(), "{Alias} \"qaz\" -> \"wsx\"");
+  EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"qaz\" -> \"wsx\"");
 }
 
 TEST(Type, getAsYAML_Typedef) {
-  Reader R;
-  setReader(&R);
-
   TypeDefinition TD(0);
   TD.setIsTypedef();
   TD.setDieOffset(0x84);
@@ -333,8 +323,7 @@ TEST(Type, getAsYAML_Typedef) {
 }
 
 TEST(Type, getAsText_Using) {
-  Reader R;
-  setReader(&R);
+  PrintSettings Settings;
 
   Scope CU(0);
   CU.setIsCompileUnit();
@@ -346,7 +335,8 @@ TEST(Type, getAsText_Using) {
   NS.setName("test_name");
   NS.setParent(&CU);
   UsingNamespace.setType(&NS);
-  EXPECT_EQ(UsingNamespace.getAsText(), "{Using} namespace \"test_name\"");
+  EXPECT_EQ(UsingNamespace.getAsText(Settings),
+            "{Using} namespace \"test_name\"");
 
   TypeImport UsingType;
   UsingType.setIsImportedDeclaration();
@@ -354,12 +344,13 @@ TEST(Type, getAsText_Using) {
   Ty.setName("test_type");
   Ty.setParent(&CU);
   UsingType.setType(&Ty);
-  EXPECT_EQ(UsingType.getAsText(), "{Using} type \"test_type\"");
+  EXPECT_EQ(UsingType.getAsText(Settings), "{Using} type \"test_type\"");
 
   Scope Parent(0);
   Parent.setName("parent");
   Ty.setParent(&Parent);
-  EXPECT_EQ(UsingType.getAsText(), "{Using} type \"parent::test_type\"");
+  EXPECT_EQ(UsingType.getAsText(Settings),
+            "{Using} type \"parent::test_type\"");
 
   TypeImport UsingVariable;
   UsingVariable.setIsImportedDeclaration();
@@ -368,11 +359,12 @@ TEST(Type, getAsText_Using) {
   Variable.setName("test_variable");
   Variable.setParent(&CU);
   UsingVariable.setType(&Variable);
-  EXPECT_EQ(UsingVariable.getAsText(), "{Using} variable \"test_variable\"");
+  EXPECT_EQ(UsingVariable.getAsText(Settings),
+            "{Using} variable \"test_variable\"");
 
   Variable.setParent(&Parent);
-  EXPECT_EQ(UsingVariable.getAsText(),
-    "{Using} variable \"parent::test_variable\"");
+  EXPECT_EQ(UsingVariable.getAsText(Settings),
+            "{Using} variable \"parent::test_variable\"");
 
   TypeImport UsingMember;
   UsingMember.setIsImportedDeclaration();
@@ -381,11 +373,12 @@ TEST(Type, getAsText_Using) {
   Member.setName("test_member");
   Member.setParent(&CU);
   UsingMember.setType(&Member);
-  EXPECT_EQ(UsingMember.getAsText(), "{Using} variable \"test_member\"");
+  EXPECT_EQ(UsingMember.getAsText(Settings),
+            "{Using} variable \"test_member\"");
 
   Member.setParent(&Parent);
-  EXPECT_EQ(UsingMember.getAsText(),
-    "{Using} variable \"parent::test_member\"");
+  EXPECT_EQ(UsingMember.getAsText(Settings),
+            "{Using} variable \"parent::test_member\"");
 
   TypeImport UsingFunction;
   UsingFunction.setIsImportedDeclaration();
@@ -394,11 +387,12 @@ TEST(Type, getAsText_Using) {
   Func.setName("test_function");
   Func.setParent(&CU);
   UsingFunction.setType(&Func);
-  EXPECT_EQ(UsingFunction.getAsText(), "{Using} function \"test_function\"");
+  EXPECT_EQ(UsingFunction.getAsText(Settings),
+            "{Using} function \"test_function\"");
 
   Func.setParent(&Parent);
-  EXPECT_EQ(UsingFunction.getAsText(),
-    "{Using} function \"parent::test_function\"");
+  EXPECT_EQ(UsingFunction.getAsText(Settings),
+            "{Using} function \"parent::test_function\"");
 
   TypeImport UsingStruct;
   UsingStruct.setIsImportedDeclaration();
@@ -407,23 +401,21 @@ TEST(Type, getAsText_Using) {
   ScpStruct.setName("test_struct");
   ScpStruct.setParent(&CU);
   UsingStruct.setType(&ScpStruct);
-  EXPECT_EQ(UsingStruct.getAsText(), "{Using} type \"test_struct\"");
+  EXPECT_EQ(UsingStruct.getAsText(Settings), "{Using} type \"test_struct\"");
 
   ScpStruct.setParent(&Parent);
-  EXPECT_EQ(UsingStruct.getAsText(), "{Using} type \"parent::test_struct\"");
+  EXPECT_EQ(UsingStruct.getAsText(Settings),
+            "{Using} type \"parent::test_struct\"");
 
   // What if we have nested parents?
   Scope GrandParent(0);
   GrandParent.setName("grandparent");
   Parent.setParent(&GrandParent);
-  EXPECT_EQ(UsingFunction.getAsText(),
-    "{Using} function \"grandparent::parent::test_function\"");
+  EXPECT_EQ(UsingFunction.getAsText(Settings),
+            "{Using} function \"grandparent::parent::test_function\"");
 }
 
 TEST(Type, getAsYAML_Using) {
-  Reader R;
-  setReader(&R);
-
   Scope CU(0);
   CU.setIsCompileUnit();
   CU.setName("I should never be seen!");

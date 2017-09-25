@@ -47,9 +47,7 @@ enum class DwarfAttrValueKind;
 
 class DwarfReader : public LibScopeView::Reader {
 public:
-  explicit DwarfReader(const LibScopeView::PrintSettings &PrintingSettings)
-      : LibScopeView::Reader(PrintingSettings) {}
-
+  DwarfReader() : LibScopeView::Reader() {}
   ~DwarfReader() override {}
 
   DwarfReader(const DwarfReader &) = delete;
@@ -97,15 +95,15 @@ private:
 
   /// Get an attribute, but produce a warning an return an empty DwarfAttrValue
   /// if the value is not the ExpectedKind or ValueKind::Empty.
-  DwarfAttrValue
-  getAttrExpectingKind(const DwarfDie &Die, const Dwarf_Half Attr,
-                       const DwarfAttrValueKind ExpectedKind);
+  DwarfAttrValue getAttrExpectingKind(const DwarfDie &Die,
+                                      const Dwarf_Half Attr,
+                                      const DwarfAttrValueKind ExpectedKind);
 
   /// Get an attribute, but produce a warning an return an empty DwarfAttrValue
   /// if the value is not in the ExpectedKinds or ValueKind::Empty.
-  DwarfAttrValue getAttrExpectingKinds(
-      const DwarfDie &Die, const Dwarf_Half Attr,
-      const std::set<DwarfAttrValueKind> &ExpectedKinds);
+  DwarfAttrValue
+  getAttrExpectingKinds(const DwarfDie &Die, const Dwarf_Half Attr,
+                        const std::set<DwarfAttrValueKind> &ExpectedKinds);
 
   /// Return true if Die has Attr and the value is a flag set to true.
   bool attrIsTrueFlag(const DwarfDie &Die, const Dwarf_Half Attr);

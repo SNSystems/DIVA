@@ -30,6 +30,8 @@
 #ifndef SCOPEVIEW_PRINTSETTINGS_H
 #define SCOPEVIEW_PRINTSETTINGS_H
 
+#include "Sort.h"
+
 #include <regex>
 #include <set>
 #include <vector>
@@ -37,8 +39,6 @@
 namespace LibScopeView {
 
 class Object;
-
-enum class SortingKey { LINE, OFFSET, NAME };
 
 class PrintSettings {
 public:

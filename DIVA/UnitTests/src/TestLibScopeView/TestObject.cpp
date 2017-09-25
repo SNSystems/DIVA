@@ -47,17 +47,11 @@ public:
     static std::string Kind("ObjKind");
     return Kind.c_str();
   }
-  const char *getName() const override {
-    return Name.c_str();
-  }
+  const char *getName() const override { return Name.c_str(); }
   size_t getNameIndex() const override { return 0; }
   virtual void setNameIndex(size_t NameIndex) override {}
-  void setName(const char *name) override {
-    Name = name;
-  }
-  const char *getQualifiedName() const override {
-    return QName.c_str();
-  }
+  void setName(const char *name) override { Name = name; }
+  const char *getQualifiedName() const override { return QName.c_str(); }
   void setQualifiedName(const char *name) override {
     setHasQualifiedName();
     QName = name;
@@ -66,22 +60,16 @@ public:
   std::string getFileName(bool format_options) const override {
     return FileName.c_str();
   }
-  void setFileName(const char *fileName) override {
-    FileName = fileName;
-  }
+  void setFileName(const char *fileName) override { FileName = fileName; }
   size_t getFileNameIndex() const override { return 0; }
-  virtual void setFileNameIndex(size_t FilenameIndex) override {};
-  Object *getType() const override {
-    return Type;
-  }
+  virtual void setFileNameIndex(size_t FilenameIndex) override{};
+  Object *getType() const override { return Type; }
   const char *getTypeQualifiedName() const override { return nullptr; }
   bool isNamed() const override { return false; }
-  void setType(Object *object) override {
-    Type = object;
-  }
+  void setType(Object *object) override { Type = object; }
 
-  std::string getAsText() const { return nullptr; };
-  std::string getAsYAML() const { return nullptr; };
+  std::string getAsText(const PrintSettings &) const override { return ""; };
+  std::string getAsYAML() const override { return ""; };
 
   using Object::getCommonYAML;
 
@@ -92,134 +80,124 @@ private:
   Object *Type;
 };
 
-}
+} // namespace
 
 TEST(Object, getCommonYAML) {
   Reader R;
   setReader(&R);
 
   TestObject TO;
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: null\n"
-            "type: null\n"
-            "source:\n"
-            "  line: null\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: null\n"
+                                "type: null\n"
+                                "source:\n"
+                                "  line: null\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setName("VarName");
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"VarName\"\n"
-            "type: null\n"
-            "source:\n"
-            "  line: null\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"VarName\"\n"
+                                "type: null\n"
+                                "source:\n"
+                                "  line: null\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setQualifiedName("Q::");
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: null\n"
-            "source:\n"
-            "  line: null\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: null\n"
+                                "source:\n"
+                                "  line: null\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   Type Ty;
   Ty.setName("Ty");
   TO.setType(&Ty);
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Ty\"\n"
-            "source:\n"
-            "  line: null\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Ty\"\n"
+                                "source:\n"
+                                "  line: null\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   Ty.setQualifiedName("Class::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: null\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: null\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setLineNumber(25);
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: 25\n"
-            "  file: null\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: 25\n"
+                                "  file: null\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setFileName("path/file.cpp");
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: 25\n"
-            "  file: \"path/file.cpp\"\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: 25\n"
+                                "  file: \"path/file.cpp\"\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setInvalidFileName();
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: 25\n"
-            "  file: \"?\"\n"
-            "dwarf:\n"
-            "  offset: 0x0\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: 25\n"
+                                "  file: \"?\"\n"
+                                "dwarf:\n"
+                                "  offset: 0x0\n"
+                                "  tag: null");
 
   TO.setDieOffset(0x201);
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: 25\n"
-            "  file: \"?\"\n"
-            "dwarf:\n"
-            "  offset: 0x201\n"
-            "  tag: null");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: 25\n"
+                                "  file: \"?\"\n"
+                                "dwarf:\n"
+                                "  offset: 0x201\n"
+                                "  tag: null");
 
   TO.setDieTag(DW_TAG_variable);
-  EXPECT_EQ(TO.getCommonYAML(),
-            "object: \"ObjKind\"\n"
-            "name: \"Q::VarName\"\n"
-            "type: \"Class::Ty\"\n"
-            "source:\n"
-            "  line: 25\n"
-            "  file: \"?\"\n"
-            "dwarf:\n"
-            "  offset: 0x201\n"
-            "  tag: \"DW_TAG_variable\"");
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+                                "name: \"Q::VarName\"\n"
+                                "type: \"Class::Ty\"\n"
+                                "source:\n"
+                                "  line: 25\n"
+                                "  file: \"?\"\n"
+                                "dwarf:\n"
+                                "  offset: 0x201\n"
+                                "  tag: \"DW_TAG_variable\"");
 }
 
 TEST(Object, ResolveQualifiedName) {

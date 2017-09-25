@@ -78,131 +78,132 @@ TEST(ObjectAttributes, getAttributesAsText) {
 
   // Test the object and parent DIE offsets.
   // Test the type, level and DWARF tag.
-  R.getPrintSettings().ShowDWARFOffset = true;
-  R.getPrintSettings().ShowDWARFParent = true;
-  R.getPrintSettings().ShowLevel = true;
-  R.getPrintSettings().ShowIsGlobal = true;
-  R.getPrintSettings().ShowDWARFTag = true;
+  PrintSettings Settings;
+  Settings.ShowDWARFOffset = true;
+  Settings.ShowDWARFParent = true;
+  Settings.ShowLevel = true;
+  Settings.ShowIsGlobal = true;
+  Settings.ShowDWARFTag = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "                           X                                          ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "[0x0000000b][0x00000cae]000X[DW_TAG_compile_unit]                     ");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "[0x0000000c][0x0000000b]001X[DW_TAG_namespace]                        ");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "[0x000000ba][0x0000000c]002X[DW_TAG_variable]                         ");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "[0x000000ce][0x0000000c]002X[DW_TAG_typedef]                          ");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "                           X                                          ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "[0x0000000b][0x00000cae]000X[DW_TAG_compile_unit]                     ");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "[0x0000000c][0x0000000b]001X[DW_TAG_namespace]                        ");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "[0x000000ba][0x0000000c]002X[DW_TAG_variable]                         ");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "[0x000000ce][0x0000000c]002X[DW_TAG_typedef]                          ");
 
-  R.getPrintSettings().ShowDWARFOffset = false;
-  R.getPrintSettings().ShowDWARFParent = false;
-  R.getPrintSettings().ShowLevel = false;
-  R.getPrintSettings().ShowIsGlobal = false;
-  R.getPrintSettings().ShowDWARFTag = false;
+  Settings.ShowDWARFOffset = false;
+  Settings.ShowDWARFParent = false;
+  Settings.ShowLevel = false;
+  Settings.ShowIsGlobal = false;
+  Settings.ShowDWARFTag = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "");
 
   // Test the object and parent DIE offsets.
-  R.getPrintSettings().ShowDWARFOffset = true;
-  R.getPrintSettings().ShowDWARFParent = true;
+  Settings.ShowDWARFOffset = true;
+  Settings.ShowDWARFParent = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "                        ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "[0x0000000b][0x00000cae]");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "[0x0000000c][0x0000000b]");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "[0x000000ba][0x0000000c]");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "[0x000000ce][0x0000000c]");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "                        ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "[0x0000000b][0x00000cae]");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "[0x0000000c][0x0000000b]");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "[0x000000ba][0x0000000c]");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "[0x000000ce][0x0000000c]");
 
-  R.getPrintSettings().ShowDWARFOffset = false;
-  R.getPrintSettings().ShowDWARFParent = false;
+  Settings.ShowDWARFOffset = false;
+  Settings.ShowDWARFParent = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "");
 
   // Test the object DIE offset.
-  R.getPrintSettings().ShowDWARFOffset = true;
+  Settings.ShowDWARFOffset = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "            ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "[0x0000000b]");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "[0x0000000c]");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "[0x000000ba]");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "[0x000000ce]");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "            ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "[0x0000000b]");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "[0x0000000c]");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "[0x000000ba]");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "[0x000000ce]");
 
-  R.getPrintSettings().ShowDWARFOffset = false;
+  Settings.ShowDWARFOffset = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "");
 
   // Test the object parent DIE offset.
-  R.getPrintSettings().ShowDWARFParent = true;
+  Settings.ShowDWARFParent = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "            ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "[0x00000cae]");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "[0x0000000b]");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "[0x0000000c]");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "[0x0000000c]");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "            ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "[0x00000cae]");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "[0x0000000b]");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "[0x0000000c]");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "[0x0000000c]");
 
-  R.getPrintSettings().ShowDWARFParent = false;
+  Settings.ShowDWARFParent = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "");
 
   // Test the object level.
-  R.getPrintSettings().ShowLevel = true;
+  Settings.ShowLevel = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(), "   ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "000");
-  EXPECT_EQ(Namespace->getAttributesAsText(), "001");
-  EXPECT_EQ(Variable->getAttributesAsText(), "002");
-  EXPECT_EQ(Typedef->getAttributesAsText(), "002");
+  EXPECT_EQ(Root.getAttributesAsText(Settings), "   ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "000");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings), "001");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings), "002");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings), "002");
 
-  R.getPrintSettings().ShowLevel = false;
+  Settings.ShowLevel = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(), "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(), "");
-  EXPECT_EQ(Variable->getAttributesAsText(), "");
-  EXPECT_EQ(Typedef->getAttributesAsText(), "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings), "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings), "");
 
   // Test the object DWARF tag.
-  R.getPrintSettings().ShowDWARFTag = true;
+  Settings.ShowDWARFTag = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "                                          ");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "[DW_TAG_compile_unit]                     ");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "[DW_TAG_namespace]                        ");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "[DW_TAG_variable]                         ");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "[DW_TAG_typedef]                          ");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "                                          ");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "[DW_TAG_compile_unit]                     ");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "[DW_TAG_namespace]                        ");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "[DW_TAG_variable]                         ");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "[DW_TAG_typedef]                          ");
 
-  R.getPrintSettings().ShowDWARFTag = false;
+  Settings.ShowDWARFTag = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(),         "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(),   "");
-  EXPECT_EQ(Variable->getAttributesAsText(),    "");
-  EXPECT_EQ(Typedef->getAttributesAsText(),     "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings),         "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings),   "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings),    "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings),     "");
 
   // Test the object 'global' status.
-  R.getPrintSettings().ShowIsGlobal = true;
+  Settings.ShowIsGlobal = true;
 
-  EXPECT_EQ(Root.getAttributesAsText(), "X");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "X");
-  EXPECT_EQ(Namespace->getAttributesAsText(), "X");
-  EXPECT_EQ(Variable->getAttributesAsText(), "X");
-  EXPECT_EQ(Typedef->getAttributesAsText(), "X");
+  EXPECT_EQ(Root.getAttributesAsText(Settings), "X");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "X");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings), "X");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings), "X");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings), "X");
 
-  R.getPrintSettings().ShowIsGlobal = false;
+  Settings.ShowIsGlobal = false;
 
-  EXPECT_EQ(Root.getAttributesAsText(), "");
-  EXPECT_EQ(CompileUnit->getAttributesAsText(), "");
-  EXPECT_EQ(Namespace->getAttributesAsText(), "");
-  EXPECT_EQ(Variable->getAttributesAsText(), "");
-  EXPECT_EQ(Typedef->getAttributesAsText(), "");
+  EXPECT_EQ(Root.getAttributesAsText(Settings), "");
+  EXPECT_EQ(CompileUnit->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Namespace->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Variable->getAttributesAsText(Settings), "");
+  EXPECT_EQ(Typedef->getAttributesAsText(Settings), "");
 }

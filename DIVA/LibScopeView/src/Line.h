@@ -140,11 +140,11 @@ public:
   std::string getLineNumberAsStringStripped() override;
 
 public:
-  void dump() override;
-  virtual void dumpExtra();
+  void dump(const PrintSettings &Settings) override;
+  virtual void dumpExtra(const PrintSettings &Settings);
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 

@@ -115,36 +115,37 @@ const char *Symbol::resolveName() {
   return getName();
 }
 
-void Symbol::dump() {
-  if (getReader()->getPrintSettings().printObject(*this)) {
+void Symbol::dump(const PrintSettings &Settings) {
+  if (Settings.printObject(*this)) {
     // Object Summary Table.
     getReader()->incrementPrinted(this);
 
     // Common Object Data.
-    Element::dump();
+    Element::dump(Settings);
 
     // Specific Object Data.
-    dumpExtra();
+    dumpExtra(Settings);
   }
 }
 
-void Symbol::dumpExtra() {
-  GlobalPrintContext->print("%s\n", getAsText().c_str());
+void Symbol::dumpExtra(const PrintSettings &Settings) {
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
-bool Symbol::dump(bool DoHeader, const char *Header) {
+bool Symbol::dump(bool DoHeader, const char *Header,
+                  const PrintSettings &Settings) {
   if (DoHeader) {
     GlobalPrintContext->print("\n%s\n", Header);
     DoHeader = false;
   }
 
   // Dump object.
-  dump();
+  dump(Settings);
 
   return DoHeader;
 }
 
-std::string Symbol::getAsText() const {
+std::string Symbol::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   const Symbol *Sym = getIsInlined() ? Reference : this;
   Result << "{" << Sym->getKindAsString() << "}";
@@ -189,8 +190,9 @@ std::string Symbol::getAsText() const {
       Result << " <- ";
     else
       Result << " -> ";
-    Result << Sym->getTypeDieOffsetAsString() << "\""
-           << Sym->getTypeQualifiedName() << Sym->getTypeAsString() << "\"";
+    Result << Sym->getTypeDieOffsetAsString(Settings) << "\""
+           << Sym->getTypeQualifiedName() << Sym->getTypeAsString(Settings)
+           << "\"";
   }
 
   return Result.str();

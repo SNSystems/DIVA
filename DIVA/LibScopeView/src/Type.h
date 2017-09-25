@@ -193,7 +193,7 @@ public:
 
   // Wrap SetFullName (Used by ElfReader) in a simpler call.
   using Object::setFullName;
-  bool setFullName();
+  bool setFullName(const PrintSettings &Settings);
 
 public:
   // Functions to be implemented by derived classes.
@@ -207,13 +207,14 @@ public:
   virtual size_t getValueIndex() const { return 0; }
 
 public:
-  void dump() override;
-  virtual void dumpExtra();
-  virtual bool dump(bool DoHeader, const char *Header);
+  void dump(const PrintSettings &Settings) override;
+  virtual void dumpExtra(const PrintSettings &Settings);
+  virtual bool dump(bool DoHeader, const char *Header,
+                    const PrintSettings &Settings);
 
   bool getIsPrintedAsObject() const override;
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
@@ -252,11 +253,11 @@ public:
   void setUnderlyingType(Object *Obj) override;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool getIsPrintedAsObject() const override { return true; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -281,11 +282,11 @@ public:
   size_t getValueIndex() const override;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -310,18 +311,18 @@ private:
   AccessSpecifier InheritanceAccess;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool getIsPrintedAsObject() const override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 
 private:
   virtual std::string getInheritanceAsText() const;
-  virtual std::string getUsingAsText() const;
+  virtual std::string getUsingAsText(const PrintSettings &Settings) const;
   // Gets a YAML representation of DIVA Object as an Inheritance attribute.
   virtual std::string getInheritanceAsYAML() const;
   virtual std::string getUsingAsYAML() const;
@@ -349,12 +350,12 @@ public:
   size_t getValueIndex() const override;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 
   bool getIsPrintedAsObject() const override;
 
   /// \brief Returns a text representation of this DIVA Object.
-  std::string getAsText() const override;
+  std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
 };
@@ -370,7 +371,7 @@ public:
   TypeSubrange(const TypeSubrange &) = delete;
 
 public:
-  void dumpExtra() override;
+  void dumpExtra(const PrintSettings &Settings) override;
 };
 
 } // namespace LibScopeView
