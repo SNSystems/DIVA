@@ -47,7 +47,6 @@ TEST(Type, getAsText_Enumerator) {
   TyEnumerator.setValue("10");
   EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10");
 
-
   Settings.ShowDWARFOffset = true;
   TyEnumerator.setDieOffset(0x0);
   EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10 [0x00000000]");
@@ -232,7 +231,7 @@ TEST(Type, getAsYAML_Param) {
 TEST(Type, getAsText_PrimitiveType) {
   PrintSettings Settings;
 
-  Type Ty(/*level*/3);
+  Type Ty(/*level*/ 3);
   Ty.setIsBaseType();
   Ty.setIncludeInPrint();
 
@@ -246,11 +245,13 @@ TEST(Type, getAsText_PrimitiveType) {
 
   Ty.setByteSize(4);
   EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
-    '\n' + AttrIndent + std::string("- 4 bytes"));
+                                        '\n' + AttrIndent +
+                                        std::string("- 4 bytes"));
 
   Ty.setByteSize(23);
   EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
-    '\n' + AttrIndent + std::string("- 23 bytes"));
+                                        '\n' + AttrIndent +
+                                        std::string("- 23 bytes"));
 }
 
 TEST(Type, getAsYAML_PrimitiveType) {
@@ -363,7 +364,7 @@ TEST(Type, getAsText_Using) {
 
   Variable.setParent(&Parent);
   EXPECT_EQ(UsingVariable.getAsText(Settings),
-    "{Using} variable \"parent::test_variable\"");
+            "{Using} variable \"parent::test_variable\"");
 
   TypeImport UsingMember;
   UsingMember.setIsImportedDeclaration();
@@ -373,11 +374,11 @@ TEST(Type, getAsText_Using) {
   Member.setParent(&CU);
   UsingMember.setType(&Member);
   EXPECT_EQ(UsingMember.getAsText(Settings),
-    "{Using} variable \"test_member\"");
+            "{Using} variable \"test_member\"");
 
   Member.setParent(&Parent);
   EXPECT_EQ(UsingMember.getAsText(Settings),
-    "{Using} variable \"parent::test_member\"");
+            "{Using} variable \"parent::test_member\"");
 
   TypeImport UsingFunction;
   UsingFunction.setIsImportedDeclaration();
@@ -391,7 +392,7 @@ TEST(Type, getAsText_Using) {
 
   Func.setParent(&Parent);
   EXPECT_EQ(UsingFunction.getAsText(Settings),
-    "{Using} function \"parent::test_function\"");
+            "{Using} function \"parent::test_function\"");
 
   TypeImport UsingStruct;
   UsingStruct.setIsImportedDeclaration();
@@ -411,7 +412,7 @@ TEST(Type, getAsText_Using) {
   GrandParent.setName("grandparent");
   Parent.setParent(&GrandParent);
   EXPECT_EQ(UsingFunction.getAsText(Settings),
-    "{Using} function \"grandparent::parent::test_function\"");
+            "{Using} function \"grandparent::parent::test_function\"");
 }
 
 TEST(Type, getAsYAML_Using) {

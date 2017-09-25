@@ -167,8 +167,7 @@ private:
     if (auto ObjScope = dynamic_cast<Scope *>(Obj)) {
       // Resolve function pointer names.
       if (ObjScope->getIsSubroutineType()) {
-        resolveFunctionPointerName(
-            dynamic_cast<ScopeFunction *>(Obj));
+        resolveFunctionPointerName(dynamic_cast<ScopeFunction *>(Obj));
         return;
       }
 
@@ -356,7 +355,7 @@ void Reader::resolveFilterPatternMatch(Object *Object,
 void Reader::resolveFilterPatternMatch(Line *Line,
                                        const PrintSettings &Settings) {
   if (Settings.matchesFilterPattern(
-      trim(Line->getLineNumberAsString()).c_str())) {
+          trim(Line->getLineNumberAsString()).c_str())) {
     ViewMatchedObjects.push_back(Line);
   }
 }

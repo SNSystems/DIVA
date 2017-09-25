@@ -108,15 +108,15 @@ TEST(Symbol, getAsYAML_Member) {
             CommonExpected + std::string("  access_specifier: \"private\""));
 
   EXPECT_EQ(Sym.getAsYAML(),
-    CommonExpected + std::string("  access_specifier: \"private\""));
+            CommonExpected + std::string("  access_specifier: \"private\""));
 
   Sym.setAccessSpecifier(AccessSpecifier::Protected);
   EXPECT_EQ(Sym.getAsYAML(),
-    CommonExpected + std::string("  access_specifier: \"protected\""));
+            CommonExpected + std::string("  access_specifier: \"protected\""));
 
   Sym.setAccessSpecifier(AccessSpecifier::Public);
   EXPECT_EQ(Sym.getAsYAML(),
-    CommonExpected + std::string("  access_specifier: \"public\""));
+            CommonExpected + std::string("  access_specifier: \"public\""));
 
   // Unspecified access in a class is private.
   ScopeAggregate ParentClass;
@@ -124,19 +124,18 @@ TEST(Symbol, getAsYAML_Member) {
   Sym.setParent(&ParentClass);
   Sym.setAccessSpecifier(AccessSpecifier::Unspecified);
   EXPECT_EQ(Sym.getAsYAML(),
-    CommonExpected + std::string("  access_specifier: \"private\""));
+            CommonExpected + std::string("  access_specifier: \"private\""));
 
   // Unspecified access in a scope is public.
   ScopeAggregate ParentStruct;
   ParentStruct.setIsStructType();
   Sym.setParent(&ParentStruct);
   EXPECT_EQ(Sym.getAsYAML(),
-    CommonExpected + std::string("  access_specifier: \"public\""));
+            CommonExpected + std::string("  access_specifier: \"public\""));
 
   Sym.setIsStatic();
   EXPECT_EQ(Sym.getAsYAML(),
-            CommonExpected +
-                std::string("  access_specifier: \"public\""));
+            CommonExpected + std::string("  access_specifier: \"public\""));
 }
 
 TEST(Symbol, getAsText_Parameter) {

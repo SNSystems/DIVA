@@ -38,11 +38,11 @@ using namespace LibScopeView;
 
 TEST(Scope, getAsText_Alias) {
   PrintSettings Settings;
-  
+
   ScopeAlias Alias;
   Alias.setIsTemplateAlias();
   EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"\" -> \"void\"");
-  
+
   Settings.ShowVoid = false;
   EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"\" -> \"\"");
 
@@ -122,13 +122,13 @@ TEST(Scope, getAsText_Block) {
   TryBlock.setIsBlock();
   TryBlock.setIsTryBlock();
   EXPECT_EQ(TryBlock.getAsText(Settings),
-    std::string("{Block}\n") + AttrIndent + std::string("- try"));
+            std::string("{Block}\n") + AttrIndent + std::string("- try"));
 
   Scope CatchBlock(/*Level*/ 3);
   CatchBlock.setIsBlock();
   CatchBlock.setIsCatchBlock();
   EXPECT_EQ(CatchBlock.getAsText(Settings),
-    std::string("{Block}\n") + AttrIndent + std::string("- catch"));
+            std::string("{Block}\n") + AttrIndent + std::string("- catch"));
 }
 
 TEST(Scope, getAsYAML_Block) {
@@ -194,7 +194,7 @@ TEST(Scope, getAsYAML_Block) {
 
 TEST(Scope, getAsText_Class) {
   PrintSettings Settings;
-  
+
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -208,13 +208,14 @@ TEST(Scope, getAsText_Class) {
 
   Class.setIsTemplate();
   EXPECT_EQ(Class.getAsText(Settings), std::string("{Class} \"TestClass\"\n") +
-                                   AttrIndent + std::string("Template"));
+                                           AttrIndent +
+                                           std::string("Template"));
 }
 
 TEST(Scope, getAsYAML_Class) {
   Reader R;
   setReader(&R);
-  
+
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -227,7 +228,7 @@ TEST(Scope, getAsYAML_Class) {
   ScopeAggregate ParentClass;
   ParentClass.setName("TestParentClass");
 
-  TypeImport * TyImport = new TypeImport;
+  TypeImport *TyImport = new TypeImport;
   TyImport->setIsInheritance();
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Public);
@@ -262,7 +263,7 @@ TEST(Scope, getAsYAML_Class) {
 TEST(Scope, getAsYAML_multiInheritance) {
   Reader R;
   setReader(&R);
-  
+
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -275,7 +276,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
   ScopeAggregate ParentClassA;
   ParentClassA.setName("TestParentClassA");
 
-  TypeImport * TyImportA = new TypeImport;
+  TypeImport *TyImportA = new TypeImport;
   TyImportA->setIsInheritance();
   TyImportA->setType(&ParentClassA);
   TyImportA->setInheritanceAccess(AccessSpecifier::Public);
@@ -283,7 +284,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
   ScopeAggregate ParentClassB;
   ParentClassB.setName("TestParentClassB");
 
-  TypeImport * TyImportB = new TypeImport;
+  TypeImport *TyImportB = new TypeImport;
   TyImportB->setIsInheritance();
   TyImportB->setType(&ParentClassB);
   TyImportB->setInheritanceAccess(AccessSpecifier::Protected);
@@ -312,7 +313,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
 TEST(Scope, getAsYAML_Unspecified_Class) {
   Reader R;
   setReader(&R);
-  
+
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -325,7 +326,7 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
   ScopeAggregate ParentStruct;
   ParentStruct.setName("TestParentStruct");
 
-  TypeImport * TyImport = new TypeImport;
+  TypeImport *TyImport = new TypeImport;
   TyImport->setIsInheritance();
   TyImport->setType(&ParentStruct);
   TyImport->setInheritanceAccess(AccessSpecifier::Unspecified);
@@ -389,8 +390,7 @@ TEST(Scope, getAsText_Enumeration) {
   EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()), "{Enum} \"days\"");
 
   ScpEnumeration.setIsClass();
-  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()),
-            "{Enum} class \"days\"");
+  EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()), "{Enum} class \"days\"");
 
   Type Ty;
   Ty.setName("unsigned int");
@@ -403,7 +403,7 @@ TEST(Scope, getAsText_Enumeration) {
 TEST(Scope, getAsYAML_Enumeration) {
   Reader R;
   setReader(&R);
-  
+
   ScopeEnumeration Enum;
   Enum.setIsEnumerationType();
   Enum.setName("days");
@@ -415,18 +415,16 @@ TEST(Scope, getAsYAML_Enumeration) {
   Ty.setName("unsigned int");
   Enum.setName("days");
   Enum.setType(&Ty);
-  std::string ExpectedYAML(
-    "object: \"Enum\"\n"
-    "name: \"days\"\n"
-    "type: \"unsigned int\"\n"
-    "source:\n"
-    "  line: 42\n"
-    "  file: \"enum.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xfeed\n"
-    "  tag: \"DW_TAG_enumeration_type\"\n"
-    "attributes:"
-  );
+  std::string ExpectedYAML("object: \"Enum\"\n"
+                           "name: \"days\"\n"
+                           "type: \"unsigned int\"\n"
+                           "source:\n"
+                           "  line: 42\n"
+                           "  file: \"enum.cpp\"\n"
+                           "dwarf:\n"
+                           "  offset: 0xfeed\n"
+                           "  tag: \"DW_TAG_enumeration_type\"\n"
+                           "attributes:");
   EXPECT_EQ(Enum.getAsYAML(),
             ExpectedYAML + "\n  class: false\n  enumerators: []");
 
@@ -463,7 +461,7 @@ TEST(Scope, getAsText_Function) {
   ScopeFunction ScpFunc(0);
   ScpFunc.setIsScope();
   ScpFunc.setIsFunction();
-  
+
   EXPECT_EQ(ScpFunc.getAsText(Settings),
             std::string("{Function} \"\" -> \"void\"\n" + AttrIndent +
                         std::string("No declaration")));
@@ -601,9 +599,9 @@ TEST(Scope, getAsText_Function_Attributes) {
   inlined.setIsInlinedSubroutine();
   inlined.setName("Foo");
   EXPECT_EQ(inlined.getAsText(Settings),
-    std::string("{Function} \"Foo\" -> \"\"\n") +
-      AttrIndent + std::string("No declaration\n") +
-      AttrIndent + std::string("Inlined"));
+            std::string("{Function} \"Foo\" -> \"\"\n") + AttrIndent +
+                std::string("No declaration\n") + AttrIndent +
+                std::string("Inlined"));
 }
 
 TEST(Scope, getAsYAML_Function) {
@@ -618,121 +616,111 @@ TEST(Scope, getAsYAML_Function) {
 
   // Normal function.
   // No type is "void".
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"void\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: false\n"
-    "  static: false\n"
-    "  inline: false\n"
-    "  is_inlined: false\n"
-    "  is_declaration: false"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"void\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: null\n"
+                              "    line: null\n"
+                              "  is_template: false\n"
+                              "  static: false\n"
+                              "  inline: false\n"
+                              "  is_inlined: false\n"
+                              "  is_declaration: false");
 
   Type Ty(0);
   Ty.setName("int");
   Func.setType(&Ty);
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: false\n"
-    "  static: false\n"
-    "  inline: false\n"
-    "  is_inlined: false\n"
-    "  is_declaration: false"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: null\n"
+                              "    line: null\n"
+                              "  is_template: false\n"
+                              "  static: false\n"
+                              "  inline: false\n"
+                              "  is_inlined: false\n"
+                              "  is_declaration: false");
 
   // Declaration for inlined function.
   Func.setIsInlined();
   Func.setIsDeclaredInline();
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: false\n"
-    "  static: false\n"
-    "  inline: true\n"
-    "  is_inlined: true\n"
-    "  is_declaration: false"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: null\n"
+                              "    line: null\n"
+                              "  is_template: false\n"
+                              "  static: false\n"
+                              "  inline: true\n"
+                              "  is_inlined: true\n"
+                              "  is_declaration: false");
 
   // Declaration for Static function.
   Func.setIsStatic();
   Func.setIsDeclaration();
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: false\n"
-    "  static: true\n"
-    "  inline: true\n"
-    "  is_inlined: true\n"
-    "  is_declaration: true"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: null\n"
+                              "    line: null\n"
+                              "  is_template: false\n"
+                              "  static: true\n"
+                              "  inline: true\n"
+                              "  is_inlined: true\n"
+                              "  is_declaration: true");
 
   // Template function.
   Func.setIsTemplate();
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: true\n"
-    "  static: true\n"
-    "  inline: true\n"
-    "  is_inlined: true\n"
-    "  is_declaration: true"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: null\n"
+                              "    line: null\n"
+                              "  is_template: true\n"
+                              "  static: true\n"
+                              "  inline: true\n"
+                              "  is_inlined: true\n"
+                              "  is_declaration: true");
 
   // Function to be used as Reference.
   ScopeFunction Reference(0);
@@ -745,50 +733,46 @@ TEST(Scope, getAsYAML_Function) {
 
   // Reference to function.
   Func.setReference(&Reference);
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: \"ref.cpp\"\n"
-    "    line: 620\n"
-    "  is_template: true\n"
-    "  static: true\n"
-    "  inline: true\n"
-    "  is_inlined: true\n"
-    "  is_declaration: true"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: \"ref.cpp\"\n"
+                              "    line: 620\n"
+                              "  is_template: true\n"
+                              "  static: true\n"
+                              "  inline: true\n"
+                              "  is_inlined: true\n"
+                              "  is_declaration: true");
 
   // Invalid Reference to function.
   Reference.setInvalidFileName();
   Reference.setLineNumber(0);
-  EXPECT_EQ(Func.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"int\"\n"
-    "source:\n"
-    "  line: 17\n"
-    "  file: \"foo.cpp\"\n"
-    "dwarf:\n"
-    "  offset: 0xce\n"
-    "  tag: \"DW_TAG_subprogram\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: \"?\"\n"
-    "    line: 0\n"
-    "  is_template: true\n"
-    "  static: true\n"
-    "  inline: true\n"
-    "  is_inlined: true\n"
-    "  is_declaration: true"
-  );
+  EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
+                              "name: \"Foo\"\n"
+                              "type: \"int\"\n"
+                              "source:\n"
+                              "  line: 17\n"
+                              "  file: \"foo.cpp\"\n"
+                              "dwarf:\n"
+                              "  offset: 0xce\n"
+                              "  tag: \"DW_TAG_subprogram\"\n"
+                              "attributes:\n"
+                              "  declaration:\n"
+                              "    file: \"?\"\n"
+                              "    line: 0\n"
+                              "  is_template: true\n"
+                              "  static: true\n"
+                              "  inline: true\n"
+                              "  is_inlined: true\n"
+                              "  is_declaration: true");
 
   // ScopeFunctionInlined.
   ScopeFunctionInlined Inlined(0);
@@ -797,26 +781,24 @@ TEST(Scope, getAsYAML_Function) {
   Inlined.setDieOffset(0x100);
   Inlined.setDieTag(DW_TAG_inlined_subroutine);
 
-  EXPECT_EQ(Inlined.getAsYAML(),
-    "object: \"Function\"\n"
-    "name: \"Foo\"\n"
-    "type: \"void\"\n"
-    "source:\n"
-    "  line: null\n"
-    "  file: null\n"
-    "dwarf:\n"
-    "  offset: 0x100\n"
-    "  tag: \"DW_TAG_inlined_subroutine\"\n"
-    "attributes:\n"
-    "  declaration:\n"
-    "    file: null\n"
-    "    line: null\n"
-    "  is_template: false\n"
-    "  static: false\n"
-    "  inline: false\n"
-    "  is_inlined: true\n"
-    "  is_declaration: false"
-  );
+  EXPECT_EQ(Inlined.getAsYAML(), "object: \"Function\"\n"
+                                 "name: \"Foo\"\n"
+                                 "type: \"void\"\n"
+                                 "source:\n"
+                                 "  line: null\n"
+                                 "  file: null\n"
+                                 "dwarf:\n"
+                                 "  offset: 0x100\n"
+                                 "  tag: \"DW_TAG_inlined_subroutine\"\n"
+                                 "attributes:\n"
+                                 "  declaration:\n"
+                                 "    file: null\n"
+                                 "    line: null\n"
+                                 "  is_template: false\n"
+                                 "  static: false\n"
+                                 "  inline: false\n"
+                                 "  is_inlined: true\n"
+                                 "  is_declaration: false");
 }
 
 TEST(Scope, getAsText_Namespace) {
@@ -886,7 +868,7 @@ TEST(Scope, getAsText_Struct) {
 TEST(Scope, getAsYAML_Struct) {
   Reader R;
   setReader(&R);
-  
+
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -899,7 +881,7 @@ TEST(Scope, getAsYAML_Struct) {
   ScopeAggregate ParentClass;
   ParentClass.setName("TestParentClass");
 
-  TypeImport * TyImport = new TypeImport;
+  TypeImport *TyImport = new TypeImport;
   TyImport->setIsInheritance();
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Private);
@@ -934,7 +916,7 @@ TEST(Scope, getAsYAML_Struct) {
 TEST(Scope, getAsYAML_Unspecified_Struct) {
   Reader R;
   setReader(&R);
-  
+
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -948,11 +930,10 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
   ParentClass.setName("TestParentClass");
   ParentClass.setIsStructType();
 
-  TypeImport * TyImport = new TypeImport;
+  TypeImport *TyImport = new TypeImport;
   TyImport->setIsInheritance();
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Unspecified);
-
 
   Struct.addObject(TyImport);
 
@@ -985,7 +966,7 @@ TEST(Scope, getAsText_TemplatePack) {
 TEST(Scope, getAsYAML_TemplatePack) {
   Reader R;
   setReader(&R);
-  
+
   ScopeTemplatePack Pack;
   Pack.setIsTemplatePack();
   Pack.setName("TPack");
@@ -1036,7 +1017,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
 
 TEST(Scope, getAsText_Union) {
   PrintSettings Settings;
-  
+
   ScopeAggregate Union;
   Union.setIsAggregate();
   Union.setIsUnionType();
@@ -1050,7 +1031,8 @@ TEST(Scope, getAsText_Union) {
 
   Union.setIsTemplate();
   EXPECT_EQ(Union.getAsText(Settings), std::string("{Union} \"TestUnion\"\n") +
-                AttrIndent + std::string("Template"));
+                                           AttrIndent +
+                                           std::string("Template"));
 }
 
 TEST(Scope, getAsYAML_Union) {

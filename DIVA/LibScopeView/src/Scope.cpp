@@ -474,8 +474,7 @@ std::string Scope::getAsYAML() const {
   return "";
 }
 
-ScopeAggregate::ScopeAggregate(LevelType Lvl)
-    : Scope(Lvl) {
+ScopeAggregate::ScopeAggregate(LevelType Lvl) : Scope(Lvl) {
   Reference = nullptr;
 }
 
@@ -568,8 +567,7 @@ std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   return Result.str();
 }
 
-ScopeCompileUnit::ScopeCompileUnit(LevelType Lvl)
-    : Scope(Lvl) {}
+ScopeCompileUnit::ScopeCompileUnit(LevelType Lvl) : Scope(Lvl) {}
 
 ScopeCompileUnit::ScopeCompileUnit() : Scope() {}
 
@@ -614,8 +612,7 @@ ScopeEnumeration::~ScopeEnumeration() {}
 
 void ScopeEnumeration::dumpExtra(const PrintSettings &Settings) {
   // Print the full type name.
-  GlobalPrintContext->print("%s\n",
-                            getAsText(Settings).c_str());
+  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
@@ -661,8 +658,7 @@ std::string ScopeEnumeration::getAsYAML() const {
 }
 
 ScopeFunction::ScopeFunction(LevelType Lvl)
-    : Scope(Lvl), IsStatic(false), DeclaredInline(false),
-      IsDeclaration(false) {
+    : Scope(Lvl), IsStatic(false), DeclaredInline(false), IsDeclaration(false) {
   Reference = nullptr;
 }
 
@@ -778,8 +774,7 @@ ScopeFunctionInlined::ScopeFunctionInlined()
 
 ScopeFunctionInlined::~ScopeFunctionInlined() {}
 
-ScopeNamespace::ScopeNamespace(LevelType Lvl)
-    : Scope(Lvl) {
+ScopeNamespace::ScopeNamespace(LevelType Lvl) : Scope(Lvl) {
   Reference = nullptr;
 }
 
@@ -805,8 +800,7 @@ std::string ScopeNamespace::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-ScopeTemplatePack::ScopeTemplatePack(LevelType Lvl)
-    : Scope(Lvl) {}
+ScopeTemplatePack::ScopeTemplatePack(LevelType Lvl) : Scope(Lvl) {}
 
 ScopeTemplatePack::ScopeTemplatePack() : Scope() {}
 

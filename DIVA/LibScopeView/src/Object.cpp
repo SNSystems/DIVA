@@ -49,8 +49,8 @@
 #endif
 
 #include <assert.h>
-#include <sstream>
 #include <cstring>
+#include <sstream>
 
 using namespace LibScopeView;
 
@@ -135,8 +135,8 @@ const char *Object::getDieOffsetAsString(const PrintSettings &Settings) const {
   return Str;
 }
 
-const char *Object::getTypeDieOffsetAsString(
-    const PrintSettings &Settings) const {
+const char *
+Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
   const char *Str = "";
   if (Settings.ShowDWARFOffset) {
     Str = OffsetAsString(getType() ? getType()->getDieOffset() : 0);
@@ -191,9 +191,7 @@ const char *Object::getReferenceAsString(uint64_t LnNumber, bool Spaces) const {
 }
 
 const char *Object::getTypeAsString(const PrintSettings &Settings) const {
-  return getHasType()
-             ? (getTypeName())
-             : (Settings.ShowVoid ? "void" : "");
+  return getHasType() ? (getTypeName()) : (Settings.ShowVoid ? "void" : "");
 }
 
 void Object::resolveQualifiedName(const Scope *ExplicitParent) {
@@ -648,9 +646,7 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 // Class to represent the basic data for an object.
 //===----------------------------------------------------------------------===//
-Element::Element(LevelType level) : Object(level) {
-  CommonConstructor();
-}
+Element::Element(LevelType level) : Object(level) { CommonConstructor(); }
 
 Element::Element() : Object() { CommonConstructor(); }
 

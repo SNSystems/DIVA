@@ -69,7 +69,7 @@ protected:
 
 private:
   std::string InputFile;
-  
+
   // Summary table member used with --show-summary.
   SummaryTable TheSummaryTable;
 

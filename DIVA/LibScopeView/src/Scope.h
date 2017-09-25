@@ -297,14 +297,10 @@ public:
 
 public:
   /// \brief Gets the child symbol at the specified index.
-  Symbol *getSymbolAt(size_t Index) const {
-    return TheSymbols.at(Index);
-  }
+  Symbol *getSymbolAt(size_t Index) const { return TheSymbols.at(Index); }
 
   /// \brief Gets the child scope at the specified index.
-  Scope *getScopeAt(size_t Index) const {
-    return TheScopes.at(Index);
-  }
+  Scope *getScopeAt(size_t Index) const { return TheScopes.at(Index); }
 
 public:
   const std::vector<Object *> &getChildren() const { return Children; }
@@ -318,9 +314,7 @@ public:
   const std::vector<Type *> &getTypes() const { return TheTypes; }
 
   /// \brief Get the number of children.
-  size_t getChildrenCount() const {
-    return getChildren().size();
-  }
+  size_t getChildrenCount() const { return getChildren().size(); }
 
   /// \brief Get the number of lines.
   size_t getLineCount() const { return getLines().size(); }

@@ -559,13 +559,12 @@ TEST_F(TestElfDwarfReader, ReadImport) {
   // The using statement is on line 7, but the DWARF says line 6.
   EXPECT_EQ(Struct->getTypes().at(0)->getLineNumber(), 6U);
   EXPECT_EQ(getSourceFileName(Struct->getTypes().at(0)), "import.cpp");
-  EXPECT_EQ(Struct->getTypes().at(0)->getDieTag(),
-            DW_TAG_imported_declaration);
+  EXPECT_EQ(Struct->getTypes().at(0)->getDieTag(), DW_TAG_imported_declaration);
   // Check the imported member.
   ASSERT_NE(Struct->getTypes().at(0)->getType(), nullptr);
   ASSERT_TRUE(Struct->getTypes().at(0)->getType()->getIsSymbol());
-  auto *ImpMember = dynamic_cast<LibScopeView::Symbol *>(
-      Struct->getTypes().at(0)->getType());
+  auto *ImpMember =
+      dynamic_cast<LibScopeView::Symbol *>(Struct->getTypes().at(0)->getType());
   EXPECT_EQ(ImpMember->getDieOffset(), 0x37U);
   EXPECT_TRUE(ImpMember->getIsMember());
   EXPECT_STREQ(ImpMember->getName(), "m");
@@ -601,10 +600,10 @@ TEST_F(TestElfDwarfReader, ReadInheritance) {
   auto ProtectedClass = CU->getScopeAt(3);
   ASSERT_TRUE(ProtectedClass->getIsClassType());
   ASSERT_STREQ(ProtectedClass->getName(), "Protected");
-  EXPECT_EQ(dynamic_cast<LibScopeView::TypeImport *>(
-                ProtectedClass->getTypes().at(0))
-                ->getInheritanceAccess(),
-            LibScopeView::AccessSpecifier::Protected);
+  EXPECT_EQ(
+      dynamic_cast<LibScopeView::TypeImport *>(ProtectedClass->getTypes().at(0))
+          ->getInheritanceAccess(),
+      LibScopeView::AccessSpecifier::Protected);
 
   auto DefaultClass = CU->getScopeAt(4);
   ASSERT_TRUE(DefaultClass->getIsClassType());

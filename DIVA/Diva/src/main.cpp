@@ -47,7 +47,7 @@ typedef std::unique_ptr<LibScopeView::Reader> ReaderUPtr;
 ReaderUPtr createReader(const std::string &InputFilePath) {
   if (LibScopeView::isFileFormatElf(InputFilePath))
     return std::make_unique<ElfDwarfReader::DwarfReader>();
-  
+
   fatalError(LibScopeError::ErrorCode::ERR_INVALID_FILE, InputFilePath);
 }
 
@@ -72,11 +72,11 @@ int main(int argc, char *argv[]) {
     // Check that the file exists.
     if (!LibScopeView::doesFileExist(InputFilePath))
       fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
-    
+
     Readers.push_back(createReader(InputFilePath));
     assert(Readers.back());
-    bool Result = Readers.back()->loadFile(InputFilePath,
-                                           Options.PrintingSettings);
+    bool Result =
+        Readers.back()->loadFile(InputFilePath, Options.PrintingSettings);
 
     if (!Result)
       // Currently the ElfDwarfReader will always call fatalError itself so we

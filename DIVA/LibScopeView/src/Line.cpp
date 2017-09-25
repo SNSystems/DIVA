@@ -36,8 +36,7 @@
 
 using namespace LibScopeView;
 
-Line::Line(LevelType Lvl)
-    : Element(Lvl), Discriminator(0) {
+Line::Line(LevelType Lvl) : Element(Lvl), Discriminator(0) {
   setIsLine();
 
   Line::setTag();
