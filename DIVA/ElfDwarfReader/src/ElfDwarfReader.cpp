@@ -148,10 +148,11 @@ void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
     createObject(DebugData, CU.CUDie, Root, 0U);
   }
 
-  assert(TypesToBeSet.empty() &&
+  // If we didn't skip any Dies (because of unknown tags) then we should have
+  // resolved all the types and references.
+  assert(!(!TypesToBeSet.empty() && UnknownDWTags.empty()) &&
          "Some objects had a type that was not created");
-
-  assert(ReferencesToBeSet.empty() &&
+  assert(!(!ReferencesToBeSet.empty() && UnknownDWTags.empty()) &&
          "Some objects had a reference that was not created");
 }
 
