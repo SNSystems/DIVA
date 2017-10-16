@@ -30,6 +30,7 @@
 #include "SummaryTable.h"
 #include "Object.h"
 
+#include <assert.h>
 #include <iomanip>
 #include <ostream>
 #include <vector>
@@ -37,7 +38,7 @@
 using namespace LibScopeView;
 
 SummaryTable::SummaryTable()
-    : TotalFound(0), TotalPrinted(0), TotalMissing(0), TotalAdded(0) {
+    : TotalFound(0), TotalPrinted(0) {
   // Create a list of row labels for each DIVA Object.
   static const std::vector<std::string> RowLabels = {"Alias",
                                                      "Block",
@@ -62,7 +63,7 @@ SummaryTable::SummaryTable()
   }
 }
 
-void SummaryTable::getPrintedSummaryTable(std::ostream &Out) {
+void SummaryTable::printSummaryTable(std::ostream &Out) {
   // Calculate and create indent and divider strings.
   const uint32_t NumberOfColumns = 2;
   const uint32_t DividerLength = (LabelWidth + (ColumnWidth * NumberOfColumns));
@@ -102,52 +103,28 @@ void SummaryTable::getPrintedSummaryTable(std::ostream &Out) {
 }
 
 void SummaryTable::incrementFound(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsFound);
-  ++TotalFound;
+  if (SummaryTableRow *Row = getCorrespondingRow(Obj)) {
+    ++(Row->ObjectsFound);
+    ++TotalFound;
+  }
 }
 
 void SummaryTable::incrementPrinted(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsPrinted);
-  ++TotalPrinted;
+  if (SummaryTableRow *Row = getCorrespondingRow(Obj)) {
+    ++(Row->ObjectsPrinted);
+    ++TotalPrinted;
+  }
 }
 
-void SummaryTable::incrementMissing(const Object *Obj) {
+SummaryTable::SummaryTableRow *
+SummaryTable::getCorrespondingRow(const Object *Obj) {
+  assert(Obj);
   if (!Obj)
-    return;
+    return nullptr;
 
-  auto Row = Rows.find(Obj->getKindAsString());
+  auto RowIt = Rows.find(Obj->getKindAsString());
+  if (RowIt == Rows.end())
+    return nullptr;
 
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsMissing);
-  ++TotalMissing;
-}
-
-void SummaryTable::incrementAdded(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsAdded);
-  ++TotalAdded;
+  return &RowIt->second;
 }

@@ -150,7 +150,7 @@ TEST(SummaryTable, EmptyStandardSummaryTable) {
   LibScopeView::SummaryTable STab;
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
   std::string Expected = "\n"
                          "     -------------------------------------\n"
@@ -189,7 +189,7 @@ TEST(SummaryTable, OneIncrementStandardSummaryTable) {
   }
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
   std::string Expected = "\n"
                          "     -------------------------------------\n"
@@ -246,7 +246,7 @@ TEST(SummaryTable, MultipleIncrementsStandardSummaryTable) {
   STab.incrementPrinted(Obj.get());
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
   std::string Expected = "\n"
                          "     -------------------------------------\n"

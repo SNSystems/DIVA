@@ -77,14 +77,8 @@ public:
   void incrementFound(const Object *Obj) {
     TheSummaryTable.incrementFound(Obj);
   }
-  void incrementAdded(const Object *Obj) {
-    TheSummaryTable.incrementAdded(Obj);
-  }
   void incrementPrinted(const Object *Obj) {
     TheSummaryTable.incrementPrinted(Obj);
-  }
-  void incrementMissing(const Object *Obj) {
-    TheSummaryTable.incrementMissing(Obj);
   }
 
 protected:

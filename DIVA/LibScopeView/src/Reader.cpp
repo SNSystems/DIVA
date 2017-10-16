@@ -55,7 +55,7 @@ void Reader::printSummary(const PrintSettings &Settings) {
   if (!PrintedHeader) {
     getScopesRoot()->dump(Settings);
   }
-  TheSummaryTable.getPrintedSummaryTable(std::cout);
+  TheSummaryTable.printSummaryTable(std::cout);
 }
 
 void Reader::print(const PrintSettings &Settings) {
