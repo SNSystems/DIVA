@@ -37,22 +37,27 @@ Contents
 - 1.1 [Use-case 1: inspecting the debug information](#use-case-1-inspecting-the-debug-information)
 - 1.2 [Use-case 2: comparing the debug information from two compulations](#use-case-2-comparing-the-debug-information-from-two-compulations)
 - 1.3 [Use-case 3: Using DIVA outputs for regression testing](#use-case-3-using-diva-outputs-for-regression-testing)
+
 2 [Basic functionality](Basic-functionality)
 - 2.1 [Helloworld](#helloworld)
 - 2.2 [The DIVA output](#the-diva-output)
 - 2.3 [Comparing DIVA outputs](#comparing-diva-outputs)
+
 3 [User options](#user-options)
 - 3.1 [Summary of options](#summary-of-options)
 - 3.2 [Basic options](#basic-options)
 - 3.3 [More command line options](#more-command-line-options)
+
 4 [DIVA advanced options](#diva-advanced-options)
 - 4.1 [Printing DWARF offsets and tag information](#printing-dwarf-offsets-and-tag-information)
 - 4.2 [Sorting based on the DWARF offset](#sorting-based-on-the-dwarf-offset)
 - 4.3 [Advanced command line options](#advanced-command-line-options-1)
 - 4.4 [DWARF warning options](#dwarf-warning-options)
+
 5 [DIVA objects](#diva-objects)
 - 5.1 [Textual output format](#textual-output-format)
 - 5.2 [YAML output format](#yaml-output-format)
+
 6 [Appendix](#appendix)
 - 6.1 [Error messages](#error-messages)
 - 6.2 [Glossary of terms](#glossary-of-terms)
