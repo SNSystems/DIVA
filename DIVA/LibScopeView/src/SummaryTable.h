@@ -36,19 +36,26 @@
 namespace LibScopeView {
 
 class Object;
+class PrintSettings;
 
 class SummaryTable {
 public:
-  SummaryTable();
+  /// \brief Populate the summary table with stats on \p Root and its children.
+  ///
+  /// If \p Settings is null then the printed object amounts will equal the
+  /// found object amounts.
+  SummaryTable(const Object &Root, const PrintSettings *Settings);
 
   /// \brief Outut the summary table.
-  void printSummaryTable(std::ostream &out);
-
-  /// \brief Increment a specific column in Obj's row.
-  void incrementFound(const Object *obj);
-  void incrementPrinted(const Object *obj);
+  void printSummaryTable(std::ostream &out) const;
 
 private:
+  // Increment a specific column in Obj's row.
+  void incrementFound(const Object *obj);
+  void incrementPrinted(const Object *obj);
+  
+  class SummaryTableCounter;
+  
   struct SummaryTableRow {
     SummaryTableRow()
         : ObjectsFound(0), ObjectsPrinted(0) {}

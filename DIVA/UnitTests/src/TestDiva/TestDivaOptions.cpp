@@ -47,7 +47,7 @@ TEST(DivaOptions, Defaults) {
   EXPECT_TRUE(DOpt.InputFiles.empty());
 
   EXPECT_FALSE(DOptForQuietDefault.PrintingSettings.QuietMode);
-  EXPECT_FALSE(PSet.ShowSummary);
+  EXPECT_FALSE(DOpt.ShowSummary);
   EXPECT_FALSE(PSet.SplitOutput);
   EXPECT_TRUE(PSet.OutputDirectory.empty());
   EXPECT_EQ(DOpt.OutputFormats, std::set<OutputFormat>({OutputFormat::TEXT}));
@@ -68,7 +68,7 @@ TEST(DivaOptions, Defaults) {
   EXPECT_TRUE(PSet.ShowMember);
   EXPECT_TRUE(PSet.ShowNamespace);
   EXPECT_TRUE(PSet.ShowParameter);
-  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_FALSE(PSet.ShowPrimitiveType);
   EXPECT_TRUE(PSet.ShowStruct);
   EXPECT_TRUE(PSet.ShowTemplate);
   EXPECT_TRUE(PSet.ShowUnion);
@@ -244,7 +244,7 @@ TEST(DivaOptions, ShowNone) {
   EXPECT_FALSE(PSet.ShowMember);
   EXPECT_FALSE(PSet.ShowNamespace);
   EXPECT_FALSE(PSet.ShowParameter);
-  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_FALSE(PSet.ShowPrimitiveType);
   EXPECT_FALSE(PSet.ShowStruct);
   EXPECT_FALSE(PSet.ShowTemplate);
   EXPECT_FALSE(PSet.ShowUnion);
@@ -267,7 +267,7 @@ TEST(DivaOptions, ShowBrief) {
   EXPECT_TRUE(PSet.ShowMember);
   EXPECT_TRUE(PSet.ShowNamespace);
   EXPECT_TRUE(PSet.ShowParameter);
-  EXPECT_FALSE(PSet.ShowPrimitivetype);
+  EXPECT_FALSE(PSet.ShowPrimitiveType);
   EXPECT_TRUE(PSet.ShowStruct);
   EXPECT_TRUE(PSet.ShowTemplate);
   EXPECT_TRUE(PSet.ShowUnion);
@@ -290,7 +290,7 @@ TEST(DivaOptions, ShowAll) {
   EXPECT_TRUE(PSet.ShowMember);
   EXPECT_TRUE(PSet.ShowNamespace);
   EXPECT_TRUE(PSet.ShowParameter);
-  EXPECT_TRUE(PSet.ShowPrimitivetype);
+  EXPECT_TRUE(PSet.ShowPrimitiveType);
   EXPECT_TRUE(PSet.ShowStruct);
   EXPECT_TRUE(PSet.ShowTemplate);
   EXPECT_TRUE(PSet.ShowUnion);
@@ -311,7 +311,7 @@ TEST(DivaOptions, FlagArguments) {
   } while (0)
 
   CHECK_FLAG("quiet", PrintingSettings.QuietMode);
-  CHECK_FLAG("show-summary", PrintingSettings.ShowSummary);
+  CHECK_FLAG("show-summary", ShowSummary);
 
   CHECK_FLAG("show-alias", PrintingSettings.ShowAlias);
   CHECK_FLAG("show-block", PrintingSettings.ShowBlock);
@@ -322,7 +322,7 @@ TEST(DivaOptions, FlagArguments) {
   CHECK_FLAG("show-member", PrintingSettings.ShowMember);
   CHECK_FLAG("show-namespace", PrintingSettings.ShowNamespace);
   CHECK_FLAG("show-parameter", PrintingSettings.ShowParameter);
-  CHECK_FLAG("show-primitivetype", PrintingSettings.ShowPrimitivetype);
+  CHECK_FLAG("show-primitivetype", PrintingSettings.ShowPrimitiveType);
   CHECK_FLAG("show-struct", PrintingSettings.ShowStruct);
   CHECK_FLAG("show-template", PrintingSettings.ShowTemplate);
   CHECK_FLAG("show-union", PrintingSettings.ShowUnion);

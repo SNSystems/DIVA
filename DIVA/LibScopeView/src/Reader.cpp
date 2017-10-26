@@ -50,14 +50,6 @@ Reader *GlobalReader = nullptr;
 Reader *LibScopeView::getReader() { return GlobalReader; }
 void LibScopeView::setReader(Reader *Rdr) { GlobalReader = Rdr; }
 
-// Print summary details for the Scopes Tree.
-void Reader::printSummary(const PrintSettings &Settings) {
-  if (!PrintedHeader) {
-    getScopesRoot()->dump(Settings);
-  }
-  TheSummaryTable.printSummaryTable(std::cout);
-}
-
 void Reader::print(const PrintSettings &Settings) {
   // If doing any search (--filter), do not do any scope tree printing.
   if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
@@ -82,9 +74,6 @@ void Reader::printObjects(const PrintSettings &Settings) {
     for (Object *Matched : ViewMatchedObjects)
       Matched->dump(Settings);
   }
-
-  if (Settings.ShowSummary)
-    printSummary(Settings);
 }
 
 void Reader::printScopes(const PrintSettings &Settings) {
@@ -115,9 +104,6 @@ void Reader::printScopes(const PrintSettings &Settings) {
                   !Settings.WithChildrenFilterAnys.empty());
     Scp->print(DoSplit, Match, DoPrint, Settings);
   }
-
-  if (Settings.ShowSummary)
-    printSummary(Settings);
 }
 
 bool Reader::loadFile(const std::string &FileName,

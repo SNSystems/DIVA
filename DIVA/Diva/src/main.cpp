@@ -34,6 +34,7 @@
 #include "PrintSettings.h"
 #include "ScopeYAMLPrinter.h"
 #include "StringPool.h"
+#include "SummaryTable.h"
 #include "Utilities.h"
 
 #include <assert.h>
@@ -105,6 +106,15 @@ int main(int argc, char *argv[]) {
       } else {
         YAMLPrinter.print(AReader->getScopesRoot(), std::cout);
       }
+    }
+    // Print summary.
+    if (Options.ShowSummary) {
+      const LibScopeView::PrintSettings *Settings = &Options.PrintingSettings;
+      // Print settings were ignored for YAML.
+      if (Options.OutputFormats.count(OutputFormat::YAML))
+        Settings = nullptr;
+      LibScopeView::SummaryTable Table(*AReader->getScopesRoot(), Settings);
+      Table.printSummaryTable(std::cout);
     }
   }
 

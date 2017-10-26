@@ -117,9 +117,6 @@ const char *Symbol::resolveName() {
 
 void Symbol::dump(const PrintSettings &Settings) {
   if (Settings.printObject(*this)) {
-    // Object Summary Table.
-    getReader()->incrementPrinted(this);
-
     // Common Object Data.
     Element::dump(Settings);
 

@@ -29,6 +29,8 @@
 
 #include "SummaryTable.h"
 #include "Object.h"
+#include "PrintSettings.h"
+#include "ScopeVisitor.h"
 
 #include <assert.h>
 #include <iomanip>
@@ -37,7 +39,24 @@
 
 using namespace LibScopeView;
 
-SummaryTable::SummaryTable()
+class SummaryTable::SummaryTableCounter : public ConstScopeVisitor {
+public:
+  SummaryTableCounter(SummaryTable &SumTable, const PrintSettings *PSettings)
+      : Table(SumTable), Settings(PSettings) {}
+
+private:
+  SummaryTable &Table;
+  const PrintSettings *Settings;
+
+  void visitImpl(const Object *Obj) override {
+    Table.incrementFound(Obj);
+    if (!Settings || Settings->printObject(*Obj))
+      Table.incrementPrinted(Obj);
+    visitChildren(Obj);
+  }
+};
+
+SummaryTable::SummaryTable(const Object &Root, const PrintSettings *Settings)
     : TotalFound(0), TotalPrinted(0) {
   // Create a list of row labels for each DIVA Object.
   static const std::vector<std::string> RowLabels = {"Alias",
@@ -61,9 +80,12 @@ SummaryTable::SummaryTable()
   for (auto Label : RowLabels) {
     Rows.emplace(Label, SummaryTableRow());
   }
+
+  // Gather the stats.
+  SummaryTableCounter(*this, Settings).visit(&Root);
 }
 
-void SummaryTable::printSummaryTable(std::ostream &Out) {
+void SummaryTable::printSummaryTable(std::ostream &Out) const {
   // Calculate and create indent and divider strings.
   const uint32_t NumberOfColumns = 2;
   const uint32_t DividerLength = (LabelWidth + (ColumnWidth * NumberOfColumns));
@@ -78,8 +100,7 @@ void SummaryTable::printSummaryTable(std::ostream &Out) {
   const std::string TotalsLabel("Totals");
 
   // Output the header.
-  Out << "\n"
-      << Indent << Divider << std::endl
+  Out << Indent << Divider << std::endl
       << std::left << Indent << std::setw(LabelWidth) << ObjectLabel
       << std::right << std::setw(ColumnWidth) << TotalLabel
       << std::setw(ColumnWidth) << PrintedLabel << std::endl

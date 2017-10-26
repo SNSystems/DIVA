@@ -70,17 +70,6 @@ protected:
 private:
   std::string InputFile;
 
-  // Summary table member used with --show-summary.
-  SummaryTable TheSummaryTable;
-
-public:
-  void incrementFound(const Object *Obj) {
-    TheSummaryTable.incrementFound(Obj);
-  }
-  void incrementPrinted(const Object *Obj) {
-    TheSummaryTable.incrementPrinted(Obj);
-  }
-
 protected:
   // Scopes that match a pattern.
   typedef std::vector<Scope *> MatchedScopes;
@@ -93,7 +82,6 @@ protected:
 protected:
   virtual void printObjects(const PrintSettings &Settings);
   virtual void printScopes(const PrintSettings &Settings);
-  virtual void printSummary(const PrintSettings &Settings);
 
 public:
   void propagatePatternMatch();

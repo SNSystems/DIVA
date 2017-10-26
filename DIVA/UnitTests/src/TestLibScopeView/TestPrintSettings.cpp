@@ -134,7 +134,7 @@ TEST(ViewSpecification, PrintObject_Type) {
     EXPECT_FALSE(Settings.printObject(Ty));                                    \
   } while (false)
 
-  CHECK_TYPE_PRINT_OPTION(setIsBaseType, ShowPrimitivetype);
+  CHECK_TYPE_PRINT_OPTION(setIsBaseType, ShowPrimitiveType);
   CHECK_TYPE_PRINT_OPTION(setIsTemplateTemplate, ShowTemplate);
   CHECK_TYPE_PRINT_OPTION(setIsTemplateType, ShowTemplate);
   CHECK_TYPE_PRINT_OPTION(setIsTemplateValue, ShowTemplate);

@@ -58,7 +58,6 @@ public:
   bool matchesWithChildrenFilterPattern(const std::string &Name) const;
 
   bool QuietMode = false;
-  bool ShowSummary = false;
 
   bool SplitOutput = false;
   std::string OutputDirectory;
@@ -80,7 +79,7 @@ public:
   bool ShowMember;
   bool ShowNamespace;
   bool ShowParameter;
-  bool ShowPrimitivetype;
+  bool ShowPrimitiveType;
   bool ShowStruct;
   bool ShowTemplate;
   bool ShowUnion;
