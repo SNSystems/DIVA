@@ -47,7 +47,7 @@ void PrintSettings::showBrief() {
   ShowMember = true;
   ShowNamespace = true;
   ShowParameter = true;
-  ShowPrimitivetype = false;
+  ShowPrimitiveType = false;
   ShowStruct = true;
   ShowTemplate = true;
   ShowUnion = true;
@@ -65,7 +65,7 @@ void PrintSettings::setMoreShowOptions(bool SetTo) {
   ShowMember = SetTo;
   ShowNamespace = SetTo;
   ShowParameter = SetTo;
-  ShowPrimitivetype = SetTo;
+  ShowPrimitiveType = SetTo;
   ShowStruct = SetTo;
   ShowTemplate = SetTo;
   ShowUnion = SetTo;
@@ -115,7 +115,7 @@ bool PrintSettings::printObject(const Object &Obj) const {
     if (Ty->getIsSubrangeType())
       return false;
     if (Ty->getIsBaseType())
-      return ShowPrimitivetype;
+      return ShowPrimitiveType;
     else if (Ty->getIsTemplateParam())
       return ShowTemplate;
     else if (Ty->getIsTypedef())

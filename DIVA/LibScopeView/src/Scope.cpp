@@ -32,7 +32,7 @@
 #include "FileUtilities.h"
 #include "Line.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "Symbol.h"
 #include "Type.h"
 
@@ -142,9 +142,6 @@ void Scope::addObject(Line *Ln) {
     TheLines.push_back(Ln);
     Ln->setParent(this);
 
-    // Update Object Summary Table.
-    getReader()->incrementFound(Ln);
-
     // Do not add the line records to the children, as they represent the
     // logical view for the text section. Preserve the original sequence.
     // m_children->push_back(line);
@@ -162,9 +159,6 @@ void Scope::addObject(Scope *Scp) {
   TheScopes.push_back(Scp);
   Children.push_back(Scp);
   Scp->setParent(this);
-
-  // Object Summary Table.
-  getReader()->incrementFound(Scp);
 
   // If the object is a global reference, mark its parent as having global
   // references; that information is used, to print only those branches
@@ -185,9 +179,6 @@ void Scope::addObject(Symbol *Sym) {
   Children.push_back(Sym);
   Sym->setParent(this);
 
-  // Object Summary Table.
-  getReader()->incrementFound(Sym);
-
   // If the object is a global reference, mark its parent as having global
   // references; that information is used, to print only those branches
   // with global references.
@@ -206,9 +197,6 @@ void Scope::addObject(Type *Ty) {
   TheTypes.push_back(Ty);
   Children.push_back(Ty);
   Ty->setParent(this);
-
-  // Object Summary Table.
-  getReader()->incrementFound(Ty);
 
   // If the object is a global reference, mark its parent as having global
   // references; that information is used, to print only those branches
@@ -419,9 +407,6 @@ const char *Scope::resolveName() {
 void Scope::dump(const PrintSettings &Settings) {
   // Check if the object needs to be printed.
   if (dumpAllowed() || Settings.printObject(*this)) {
-    // Object Summary Table.
-    getReader()->incrementPrinted(this);
-
     // Common Object Data.
     Element::dump(Settings);
 

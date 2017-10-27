@@ -43,21 +43,6 @@
 
 using namespace LibScopeView;
 
-namespace {
-Reader *GlobalReader = nullptr;
-}
-
-Reader *LibScopeView::getReader() { return GlobalReader; }
-void LibScopeView::setReader(Reader *Rdr) { GlobalReader = Rdr; }
-
-// Print summary details for the Scopes Tree.
-void Reader::printSummary(const PrintSettings &Settings) {
-  if (!PrintedHeader) {
-    getScopesRoot()->dump(Settings);
-  }
-  TheSummaryTable.getPrintedSummaryTable(std::cout);
-}
-
 void Reader::print(const PrintSettings &Settings) {
   // If doing any search (--filter), do not do any scope tree printing.
   if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
@@ -82,9 +67,6 @@ void Reader::printObjects(const PrintSettings &Settings) {
     for (Object *Matched : ViewMatchedObjects)
       Matched->dump(Settings);
   }
-
-  if (Settings.ShowSummary)
-    printSummary(Settings);
 }
 
 void Reader::printScopes(const PrintSettings &Settings) {
@@ -115,19 +97,12 @@ void Reader::printScopes(const PrintSettings &Settings) {
                   !Settings.WithChildrenFilterAnys.empty());
     Scp->print(DoSplit, Match, DoPrint, Settings);
   }
-
-  if (Settings.ShowSummary)
-    printSummary(Settings);
 }
 
 bool Reader::loadFile(const std::string &FileName,
                       const PrintSettings &Settings) {
   destroyScopes();
   InputFile = FileName;
-
-  // Record current Reader, so it will be available to places where is hard
-  // to access it.
-  setReader(this);
 
   // Delegate the scope tree creation to the respective reader.
   if (!createScopes())

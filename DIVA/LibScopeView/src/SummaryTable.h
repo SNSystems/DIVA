@@ -36,40 +36,42 @@
 namespace LibScopeView {
 
 class Object;
+class PrintSettings;
 
 class SummaryTable {
 public:
-  SummaryTable();
+  /// \brief Populate the summary table with stats on \p Root and its children.
+  ///
+  /// If \p Settings is null then the printed object amounts will equal the
+  /// found object amounts.
+  SummaryTable(const Object &Root, const PrintSettings *Settings);
 
-  /// \brief Outut the standard summary table for a single file.
-  void getPrintedSummaryTable(std::ostream &out);
-
-  /// \brief Increment a specific column in Obj's row.
-  void incrementFound(const Object *obj);
-  void incrementPrinted(const Object *obj);
-  void incrementMissing(const Object *obj);
-  void incrementAdded(const Object *obj);
+  /// \brief Outut the summary table.
+  void printSummaryTable(std::ostream &out) const;
 
 private:
+  // Increment a specific column in Obj's row.
+  void incrementFound(const Object *obj);
+  void incrementPrinted(const Object *obj);
+  
+  class SummaryTableCounter;
+  
   struct SummaryTableRow {
     SummaryTableRow()
-        : ObjectsFound(0), ObjectsPrinted(0), ObjectsMissing(0),
-          ObjectsAdded(0) {}
+        : ObjectsFound(0), ObjectsPrinted(0) {}
     // Each row has numerous fields that can be incremented as needed.
     uint32_t ObjectsFound;
     uint32_t ObjectsPrinted;
-    uint32_t ObjectsMissing;
-    uint32_t ObjectsAdded;
   };
 
-  // Map of the rows, indexed via the ObjectsClassID.
+  SummaryTableRow *getCorrespondingRow(const Object *Obj);
+
+  // Map of the rows, indexed via the ObjectsClassID string.
   std::map<std::string, SummaryTableRow> Rows;
 
-  // Totals for all four columns of the summary table.
+  // Totals for all columns of the summary table.
   unsigned int TotalFound;
   unsigned int TotalPrinted;
-  unsigned int TotalMissing;
-  unsigned int TotalAdded;
 
   // Column width values.
   const static uint32_t LabelWidth = 19;

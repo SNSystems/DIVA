@@ -28,7 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "Line.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 
 #include "gtest/gtest.h"
 

@@ -29,7 +29,7 @@
 
 #include "Line.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "Utilities.h"
 
 #include <sstream>
@@ -92,9 +92,6 @@ std::string Line::getLineNumberAsStringStripped() {
 
 void Line::dump(const PrintSettings &Settings) {
   if (Settings.printObject(*this)) {
-    // Object Summary Table.
-    getReader()->incrementPrinted(this);
-
     // Common Object Data.
     Element::dump(Settings);
 

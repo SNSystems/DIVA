@@ -28,7 +28,8 @@
 //===----------------------------------------------------------------------===//
 
 #include "Line.h"
-#include "Reader.h"
+#include "PrintSettings.h"
+#include "Scope.h"
 #include "Type.h"
 
 #include "dwarf.h"
@@ -213,9 +214,6 @@ TEST(Scope, getAsText_Class) {
 }
 
 TEST(Scope, getAsYAML_Class) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -261,9 +259,6 @@ TEST(Scope, getAsYAML_Class) {
 }
 
 TEST(Scope, getAsYAML_multiInheritance) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -311,9 +306,6 @@ TEST(Scope, getAsYAML_multiInheritance) {
 }
 
 TEST(Scope, getAsYAML_Unspecified_Class) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Class;
   Class.setIsAggregate();
   Class.setIsClassType();
@@ -361,9 +353,6 @@ TEST(Scope, getAsText_CompileUnit) {
 }
 
 TEST(Scope, getAsYAML_CompileUnit) {
-  Reader R;
-  setReader(&R);
-
   ScopeCompileUnit CompileUnit;
   CompileUnit.setIsCompileUnit();
   CompileUnit.setName("c:/fakedir/fakefile.cpp");
@@ -401,9 +390,6 @@ TEST(Scope, getAsText_Enumeration) {
 }
 
 TEST(Scope, getAsYAML_Enumeration) {
-  Reader R;
-  setReader(&R);
-
   ScopeEnumeration Enum;
   Enum.setIsEnumerationType();
   Enum.setName("days");
@@ -866,9 +852,6 @@ TEST(Scope, getAsText_Struct) {
 }
 
 TEST(Scope, getAsYAML_Struct) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -914,9 +897,6 @@ TEST(Scope, getAsYAML_Struct) {
 }
 
 TEST(Scope, getAsYAML_Unspecified_Struct) {
-  Reader R;
-  setReader(&R);
-
   ScopeAggregate Struct;
   Struct.setIsAggregate();
   Struct.setIsStructType();
@@ -964,9 +944,6 @@ TEST(Scope, getAsText_TemplatePack) {
 }
 
 TEST(Scope, getAsYAML_TemplatePack) {
-  Reader R;
-  setReader(&R);
-
   ScopeTemplatePack Pack;
   Pack.setIsTemplatePack();
   Pack.setName("TPack");

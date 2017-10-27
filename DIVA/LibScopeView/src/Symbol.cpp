@@ -29,7 +29,8 @@
 
 #include "Symbol.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
+#include "Scope.h"
 
 #include <assert.h>
 #include <sstream>
@@ -117,9 +118,6 @@ const char *Symbol::resolveName() {
 
 void Symbol::dump(const PrintSettings &Settings) {
   if (Settings.printObject(*this)) {
-    // Object Summary Table.
-    getReader()->incrementPrinted(this);
-
     // Common Object Data.
     Element::dump(Settings);
 

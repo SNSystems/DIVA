@@ -32,7 +32,6 @@
 
 #include "PrintSettings.h"
 #include "Scope.h"
-#include "SummaryTable.h"
 
 namespace LibScopeView {
 
@@ -49,10 +48,8 @@ public:
   virtual ~Reader() { delete Scopes; }
 
 private:
-  // TODO: Make pure virtual but all the tests currently have to instantiate a
-  // Reader to not crash, so that needs to be fixed first.
   /// \brief Implements the creation of the tree from a file.
-  virtual bool createScopes() { return false; }
+  virtual bool createScopes() = 0;
 
   void postCreationActions(const PrintSettings &Settings);
 
@@ -70,23 +67,6 @@ protected:
 private:
   std::string InputFile;
 
-  // Summary table member used with --show-summary.
-  SummaryTable TheSummaryTable;
-
-public:
-  void incrementFound(const Object *Obj) {
-    TheSummaryTable.incrementFound(Obj);
-  }
-  void incrementAdded(const Object *Obj) {
-    TheSummaryTable.incrementAdded(Obj);
-  }
-  void incrementPrinted(const Object *Obj) {
-    TheSummaryTable.incrementPrinted(Obj);
-  }
-  void incrementMissing(const Object *Obj) {
-    TheSummaryTable.incrementMissing(Obj);
-  }
-
 protected:
   // Scopes that match a pattern.
   typedef std::vector<Scope *> MatchedScopes;
@@ -99,7 +79,6 @@ protected:
 protected:
   virtual void printObjects(const PrintSettings &Settings);
   virtual void printScopes(const PrintSettings &Settings);
-  virtual void printSummary(const PrintSettings &Settings);
 
 public:
   void propagatePatternMatch();
@@ -116,10 +95,6 @@ public:
   // Access to the scopes root.
   Scope *getScopesRoot() const { return Scopes; }
 };
-
-/// \brief Get the current Reader.
-Reader *getReader();
-void setReader(Reader *Rdr);
 
 } // namespace LibScopeView
 

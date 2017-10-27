@@ -28,6 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "Line.h"
+#include "PrintSettings.h"
 #include "Scope.h"
 #include "SummaryTable.h"
 #include "Symbol.h"
@@ -38,7 +39,9 @@
 #include <memory>
 #include <sstream>
 
-enum ObjectKind : uint32_t {
+using namespace LibScopeView;
+
+enum ObjectKind {
   Alias,
   Block,
   Class,
@@ -58,102 +61,122 @@ enum ObjectKind : uint32_t {
   ObjectKindSize
 };
 
-std::unique_ptr<LibScopeView::Object> GenerateTestObject(uint32_t Kind) {
+void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
   switch (Kind) {
   case Alias: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsTemplateAlias();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Block: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsBlock();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Class: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsClassType();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case CodeLine: {
-    auto Ln = std::make_unique<LibScopeView::Line>();
+    auto *Ln = new Line;
     Ln->setIsLineRecord();
-    return std::move(Ln);
+    Root.addObject(Ln);
+    break;
   }
   case CompileUnit: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsCompileUnit();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Enum: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsEnumerationType();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Function: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsFunction();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Member: {
-    auto Sym = std::make_unique<LibScopeView::Symbol>();
+    auto *Sym = new Symbol;
     Sym->setIsMember();
-    return std::move(Sym);
+    Root.addObject(Sym);
+    break;
   }
   case Namespace: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsNamespace();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Parameter: {
-    auto Sym = std::make_unique<LibScopeView::Symbol>();
+    auto *Sym = new Symbol;
     Sym->setIsParameter();
-    return std::move(Sym);
+    Root.addObject(Sym);
+    break;
   }
   case PrimitiveType: {
-    auto Ty = std::make_unique<LibScopeView::Type>();
+    auto *Ty = new Type;
     Ty->setIsBaseType();
-    return std::move(Ty);
+    Root.addObject(Ty);
+    break;
   }
   case Struct: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsStructType();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case TemplateParameter: {
-    auto Ty = std::make_unique<LibScopeView::Type>();
+    auto *Ty = new Type;
     Ty->setIsTemplateParam();
     Ty->setIsTemplateType();
-    return std::move(Ty);
+    Root.addObject(Ty);
+    break;
   }
   case Union: {
-    auto Scp = std::make_unique<LibScopeView::Scope>();
+    auto *Scp = new Scope;
     Scp->setIsUnionType();
-    return std::move(Scp);
+    Root.addObject(Scp);
+    break;
   }
   case Using: {
-    auto Ty = std::make_unique<LibScopeView::Type>();
+    auto *Ty = new Type;
     Ty->setIsImported();
-    return std::move(Ty);
+    Root.addObject(Ty);
+    break;
   }
   case Variable: {
-    auto Sym = std::make_unique<LibScopeView::Symbol>();
+    auto *Sym = new Symbol;
     Sym->setIsVariable();
-    return std::move(Sym);
+    Root.addObject(Sym);
+    break;
   }
+  case ObjectKindSize:
+    assert(false && "Unreachable");
+    break;
   }
-
-  return nullptr;
 }
 
-TEST(SummaryTable, EmptyStandardSummaryTable) {
-  LibScopeView::SummaryTable STab;
+TEST(SummaryTable, EmptySummaryTable) {
+  ScopeRoot Root;
+  Root.setIsRoot();
+  Root.setCanHaveLines();
+  
+  SummaryTable STab(Root, nullptr);
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
-  std::string Expected = "\n"
-                         "     -------------------------------------\n"
+  std::string Expected = "     -------------------------------------\n"
                          "     Object                 Total  Printed\n"
                          "     -------------------------------------\n"
                          "     Alias                      0        0\n"
@@ -179,20 +202,20 @@ TEST(SummaryTable, EmptyStandardSummaryTable) {
   EXPECT_EQ(Result.str(), Expected);
 }
 
-TEST(SummaryTable, OneIncrementStandardSummaryTable) {
-  LibScopeView::SummaryTable STab;
+TEST(SummaryTable, OneIncrementSummaryTable) {
+  ScopeRoot Root;
+  Root.setIsRoot();
+  Root.setCanHaveLines();
+  
+  for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
+    generateTestObject(Root, ObjectKind(Kind));
 
-  for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind) {
-    auto Obj = GenerateTestObject(Kind);
-    STab.incrementFound(Obj.get());
-    STab.incrementPrinted(Obj.get());
-  }
+  SummaryTable STab(Root, nullptr);
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
-  std::string Expected = "\n"
-                         "     -------------------------------------\n"
+  std::string Expected = "     -------------------------------------\n"
                          "     Object                 Total  Printed\n"
                          "     -------------------------------------\n"
                          "     Alias                      1        1\n"
@@ -218,38 +241,29 @@ TEST(SummaryTable, OneIncrementStandardSummaryTable) {
   EXPECT_EQ(Result.str(), Expected);
 }
 
-TEST(SummaryTable, MultipleIncrementsStandardSummaryTable) {
-  LibScopeView::SummaryTable STab;
+TEST(SummaryTable, MultipleIncrementsSummaryTable) {
+  ScopeRoot Root;
+  Root.setIsRoot();
+  Root.setCanHaveLines();
 
-  for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind) {
-    auto Obj = GenerateTestObject(Kind);
-    STab.incrementFound(Obj.get());
-    STab.incrementPrinted(Obj.get());
-  }
+  for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
+    generateTestObject(Root, ObjectKind(Kind));
 
   const auto IncrementBy = 3;
-  for (uint32_t Counter = 0; Counter != IncrementBy; ++Counter) {
-    for (uint32_t Kind = ObjectKindSize / 2; Kind != ObjectKindSize; ++Kind) {
-      auto Obj = GenerateTestObject(Kind);
-      STab.incrementFound(Obj.get());
-      STab.incrementPrinted(Obj.get());
-    }
-  }
+  for (uint32_t Counter = 0; Counter != IncrementBy; ++Counter)
+    for (uint32_t Kind = ObjectKindSize / 2; Kind != ObjectKindSize; ++Kind)
+      generateTestObject(Root, ObjectKind(Kind));
 
-  auto Obj = GenerateTestObject(ObjectKind::Block);
-  STab.incrementFound(Obj.get());
-  STab.incrementPrinted(Obj.get());
+  generateTestObject(Root, ObjectKind::Block);
+  generateTestObject(Root, ObjectKind::Enum);
+  generateTestObject(Root, ObjectKind::Enum);
 
-  Obj = GenerateTestObject(ObjectKind::Enum);
-  STab.incrementFound(Obj.get());
-  STab.incrementFound(Obj.get());
-  STab.incrementPrinted(Obj.get());
+  SummaryTable STab(Root, nullptr);
 
   std::stringstream Result;
-  STab.getPrintedSummaryTable(Result);
+  STab.printSummaryTable(Result);
 
-  std::string Expected = "\n"
-                         "     -------------------------------------\n"
+  std::string Expected = "     -------------------------------------\n"
                          "     Object                 Total  Printed\n"
                          "     -------------------------------------\n"
                          "     Alias                      1        1\n"
@@ -257,7 +271,7 @@ TEST(SummaryTable, MultipleIncrementsStandardSummaryTable) {
                          "     Class                      1        1\n"
                          "     CodeLine                   1        1\n"
                          "     CompileUnit                1        1\n"
-                         "     Enum                       3        2\n"
+                         "     Enum                       3        3\n"
                          "     Function                   1        1\n"
                          "     Member                     1        1\n"
                          "     Namespace                  4        4\n"
@@ -269,7 +283,64 @@ TEST(SummaryTable, MultipleIncrementsStandardSummaryTable) {
                          "     Using                      4        4\n"
                          "     Variable                   4        4\n"
                          "     -------------------------------------\n"
-                         "     Totals                    43       42\n"
+                         "     Totals                    43       43\n"
+                         "\n";
+
+  EXPECT_EQ(Result.str(), Expected);
+}
+
+TEST(SummaryTable, PrintSettingsSummaryTable) {
+  ScopeRoot Root;
+  Root.setIsRoot();
+  Root.setCanHaveLines();
+  
+  for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
+    generateTestObject(Root, ObjectKind(Kind));
+
+  PrintSettings Settings;
+  Settings.ShowAlias = true;
+  Settings.ShowBlock = false;
+  Settings.ShowClass = true;
+  Settings.ShowCodeline = false;
+  // CompileUnits are always shown
+  Settings.ShowEnum = false;
+  Settings.ShowFunction = true;
+  Settings.ShowMember = false;
+  Settings.ShowNamespace = true;
+  Settings.ShowParameter = false;
+  Settings.ShowPrimitiveType = true;
+  Settings.ShowStruct = false;
+  Settings.ShowTemplate = true;
+  Settings.ShowUnion = false;
+  Settings.ShowUsing = true;
+  Settings.ShowVariable = false;
+
+  SummaryTable STab(Root, &Settings);
+
+  std::stringstream Result;
+  STab.printSummaryTable(Result);
+
+  std::string Expected = "     -------------------------------------\n"
+                         "     Object                 Total  Printed\n"
+                         "     -------------------------------------\n"
+                         "     Alias                      1        1\n"
+                         "     Block                      1        0\n"
+                         "     Class                      1        1\n"
+                         "     CodeLine                   1        0\n"
+                         "     CompileUnit                1        1\n"
+                         "     Enum                       1        0\n"
+                         "     Function                   1        1\n"
+                         "     Member                     1        0\n"
+                         "     Namespace                  1        1\n"
+                         "     Parameter                  1        0\n"
+                         "     PrimitiveType              1        1\n"
+                         "     Struct                     1        0\n"
+                         "     TemplateParameter          1        1\n"
+                         "     Union                      1        0\n"
+                         "     Using                      1        1\n"
+                         "     Variable                   1        0\n"
+                         "     -------------------------------------\n"
+                         "     Totals                    16        8\n"
                          "\n";
 
   EXPECT_EQ(Result.str(), Expected);

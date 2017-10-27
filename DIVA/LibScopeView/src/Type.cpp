@@ -28,8 +28,9 @@
 
 #include "Type.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "StringPool.h"
+#include "Scope.h"
 #include "Symbol.h"
 
 #include <assert.h>
@@ -156,9 +157,6 @@ bool Type::setFullName(const PrintSettings &Settings) {
 
 void Type::dump(const PrintSettings &Settings) {
   if (Settings.printObject(*this)) {
-    // Object Summary Table.
-    getReader()->incrementPrinted(this);
-
     // Common Object Data.
     Element::dump(Settings);
 

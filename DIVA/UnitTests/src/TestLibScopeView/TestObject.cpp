@@ -27,7 +27,8 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "Reader.h"
+#include "Object.h"
+#include "Scope.h"
 #include "Symbol.h"
 #include "Type.h"
 
@@ -83,9 +84,6 @@ private:
 } // namespace
 
 TEST(Object, getCommonYAML) {
-  Reader R;
-  setReader(&R);
-
   TestObject TO;
   EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
                                 "name: null\n"
@@ -201,9 +199,6 @@ TEST(Object, getCommonYAML) {
 }
 
 TEST(Object, ResolveQualifiedName) {
-  Reader R;
-  setReader(&R);
-
   ScopeNamespace NS1;
   NS1.setName("NS1");
   NS1.setIsNamespace();

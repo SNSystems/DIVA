@@ -29,15 +29,38 @@
 
 #include "SummaryTable.h"
 #include "Object.h"
+#include "PrintSettings.h"
+#include "ScopeVisitor.h"
 
+#include <assert.h>
 #include <iomanip>
 #include <ostream>
 #include <vector>
 
 using namespace LibScopeView;
 
-SummaryTable::SummaryTable()
-    : TotalFound(0), TotalPrinted(0), TotalMissing(0), TotalAdded(0) {
+class SummaryTable::SummaryTableCounter : public ConstScopeVisitor {
+public:
+  SummaryTableCounter(SummaryTable &SumTable, const PrintSettings *PSettings)
+      : Table(SumTable), Settings(PSettings) {}
+
+private:
+  SummaryTable &Table;
+  const PrintSettings *Settings;
+
+  void visitImpl(const Object *Obj) override;
+};
+
+// So the vtable for SummaryTableCounter can be out of line.
+void SummaryTable::SummaryTableCounter::visitImpl(const Object *Obj) {
+  Table.incrementFound(Obj);
+  if (!Settings || Settings->printObject(*Obj))
+    Table.incrementPrinted(Obj);
+  visitChildren(Obj);
+}
+
+SummaryTable::SummaryTable(const Object &Root, const PrintSettings *Settings)
+    : TotalFound(0), TotalPrinted(0) {
   // Create a list of row labels for each DIVA Object.
   static const std::vector<std::string> RowLabels = {"Alias",
                                                      "Block",
@@ -60,9 +83,12 @@ SummaryTable::SummaryTable()
   for (auto Label : RowLabels) {
     Rows.emplace(Label, SummaryTableRow());
   }
+
+  // Gather the stats.
+  SummaryTableCounter(*this, Settings).visit(&Root);
 }
 
-void SummaryTable::getPrintedSummaryTable(std::ostream &Out) {
+void SummaryTable::printSummaryTable(std::ostream &Out) const {
   // Calculate and create indent and divider strings.
   const uint32_t NumberOfColumns = 2;
   const uint32_t DividerLength = (LabelWidth + (ColumnWidth * NumberOfColumns));
@@ -77,8 +103,7 @@ void SummaryTable::getPrintedSummaryTable(std::ostream &Out) {
   const std::string TotalsLabel("Totals");
 
   // Output the header.
-  Out << "\n"
-      << Indent << Divider << std::endl
+  Out << Indent << Divider << std::endl
       << std::left << Indent << std::setw(LabelWidth) << ObjectLabel
       << std::right << std::setw(ColumnWidth) << TotalLabel
       << std::setw(ColumnWidth) << PrintedLabel << std::endl
@@ -102,52 +127,28 @@ void SummaryTable::getPrintedSummaryTable(std::ostream &Out) {
 }
 
 void SummaryTable::incrementFound(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsFound);
-  ++TotalFound;
+  if (SummaryTableRow *Row = getCorrespondingRow(Obj)) {
+    ++(Row->ObjectsFound);
+    ++TotalFound;
+  }
 }
 
 void SummaryTable::incrementPrinted(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsPrinted);
-  ++TotalPrinted;
+  if (SummaryTableRow *Row = getCorrespondingRow(Obj)) {
+    ++(Row->ObjectsPrinted);
+    ++TotalPrinted;
+  }
 }
 
-void SummaryTable::incrementMissing(const Object *Obj) {
+SummaryTable::SummaryTableRow *
+SummaryTable::getCorrespondingRow(const Object *Obj) {
+  assert(Obj);
   if (!Obj)
-    return;
+    return nullptr;
 
-  auto Row = Rows.find(Obj->getKindAsString());
+  auto RowIt = Rows.find(Obj->getKindAsString());
+  if (RowIt == Rows.end())
+    return nullptr;
 
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsMissing);
-  ++TotalMissing;
-}
-
-void SummaryTable::incrementAdded(const Object *Obj) {
-  if (!Obj)
-    return;
-
-  auto Row = Rows.find(Obj->getKindAsString());
-  if (Row == Rows.end())
-    return;
-
-  ++(Row->second.ObjectsAdded);
-  ++TotalAdded;
+  return &RowIt->second;
 }

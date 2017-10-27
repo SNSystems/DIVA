@@ -27,9 +27,10 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "Reader.h"
-
 #include "Sort.h"
+#include "Object.h"
+
+#include <string>
 
 using namespace LibScopeView;
 

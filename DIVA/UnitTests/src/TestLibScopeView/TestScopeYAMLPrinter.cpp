@@ -27,7 +27,7 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "Reader.h"
+#include "Scope.h"
 #include "ScopeYAMLPrinter.h"
 
 #include "gtest/gtest.h"
@@ -55,9 +55,6 @@ public:
 }
 
 TEST(ScopeYAMLPrinter, PrintNoChildren) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
@@ -77,9 +74,6 @@ TEST(ScopeYAMLPrinter, PrintNoChildren) {
 }
 
 TEST(ScopeYAMLPrinter, Print) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
@@ -119,9 +113,6 @@ TEST(ScopeYAMLPrinter, Print) {
 }
 
 TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
@@ -152,9 +143,6 @@ TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
 }
 
 TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
@@ -176,10 +164,6 @@ TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
 }
 
 TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
-
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");

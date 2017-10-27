@@ -57,6 +57,8 @@ public:
 
   LibScopeView::PrintSettings PrintingSettings;
 
+  bool ShowSummary = false;
+
   bool ShowPerformanceTime = false;
   bool ShowPerformanceMemory = false;
   bool ShowScopeAllocation = false;
