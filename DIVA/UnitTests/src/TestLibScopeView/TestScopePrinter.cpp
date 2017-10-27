@@ -28,7 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "FileUtilities.h"
-#include "Reader.h"
+#include "Scope.h"
 #include "ScopePrinter.h"
 #include "UtilsForTesting.h"
 
@@ -64,9 +64,6 @@ private:
 } // end anonymous namespace
 
 TEST(ScopePrinter, StandardPrint) {
-  Reader R;
-  setReader(&R);
-
   std::stringstream Output;
   Scope Scp1;
   Scp1.setName("Scope1");
@@ -80,9 +77,6 @@ TEST(ScopePrinter, StandardPrint) {
 }
 
 TEST(ScopePrinter, SplitPrint) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root;
   Root.setName("SHOULD NOT PRINT");
 

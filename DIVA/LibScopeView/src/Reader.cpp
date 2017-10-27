@@ -43,13 +43,6 @@
 
 using namespace LibScopeView;
 
-namespace {
-Reader *GlobalReader = nullptr;
-}
-
-Reader *LibScopeView::getReader() { return GlobalReader; }
-void LibScopeView::setReader(Reader *Rdr) { GlobalReader = Rdr; }
-
 void Reader::print(const PrintSettings &Settings) {
   // If doing any search (--filter), do not do any scope tree printing.
   if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
@@ -110,10 +103,6 @@ bool Reader::loadFile(const std::string &FileName,
                       const PrintSettings &Settings) {
   destroyScopes();
   InputFile = FileName;
-
-  // Record current Reader, so it will be available to places where is hard
-  // to access it.
-  setReader(this);
 
   // Delegate the scope tree creation to the respective reader.
   if (!createScopes())

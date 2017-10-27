@@ -32,7 +32,6 @@
 
 #include "PrintSettings.h"
 #include "Scope.h"
-#include "SummaryTable.h"
 
 namespace LibScopeView {
 
@@ -49,10 +48,8 @@ public:
   virtual ~Reader() { delete Scopes; }
 
 private:
-  // TODO: Make pure virtual but all the tests currently have to instantiate a
-  // Reader to not crash, so that needs to be fixed first.
   /// \brief Implements the creation of the tree from a file.
-  virtual bool createScopes() { return false; }
+  virtual bool createScopes() = 0;
 
   void postCreationActions(const PrintSettings &Settings);
 
@@ -98,10 +95,6 @@ public:
   // Access to the scopes root.
   Scope *getScopesRoot() const { return Scopes; }
 };
-
-/// \brief Get the current Reader.
-Reader *getReader();
-void setReader(Reader *Rdr);
 
 } // namespace LibScopeView
 

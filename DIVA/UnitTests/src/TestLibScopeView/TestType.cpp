@@ -27,7 +27,8 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "Reader.h"
+#include "PrintSettings.h"
+#include "Scope.h"
 #include "Symbol.h"
 #include "Type.h"
 

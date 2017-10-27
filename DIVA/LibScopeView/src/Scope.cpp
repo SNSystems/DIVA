@@ -32,7 +32,7 @@
 #include "FileUtilities.h"
 #include "Line.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "Symbol.h"
 #include "Type.h"
 

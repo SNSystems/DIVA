@@ -28,8 +28,9 @@
 
 #include "Type.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "StringPool.h"
+#include "Scope.h"
 #include "Symbol.h"
 
 #include <assert.h>

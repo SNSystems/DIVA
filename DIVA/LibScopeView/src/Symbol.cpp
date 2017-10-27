@@ -29,7 +29,8 @@
 
 #include "Symbol.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
+#include "Scope.h"
 
 #include <assert.h>
 #include <sstream>

@@ -29,7 +29,7 @@
 
 #include "Line.h"
 #include "PrintContext.h"
-#include "Reader.h"
+#include "PrintSettings.h"
 #include "Utilities.h"
 
 #include <sstream>

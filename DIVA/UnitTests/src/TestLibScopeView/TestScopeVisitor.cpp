@@ -28,7 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "Object.h"
-#include "Reader.h"
+#include "Scope.h"
 #include "ScopeVisitor.h"
 #include "Symbol.h"
 #include "Line.h"
@@ -98,10 +98,6 @@ TEST(ScopeVisitor, ConstScopeVisitor) {
 
 // Test using the visitChildren method.
 TEST(ScopeVisitor, VisitChildren) {
-  // Create a global reader object as Scope.AddObject uses it.
-  Reader R;
-  setReader(&R);
-
   StrictMockVisitor Visitor;
   Scope Scp;
   // Allocate child scopes with new, will be deleted by the parent scope in its
@@ -139,9 +135,6 @@ TEST(ScopeVisitor, VisitChildren) {
 
 // Test lines are always visited after other children.
 TEST(ScopeVisitor, VisitLineChildren) {
-  Reader R;
-  setReader(&R);
-
   StrictMockVisitor Visitor;
   Scope Scp;
   Line *Line1 = new Line();

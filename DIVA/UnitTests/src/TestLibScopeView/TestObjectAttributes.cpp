@@ -27,7 +27,9 @@
 ///
 //===----------------------------------------------------------------------===//
 
-#include "Reader.h"
+#include "PrintSettings.h"
+#include "Object.h"
+#include "Scope.h"
 #include "Symbol.h"
 #include "Type.h"
 
@@ -37,9 +39,6 @@
 using namespace LibScopeView;
 
 TEST(ObjectAttributes, getAttributesAsText) {
-  Reader R;
-  setReader(&R);
-
   ScopeRoot Root(-1);
   Root.setIsRoot();
   Root.setDieOffset(0x0cae);
