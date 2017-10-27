@@ -48,13 +48,16 @@ private:
   SummaryTable &Table;
   const PrintSettings *Settings;
 
-  void visitImpl(const Object *Obj) override {
-    Table.incrementFound(Obj);
-    if (!Settings || Settings->printObject(*Obj))
-      Table.incrementPrinted(Obj);
-    visitChildren(Obj);
-  }
+  void visitImpl(const Object *Obj) override;
 };
+
+// So the vtable for SummaryTableCounter can be out of line.
+void SummaryTable::SummaryTableCounter::visitImpl(const Object *Obj) {
+  Table.incrementFound(Obj);
+  if (!Settings || Settings->printObject(*Obj))
+    Table.incrementPrinted(Obj);
+  visitChildren(Obj);
+}
 
 SummaryTable::SummaryTable(const Object &Root, const PrintSettings *Settings)
     : TotalFound(0), TotalPrinted(0) {

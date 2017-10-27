@@ -160,6 +160,9 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
     Root.addObject(Sym);
     break;
   }
+  case ObjectKindSize:
+    assert(false && "Unreachable");
+    break;
   }
 }
 
