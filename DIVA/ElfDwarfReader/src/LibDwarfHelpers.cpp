@@ -613,7 +613,8 @@ void DwarfAttrValue::destroyValue() {
 
 // DwarfLineTable methods.
 
-DwarfLineTable::DwarfLineTable(const DwarfDie &CU) {
+DwarfLineTable::DwarfLineTable(const DwarfDie &CU)
+    : Context(nullptr), Lines(nullptr), LineCount(0U) {
   assert(CU.getTag() == DW_TAG_compile_unit &&
          "getLineTable is only valid on compile units");
 
