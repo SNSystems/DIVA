@@ -52,12 +52,13 @@ std::string escapeBackslashes(const std::string &input) {
 
 } // namespace
 
-ScopeYAMLPrinter::ScopeYAMLPrinter(std::string InputFile, std::string Version,
+ScopeYAMLPrinter::ScopeYAMLPrinter(const PrintSettings &Settings,
+                                   const std::string &InputFile,
+                                   const std::string &Version,
                                    uint8_t SizeOfIndent)
-    : IndentSize(SizeOfIndent), IndentLevel(1) {
-  InputFile = escapeBackslashes(InputFile);
+    : ScopePrinter(Settings), IndentSize(SizeOfIndent), IndentLevel(1) {
   YAMLHeader.append("input_file: \"")
-      .append(InputFile)
+      .append(escapeBackslashes(InputFile))
       .append("\"\noutput_version: \"")
       .append(Version)
       .append("\"\nobjects:\n");

@@ -38,10 +38,13 @@ using namespace LibScopeView;
 
 namespace {
 
+const PrintSettings TestSettings;
+
 // Test printer that prints the name of an object and its children.
 class TestNamePrinter : public ScopePrinter {
 public:
-  using ScopePrinter::ScopePrinter;
+  TestNamePrinter() : ScopePrinter(TestSettings) {}
+
 private:
   void printImpl(const Object *Obj, std::ostream &OutputStream) override {
     OutputStream << Obj->getName() << '\n';

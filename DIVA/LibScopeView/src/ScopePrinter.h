@@ -31,6 +31,7 @@
 #define SCOPEVIEW_SCOPEPRINTER_H
 
 #include "ScopeVisitor.h"
+#include "PrintSettings.h"
 
 #include <string>
 
@@ -62,7 +63,8 @@ class ScopeRoot;
 /// \endcode
 class ScopePrinter : private ConstScopeVisitor {
 public:
-  ScopePrinter() : OutputStream(nullptr) {}
+  ScopePrinter(const PrintSettings &PrintingSettings) :
+      Settings(PrintingSettings), OutputStream(nullptr) {}
   virtual ~ScopePrinter() override {}
 
   /// \brief Print Obj to Output.
@@ -73,6 +75,9 @@ public:
 
 protected:
   void printChildren(const Object *Obj) { visitChildren(Obj); }
+
+  // Print settings.
+  const PrintSettings &Settings;
 
 private:
   /// \brief Subclass interface for printing an object.

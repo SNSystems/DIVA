@@ -36,6 +36,8 @@ using namespace LibScopeView;
 
 namespace {
 
+PrintSettings Settings;
+
 class FakeObject : public Scope {
 public:
   FakeObject(std::string FakeName) : FakeName(FakeName) {}
@@ -61,7 +63,7 @@ TEST(ScopeYAMLPrinter, PrintNoChildren) {
   Root.addObject(Top);
 
   std::stringstream Output;
-  ScopeYAMLPrinter("In.o", "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
 
   std::string ExpectedYAML("input_file: \"In.o\"\n");
   ExpectedYAML += "output_version: \"V0\"\n";
@@ -88,7 +90,7 @@ TEST(ScopeYAMLPrinter, Print) {
   Child1->addObject(Child4);
 
   std::stringstream Output;
-  ScopeYAMLPrinter("In.o", "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
 
   std::string ExpectedYAML("input_file: \"In.o\"\n");
   ExpectedYAML += "output_version: \"V0\"\n";
@@ -127,7 +129,7 @@ TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
   Child2NoYAML->addObject(Child4);
 
   std::stringstream Output;
-  ScopeYAMLPrinter("In.o", "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
 
   std::string ExpectedYAML("input_file: \"In.o\"\n");
   ExpectedYAML += "output_version: \"V0\"\n";
@@ -151,7 +153,7 @@ TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
   Top->addObject(Child2NoYAML);
 
   std::stringstream Output;
-  ScopeYAMLPrinter("In.o", "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
 
   std::string ExpectedYAML("input_file: \"In.o\"\n");
   ExpectedYAML += "output_version: \"V0\"\n";
@@ -179,7 +181,7 @@ TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
 
   std::stringstream Output;
   std::string inputFile = "..\\..\\file.o";
-  ScopeYAMLPrinter(inputFile, "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, inputFile, "V0").print(&Root, Output);
 
   std::string ExpectedYAML("input_file: \"..\\\\..\\\\file.o\"\n");
   ExpectedYAML += "output_version: \"V0\"\n";
@@ -196,7 +198,7 @@ TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
   // Clear the output buffer.
   Output.str(std::string());
   inputFile = "..\\\\..\\\\file.o";
-  ScopeYAMLPrinter(inputFile, "V0").print(&Root, Output);
+  ScopeYAMLPrinter(Settings, inputFile, "V0").print(&Root, Output);
 
   // Re-assign expected result.
   ExpectedYAML = std::string("input_file: \"..\\\\\\\\..\\\\\\\\file.o\"\n");

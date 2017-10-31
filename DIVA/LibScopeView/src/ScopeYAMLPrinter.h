@@ -37,8 +37,8 @@ namespace LibScopeView {
 /// \brief A Scope printer that outputs in the YAML format.
 class ScopeYAMLPrinter : public ScopePrinter {
 public:
-  explicit ScopeYAMLPrinter(std::string InputFile, std::string Version,
-                            uint8_t SizeOfIndent = 2);
+  ScopeYAMLPrinter(const PrintSettings &Settings, const std::string &InputFile,
+                   const std::string &Version, uint8_t SizeOfIndent = 2);
 
 private:
   const std::string &getFileExtension() override;

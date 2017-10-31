@@ -97,7 +97,8 @@ int main(int argc, char *argv[]) {
     // Print YAML.
     if (Options.OutputFormats.count(OutputFormat::YAML)) {
       // YAML_OUTPUT_VERSION_STR is defined by CMake.
-      LibScopeView::ScopeYAMLPrinter YAMLPrinter(AReader->getInputFile(),
+      LibScopeView::ScopeYAMLPrinter YAMLPrinter(Options.PrintingSettings,
+                                                 AReader->getInputFile(),
                                                  YAML_OUTPUT_VERSION_STR);
       if (Options.PrintingSettings.SplitOutput) {
         YAMLPrinter.print(
