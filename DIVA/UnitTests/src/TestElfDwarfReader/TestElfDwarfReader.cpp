@@ -49,17 +49,6 @@ using testing::AssertionResult;
 // TestInputs/ElfDwarfReader. Changing these elf files in any way may cause
 // these tests to fail.
 
-// Reading of the following DWARF tags is not currently tested due to lack of
-// appropriate DWARF test data:
-//
-// DWARF_TAG_catch_block
-// DWARF_TAG_entry_point
-// DWARF_TAG_inlined_subroutine
-// DWARF_TAG_ptr_to_member
-// DWARF_TAG_template_alias
-// DWARF_TAG_try_block
-// DWARF_TAG_unspecified_type
-
 // Test helper functions and fixtures.
 namespace {
 
@@ -291,14 +280,39 @@ TEST_F(TestElfDwarfReader, ReadBlocks) {
   ASSERT_EQ(CU->getScopeCount(), 1U);
   ASSERT_EQ(CU->getScopeAt(0)->getScopeCount(), 3U);
 
-  // TODO: Test try/catch when DWARF input is available.
-
   // DW_TAG_lexical_block
   EXPECT_TRUE(CU->getScopeAt(0)->getScopeAt(2)->getIsBlock());
   EXPECT_TRUE(CU->getScopeAt(0)->getScopeAt(2)->getIsLexicalBlock());
   EXPECT_EQ(CU->getScopeAt(0)->getScopeAt(2)->getDieOffset(), 0x007bU);
   EXPECT_EQ(CU->getScopeAt(0)->getScopeAt(2)->getDieTag(),
             DW_TAG_lexical_block);
+
+  ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/try_catch.elf", &CU));
+  ASSERT_EQ(CU->getScopeCount(), 2U);
+
+  // DW_TAG_try_block
+  EXPECT_TRUE(CU->getScopeAt(0)->getIsBlock());
+  EXPECT_TRUE(CU->getScopeAt(0)->getIsTryBlock());
+  EXPECT_EQ(CU->getScopeAt(0)->getDieOffset(), 0xcU);
+  EXPECT_EQ(CU->getScopeAt(0)->getDieTag(), DW_TAG_try_block);
+
+  // DW_TAG_catch_block
+  EXPECT_TRUE(CU->getScopeAt(1)->getIsBlock());
+  EXPECT_TRUE(CU->getScopeAt(1)->getIsCatchBlock());
+  EXPECT_EQ(CU->getScopeAt(1)->getDieOffset(), 0xdU);
+  EXPECT_EQ(CU->getScopeAt(1)->getDieTag(), DW_TAG_catch_block);
+}
+
+TEST_F(TestElfDwarfReader, ReadEntryPoint) {
+  LibScopeView::Scope *CU = nullptr;
+  ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/entry_point.elf", &CU));
+  ASSERT_EQ(CU->getScopeCount(), 1U);
+
+  // DW_TAG_entry_point
+  EXPECT_TRUE(CU->getScopeAt(0)->getIsEntryPoint());
+  EXPECT_EQ(CU->getScopeAt(0)->getDieOffset(), 0xcU);
+  EXPECT_EQ(CU->getScopeAt(0)->getDieTag(), DW_TAG_entry_point);
+  EXPECT_STREQ(CU->getScopeAt(0)->getName(), "entry");
 }
 
 TEST_F(TestElfDwarfReader, ReadEnum) {
@@ -506,6 +520,20 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   auto StaticDefFunc = dynamic_cast<LibScopeView::ScopeFunction *>(StaticDef);
   EXPECT_FALSE(StaticDefFunc->getIsDeclaration());
   EXPECT_TRUE(StaticDefFunc->getIsStatic());
+
+  // DW_TAG_inlined_subroutine
+  auto WithInlined = CU->getScopeAt(4);
+  ASSERT_EQ(WithInlined->getScopeCount(), 1U);
+  ASSERT_EQ(WithInlined->getScopeAt(0)->getScopeCount(), 2U);
+  auto InlinedSub = WithInlined->getScopeAt(0)->getScopeAt(0);
+
+  EXPECT_TRUE(InlinedSub->getIsInlinedSubroutine());
+  EXPECT_EQ(InlinedSub->getDieOffset(), 0x0112U);
+  EXPECT_EQ(InlinedSub->getDieTag(), DW_TAG_inlined_subroutine);
+  EXPECT_EQ(InlinedSub->getLineNumber(), 5U);
+  EXPECT_EQ(getSourceFileName(InlinedSub), "function_static_inline.cpp");
+  EXPECT_STREQ(InlinedSub->getName(), "func2");
+  EXPECT_STREQ(InlinedSub->getType()->getName(), "int");
 }
 
 TEST_F(TestElfDwarfReader, ReadGlobals) {
@@ -972,4 +1000,54 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_EQ(Volatile->getDieTag(), DW_TAG_volatile_type);
   EXPECT_STREQ(Volatile->getName(), "volatile int");
   EXPECT_EQ(Volatile->getType(), Base);
+
+  ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/more_types.elf", &CU));
+  ASSERT_TRUE(checkChildCount(CU, 1, 2, 0));
+
+  auto Alias = CU->getScopeAt(0);
+  auto Unspec = CU->getTypes().at(0);
+  auto PtrToMem = CU->getTypes().at(1);
+
+  // DW_TAG_template_alias
+  EXPECT_TRUE(Alias->getIsTemplate());
+  EXPECT_TRUE(Alias->getIsTemplateAlias());
+  EXPECT_EQ(Alias->getDieOffset(), 0x12U);
+  EXPECT_EQ(Alias->getDieTag(), DW_TAG_template_alias);
+  EXPECT_STREQ(Alias->getName(), "alias");
+  EXPECT_EQ(Alias->getType(), nullptr);
+
+  // DW_TAG_unspecified_type
+  EXPECT_TRUE(Unspec->getIsUnspecifiedType());
+  EXPECT_EQ(Unspec->getDieOffset(), 0x0cU);
+  EXPECT_EQ(Unspec->getDieTag(), DW_TAG_unspecified_type);
+  EXPECT_STREQ(Unspec->getName(), "void");
+  EXPECT_EQ(Unspec->getType(), nullptr);
+
+  // DW_TAG_ptr_to_member_type
+  EXPECT_TRUE(PtrToMem->getIsPointerMemberType());
+  EXPECT_EQ(PtrToMem->getDieOffset(), 0x19U);
+  EXPECT_EQ(PtrToMem->getDieTag(), DW_TAG_ptr_to_member_type);
+  EXPECT_STREQ(PtrToMem->getName(), "void *");
+  EXPECT_EQ(PtrToMem->getType(), Unspec);
+}
+
+TEST_F(TestElfDwarfReader, ReadInvalidFileIndex) {
+  LibScopeView::Scope *CU = nullptr;
+  ASSERT_TRUE(
+      loadSingleCUFromTestFile("ElfDwarfReader/invalid_file_index.elf", &CU));
+  ASSERT_EQ(CU->getScopeCount(), 1U);
+
+  auto ScopeWithBadFile = CU->getScopeAt(0);
+  EXPECT_TRUE(ScopeWithBadFile->getInvalidFileName());
+  EXPECT_EQ(ScopeWithBadFile->getFileNameIndex(), 10U);
+}
+
+TEST_F(TestElfDwarfReader, ParentNotScope) {
+  // Dwarf in parent_not_scope.elf contains a DW_TAG_base_type inside another
+  // DW_TAG_base_type.
+  LibScopeView::Scope *CU = nullptr;
+  ASSERT_TRUE(
+      loadSingleCUFromTestFile("ElfDwarfReader/parent_not_scope.elf", &CU));
+  ASSERT_EQ(CU->getTypeCount(), 1U);
+  ASSERT_TRUE(CU->getTypes().at(0)->getIsBaseType());
 }
