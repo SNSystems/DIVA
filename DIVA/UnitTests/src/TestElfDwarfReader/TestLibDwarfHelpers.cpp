@@ -84,7 +84,7 @@ TEST(DwarfHelpers, getDwarfFormAsString) {
 }
 
 TEST(DwarfHelpers, Empty) {
-  // repro8.o came from a crtbegin.o file as described in:
+  // empty.o came from a crtbegin.o file as described in:
   // https://github.com/SNSystems/DIVA/issues/8
   std::string TestElfPath = getTestInputFilePath("DwarfHelpers/empty.o");
   ASSERT_TRUE(LibScopeView::doesFileExist(TestElfPath));
@@ -320,4 +320,25 @@ TEST_F(LibDwarfHelpers, DwarfLineTable) {
   EXPECT_EQ(Line.IsEpilogueBegin, 0);
   EXPECT_EQ(Line.ISA, 0U);
   EXPECT_EQ(Line.Discriminator, 0U);
+}
+
+TEST(DwarfHelpers, ErrorCreatingDebugData) {
+  std::string TestElfPath =
+      getTestInputFilePath("DwarfHelpers/create_debug_data_error.elf");
+  ASSERT_TRUE(LibScopeView::doesFileExist(TestElfPath));
+  LibScopeView::FileDescriptor FD(TestElfPath);
+  ASSERT_GT(*FD, 0);
+
+  EXPECT_THROW({DwarfDebugData DebugData(*FD);}, LibDwarfError);
+}
+
+TEST(DwarfHelpers, ErrorFirstDieNotCU) {
+  std::string TestElfPath =
+    getTestInputFilePath("DwarfHelpers/first_not_cu_error.elf");
+  ASSERT_TRUE(LibScopeView::doesFileExist(TestElfPath));
+  LibScopeView::FileDescriptor FD(TestElfPath);
+  ASSERT_GT(*FD, 0);
+
+  DwarfDebugData DebugData(*FD);
+  EXPECT_THROW({ DebugData.getCompileUnits(); }, LibDwarfError);
 }
