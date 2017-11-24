@@ -37,7 +37,27 @@
 
 using namespace LibScopeView;
 
-TEST(ViewSpecification, PrintObject_Line) {
+TEST(PrintSettings, ShowOnlyGlobalsLocals) {
+  PrintSettings Settings;
+  Scope Global;
+  Scope Local;
+  Global.setIsGlobalReference();
+
+  EXPECT_TRUE(Settings.printObject(Global));
+  EXPECT_TRUE(Settings.printObject(Local));
+
+  Settings.ShowOnlyLocals = false;
+  Settings.ShowOnlyGlobals = true;
+  EXPECT_TRUE(Settings.printObject(Global));
+  EXPECT_FALSE(Settings.printObject(Local));
+
+  Settings.ShowOnlyLocals = true;
+  Settings.ShowOnlyGlobals = false;
+  EXPECT_FALSE(Settings.printObject(Global));
+  EXPECT_TRUE(Settings.printObject(Local));
+}
+
+TEST(PrintSettings, PrintObject_Line) {
   PrintSettings Settings;
   Line Ln;
 
@@ -51,7 +71,7 @@ TEST(ViewSpecification, PrintObject_Line) {
   EXPECT_FALSE(Settings.printObject(Ln));
 }
 
-TEST(ViewSpecification, PrintObject_Scope) {
+TEST(PrintSettings, PrintObject_Scope) {
   PrintSettings Settings;
   Settings.showNone();
 
@@ -89,7 +109,7 @@ TEST(ViewSpecification, PrintObject_Scope) {
   EXPECT_FALSE(Settings.printObject(Scp));
 }
 
-TEST(ViewSpecification, PrintObject_Symbol) {
+TEST(PrintSettings, PrintObject_Symbol) {
   PrintSettings Settings;
   Settings.showNone();
   Symbol SymMem;
@@ -115,7 +135,7 @@ TEST(ViewSpecification, PrintObject_Symbol) {
   EXPECT_FALSE(Settings.printObject(SymVar));
 }
 
-TEST(ViewSpecification, PrintObject_Type) {
+TEST(PrintSettings, PrintObject_Type) {
   PrintSettings Settings;
   Settings.showNone();
 

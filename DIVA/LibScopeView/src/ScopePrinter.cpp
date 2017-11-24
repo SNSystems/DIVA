@@ -43,10 +43,8 @@ std::string EmptyString;
 } // namespace
 
 void ScopePrinter::print(const Object *Obj, std::ostream &Output) {
-  OutputStream = &Output;
-  *OutputStream << getHeader();
-  visit(Obj);
-  *OutputStream << getFooter();
+  initBeforePrint(Obj);
+  printSingleOutput(Obj, Output);
 }
 
 void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
@@ -64,6 +62,7 @@ void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
                SplitOutputDir);
   }
   // Print each compile unit
+  initBeforePrint(Root);
   for (const auto *CU : Root->getChildren()) {
     if (CU->getIsCompileUnit()) {
       // Open an output file for each CU.
@@ -76,7 +75,7 @@ void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
       if (SplitOutputFile.fail())
         fatalError(LibScopeError::ErrorCode::ERR_SPLIT_UNABLE_TO_OPEN_FILE,
                    OutputPath);
-      print(CU, SplitOutputFile);
+      printSingleOutput(CU, SplitOutputFile);
     }
   }
 }
@@ -84,6 +83,13 @@ void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
 const std::string &ScopePrinter::getHeader() { return EmptyString; }
 
 const std::string &ScopePrinter::getFooter() { return EmptyString; }
+
+void ScopePrinter::printSingleOutput(const Object *Obj, std::ostream &Output) {
+  OutputStream = &Output;
+  *OutputStream << getHeader();
+  visit(Obj);
+  *OutputStream << getFooter();
+}
 
 void ScopePrinter::visitImpl(const Object *Obj) {
   assert(OutputStream && "ScopePrinter methods calling ScopePrinter::visit "

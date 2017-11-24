@@ -57,6 +57,8 @@ public:
   /// \brief Check if the name matches a --tree pattern.
   bool matchesWithChildrenFilterPattern(const std::string &Name) const;
 
+  bool hasFilters() const;
+
   bool QuietMode = false;
 
   bool SplitOutput = false;

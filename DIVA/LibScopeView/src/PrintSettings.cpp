@@ -77,6 +77,10 @@ bool PrintSettings::printObject(const Object &Obj) const {
   if (Obj.getIsLine())
     return ShowCodeline;
 
+  if ((ShowOnlyGlobals && !Obj.getIsGlobalReference()) ||
+      (ShowOnlyLocals && Obj.getIsGlobalReference()))
+    return false;
+
   if (auto Scp = dynamic_cast<const Scope *>(&Obj)) {
     if (Scp->getIsTemplateAlias())
       return ShowAlias;
@@ -134,9 +138,9 @@ bool PrintSettings::printObject(const Object &Obj) const {
 }
 
 namespace {
-bool matchPattern(
-    const std::string &Name, const std::vector<std::regex> &RegexFilters,
-    const std::vector<std::string> &StringFilters) {
+bool matchPattern(const std::string &Name,
+                  const std::vector<std::regex> &RegexFilters,
+                  const std::vector<std::string> &StringFilters) {
   for (const std::regex &Filter : RegexFilters) {
     if (std::regex_match(Name, Filter))
       return true;
@@ -156,4 +160,9 @@ bool PrintSettings::matchesFilterPattern(const std::string &Name) const {
 bool PrintSettings::matchesWithChildrenFilterPattern(
     const std::string &Name) const {
   return matchPattern(Name, WithChildrenFilters, WithChildrenFilterAnys);
+}
+
+bool PrintSettings::hasFilters() const {
+  return !(Filters.empty() && FilterAnys.empty() &&
+           WithChildrenFilters.empty() && WithChildrenFilterAnys.empty());
 }

@@ -45,8 +45,13 @@ class TestNamePrinter : public ScopePrinter {
 public:
   TestNamePrinter() : ScopePrinter(TestSettings) {}
 
+  const Object *InitObj = nullptr;
+
 private:
   void printImpl(const Object *Obj, std::ostream &OutputStream) override {
+    // Init should have been called.
+    assert(InitObj != nullptr);
+
     OutputStream << Obj->getName() << '\n';
     printChildren(Obj);
   }
@@ -61,6 +66,11 @@ private:
   const std::string &getFooter() override {
     static std::string Footer = "FOOTER\n";
     return Footer;
+  }
+  void initBeforePrint(const Object *Obj) override {
+    // Should only be called once.
+    assert(InitObj == nullptr);
+    InitObj = Obj;
   }
 };
 
@@ -77,6 +87,7 @@ TEST(ScopePrinter, StandardPrint) {
   TestNamePrinter Printer;
   Printer.print(&Scp1, Output);
   EXPECT_EQ(Output.str(), "HEADER\nScope1\nScope2\nFOOTER\n");
+  EXPECT_EQ(Printer.InitObj, &Scp1);
 }
 
 TEST(ScopePrinter, SplitPrint) {
@@ -111,7 +122,8 @@ TEST(ScopePrinter, SplitPrint) {
   clearTestOutputFile(CUFilename1);
   clearTestOutputFile(CUFilename2);
 
-  TestNamePrinter().print(&Root, getTestOutputDir());
+  TestNamePrinter Printer;
+  Printer.print(&Root, getTestOutputDir());
 
   ASSERT_TRUE(doesFileExist(getTestOutputFilePath(CUFilename1)));
   EXPECT_EQ(readTestOutputFile(CUFilename1),
@@ -120,4 +132,6 @@ TEST(ScopePrinter, SplitPrint) {
   ASSERT_TRUE(doesFileExist(getTestOutputFilePath(CUFilename2)));
   EXPECT_EQ(readTestOutputFile(CUFilename2),
             "HEADER\ntest.cu.2\nChild3\nChild4\nFOOTER\n");
+
+  EXPECT_EQ(Printer.InitObj, &Root);
 }
