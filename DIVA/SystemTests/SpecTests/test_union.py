@@ -1,23 +1,21 @@
 expected_txt = """\
-           {InputFile} "union.o"
+{InputFile} "union.o"
+    {CompileUnit} "union.cpp"
+      {PrimitiveType} -> "char"
+          - 1 bytes
+      {PrimitiveType} -> "int"
+          - 4 bytes
+      {PrimitiveType} -> "long int"
+          - 8 bytes
 
-             {CompileUnit} "union.cpp"
-               {PrimitiveType} -> "char"
-                   - 1 bytes
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-               {PrimitiveType} -> "long int"
-                   - 8 bytes
-
-  {Source} "union.cpp"
-     3         {Union} "U"
-     4           {Member} public "a" -> "int"
-     5           {Member} public "b" -> "char"
-     6           {Member} public "c" -> "long int"
-     9         {Function} "test" -> "void"
-                   - No declaration
-    10           {Variable} "u" -> "U"
-
+{Source} "union.cpp"
+ 3    {Union} "U"
+ 4      {Member} public "a" -> "int"
+ 5      {Member} public "b" -> "char"
+ 6      {Member} public "c" -> "long int"
+ 9    {Function} "test" -> "void"
+          - No declaration
+10      {Variable} "u" -> "U"
 """
 
 

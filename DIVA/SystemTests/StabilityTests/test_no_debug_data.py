@@ -4,8 +4,7 @@
 expected_txt = """\
 
 Warning: No DWARF debug data found.
-           {InputFile} "nodebug.o"
-
+{InputFile} "nodebug.o"
 """
 
 def test(diva):

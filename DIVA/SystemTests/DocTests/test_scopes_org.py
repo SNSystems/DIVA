@@ -1,14 +1,12 @@
 expected = """\
-           {InputFile} "scopes_org.o"
+{InputFile} "scopes_org.o"
+    {CompileUnit} "scopes.cpp"
 
-             {CompileUnit} "scopes.cpp"
-
-  {Source} "scopes.cpp"
-     3         {Alias} "INT" -> "int"
-     6         {Function} "foo" -> "void"
-                   - No declaration
-    11           {Variable} "a" -> "INT"
-
+{Source} "scopes.cpp"
+ 3    {Alias} "INT" -> "int"
+ 6    {Function} "foo" -> "void"
+          - No declaration
+11      {Variable} "a" -> "INT"
 """
 
 

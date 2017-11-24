@@ -1,5 +1,5 @@
 expected = """\
-
+{InputFile} "example_16.elf"
 """
 
 

@@ -1,33 +1,31 @@
 expected_txt = """\
-           {InputFile} "enum.o"
+{InputFile} "enum.o"
+    {CompileUnit} "enum.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
+      {PrimitiveType} -> "short int"
+          - 2 bytes
+      {PrimitiveType} -> "unsigned int"
+          - 4 bytes
 
-             {CompileUnit} "enum.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-               {PrimitiveType} -> "short int"
-                   - 2 bytes
-               {PrimitiveType} -> "unsigned int"
-                   - 4 bytes
-
-  {Source} "enum.cpp"
-     3         {Enum} "E1" -> "unsigned int"
-                   - "A" = 0
-                   - "B" = 1
-                   - "C" = 2
-     9         {Enum} "E2" -> "short int"
-                   - "G" = -1
-                   - "H" = 0
-                   - "I" = 1
-    15         {Enum} class "E3" -> "int"
-                   - "D" = 1
-                   - "E" = 2
-                   - "F" = 3
-    21         {Function} "test" -> "void"
-                   - No declaration
-    22           {Variable} "e1" -> "E1"
-    23           {Variable} "e2" -> "E2"
-    24           {Variable} "e3" -> "E3"
-
+{Source} "enum.cpp"
+ 3    {Enum} "E1" -> "unsigned int"
+          - "A" = 0
+          - "B" = 1
+          - "C" = 2
+ 9    {Enum} "E2" -> "short int"
+          - "G" = -1
+          - "H" = 0
+          - "I" = 1
+15    {Enum} class "E3" -> "int"
+          - "D" = 1
+          - "E" = 2
+          - "F" = 3
+21    {Function} "test" -> "void"
+          - No declaration
+22      {Variable} "e1" -> "E1"
+23      {Variable} "e2" -> "E2"
+24      {Variable} "e3" -> "E3"
 """
 
 

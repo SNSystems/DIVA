@@ -1,26 +1,24 @@
 expected_txt = """\
-           {InputFile} "parameter.o"
+{InputFile} "parameter.o"
+   {CompileUnit} "parameter.cpp"
+     {PrimitiveType} -> "char"
+         - 1 bytes
+     {PrimitiveType} -> "int"
+         - 4 bytes
+     {PrimitiveType} -> "unsigned int"
+         - 4 bytes
 
-             {CompileUnit} "parameter.cpp"
-               {PrimitiveType} -> "char"
-                   - 1 bytes
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-               {PrimitiveType} -> "unsigned int"
-                   - 4 bytes
-
-  {Source} "parameter.cpp"
-     3         {Function} "func1" -> "void"
-                   - No declaration
-     4         {Function} "func2" -> "void"
-                   - No declaration
-     4           {Parameter} "x" -> "int"
-     5         {Function} "func3" -> "void"
-                   - No declaration
-     5           {Parameter} "x" -> "int"
-     5           {Parameter} "y" -> "char"
-     5           {Parameter} "z" -> "unsigned int"
-
+{Source} "parameter.cpp"
+3    {Function} "func1" -> "void"
+         - No declaration
+4    {Function} "func2" -> "void"
+         - No declaration
+4      {Parameter} "x" -> "int"
+5    {Function} "func3" -> "void"
+         - No declaration
+5      {Parameter} "x" -> "int"
+5      {Parameter} "y" -> "char"
+5      {Parameter} "z" -> "unsigned int"
 """
 
 

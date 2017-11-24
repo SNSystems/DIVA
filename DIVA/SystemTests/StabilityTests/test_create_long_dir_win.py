@@ -16,11 +16,9 @@ def test(diva, tmpdir_autodel, path_type, output_type):
             'long_test_' * 13),
     }[path_type]
 
-    expected = {'text': '\n', 'yaml': ''}[output_type]
-
     cmd = 'HelloWorld.o --output-dir={} --output={}'.format(out_path,
                                                             output_type)
-    assert diva(cmd, cwd=tmpdir_autodel) == expected
+    assert diva(cmd, cwd=tmpdir_autodel) == ''
 
     # Check the directory was created.
     full_dir_path = out_path.replace('/', '\\')

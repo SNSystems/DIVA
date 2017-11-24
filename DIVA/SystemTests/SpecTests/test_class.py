@@ -1,24 +1,22 @@
 expected_txt = """\
-           {InputFile} "class.o"
+{InputFile} "class.o"
+    {CompileUnit} "class.cpp"
 
-             {CompileUnit} "class.cpp"
-
-  {Source} "class.cpp"
-     3         {Class} "A"
-     5         {Class} "B"
-                   - public "A"
-     7         {Class} "C"
-                   - private "A"
-     9         {Class} "D"
-                   - public "B"
-                   - protected "C"
-    11         {Function} "test" -> "void"
-                   - No declaration
-    12           {Variable} "a" -> "A"
-    13           {Variable} "b" -> "B"
-    14           {Variable} "c" -> "C"
-    15           {Variable} "d" -> "D"
-
+{Source} "class.cpp"
+ 3    {Class} "A"
+ 5    {Class} "B"
+          - public "A"
+ 7    {Class} "C"
+          - private "A"
+ 9    {Class} "D"
+          - public "B"
+          - protected "C"
+11    {Function} "test" -> "void"
+          - No declaration
+12      {Variable} "a" -> "A"
+13      {Variable} "b" -> "B"
+14      {Variable} "c" -> "C"
+15      {Variable} "d" -> "D"
 """
 
 

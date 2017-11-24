@@ -1,16 +1,14 @@
 expected_txt = """\
-           {InputFile} "namespace.o"
+{InputFile} "namespace.o"
+   {CompileUnit} "namespace.cpp"
+     {PrimitiveType} -> "int"
+         - 4 bytes
 
-             {CompileUnit} "namespace.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "namespace.cpp"
-     3         {Namespace} "NS"
-     4           {Namespace} "NS::Inner"
-     5             {Variable} "g" -> "int"
-     5         {Variable} "NS::Inner::g" -> "int"
-
+{Source} "namespace.cpp"
+3    {Namespace} "NS"
+4      {Namespace} "NS::Inner"
+5        {Variable} "g" -> "int"
+5    {Variable} "NS::Inner::g" -> "int"
 """
 
 

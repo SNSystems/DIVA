@@ -1,7 +1,6 @@
 expected = """\
-           {InputFile} "all_objects.o"
-
-             {CompileUnit} "all_objects.cpp"
+{InputFile} "all_objects.o"
+    {CompileUnit} "all_objects.cpp"
 
      -------------------------------------
      Object                 Total  Printed

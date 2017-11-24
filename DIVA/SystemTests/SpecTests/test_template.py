@@ -1,29 +1,27 @@
 expected_txt = """\
-           {InputFile} "template.o"
+{InputFile} "template.o"
+    {CompileUnit} "template.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "template.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "template.cpp"
-     3         {Class} "A"
-     6         {Class} "C<int>"
-                   - Template
-                   - public "A"
-                 {TemplateParameter} "C<int>::T" <- "int"
-     9         {Struct} "S<int>"
-                   - Template
-                   - protected "A"
-                 {TemplateParameter} "S<int>::T" <- "int"
-    12         {Function} "func<int>" -> "void"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "T" <- "int"
-    14         {Function} "test" -> "void"
-                   - No declaration
-    15           {Variable} "c" -> "C<int>"
-    16           {Variable} "s" -> "S<int>"
-
+{Source} "template.cpp"
+ 3    {Class} "A"
+ 6    {Class} "C<int>"
+          - Template
+          - public "A"
+        {TemplateParameter} "C<int>::T" <- "int"
+ 9    {Struct} "S<int>"
+          - Template
+          - protected "A"
+        {TemplateParameter} "S<int>::T" <- "int"
+12    {Function} "func<int>" -> "void"
+          - No declaration
+          - Template
+        {TemplateParameter} "T" <- "int"
+14    {Function} "test" -> "void"
+          - No declaration
+15      {Variable} "c" -> "C<int>"
+16      {Variable} "s" -> "S<int>"
 """
 
 

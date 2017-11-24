@@ -1,16 +1,14 @@
 expected = """\
-           {InputFile} "example_04.o"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
-             {CompileUnit} "example_04.cpp"
+{Source} "example_04.cpp"
+  6      {Member} private "x" -> "int"
+  6      {Member} private "y" -> "int"
 
-  {Source} "example_04.cpp"
-     6           {Member} private "x" -> "int"
-     6           {Member} private "y" -> "int"
-
-  {Source} "ios_base.h"
-   547               {Member} private "_S_refcount" -> "_Atomic_word"
-   548               {Member} private "_S_synced_with_stdio" -> "bool"
-
+{Source} "ios_base.h"
+547          {Member} private "_S_refcount" -> "_Atomic_word"
+548          {Member} private "_S_synced_with_stdio" -> "bool"
 """
 
 

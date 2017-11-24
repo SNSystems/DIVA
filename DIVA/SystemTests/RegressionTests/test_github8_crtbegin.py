@@ -4,8 +4,7 @@
 expected = """\
 
 Warning: No DWARF debug data found.
-           {InputFile} "repro8.o"
-
+{InputFile} "repro8.o"
 """
 
 

@@ -1,34 +1,32 @@
 expected_txt = """\
-           {InputFile} "using.o"
+{InputFile} "using.o"
+    {CompileUnit} "using.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "using.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "using.cpp"
-     3         {Struct} "A"
-     5           {Member} protected "m" -> "int"
-     6           {Alias} "INT" -> "int"
-     7           {Function} "A::foo" -> "void"
-                     - Is declaration
-                   {Parameter} -> "A *"
-     7         {Function} "foo" -> "void"
-                   - Declaration @ using.cpp,7
-                 {Parameter} "this" -> "const A *"
-    10         {Struct} "B"
-                   - public "A"
-    10           {Using} variable "A::m"
-    10           {Using} type "A::INT"
-    10           {Using} function "A::foo"
-    16         {Namespace} "NS"
-    17           {Variable} "x" -> "int"
-    17         {Variable} "NS::x" -> "int"
-    20         {Using} namespace "NS"
-    22         {Function} "test" -> "void"
-                   - No declaration
-    24           {Variable} "b" -> "B"
-    26           {Variable} "bx" -> "A::INT"
-
+{Source} "using.cpp"
+ 3    {Struct} "A"
+ 5      {Member} protected "m" -> "int"
+ 6      {Alias} "INT" -> "int"
+ 7      {Function} "A::foo" -> "void"
+            - Is declaration
+          {Parameter} -> "A *"
+ 7    {Function} "foo" -> "void"
+          - Declaration @ using.cpp,7
+        {Parameter} "this" -> "const A *"
+10    {Struct} "B"
+          - public "A"
+10      {Using} variable "A::m"
+10      {Using} type "A::INT"
+10      {Using} function "A::foo"
+16    {Namespace} "NS"
+17      {Variable} "x" -> "int"
+17    {Variable} "NS::x" -> "int"
+20    {Using} namespace "NS"
+22    {Function} "test" -> "void"
+          - No declaration
+24      {Variable} "b" -> "B"
+26      {Variable} "bx" -> "A::INT"
 """
 
 

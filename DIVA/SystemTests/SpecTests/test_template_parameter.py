@@ -1,45 +1,43 @@
 expected_txt = """\
-           {InputFile} "template_parameter.o"
+{InputFile} "template_parameter.o"
+    {CompileUnit} "template_parameter.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "template_parameter.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "template_parameter.cpp"
-     7         {Function} "t_func<1, int, vector>" -> "void"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "TEMPLATE" <- "vector"
-                 {TemplateParameter} "TY" <- "int"
-                 {TemplateParameter} "VAL" <- 1
-    10         {Function} "sum<void>" -> "int"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "" <- ""
-    13         {Function} "sum<>" -> "int"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "Targs"
-    13           {Parameter} "x" <- "int"
-    13         {Function} "sum<int, int>" -> "int"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "Targs"
-                   <- "int"
-                   <- "int"
-    13           {Parameter} "args" <- "int"
-    13           {Parameter} "args" <- "int"
-    13           {Parameter} "x" <- "int"
-    13         {Function} "sum<int>" -> "int"
-                   - No declaration
-                   - Template
-                 {TemplateParameter} "Targs"
-                   <- "int"
-    13           {Parameter} "args" <- "int"
-    13           {Parameter} "x" <- "int"
-    17         {Function} "test" -> "void"
-                   - No declaration
-
+{Source} "template_parameter.cpp"
+ 7    {Function} "t_func<1, int, vector>" -> "void"
+          - No declaration
+          - Template
+        {TemplateParameter} "TEMPLATE" <- "vector"
+        {TemplateParameter} "TY" <- "int"
+        {TemplateParameter} "VAL" <- 1
+10    {Function} "sum<void>" -> "int"
+          - No declaration
+          - Template
+        {TemplateParameter} "" <- ""
+13    {Function} "sum<>" -> "int"
+          - No declaration
+          - Template
+        {TemplateParameter} "Targs"
+13      {Parameter} "x" <- "int"
+13    {Function} "sum<int, int>" -> "int"
+          - No declaration
+          - Template
+        {TemplateParameter} "Targs"
+            <- "int"
+            <- "int"
+13      {Parameter} "args" <- "int"
+13      {Parameter} "args" <- "int"
+13      {Parameter} "x" <- "int"
+13    {Function} "sum<int>" -> "int"
+          - No declaration
+          - Template
+        {TemplateParameter} "Targs"
+            <- "int"
+13      {Parameter} "args" <- "int"
+13      {Parameter} "x" <- "int"
+17    {Function} "test" -> "void"
+          - No declaration
 """
 
 

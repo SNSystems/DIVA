@@ -1,24 +1,22 @@
 expected_txt = """\
-           {InputFile} "codeline.o"
+{InputFile} "codeline.o"
+    {CompileUnit} "codeline.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "codeline.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "codeline.cpp"
-     3         {Function} "test" -> "void"
-                   - No declaration
-     4           {Variable} "x" -> "int"
-     5           {Variable} "y" -> "int"
-     6           {Variable} "z" -> "int"
-     3         {CodeLine}
-     8         {CodeLine}
-     9         {CodeLine}
-    10         {CodeLine}
-    12         {CodeLine}
-    13         {CodeLine}
-    13         {CodeLine}
-
+{Source} "codeline.cpp"
+ 3    {Function} "test" -> "void"
+          - No declaration
+ 4      {Variable} "x" -> "int"
+ 5      {Variable} "y" -> "int"
+ 6      {Variable} "z" -> "int"
+ 3    {CodeLine}
+ 8    {CodeLine}
+ 9    {CodeLine}
+10    {CodeLine}
+12    {CodeLine}
+13    {CodeLine}
+13    {CodeLine}
 """
 
 

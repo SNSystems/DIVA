@@ -1,18 +1,16 @@
 expected = """\
-           {InputFile} "example_09.o"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
-             {CompileUnit} "example_09.cpp"
-
-  {Source} "example_09.cpp"
-     2         {Alias} "CHAR" -> "char"
-     4         {Class} "A"
-     5           {Member} private "a" -> "int"
-     8         {Variable} "a" -> "A"
-    10         {Function} "foo" -> "CHAR"
-                   - No declaration
-    10           {Parameter} "p" -> "char *"
-    12           {Variable} "c" -> "CHAR"
-
+{Source} "example_09.cpp"
+ 2    {Alias} "CHAR" -> "char"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 """
 
 

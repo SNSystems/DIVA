@@ -8,14 +8,12 @@ import sys
 this_dir = py.path.local(__file__).dirpath()
 
 expected = """\
-           {InputFile} "<PATH>"
+{InputFile} "<PATH>"
+   {CompileUnit} "helloworld.cpp"
 
-             {CompileUnit} "helloworld.cpp"
-
-  {Source} "helloworld.cpp"
-     5         {Function} "main" -> "int"
-                   - No declaration
-
+{Source} "helloworld.cpp"
+5    {Function} "main" -> "int"
+         - No declaration
 """
 
 @pytest.mark.skipif(not sys.platform.startswith("win"), reason="Windows only")
@@ -36,10 +34,10 @@ def test(diva, tmpdir_autodel, path_type):
     os.makedirs(full_dir_path)
     this_dir.join('HelloWorld.o').copy(py.path.local(full_dir_path))
 
-    cmd = [os.path.join(in_path, 'HelloWorld.o')]
+    cmd_path = os.path.join(in_path, 'HelloWorld.o')
+    cmd = [cmd_path]
     assert (diva(cmd, cwd=tmpdir_autodel, getelfs=False) ==
-            expected.replace("<PATH>", in_path.replace("\\", "/").lower() +
-                                       "/helloworld.o"))
+            expected.replace("<PATH>", cmd_path))
 
     # Delete the directories that were added because the test framework can't.
     # Python 2.7 also can't run the following, so we call out to rmdir:
