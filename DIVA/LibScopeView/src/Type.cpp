@@ -184,7 +184,7 @@ bool Type::dump(bool DoHeader, const char *Header,
 
 bool Type::getIsPrintedAsObject() const { return getIsBaseType(); }
 
-std::string Type::getAsText(const PrintSettings &Settings) const {
+std::string Type::getAsText(const PrintSettings &) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
