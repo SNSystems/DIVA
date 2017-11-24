@@ -239,7 +239,7 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnFilters) {
 
   Output.str("");
   Settings.FilterAnys.clear();
-  Settings.WithChildrenFilters = {std::regex("Child1")};
+  Settings.TreeFilters = {std::regex("Child1")};
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "{InputFile} \"In.o\"\n\n"
                           "{Source} \"foo.cpp\"\n"
@@ -253,7 +253,7 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnFilters) {
                           "            - Attr\n");
 
   Output.str("");
-  Settings.WithChildrenFilters = {std::regex("Child2")};
+  Settings.TreeFilters = {std::regex("Child2")};
   Settings.Filters = {std::regex("Child3")};
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "{InputFile} \"In.o\"\n\n"

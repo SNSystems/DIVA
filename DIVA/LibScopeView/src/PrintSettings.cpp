@@ -157,12 +157,11 @@ bool PrintSettings::matchesFilterPattern(const std::string &Name) const {
   return matchPattern(Name, Filters, FilterAnys);
 }
 
-bool PrintSettings::matchesWithChildrenFilterPattern(
-    const std::string &Name) const {
-  return matchPattern(Name, WithChildrenFilters, WithChildrenFilterAnys);
+bool PrintSettings::matchesTreeFilterPattern(const std::string &Name) const {
+  return matchPattern(Name, TreeFilters, TreeFilterAnys);
 }
 
 bool PrintSettings::hasFilters() const {
-  return !(Filters.empty() && FilterAnys.empty() &&
-           WithChildrenFilters.empty() && WithChildrenFilterAnys.empty());
+  return !(Filters.empty() && FilterAnys.empty() && TreeFilters.empty() &&
+           TreeFilterAnys.empty());
 }

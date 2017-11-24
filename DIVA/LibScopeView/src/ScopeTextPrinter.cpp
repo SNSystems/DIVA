@@ -89,7 +89,7 @@ public:
 
 private:
   void visitImpl(const Object *Obj) override {
-    if (Settings.matchesWithChildrenFilterPattern(Obj->getName())) {
+    if (Settings.matchesTreeFilterPattern(Obj->getName())) {
       for (const Object *Parent = Obj->getParent(); Parent;
            Parent = Parent->getParent())
         FilteredParents.emplace(Parent);
@@ -181,8 +181,7 @@ void ScopeTextPrinter::initBeforePrint(const Object *Obj) {
 
   // If we are tree filtering then find parents that need to be printed.
   ObjectsWithTreeFilteredChildren.clear();
-  if (!(Settings.WithChildrenFilters.empty() &&
-        Settings.WithChildrenFilterAnys.empty()))
+  if (!(Settings.TreeFilters.empty() && Settings.TreeFilterAnys.empty()))
     TreeFilteredParentFinder(Obj, Settings, ObjectsWithTreeFilteredChildren);
 }
 
@@ -221,7 +220,7 @@ void ScopeTextPrinter::printImpl(const Object *Obj,
       printObjectText(Obj, OutputStream);
       printIndentedChildren(Obj);
       return;
-    } else if (Settings.matchesWithChildrenFilterPattern(Obj->getName())) {
+    } else if (Settings.matchesTreeFilterPattern(Obj->getName())) {
       // Print this and all children regardless of filters.
       printObjectText(Obj, OutputStream);
       IgnoreFilters = true;

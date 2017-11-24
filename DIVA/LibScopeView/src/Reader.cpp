@@ -93,8 +93,8 @@ void Reader::printScopes(const PrintSettings &Settings) {
     PrintedHeader = true;
 
     // We do a normal print, using the standard settings.
-    bool Match = (!Settings.WithChildrenFilters.empty() ||
-                  !Settings.WithChildrenFilterAnys.empty());
+    bool Match =
+        (!Settings.TreeFilters.empty() || !Settings.TreeFilterAnys.empty());
     Scp->print(DoSplit, Match, DoPrint, Settings);
   }
 }
@@ -314,8 +314,7 @@ void Reader::propagatePatternMatch() {
 
 void Reader::resolveTreePatternMatch(Scope *Scp,
                                      const PrintSettings &Settings) {
-  if (Scp->isNamed() &&
-      Settings.matchesWithChildrenFilterPattern(Scp->getName())) {
+  if (Scp->isNamed() && Settings.matchesTreeFilterPattern(Scp->getName())) {
     ViewMatchedScopes.push_back(Scp);
   }
 }

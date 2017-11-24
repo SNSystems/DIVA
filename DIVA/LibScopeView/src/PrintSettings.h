@@ -55,7 +55,7 @@ public:
   bool matchesFilterPattern(const std::string &Name) const;
 
   /// \brief Check if the name matches a --tree pattern.
-  bool matchesWithChildrenFilterPattern(const std::string &Name) const;
+  bool matchesTreeFilterPattern(const std::string &Name) const;
 
   bool hasFilters() const;
 
@@ -68,8 +68,8 @@ public:
 
   std::vector<std::regex> Filters;
   std::vector<std::string> FilterAnys;
-  std::vector<std::regex> WithChildrenFilters;
-  std::vector<std::string> WithChildrenFilterAnys;
+  std::vector<std::regex> TreeFilters;
+  std::vector<std::string> TreeFilterAnys;
 
   // The defaults for these values are set by showBrief.
   bool ShowAlias;

@@ -339,8 +339,7 @@ bool Scope::resolvePrinting(const PrintSettings &Settings) {
   // Check if we are using any pattern.
   if (DoPrint) {
     // Indicate that this tree branch has a matched pattern.
-    if (!Settings.WithChildrenFilters.empty() ||
-        !Settings.WithChildrenFilterAnys.empty()) {
+    if (!Settings.TreeFilters.empty() || !Settings.TreeFilterAnys.empty()) {
       DoPrint = getHasPattern();
     }
   }
@@ -620,7 +619,7 @@ std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
 
   for (auto *Child : getChildren()) {
     if (!(Child->getIsType() &&
-      static_cast<const Type *>(Child)->getIsEnumerator()))
+          static_cast<const Type *>(Child)->getIsEnumerator()))
       // TODO: Raise a warning here?
       continue;
     ObjectAsText.append("\n").append(Child->getAsText(Settings));

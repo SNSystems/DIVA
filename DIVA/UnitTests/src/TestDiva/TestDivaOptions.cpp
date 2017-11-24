@@ -56,8 +56,8 @@ TEST(DivaOptions, Defaults) {
 
   EXPECT_TRUE(PSet.Filters.empty());
   EXPECT_TRUE(PSet.FilterAnys.empty());
-  EXPECT_TRUE(PSet.WithChildrenFilters.empty());
-  EXPECT_TRUE(PSet.WithChildrenFilterAnys.empty());
+  EXPECT_TRUE(PSet.TreeFilters.empty());
+  EXPECT_TRUE(PSet.TreeFilterAnys.empty());
 
   EXPECT_TRUE(PSet.ShowAlias);
   EXPECT_TRUE(PSet.ShowBlock);
@@ -212,7 +212,7 @@ TEST(DivaOptions, Filters) {
   EXPECT_EQ(Output.str(), "");
   EXPECT_EQ(DOpt.PrintingSettings.FilterAnys,
             std::vector<std::string>({"fa1", "fa2", "fa3"}));
-  EXPECT_EQ(DOpt.PrintingSettings.WithChildrenFilterAnys,
+  EXPECT_EQ(DOpt.PrintingSettings.TreeFilterAnys,
             std::vector<std::string>({"ta1", "ta2", "ta3"}));
 
   ASSERT_EQ(DOpt.PrintingSettings.Filters.size(), 3U);
@@ -220,13 +220,10 @@ TEST(DivaOptions, Filters) {
   EXPECT_TRUE(std::regex_match("f2", DOpt.PrintingSettings.Filters[1]));
   EXPECT_TRUE(std::regex_match("f3", DOpt.PrintingSettings.Filters[2]));
 
-  ASSERT_EQ(DOpt.PrintingSettings.WithChildrenFilters.size(), 3U);
-  EXPECT_TRUE(std::regex_match(
-      "t1", DOpt.PrintingSettings.WithChildrenFilters[0]));
-  EXPECT_TRUE(std::regex_match(
-      "t2", DOpt.PrintingSettings.WithChildrenFilters[1]));
-  EXPECT_TRUE(std::regex_match(
-      "t3", DOpt.PrintingSettings.WithChildrenFilters[2]));
+  ASSERT_EQ(DOpt.PrintingSettings.TreeFilters.size(), 3U);
+  EXPECT_TRUE(std::regex_match("t1", DOpt.PrintingSettings.TreeFilters[0]));
+  EXPECT_TRUE(std::regex_match("t2", DOpt.PrintingSettings.TreeFilters[1]));
+  EXPECT_TRUE(std::regex_match("t3", DOpt.PrintingSettings.TreeFilters[2]));
 }
 
 TEST(DivaOptions, ShowNone) {
@@ -366,10 +363,9 @@ TEST(DivaOptions, Errors) {
       "ERR_CMD_UNKNOWN_ARG: Unknown argument '--not-an-arg'.");
 
   // ArgumentValueRequired.
-  EXPECT_EXIT(
-      { DivaOptions DOpt1({"--output"}, Output, Output, std::cerr); },
-      ExitedWithCode(1),
-      "ERR_CMD_MISSING_VALUE: Argument '--output' requires a value.");
+  EXPECT_EXIT({ DivaOptions DOpt1({"--output"}, Output, Output, std::cerr); },
+              ExitedWithCode(1),
+              "ERR_CMD_MISSING_VALUE: Argument '--output' requires a value.");
 
   // UnexpectedArgumentValue.
   EXPECT_EXIT(
