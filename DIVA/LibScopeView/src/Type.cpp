@@ -194,7 +194,7 @@ std::string Type::getAsText(const PrintSettings &Settings) const {
   unsigned byte_size = getByteSize();
   if (byte_size) {
     Result += '\n';
-    Result += getAttributeInfoAsText(std::to_string(byte_size), Settings);
+    Result += formatAttributeText(std::to_string(byte_size));
     Result += " bytes";
   }
   return Result;
@@ -299,17 +299,15 @@ void TypeEnumerator::dumpExtra(const PrintSettings &Settings) {
 }
 
 std::string TypeEnumerator::getAsText(const PrintSettings &Settings) const {
-  std::string ObjectAsText = "  -";
-  std::string Name = getName();
-  std::string Value = getValue();
-  std::string DieOffset = getTypeDieOffsetAsString(Settings);
+  std::string ObjectAsText;
+  ObjectAsText.append("\"").append(getName()).append("\" = ")
+              .append(getValue());
 
-  ObjectAsText.append(" \"").append(Name).append("\" = ").append(Value);
-
+  std::string DieOffset(getTypeDieOffsetAsString(Settings));
   if (!DieOffset.empty())
     ObjectAsText.append(" ").append(DieOffset);
 
-  return ObjectAsText;
+  return formatAttributeText(ObjectAsText);
 }
 
 std::string TypeEnumerator::getAsYAML() const {
@@ -352,7 +350,6 @@ std::string TypeImport::getAsText(const PrintSettings &Settings) const {
 
 std::string TypeImport::getInheritanceAsText() const {
   std::stringstream Result;
-  Result << "  - ";
   switch (getInheritanceAccess()) {
   case AccessSpecifier::Private:
     Result << "private";
@@ -372,7 +369,7 @@ std::string TypeImport::getInheritanceAsText() const {
     break;
   }
   Result << " \"" << getTypeName() << '"';
-  return Result.str();
+  return formatAttributeText(Result.str());
 }
 
 std::string TypeImport::getUsingAsText(const PrintSettings &Settings) const {

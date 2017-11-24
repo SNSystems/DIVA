@@ -329,8 +329,7 @@ public:
 
 protected:
   /// \brief Returns a text representation of attribute information.
-  std::string getAttributeInfoAsText(const std::string &AttributeText,
-                                     const PrintSettings &Settings) const;
+  static std::string formatAttributeText(const std::string &AttributeText);
   /// \brief Returns the common YAML information for this object.
   std::string getCommonYAML() const;
 

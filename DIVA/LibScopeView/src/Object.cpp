@@ -561,21 +561,8 @@ void Object::print(bool /*SplitCU*/, bool /*Match*/, bool /*IsNull*/,
   dump(Settings);
 }
 
-std::string
-Object::getAttributeInfoAsText(const std::string &AttributeText,
-                               const PrintSettings &Settings) const {
-  // First we want to indent for any left aligned info being printed
-  // (indentation_size). An extra space is printed before the line number, after
-  // the line number and after the level indent so we need to indent an extra 3
-  // for those. Then we want to indent the space where the line number would be.
-  // Then We want to indent the attribute info 4 columns to the right of the
-  // object.
-  static const std::string ConstantIndent(
-      std::string(IndentationSize, ' ') + std::string(3, ' ') +
-      getNoLineString() + std::string(4, ' '));
-
-  // Then we want to indent based on the object level and add the dash.
-  return ConstantIndent + getIndentString(Settings) + "- " + AttributeText;
+std::string Object::formatAttributeText(const std::string &AttributeText) {
+  return "    - " + AttributeText;
 }
 
 std::string Object::getCommonYAML() const {

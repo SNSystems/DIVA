@@ -440,9 +440,9 @@ std::string Scope::getAsText(const PrintSettings &Settings) const {
     Result << '{' << getKindAsString() << '}';
     if (Settings.ShowBlockAttributes) {
       if (getIsTryBlock())
-        Result << '\n' << getAttributeInfoAsText("try", Settings);
+        Result << '\n' << formatAttributeText("try");
       else if (getIsCatchBlock())
-        Result << '\n' << getAttributeInfoAsText("catch", Settings);
+        Result << '\n' << formatAttributeText("catch");
     }
   }
   return Result.str();
@@ -479,8 +479,12 @@ std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template", Settings);
+    Result += formatAttributeText("Template");
   }
+
+  for (auto Ty : TheTypes)
+    if (Ty->getIsInheritance())
+      Result.append("\n").append(Ty->getAsText(Settings));
 
   return Result;
 }
@@ -500,10 +504,10 @@ std::string ScopeAggregate::getAsYAML() const {
   Result << "\n  inherits_from:";
 
   bool hasInheritance = false;
-  for (auto type : TheTypes) {
-    if (type->getIsInheritance()) {
+  for (auto Ty : TheTypes) {
+    if (Ty->getIsInheritance()) {
       hasInheritance = true;
-      Result << "\n" << static_cast<TypeImport *>(type)->getAsYAML();
+      Result << "\n" << Ty->getAsYAML();
     }
   }
 
@@ -600,7 +604,7 @@ void ScopeEnumeration::dumpExtra(const PrintSettings &Settings) {
   GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
-std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
+std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
   std::string Name = getName();
 
@@ -613,6 +617,14 @@ std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
 
   if (getType() && Name != getType()->getName())
     ObjectAsText.append(" -> \"").append(getType()->getName()).append("\"");
+
+  for (auto *Child : getChildren()) {
+    if (!(Child->getIsType() &&
+      static_cast<const Type *>(Child)->getIsEnumerator()))
+      // TODO: Raise a warning here?
+      continue;
+    ObjectAsText.append("\n").append(Child->getAsText(Settings));
+  }
 
   return ObjectAsText;
 }
@@ -684,7 +696,7 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   // Attributes.
   if (Reference && Reference->getIsFunction()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Declaration @ ", Settings);
+    Result += formatAttributeText("Declaration @ ");
     // Cast to element as Scope has a different overload (not override) of
     // getFileName that returns nothing.
     if (!Reference->getInvalidFileName())
@@ -697,21 +709,21 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   } else {
     if (!getIsDeclaration()) {
       Result += '\n';
-      Result += getAttributeInfoAsText("No declaration", Settings);
+      Result += formatAttributeText("No declaration");
     }
   }
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template", Settings);
+    Result += formatAttributeText("Template");
   }
   if (getIsInlined()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Inlined", Settings);
+    Result += formatAttributeText("Inlined");
   }
   if (getIsDeclaration()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Is declaration", Settings);
+    Result += formatAttributeText("Is declaration");
   }
 
   return Result;
@@ -796,7 +808,14 @@ void ScopeTemplatePack::dumpExtra(const PrintSettings &Settings) {
   GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
-std::string ScopeTemplatePack::getAsText(const PrintSettings &) const {
+namespace {
+bool isTemplate(const Object *Obj) {
+  return Obj->getIsType() &&
+         static_cast<const Type *>(Obj)->getIsTemplateParam();
+};
+} // end anonymous namespace.
+
+std::string ScopeTemplatePack::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
@@ -804,6 +823,12 @@ std::string ScopeTemplatePack::getAsText(const PrintSettings &) const {
   Result += " \"";
   Result += getName();
   Result += "\"";
+
+  for (const auto *Child : getChildren()) {
+    if (isTemplate(Child))
+      Result.append("\n    ").append(Child->getAsText(Settings));
+  }
+
   return Result;
 }
 
@@ -811,10 +836,6 @@ std::string ScopeTemplatePack::getAsYAML() const {
   std::stringstream YAML;
   YAML << getCommonYAML() << "\nattributes:\n  types:";
 
-  auto isTemplate = [](const Object *Obj) -> bool {
-    return Obj->getIsType() &&
-           static_cast<const Type *>(Obj)->getIsTemplateParam();
-  };
   if (getChildrenCount() == 0 ||
       std::none_of(getChildren().cbegin(), getChildren().cend(), isTemplate)) {
     YAML << " []";

@@ -109,22 +109,22 @@ std::string Line::getAsText(const PrintSettings &Settings) const {
   Result << '{' << getKindAsString() << '}';
   if (Settings.ShowCodelineAttributes) {
     if (getIsNewStatement()) {
-      Result << '\n' << getAttributeInfoAsText(KindNewStatement, Settings);
+      Result << '\n' << formatAttributeText(KindNewStatement);
     }
     if (getIsPrologueEnd()) {
-      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd, Settings);
+      Result << '\n' << formatAttributeText(KindPrologueEnd);
     }
     if (getIsLineEndSequence()) {
-      Result << '\n' << getAttributeInfoAsText(KindEndSequence, Settings);
+      Result << '\n' << formatAttributeText(KindEndSequence);
     }
     if (getIsNewBasicBlock()) {
-      Result << '\n' << getAttributeInfoAsText(KindBasicBlock, Settings);
+      Result << '\n' << formatAttributeText(KindBasicBlock);
     }
     if (getHasDiscriminator()) {
-      Result << '\n' << getAttributeInfoAsText(KindDiscriminator, Settings);
+      Result << '\n' << formatAttributeText(KindDiscriminator);
     }
     if (getIsEpilogueBegin()) {
-      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin, Settings);
+      Result << '\n' << formatAttributeText(KindEpilogueBegin);
     }
   }
   return Result.str();
