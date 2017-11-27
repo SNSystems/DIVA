@@ -57,7 +57,6 @@ enum class ErrorCode {
   ERR_FILEIO_MAKE_DIR_FAILURE,
 
   // Internal Error.
-  ERR_OPTIONS_INVALID_TABLE_INDEX,
   ERR_SPLIT_UNABLE_TO_OPEN_FILE,
 
   // Start up Error.
@@ -76,9 +75,6 @@ void warning(const std::string &Msg);
 [[noreturn]] void fatalError(const ErrorCode Code, const std::string &Detail1);
 [[noreturn]] void fatalError(const ErrorCode Code, const std::string &Detail1,
                              const std::string &Detail2);
-
-/// \brief Display a table of all possible errors.
-void printErrorTable();
 
 } // namespace LibScopeError
 

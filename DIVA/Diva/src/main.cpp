@@ -87,7 +87,7 @@ int main(int argc, char *argv[]) {
   }
 
   if (Options.ShowScopeAllocation)
-    LibScopeView::printAllocationInfo();
+    LibScopeView::printAllocationInfo(std::cout);
 
   // Print the scope views in the readers.
   for (auto &AReader : Readers) {
@@ -127,9 +127,9 @@ int main(int argc, char *argv[]) {
 
   // Print string pool data.
   if (Options.DumpStringPool)
-    LibScopeView::StringPool::dumpPool();
+    LibScopeView::StringPool::dumpPool(std::cout);
   if (Options.ShowStringPoolInfo)
-    LibScopeView::StringPool::poolInfo();
+    LibScopeView::StringPool::poolInfo(std::cout);
 
   // Library termination.
   LibScopeView::terminate();

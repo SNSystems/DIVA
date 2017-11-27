@@ -31,7 +31,6 @@
 #include "Error.h"
 #include "FileUtilities.h"
 #include "Line.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "Symbol.h"
 #include "Type.h"
@@ -313,84 +312,6 @@ void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc) {
     Scp->traverse(GetFunc, SetFunc);
 }
 
-bool Scope::resolvePrinting(const PrintSettings &Settings) {
-  bool DoPrint = true;
-
-  bool Globals = Settings.ShowOnlyGlobals;
-  bool Locals = Settings.ShowOnlyLocals;
-  if (Globals == Locals) {
-    // Print both Global and Local.
-  } else {
-    // Check for Global or Local Objects.
-    if ((Globals && !(getHasGlobals() || getIsGlobalReference())) ||
-        (Locals && !(getHasLocals() || !getIsGlobalReference()))) {
-      DoPrint = false;
-    }
-  }
-
-  // For the case of functions, skip it if unnamed (name is NULL) or
-  // unlined (line number is zero).
-  if (DoPrint && getIsFunction()) {
-    if (!Settings.ShowGenerated && isNotPrintable()) {
-      DoPrint = false;
-    }
-  }
-
-  // Check if we are using any pattern.
-  if (DoPrint) {
-    // Indicate that this tree branch has a matched pattern.
-    if (!Settings.TreeFilters.empty() || !Settings.TreeFilterAnys.empty()) {
-      DoPrint = getHasPattern();
-    }
-  }
-
-  return DoPrint;
-}
-
-void Scope::print(bool SplitCU, bool Match, bool IsNull,
-                  const PrintSettings &Settings) {
-  // If 'split_cu', we use the scope name (CU name) as the ouput file.
-  if (SplitCU && getIsCompileUnit()) {
-    std::string OutFilePath(GlobalPrintContext->getLocation() +
-                            flattenFilePath(getName()) + ".txt");
-
-    // Open print context.
-    if (!GlobalPrintContext->open(OutFilePath)) {
-      fatalError(LibScopeError::ErrorCode::ERR_SPLIT_UNABLE_TO_OPEN_FILE,
-                 OutFilePath);
-    }
-  }
-
-  // Check conditions such as local, global, etc.
-  bool DoPrint = resolvePrinting(Settings);
-
-  // Don't print in quiet mode unless splitting output.
-  DoPrint = DoPrint && (!Settings.QuietMode || Settings.SplitOutput);
-
-  if (DoPrint) {
-    // Dump the object itself.
-    dump(Settings);
-    // Dump the children.
-    for (Object *Obj : Children) {
-      if (Match && !Obj->getHasPattern())
-        continue;
-      Obj->print(SplitCU, Match, IsNull, Settings);
-    }
-    // Dump the line records.
-    for (Line *Ln : TheLines) {
-      if (Match && !Ln->getHasPattern())
-        continue;
-      Ln->print(SplitCU, Match, IsNull, Settings);
-    }
-  }
-
-  // Restore the original output context.
-  if (SplitCU && getIsCompileUnit()) {
-    // Close the print context.
-    GlobalPrintContext->close();
-  }
-}
-
 const char *Scope::resolveName() {
   // If the scope has a DW_AT_specification or DW_AT_abstract_origin,
   // follow the chain to resolve the name from those references.
@@ -401,36 +322,6 @@ const char *Scope::resolveName() {
     }
   }
   return getName();
-}
-
-void Scope::dump(const PrintSettings &Settings) {
-  // Check if the object needs to be printed.
-  if (dumpAllowed() || Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Scope::dumpExtra(const PrintSettings &Settings) {
-  std::string Text = getAsText(Settings);
-  if (!Text.empty())
-    GlobalPrintContext->print("%s\n", Text.c_str());
-}
-
-bool Scope::dump(bool DoHeader, const char *Header,
-                 const PrintSettings &Settings) {
-  if (DoHeader) {
-    GlobalPrintContext->print("\n%s\n", Header);
-    DoHeader = false;
-  }
-
-  // Dump object.
-  dump(Settings);
-
-  return DoHeader;
 }
 
 std::string Scope::getAsText(const PrintSettings &Settings) const {
@@ -522,10 +413,6 @@ ScopeAlias::ScopeAlias() : Scope() {}
 
 ScopeAlias::~ScopeAlias() {}
 
-void ScopeAlias::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeAlias::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} \"" << getName() << "\" -> "
@@ -544,10 +431,6 @@ ScopeArray::ScopeArray() : Scope() {}
 
 ScopeArray::~ScopeArray() {}
 
-void ScopeArray::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} "
@@ -564,19 +447,6 @@ ScopeCompileUnit::~ScopeCompileUnit() {}
 void ScopeCompileUnit::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
   Scope::setName(Path.c_str());
-}
-
-void ScopeCompileUnit::dump(const PrintSettings &Settings) {
-  // An extra line to improve readibility.
-  if (Settings.printObject(*this)) {
-    GlobalPrintContext->print("\n");
-  }
-  Scope::dump(Settings);
-}
-
-void ScopeCompileUnit::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-  resetFileIndex();
 }
 
 std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
@@ -597,11 +467,6 @@ ScopeEnumeration::ScopeEnumeration(LevelType Lvl)
 ScopeEnumeration::ScopeEnumeration() : Scope(), IsClass(false) {}
 
 ScopeEnumeration::~ScopeEnumeration() {}
-
-void ScopeEnumeration::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
 
 std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
@@ -664,10 +529,6 @@ ScopeFunction::ScopeFunction()
 }
 
 ScopeFunction::~ScopeFunction() {}
-
-void ScopeFunction::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
@@ -778,10 +639,6 @@ ScopeNamespace::ScopeNamespace() : Scope() { Reference = nullptr; }
 
 ScopeNamespace::~ScopeNamespace() {}
 
-void ScopeNamespace::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeNamespace::getAsText(const PrintSettings &) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
@@ -801,11 +658,6 @@ ScopeTemplatePack::ScopeTemplatePack(LevelType Lvl) : Scope(Lvl) {}
 ScopeTemplatePack::ScopeTemplatePack() : Scope() {}
 
 ScopeTemplatePack::~ScopeTemplatePack() {}
-
-void ScopeTemplatePack::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
 
 namespace {
 bool isTemplate(const Object *Obj) {
@@ -858,16 +710,6 @@ ScopeRoot::~ScopeRoot() {}
 void ScopeRoot::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
   Scope::setName(Path.c_str());
-}
-
-void ScopeRoot::dump(const PrintSettings &Settings) {
-  if (!Settings.SplitOutput) {
-    Scope::dump(Settings);
-  }
-}
-
-void ScopeRoot::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string ScopeRoot::getAsText(const PrintSettings &) const {

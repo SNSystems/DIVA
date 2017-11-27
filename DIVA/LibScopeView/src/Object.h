@@ -53,7 +53,7 @@ class PrintSettings;
 class Scope;
 class Type;
 
-void printAllocationInfo();
+void printAllocationInfo(std::ostream &Out);
 
 typedef uint16_t LevelType;
 
@@ -86,12 +86,10 @@ private:
     IsType,
     HasType,
     IsGlobalReference,
-    IsResolved,
     IsInlined,
     InvalidFilename,
     HasReference,
     HasQualifiedName,
-    HasPattern,
     ObjectAttributesSize
   };
   // Flags specifying various properties of the Object.
@@ -128,10 +126,6 @@ public:
   }
   void setIsGlobalReference() { ObjectAttributesFlags.set(IsGlobalReference); }
 
-  /// \brief The Object has been resolved by the reader.
-  bool getIsResolved() const { return ObjectAttributesFlags[IsResolved]; }
-  void setIsResolved() { ObjectAttributesFlags.set(IsResolved); }
-
   /// \brief The Object has been inlined.
   bool getIsInlined() const { return ObjectAttributesFlags[IsInlined]; }
   void setIsInlined() { ObjectAttributesFlags.set(IsInlined); }
@@ -154,19 +148,7 @@ public:
   }
   void setHasQualifiedName() { ObjectAttributesFlags.set(HasQualifiedName); }
 
-  /// \brief Has a filter pattern.
-  bool getHasPattern() const { return ObjectAttributesFlags[HasPattern]; }
-  void setHasPattern() { ObjectAttributesFlags.set(HasPattern); }
-
-private:
-  // Track source file changes while printing.
-  static size_t LastFilenameIndex;
-  // Filler gap for the attributes.
-  static size_t IndentationSize;
-
 protected:
-  static void resetFileIndex() { LastFilenameIndex = 0; }
-
   // Scope level for this object.
   LevelType Level;
 
@@ -179,17 +161,6 @@ protected:
   // Information to link the object back to the DWARF.
   Dwarf_Off DieOffset; // Global Offset in Debug Info.
   Dwarf_Half DieTag;   // DWARF tag/attr for this object.
-
-protected:
-  // Print the Filename or Pathname.
-  void printFileIndex();
-
-protected:
-  // Get a string representation for the given line number.
-  const char *getLineAsString(uint64_t LineNumber) const;
-
-  // Get a string representation for the given number.
-  const char *getReferenceAsString(uint64_t LineNumber, bool Spaces) const;
 
 public:
   /// \brief DWARF Die tag.
@@ -238,12 +209,6 @@ public:
   bool isLined() const { return LineNumber != 0; }
   bool isUnlined() const { return !isLined(); }
 
-  /// \brief Check if the object is printable.
-  bool isPrintable() const { return !(isUnnamed()); }
-
-  /// \brief Check if the object is not printable.
-  bool isNotPrintable() const { return (isUnnamed()); }
-
   /// \brief Set the qualified name to include the parent's name.
   void resolveQualifiedName() { resolveQualifiedName(getParent()); }
   void resolveQualifiedName(const Scope *ExplicitParent);
@@ -265,8 +230,6 @@ public:
   void setLevel(LevelType Lvl) { Level = Lvl; }
   std::string getIndentString(const PrintSettings &Settings) const;
 
-  bool referenceMatch(const Object *Obj) const;
-
   /// \brief The parent scope for this object.
   Scope *getParent() const { return Parent; }
   void setParent(Scope *ObjParent) { Parent = ObjParent; }
@@ -278,18 +241,6 @@ public:
   const char *getDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeAsString(const PrintSettings &Settings) const;
-
-  /// \brief String to be used for objects with no line number.
-  virtual const char *getNoLineString() const;
-
-  /// \brief The line number to display.
-  ///
-  /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
-  /// otherwise use the DW_AT_decl_line attribute.
-  virtual const char *getLineNumberAsString() const {
-    return getLineAsString(getLineNumber());
-  }
-  virtual std::string getLineNumberAsStringStripped();
 
 public:
   // The object class type can point to a Type or Scope.
@@ -305,18 +256,6 @@ public:
                    const char *BaseText = nullptr);
 
 public:
-  virtual void printAttributes(const PrintSettings &Settings);
-
-  /// \brief Get the attributes associated with the object as string.
-  std::string getAttributesAsText(const PrintSettings &Settings);
-
-public:
-  static size_t getIndentationSize() { return IndentationSize; }
-
-public:
-  virtual void dump(const PrintSettings &Settings);
-  virtual void print(bool SplitCU, bool Match, bool IsNull,
-                     const PrintSettings &Settings);
   virtual uint32_t getTag() const;
   virtual void setTag();
 

@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Line.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "Utilities.h"
 
@@ -83,25 +82,6 @@ const char *Line::getKindAsString() const {
     Kind = KindLine;
   }
   return Kind;
-}
-
-std::string Line::getLineNumberAsStringStripped() {
-  std::string number = getLineNumberAsString();
-  return trim(number);
-}
-
-void Line::dump(const PrintSettings &Settings) {
-  if (Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Line::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string Line::getAsText(const PrintSettings &Settings) const {

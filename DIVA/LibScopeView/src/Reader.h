@@ -40,12 +40,11 @@ class Scope;
 /// \brief Representation for a generic reader.
 class Reader {
 public:
-  Reader() : Scopes(nullptr), PrintedHeader(false) {}
+  Reader() : Scopes(nullptr) {}
 
   bool loadFile(const std::string &FileName, const PrintSettings &Settings);
-  void print(const PrintSettings &Settings);
 
-  virtual ~Reader() { delete Scopes; }
+  virtual ~Reader();
 
 private:
   /// \brief Implements the creation of the tree from a file.
@@ -61,36 +60,11 @@ private:
 protected:
   Scope *Scopes;
 
-  // A header has been printed.
-  bool PrintedHeader;
-
 private:
   std::string InputFile;
 
-protected:
-  // Scopes that match a pattern.
-  typedef std::vector<Scope *> MatchedScopes;
-  MatchedScopes ViewMatchedScopes;
-
-  // Objects that match a pattern.
-  typedef std::vector<Object *> MatchedObjects;
-  MatchedObjects ViewMatchedObjects;
-
-protected:
-  virtual void printObjects(const PrintSettings &Settings);
-  virtual void printScopes(const PrintSettings &Settings);
-
-public:
-  void propagatePatternMatch();
-  void resolveTreePatternMatch(Scope *scope, const PrintSettings &Settings);
-  void resolveFilterPatternMatch(Object *object, const PrintSettings &Settings);
-  void resolveFilterPatternMatch(Line *line, const PrintSettings &Settings);
-
 public:
   std::string getInputFile() const { return InputFile; }
-
-  // Shortcut for any printing.
-  static bool getPrintObjects() { return true; }
 
   // Access to the scopes root.
   Scope *getScopesRoot() const { return Scopes; }
