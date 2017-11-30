@@ -57,10 +57,6 @@ void printAllocationInfo(std::ostream &Out);
 
 typedef uint16_t LevelType;
 
-/// \brief Get/set attribute functions.
-typedef void (Object::*ObjSetFunction)();
-typedef bool (Object::*ObjGetFunction)() const;
-
 /// \brief Enum to represent C++ access specifiers.
 enum class AccessSpecifier { Unspecified, Private, Protected, Public };
 

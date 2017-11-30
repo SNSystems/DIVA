@@ -108,12 +108,6 @@ public:
     IsTemplatePack,
     HasDiscriminator,
     CanHaveLines,
-    HasGlobals,
-    HasLocals,
-    HasLines,
-    HasScopes,
-    HasSymbols,
-    HasTypes,
     IsCombinedScope,
     ScopeAttributesSize
   };
@@ -257,24 +251,6 @@ public:
   bool getCanHaveLines() const { return ScopeAttributesFlags[CanHaveLines]; }
   void setCanHaveLines() { ScopeAttributesFlags.set(CanHaveLines); }
 
-  bool getHasGlobals() const { return ScopeAttributesFlags[HasGlobals]; }
-  void setHasGlobals() { ScopeAttributesFlags.set(HasGlobals); }
-
-  bool getHasLocals() const { return ScopeAttributesFlags[HasLocals]; }
-  void setHasLocals() { ScopeAttributesFlags.set(HasLocals); }
-
-  bool getHasLines() const { return ScopeAttributesFlags[HasLines]; }
-  void setHasLines() { ScopeAttributesFlags.set(HasLines); }
-
-  bool getHasScopes() const { return ScopeAttributesFlags[HasScopes]; }
-  void setHasScopes() { ScopeAttributesFlags.set(HasScopes); }
-
-  bool getHasSymbols() const { return ScopeAttributesFlags[HasSymbols]; }
-  void setHasSymbols() { ScopeAttributesFlags.set(HasSymbols); }
-
-  bool getHasTypes() const { return ScopeAttributesFlags[HasTypes]; }
-  void setHasTypes() { ScopeAttributesFlags.set(HasTypes); }
-
   bool getIsCombinedScope() const {
     return ScopeAttributesFlags[IsCombinedScope];
   }
@@ -328,15 +304,7 @@ public:
   /// \brief Get the number of types.
   size_t getTypeCount() const { return getTypes().size(); }
 
-private:
-  // Traverse the scopes tree calling given get/set functions.
-  void traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc);
-
 public:
-  /// \brief Traverse the scopes tree with the given callback functions.
-  void traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc, bool down);
-  void traverse(ScopeGetFunction GetFunc, ScopeSetFunction SetFunc, bool down);
-
   const char *resolveName();
 
   void sortScopes(const SortingKey &SortKey);

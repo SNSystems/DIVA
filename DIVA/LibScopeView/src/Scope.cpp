@@ -144,9 +144,6 @@ void Scope::addObject(Line *Ln) {
     // Do not add the line records to the children, as they represent the
     // logical view for the text section. Preserve the original sequence.
     // m_children->push_back(line);
-
-    // Indicate that this tree branch has lines.
-    traverse(&Scope::getHasLines, &Scope::setHasLines, /*down=*/false);
   } else {
     throw std::logic_error("Cannot set line records on a scope that's not a "
                            "function or module.\n");
@@ -158,18 +155,6 @@ void Scope::addObject(Scope *Scp) {
   TheScopes.push_back(Scp);
   Children.push_back(Scp);
   Scp->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Scp->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has scopes.
-  traverse(&Scope::getHasScopes, &Scope::setHasScopes, /*down=*/false);
 }
 
 void Scope::addObject(Symbol *Sym) {
@@ -177,18 +162,6 @@ void Scope::addObject(Symbol *Sym) {
   TheSymbols.push_back(Sym);
   Children.push_back(Sym);
   Sym->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Sym->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has symbols.
-  traverse(&Scope::getHasSymbols, &Scope::setHasSymbols, /*down=*/false);
 }
 
 void Scope::addObject(Type *Ty) {
@@ -196,18 +169,6 @@ void Scope::addObject(Type *Ty) {
   TheTypes.push_back(Ty);
   Children.push_back(Ty);
   Ty->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Ty->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has types.
-  traverse(&Scope::getHasTypes, &Scope::setHasTypes, /*down=*/false);
 }
 
 void Scope::getQualifiedName(std::string &qualified_name) const {
@@ -254,62 +215,6 @@ void Scope::sortCompileUnits(const SortingKey &SortKey) {
     std::sort(TheScopes.begin(), TheScopes.end(), SortFunc);
     std::sort(Children.begin(), Children.end(), SortFunc);
   }
-}
-
-void Scope::traverse(ScopeGetFunction GetFunc, ScopeSetFunction SetFunc,
-                     bool down) {
-  // First traverse the parent tree.
-  Scope *parent = this;
-  while (parent) {
-    // Terminates if the 'set_function' has already been executed.
-    if ((parent->*GetFunc)()) {
-      break;
-    }
-    (parent->*SetFunc)();
-    parent = parent->getParent();
-  }
-  // If requested, traverse the children tree.
-  if (down) {
-    // Traverse(get_function,set_function);
-  }
-}
-
-void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc,
-                     bool down) {
-  // First traverse the parent tree.
-  Scope *parent = this;
-  while (parent) {
-    // Terminates if the 'set_function' have been already executed.
-    if ((parent->*GetFunc)()) {
-      break;
-    }
-    (parent->*SetFunc)();
-    parent = parent->getParent();
-  }
-  // If requested, traverse the children tree.
-  if (down) {
-    traverse(GetFunc, SetFunc);
-  }
-}
-
-void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc) {
-  (this->*SetFunc)();
-
-  // Types.
-  for (Type *Ty : TheTypes)
-    (Ty->*SetFunc)();
-
-  // Symbols.
-  for (Symbol *Sym : TheSymbols)
-    (Sym->*SetFunc)();
-
-  // Line records.
-  for (Line *Ln : TheLines)
-    (Ln->*SetFunc)();
-
-  // Scopes.
-  for (Scope *Scp : TheScopes)
-    Scp->traverse(GetFunc, SetFunc);
 }
 
 const char *Scope::resolveName() {
