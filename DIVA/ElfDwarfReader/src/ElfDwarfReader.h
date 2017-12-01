@@ -47,15 +47,16 @@ enum class DwarfAttrValueKind;
 
 class DwarfReader : public LibScopeView::Reader {
 public:
-  DwarfReader() : LibScopeView::Reader() {}
-  ~DwarfReader() override {}
+  DwarfReader() = default;
+  ~DwarfReader() override = default;
 
   DwarfReader(const DwarfReader &) = delete;
   DwarfReader &operator=(const DwarfReader &) = delete;
 
 private:
   /// Create the full scope tree.
-  bool createScopes() override;
+  std::unique_ptr<LibScopeView::ScopeRoot>
+  createScopes(const std::string &FileName) override;
 
   /// Create each compile unit.
   void createCompileUnits(const DwarfDebugData &DebugData,

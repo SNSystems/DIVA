@@ -67,7 +67,7 @@ int main(int argc, char *argv[]) {
                             /*VersionOut*/ std::cerr,
                             /*ErrOut*/ std::cerr);
 
-  std::vector<ReaderUPtr> Readers;
+  std::vector<std::unique_ptr<LibScopeView::ScopeRoot>> ScopeRoots;
 
   // Create readers and load the input files.
   for (const std::string &InputFilePath : Options.InputFiles) {
@@ -75,12 +75,12 @@ int main(int argc, char *argv[]) {
     if (!LibScopeView::doesFileExist(InputFilePath))
       fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
 
-    Readers.push_back(createReader(InputFilePath));
-    assert(Readers.back());
-    bool Result =
-        Readers.back()->loadFile(InputFilePath, Options.PrintingSettings);
+    ReaderUPtr Reader = createReader(InputFilePath);
+    assert(Reader);
+    ScopeRoots.push_back(
+        Reader->loadFile(InputFilePath, Options.PrintingSettings));
 
-    if (!Result)
+    if (!ScopeRoots.back())
       // Currently the ElfDwarfReader will always call fatalError itself so we
       // should never reach this code.
       fatalError(LibScopeError::ErrorCode::ERR_READ_FAILED, InputFilePath);
@@ -90,26 +90,27 @@ int main(int argc, char *argv[]) {
     LibScopeView::printAllocationInfo(std::cout);
 
   // Print the scope views in the readers.
-  for (auto &AReader : Readers) {
+  assert(ScopeRoots.size() == Options.InputFiles.size()); // TODO: restructure.
+  for (size_t RootIndex = 0; RootIndex < ScopeRoots.size(); ++RootIndex) {
+    const auto &Root = ScopeRoots[RootIndex];
+    const auto &InputFile = Options.InputFiles[RootIndex];
+
     std::vector<std::unique_ptr<LibScopeView::ScopePrinter>> Printers;
     // Create text printer.
     if (Options.OutputFormats.count(OutputFormat::TEXT))
       Printers.emplace_back(std::make_unique<LibScopeView::ScopeTextPrinter>(
-          Options.PrintingSettings, AReader->getInputFile()));
+          Options.PrintingSettings, InputFile));
     // Create YAML printer.
     if (Options.OutputFormats.count(OutputFormat::YAML))
       Printers.emplace_back(std::make_unique<LibScopeView::ScopeYAMLPrinter>(
-          Options.PrintingSettings, AReader->getInputFile(),
-          YAML_OUTPUT_VERSION_STR));
+          Options.PrintingSettings, InputFile, YAML_OUTPUT_VERSION_STR));
 
     // Print the Logical Views.
     for (auto &Printer : Printers) {
       if (Options.PrintingSettings.SplitOutput) {
-        Printer->print(
-            static_cast<LibScopeView::ScopeRoot *>(AReader->getScopesRoot()),
-            Options.PrintingSettings.OutputDirectory);
+        Printer->print(Root.get(), Options.PrintingSettings.OutputDirectory);
       } else if (!Options.PrintingSettings.QuietMode) {
-        Printer->print(AReader->getScopesRoot(), std::cout);
+        Printer->print(Root.get(), std::cout);
       }
     }
 
@@ -119,7 +120,7 @@ int main(int argc, char *argv[]) {
       // Print settings were ignored for YAML.
       if (Options.OutputFormats.count(OutputFormat::YAML))
         Settings = nullptr;
-      LibScopeView::SummaryTable Table(*AReader->getScopesRoot(), Settings);
+      LibScopeView::SummaryTable Table(*Root, Settings);
       std::cout << '\n';
       Table.printSummaryTable(std::cout);
     }

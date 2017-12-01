@@ -112,13 +112,13 @@ void writeStringOrHex(std::ostream &Out, const std::string Str,
 
 } // end anonymous namespace
 
-bool DwarfReader::createScopes() {
-  auto *Root = new LibScopeView::ScopeRoot;
+std::unique_ptr<LibScopeView::ScopeRoot>
+DwarfReader::createScopes(const std::string &FileName) {
+  auto Root = std::make_unique<LibScopeView::ScopeRoot>();
   Root->setIsRoot();
-  Root->setName(getInputFile().c_str());
-  Scopes = Root;
+  Root->setName(FileName.c_str());
 
-  LibScopeView::FileDescriptor FD(getInputFile());
+  LibScopeView::FileDescriptor FD(FileName);
   try {
     const DwarfDebugData DebugData(FD.get());
     createCompileUnits(DebugData, *Root);
@@ -129,13 +129,13 @@ bool DwarfReader::createScopes() {
     static_cast<void>(Err);
 #endif
     LibScopeError::fatalError(LibScopeError::ErrorCode::ERR_INVALID_DWARF,
-                              getInputFile());
+                              FileName);
   }
 
   if (Root->getChildren().empty())
     LibScopeError::warning("No DWARF debug data found.");
 
-  return true;
+  return Root;
 }
 
 void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
