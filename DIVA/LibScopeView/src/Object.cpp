@@ -144,11 +144,6 @@ Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
   return Str;
 }
 
-Dwarf_Off Object::getDieParent() const {
-  Object *DieParent = getParent();
-  return DieParent ? DieParent->getDieOffset() : 0;
-}
-
 const char *Object::getTypeAsString(const PrintSettings &Settings) const {
   return getHasType() ? (getTypeName()) : (Settings.ShowVoid ? "void" : "");
 }
