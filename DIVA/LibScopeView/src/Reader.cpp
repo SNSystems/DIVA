@@ -203,6 +203,8 @@ private:
 };
 } // namespace
 
+Reader::~Reader() {}
+
 std::unique_ptr<ScopeRoot> Reader::loadFile(const std::string &FileName,
                                             const PrintSettings &Settings) {
   std::unique_ptr<ScopeRoot> Root = createScopes(FileName);

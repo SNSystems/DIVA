@@ -43,7 +43,7 @@ class Scope;
 class Reader {
 public:
   Reader() = default;
-  virtual ~Reader() = default;
+  virtual ~Reader();
 
   Reader(const Reader &) = delete;
   Reader &operator=(const Reader &) = delete;
