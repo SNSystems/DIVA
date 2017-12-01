@@ -1,4 +1,4 @@
-expected = '\n'
+expected = ''
 
 
 def test(diva, tmpdir_autodel):

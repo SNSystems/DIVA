@@ -1,24 +1,22 @@
 expected_txt = """\
-           {InputFile} "struct.o"
+{InputFile} "struct.o"
+    {CompileUnit} "struct.cpp"
 
-             {CompileUnit} "struct.cpp"
-
-  {Source} "struct.cpp"
-     3         {Struct} "A"
-     5         {Struct} "B"
-                   - public "A"
-     7         {Struct} "C"
-                   - private "A"
-     9         {Struct} "D"
-                   - public "B"
-                   - protected "C"
-    11         {Function} "test" -> "void"
-                   - No declaration
-    12           {Variable} "a" -> "A"
-    13           {Variable} "b" -> "B"
-    14           {Variable} "c" -> "C"
-    15           {Variable} "d" -> "D"
-
+{Source} "struct.cpp"
+ 3    {Struct} "A"
+ 5    {Struct} "B"
+          - public "A"
+ 7    {Struct} "C"
+          - private "A"
+ 9    {Struct} "D"
+          - public "B"
+          - protected "C"
+11    {Function} "test" -> "void"
+          - No declaration
+12      {Variable} "a" -> "A"
+13      {Variable} "b" -> "B"
+14      {Variable} "c" -> "C"
+15      {Variable} "d" -> "D"
 """
 
 

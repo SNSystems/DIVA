@@ -32,6 +32,7 @@
 #include "Error.h"
 #include "FileUtilities.h"
 #include "PrintSettings.h"
+#include "ScopeTextPrinter.h"
 #include "ScopeYAMLPrinter.h"
 #include "StringPool.h"
 #include "SummaryTable.h"
@@ -86,43 +87,49 @@ int main(int argc, char *argv[]) {
   }
 
   if (Options.ShowScopeAllocation)
-    LibScopeView::printAllocationInfo();
+    LibScopeView::printAllocationInfo(std::cout);
 
   // Print the scope views in the readers.
   for (auto &AReader : Readers) {
-    // Print the Logical View.
-    if (Options.OutputFormats.count(OutputFormat::TEXT)) {
-      AReader->print(Options.PrintingSettings);
-    }
-    // Print YAML.
-    if (Options.OutputFormats.count(OutputFormat::YAML)) {
-      // YAML_OUTPUT_VERSION_STR is defined by CMake.
-      LibScopeView::ScopeYAMLPrinter YAMLPrinter(AReader->getInputFile(),
-                                                 YAML_OUTPUT_VERSION_STR);
+    std::vector<std::unique_ptr<LibScopeView::ScopePrinter>> Printers;
+    // Create text printer.
+    if (Options.OutputFormats.count(OutputFormat::TEXT))
+      Printers.emplace_back(std::make_unique<LibScopeView::ScopeTextPrinter>(
+          Options.PrintingSettings, AReader->getInputFile()));
+    // Create YAML printer.
+    if (Options.OutputFormats.count(OutputFormat::YAML))
+      Printers.emplace_back(std::make_unique<LibScopeView::ScopeYAMLPrinter>(
+          Options.PrintingSettings, AReader->getInputFile(),
+          YAML_OUTPUT_VERSION_STR));
+
+    // Print the Logical Views.
+    for (auto &Printer : Printers) {
       if (Options.PrintingSettings.SplitOutput) {
-        YAMLPrinter.print(
+        Printer->print(
             static_cast<LibScopeView::ScopeRoot *>(AReader->getScopesRoot()),
             Options.PrintingSettings.OutputDirectory);
-      } else {
-        YAMLPrinter.print(AReader->getScopesRoot(), std::cout);
+      } else if (!Options.PrintingSettings.QuietMode) {
+        Printer->print(AReader->getScopesRoot(), std::cout);
       }
     }
+
     // Print summary.
     if (Options.ShowSummary) {
-      const LibScopeView::PrintSettings *Settings = &Options.PrintingSettings;
+      const auto *Settings = &Options.PrintingSettings;
       // Print settings were ignored for YAML.
       if (Options.OutputFormats.count(OutputFormat::YAML))
         Settings = nullptr;
       LibScopeView::SummaryTable Table(*AReader->getScopesRoot(), Settings);
+      std::cout << '\n';
       Table.printSummaryTable(std::cout);
     }
   }
 
   // Print string pool data.
   if (Options.DumpStringPool)
-    LibScopeView::StringPool::dumpPool();
+    LibScopeView::StringPool::dumpPool(std::cout);
   if (Options.ShowStringPoolInfo)
-    LibScopeView::StringPool::poolInfo();
+    LibScopeView::StringPool::poolInfo(std::cout);
 
   // Library termination.
   LibScopeView::terminate();

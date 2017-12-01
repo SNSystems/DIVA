@@ -28,9 +28,9 @@
 //===----------------------------------------------------------------------===//
 
 #include "StringPool.h"
-#include "PrintContext.h"
 
 #include <assert.h>
+#include <iomanip>
 #include <math.h>
 #include <string.h>
 
@@ -61,14 +61,14 @@ void StringPool::destroy() {
   }
 }
 
-void StringPool::dumpPool() {
+void StringPool::dumpPool(std::ostream &Out) {
   if (GlobalStringPool)
-    GlobalStringPool->dump();
+    GlobalStringPool->dump(Out);
 }
 
-void StringPool::poolInfo() {
+void StringPool::poolInfo(std::ostream &Out) {
   if (GlobalStringPool)
-    GlobalStringPool->info();
+    GlobalStringPool->info(Out);
 }
 
 size_t StringPool::getStringIndex(const char *Str) {
@@ -161,7 +161,7 @@ const char *StringPool::getString(size_t Index) {
   return &(TheStrings[Index]);
 }
 
-void StringPool::info(const char *Title) {
+void StringPool::info(std::ostream &Out, const char *Title) {
   size_t MinEntries = static_cast<size_t>(-1);
   size_t MaxEntries = 0;
   double Average = (static_cast<double>(Misses) /
@@ -177,17 +177,17 @@ void StringPool::info(const char *Title) {
   }
   double Variance = SumSquareErr / static_cast<double>(HASHTABLE_NUM_BUCKETS);
 
-  GlobalPrintContext->print("\n%s\n", Title);
-  GlobalPrintContext->print("Number of buckets:           %d\n", HASHTABLE_NUM_BUCKETS);
-  GlobalPrintContext->print("Pool misses (total strings): %d\n", Misses);
-  GlobalPrintContext->print("Pool hits:                   %d\n", Hits);
-  GlobalPrintContext->print("Pool efficiency:             %f\n",
-         (static_cast<double>(Hits) / static_cast<double>(Misses)));
-  GlobalPrintContext->print("Min entries per bucket:      %d\n", MinEntries);
-  GlobalPrintContext->print("Max entries per bucket:      %d\n", MaxEntries);
-  GlobalPrintContext->print("Average entries per bucket:  %f\n", Average);
-  GlobalPrintContext->print("Standard deviation:          %f\n", sqrt(Variance));
-  GlobalPrintContext->print("Size of string table:        %d\n", TheStrings.size());
+  Out << "\n" << Title << "\n";
+  Out << "Number of buckets:           " << HASHTABLE_NUM_BUCKETS << "\n";
+  Out << "Pool misses (total strings): " << Misses << "\n";
+  Out << "Pool hits:                   " << Hits << "\n";
+  Out << "Pool efficiency:             "
+      << (static_cast<double>(Hits) / static_cast<double>(Misses)) << "\n";
+  Out << "Min entries per bucket:      " << MinEntries << "\n";
+  Out << "Max entries per bucket:      " << MaxEntries << "\n";
+  Out << "Average entries per bucket:  " << Average << "\n";
+  Out << "Standard deviation:          " << sqrt(Variance) << "\n";
+  Out << "Size of string table:        " << TheStrings.size() << "\n";
 }
 
 uint32_t StringPool::strHash(const char *Str) {
@@ -207,13 +207,16 @@ uint32_t StringPool::strHash(const char *Str) {
   return Hash;
 }
 
-void StringPool::dump(const char *Title) {
-  GlobalPrintContext->print("\n%s\n", Title);
+void StringPool::dump(std::ostream &Out, const char *Title) {
+  Out << "\n" << Title << "\n";
   for (size_t Bucket = 0; Bucket < HASHTABLE_NUM_BUCKETS; ++Bucket) {
     for (auto Index : HashTable[Bucket]) {
       const char *Str = &(TheStrings[Index]);
-      GlobalPrintContext->print("Bucket=%08x,index=%08x,str='%s'\n", Bucket,
-                                Index, Str);
+      Out << "Bucket=0x" << std::setfill('0') << std::setw(8) << std::hex
+          << Bucket;
+      Out << ", Index=0x" << std::setfill('0') << std::setw(8) << std::hex
+          << Index;
+      Out << ", Str='" << Str << "'\n";
     }
   }
 }

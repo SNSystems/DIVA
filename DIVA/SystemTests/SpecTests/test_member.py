@@ -1,22 +1,20 @@
 expected_txt = """\
-           {InputFile} "member.o"
+{InputFile} "member.o"
+    {CompileUnit} "member.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "member.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "member.cpp"
-     3         {Struct} "A"
-                 {Function} "A::A" -> "void"
-                     - Is declaration
-                   {Parameter} -> "A *"
-     5           {Member} private "m_private" -> "int"
-     7           {Member} public "m_public" -> "int"
-     9           {Member} protected "m_protected" -> "int"
-    12         {Function} "test" -> "void"
-                   - No declaration
-    13           {Variable} "a" -> "A"
-
+{Source} "member.cpp"
+ 3    {Struct} "A"
+        {Function} "A::A" -> "void"
+            - Is declaration
+          {Parameter} -> "A *"
+ 5      {Member} private "m_private" -> "int"
+ 7      {Member} public "m_public" -> "int"
+ 9      {Member} protected "m_protected" -> "int"
+12    {Function} "test" -> "void"
+          - No declaration
+13      {Variable} "a" -> "A"
 """
 
 

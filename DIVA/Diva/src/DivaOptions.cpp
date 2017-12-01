@@ -77,8 +77,7 @@ void compileRegexs(std::vector<std::string> &Patterns,
   for (const std::string &Pattern : Patterns) {
     try {
       RegexsOut.emplace_back(Pattern);
-    }
-    catch (std::regex_error &) {
+    } catch (std::regex_error &) {
       fatalError(LibScopeError::ErrorCode::ERR_CMD_INVALID_REGEX, Pattern);
     }
   }
@@ -130,7 +129,7 @@ DivaOptions::DivaOptions(const std::vector<std::string> &CMDArgs,
 
   // Compile filter regexs.
   compileRegexs(RawFilters, PrintingSettings.Filters);
-  compileRegexs(RawWithChildrenFilters, PrintingSettings.WithChildrenFilters);
+  compileRegexs(RawTreeFilters, PrintingSettings.TreeFilters);
 }
 
 void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
@@ -225,11 +224,11 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
           NSC, "tree", "text",
           "Same as --filter, except the whole subtree of any matching object "
           "will printed.",
-          BasicHelp, RawWithChildrenFilters),
+          BasicHelp, RawTreeFilters),
       Argument::multiStringArg(
           NSC, "tree-any", "text",
           "Same as --filter-any with the whole subtree.", BasicHelp,
-        PrintingSettings.WithChildrenFilterAnys),
+        PrintingSettings.TreeFilterAnys),
     }),
 
     ArgumentGroup("More object options", {

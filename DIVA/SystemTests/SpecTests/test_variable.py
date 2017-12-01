@@ -1,16 +1,14 @@
 expected_txt = """\
-           {InputFile} "variable.o"
+{InputFile} "variable.o"
+   {CompileUnit} "variable.cpp"
+     {PrimitiveType} -> "int"
+         - 4 bytes
 
-             {CompileUnit} "variable.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "variable.cpp"
-     3         {Variable} "g" -> "int"
-     5         {Function} "test" -> "void"
-                   - No declaration
-     6           {Variable} "x" -> "int"
-
+{Source} "variable.cpp"
+3    {Variable} "g" -> "int"
+5    {Function} "test" -> "void"
+         - No declaration
+6      {Variable} "x" -> "int"
 """
 
 

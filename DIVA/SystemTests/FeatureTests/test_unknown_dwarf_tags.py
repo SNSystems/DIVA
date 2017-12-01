@@ -8,10 +8,8 @@ The test case unknown_tag.o was produced by modifying the byte at address
 expected = """\
 
 Warning: Ignoring unknown/unsupported DWARF tag '0x000c'.
-           {InputFile} "unknown_tag.o"
-
-             {CompileUnit} "helloworld.cpp"
-
+{InputFile} "unknown_tag.o"
+   {CompileUnit} "helloworld.cpp"
 """
 
 

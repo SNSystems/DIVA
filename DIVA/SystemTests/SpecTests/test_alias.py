@@ -1,16 +1,14 @@
 expected_txt = """\
-           {InputFile} "alias.o"
+{InputFile} "alias.o"
+   {CompileUnit} "alias.cpp"
+     {PrimitiveType} -> "int"
+         - 4 bytes
 
-             {CompileUnit} "alias.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "alias.cpp"
-     3         {Alias} "INTEGER" -> "int"
-     5         {Function} "test" -> "void"
-                   - No declaration
-     6           {Variable} "x" -> "INTEGER"
-
+{Source} "alias.cpp"
+3    {Alias} "INTEGER" -> "int"
+5    {Function} "test" -> "void"
+         - No declaration
+6      {Variable} "x" -> "INTEGER"
 """
 
 

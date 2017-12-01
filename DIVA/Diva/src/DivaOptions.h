@@ -52,7 +52,7 @@ public:
               std::ostream &VersionOut, std::ostream &ErrOut);
 
   std::vector<std::string> InputFiles;
-  
+
   std::set<OutputFormat> OutputFormats;
 
   LibScopeView::PrintSettings PrintingSettings;
@@ -74,7 +74,7 @@ private:
   std::string SortKeyString;
   // Or from strings to regular expressions.
   std::vector<std::string> RawFilters;
-  std::vector<std::string> RawWithChildrenFilters;
+  std::vector<std::string> RawTreeFilters;
 };
 
 #endif // DIVAOPTIONS_H_

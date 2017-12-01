@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Symbol.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "Scope.h"
 
@@ -114,33 +113,6 @@ const char *Symbol::resolveName() {
   }
 
   return getName();
-}
-
-void Symbol::dump(const PrintSettings &Settings) {
-  if (Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Symbol::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
-bool Symbol::dump(bool DoHeader, const char *Header,
-                  const PrintSettings &Settings) {
-  if (DoHeader) {
-    GlobalPrintContext->print("\n%s\n", Header);
-    DoHeader = false;
-  }
-
-  // Dump object.
-  dump(Settings);
-
-  return DoHeader;
 }
 
 std::string Symbol::getAsText(const PrintSettings &Settings) const {

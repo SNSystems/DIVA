@@ -108,12 +108,6 @@ public:
     IsTemplatePack,
     HasDiscriminator,
     CanHaveLines,
-    HasGlobals,
-    HasLocals,
-    HasLines,
-    HasScopes,
-    HasSymbols,
-    HasTypes,
     IsCombinedScope,
     ScopeAttributesSize
   };
@@ -257,24 +251,6 @@ public:
   bool getCanHaveLines() const { return ScopeAttributesFlags[CanHaveLines]; }
   void setCanHaveLines() { ScopeAttributesFlags.set(CanHaveLines); }
 
-  bool getHasGlobals() const { return ScopeAttributesFlags[HasGlobals]; }
-  void setHasGlobals() { ScopeAttributesFlags.set(HasGlobals); }
-
-  bool getHasLocals() const { return ScopeAttributesFlags[HasLocals]; }
-  void setHasLocals() { ScopeAttributesFlags.set(HasLocals); }
-
-  bool getHasLines() const { return ScopeAttributesFlags[HasLines]; }
-  void setHasLines() { ScopeAttributesFlags.set(HasLines); }
-
-  bool getHasScopes() const { return ScopeAttributesFlags[HasScopes]; }
-  void setHasScopes() { ScopeAttributesFlags.set(HasScopes); }
-
-  bool getHasSymbols() const { return ScopeAttributesFlags[HasSymbols]; }
-  void setHasSymbols() { ScopeAttributesFlags.set(HasSymbols); }
-
-  bool getHasTypes() const { return ScopeAttributesFlags[HasTypes]; }
-  void setHasTypes() { ScopeAttributesFlags.set(HasTypes); }
-
   bool getIsCombinedScope() const {
     return ScopeAttributesFlags[IsCombinedScope];
   }
@@ -328,19 +304,7 @@ public:
   /// \brief Get the number of types.
   size_t getTypeCount() const { return getTypes().size(); }
 
-private:
-  // Traverse the scopes tree calling given get/set functions.
-  void traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc);
-
 public:
-  /// \brief Traverse the scopes tree with the given callback functions.
-  void traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc, bool down);
-  void traverse(ScopeGetFunction GetFunc, ScopeSetFunction SetFunc, bool down);
-
-  /// \brief Navigate down the current scope and perform the callback.
-  void print(bool SplitCU, bool Match, bool IsNull,
-             const PrintSettings &Settings) override;
-
   const char *resolveName();
 
   void sortScopes(const SortingKey &SortKey);
@@ -371,16 +335,6 @@ protected:
   std::vector<Object *> Children;
 
 public:
-  /// \brief Decide if the object will be printed.
-  bool resolvePrinting(const PrintSettings &Settings);
-
-public:
-  void dump(const PrintSettings &Settings) override;
-  virtual void dumpExtra(const PrintSettings &Settings);
-  virtual bool dump(bool DoHeader, const char *Header,
-                    const PrintSettings &Settings);
-  virtual bool dumpAllowed() { return false; }
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -434,8 +388,6 @@ public:
   ScopeAlias(const ScopeAlias &) = delete;
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -453,8 +405,6 @@ public:
   ScopeArray(const ScopeArray &) = delete;
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -474,9 +424,6 @@ public:
   void setName(const char *Name) override;
 
 public:
-  void dump(const PrintSettings &Settings) override;
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -496,8 +443,6 @@ public:
   ScopeEnumeration(const ScopeEnumeration &) = delete;
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -547,8 +492,6 @@ public:
   void setIsDeclaration() { IsDeclaration = true; }
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -586,14 +529,6 @@ public:
   void setCallLineNumber(uint64_t LnNumber) override {
     CallLineNumber = LnNumber;
   }
-
-  /// \brief The line number to display.
-  ///
-  /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
-  /// otherwise use the DW_AT_decl_line attribute.
-  const char *getLineNumberAsString() const override {
-    return getLineAsString(getCallLineNumber());
-  }
 };
 
 /// \brief Class to represent a DWARF Namespace object.
@@ -619,8 +554,6 @@ public:
   }
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -640,8 +573,6 @@ public:
   ScopeTemplatePack(const ScopeTemplatePack &) = delete;
 
 public:
-  void dumpExtra(const PrintSettings &Settings) override;
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
@@ -662,11 +593,6 @@ public:
   void setName(const char *Name) override;
 
 public:
-  void dump(const PrintSettings &Settings) override;
-  void dumpExtra(const PrintSettings &Settings) override;
-
-  bool dumpAllowed() override { return true; }
-
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;

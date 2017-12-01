@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Line.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "Utilities.h"
 
@@ -85,46 +84,27 @@ const char *Line::getKindAsString() const {
   return Kind;
 }
 
-std::string Line::getLineNumberAsStringStripped() {
-  std::string number = getLineNumberAsString();
-  return trim(number);
-}
-
-void Line::dump(const PrintSettings &Settings) {
-  if (Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Line::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
   if (Settings.ShowCodelineAttributes) {
     if (getIsNewStatement()) {
-      Result << '\n' << getAttributeInfoAsText(KindNewStatement, Settings);
+      Result << '\n' << formatAttributeText(KindNewStatement);
     }
     if (getIsPrologueEnd()) {
-      Result << '\n' << getAttributeInfoAsText(KindPrologueEnd, Settings);
+      Result << '\n' << formatAttributeText(KindPrologueEnd);
     }
     if (getIsLineEndSequence()) {
-      Result << '\n' << getAttributeInfoAsText(KindEndSequence, Settings);
+      Result << '\n' << formatAttributeText(KindEndSequence);
     }
     if (getIsNewBasicBlock()) {
-      Result << '\n' << getAttributeInfoAsText(KindBasicBlock, Settings);
+      Result << '\n' << formatAttributeText(KindBasicBlock);
     }
     if (getHasDiscriminator()) {
-      Result << '\n' << getAttributeInfoAsText(KindDiscriminator, Settings);
+      Result << '\n' << formatAttributeText(KindDiscriminator);
     }
     if (getIsEpilogueBegin()) {
-      Result << '\n' << getAttributeInfoAsText(KindEpilogueBegin, Settings);
+      Result << '\n' << formatAttributeText(KindEpilogueBegin);
     }
   }
   return Result.str();

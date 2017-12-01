@@ -1,12 +1,10 @@
 expected = """\
-           {InputFile} "helloworld.o"
+{InputFile} "helloworld.o"
+   {CompileUnit} "helloworld.cpp"
 
-             {CompileUnit} "helloworld.cpp"
-
-  {Source} "helloworld.cpp"
-     5         {Function} "main" -> "int"
-                   - No declaration
-
+{Source} "helloworld.cpp"
+5    {Function} "main" -> "int"
+         - No declaration
 """
 
 

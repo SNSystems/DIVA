@@ -1,34 +1,32 @@
 expected_txt = """\
-           {InputFile} "function.o"
+{InputFile} "function.o"
+    {CompileUnit} "function.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "function.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "function.cpp"
-     3         {Function} "func1" -> "int"
-                   - No declaration
-     3           {Parameter} "x" -> "int"
-     5         {Function} static "func2" -> "int"
-                   - No declaration
-     5           {Parameter} "x" -> "int"
-     7         {Function} inline "func3" -> "int"
-                   - No declaration
-     7           {Parameter} "x" -> "int"
-    11         {Struct} "S"
-    12           {Function} "S::method" -> "int"
-                     - Is declaration
-                   {Parameter} -> "S *"
-                   {Parameter} -> "int"
-                   {Parameter} -> "int"
-    12         {Function} "method" -> "int"
-                   - Declaration @ function.cpp,12
-                 {Parameter} "this" -> "const S *"
-    15           {Parameter} "x" -> "int"
-    15           {Parameter} "y" -> "int"
-    19         {Function} "test" -> "void"
-                   - No declaration
-
+{Source} "function.cpp"
+ 3    {Function} "func1" -> "int"
+          - No declaration
+ 3      {Parameter} "x" -> "int"
+ 5    {Function} static "func2" -> "int"
+          - No declaration
+ 5      {Parameter} "x" -> "int"
+ 7    {Function} inline "func3" -> "int"
+          - No declaration
+ 7      {Parameter} "x" -> "int"
+11    {Struct} "S"
+12      {Function} "S::method" -> "int"
+            - Is declaration
+          {Parameter} -> "S *"
+          {Parameter} -> "int"
+          {Parameter} -> "int"
+12    {Function} "method" -> "int"
+          - Declaration @ function.cpp,12
+        {Parameter} "this" -> "const S *"
+15      {Parameter} "x" -> "int"
+15      {Parameter} "y" -> "int"
+19    {Function} "test" -> "void"
+          - No declaration
 """
 
 

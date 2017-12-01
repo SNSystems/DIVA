@@ -29,7 +29,6 @@
 
 #include "Reader.h"
 #include "Line.h"
-#include "PrintContext.h"
 #include "ScopeVisitor.h"
 #include "Symbol.h"
 #include "Type.h"
@@ -43,61 +42,7 @@
 
 using namespace LibScopeView;
 
-void Reader::print(const PrintSettings &Settings) {
-  // If doing any search (--filter), do not do any scope tree printing.
-  if (!Settings.Filters.empty() || !Settings.FilterAnys.empty()) {
-    printObjects(Settings);
-  } else {
-    printScopes(Settings);
-  }
-  std::cout << "\n";
-}
-
-void Reader::printObjects(const PrintSettings &Settings) {
-  if (getPrintObjects() && ViewMatchedObjects.size()) {
-    // Get the sorting callback function.
-    SortFunction SortFunc = getSortFunction(Settings.SortKey);
-    if (SortFunc) {
-      std::sort(ViewMatchedObjects.begin(), ViewMatchedObjects.end(), SortFunc);
-    }
-
-    getScopesRoot()->dump(Settings);
-    PrintedHeader = true;
-
-    for (Object *Matched : ViewMatchedObjects)
-      Matched->dump(Settings);
-  }
-}
-
-void Reader::printScopes(const PrintSettings &Settings) {
-  bool DoPrint = getPrintObjects();
-  if (DoPrint) {
-    // Propagate any matching information into the scopes tree.
-    propagatePatternMatch();
-
-    Scope *Scp = getScopesRoot();
-    bool DoSplit = Settings.SplitOutput;
-    std::string SplitDir = Settings.OutputDirectory;
-    if (DoSplit) {
-      if (SplitDir.empty()) {
-        // If no split location, use the scope root name.
-        SplitDir = Scp->getName();
-      }
-      if (!GlobalPrintContext->createLocation(SplitDir)) {
-        // If enable to create a print context location, reset the given
-        // location option and swith to non-split mode.
-        DoSplit = false;
-      }
-    }
-
-    PrintedHeader = true;
-
-    // We do a normal print, using the standard settings.
-    bool Match = (!Settings.WithChildrenFilters.empty() ||
-                  !Settings.WithChildrenFilterAnys.empty());
-    Scp->print(DoSplit, Match, DoPrint, Settings);
-  }
-}
+Reader::~Reader() { delete Scopes; }
 
 bool Reader::loadFile(const std::string &FileName,
                       const PrintSettings &Settings) {
@@ -261,34 +206,15 @@ private:
   }
 };
 
-// Visitor that does any modifications to the CU tree that need to be done after
-// it has been created and the type names and references have been resolved.
-class TreeResolver : public ScopeVisitor {
-public:
-  TreeResolver(Reader &Reader, const PrintSettings &PrintingSettings)
-      : ReaderInstance(Reader), Settings(PrintingSettings) {}
-
+// Visitor that sets all children of global objects as global.
+class GlobalResolver : public ScopeVisitor {
 private:
   void visitImpl(Object *Obj) override {
-    if (Obj->getIsResolved())
-      return;
-    Obj->setIsResolved();
-
-    // Resolve any filters.
-    // TODO: Filters should be evaluated while printing.
-    ReaderInstance.resolveFilterPatternMatch(Obj, Settings);
-    if (auto Scp = dynamic_cast<Scope *>(Obj))
-      ReaderInstance.resolveTreePatternMatch(Scp, Settings);
-
     // If the parent is global then mark this as global.
     if (Obj->getParent() && Obj->getParent()->getIsGlobalReference())
       Obj->setIsGlobalReference();
-
     visitChildren(Obj);
   }
-
-  Reader &ReaderInstance;
-  const PrintSettings &Settings;
 };
 } // namespace
 
@@ -297,40 +223,7 @@ void Reader::postCreationActions(const PrintSettings &Settings) {
 
   NameResolver(Settings).visit(Scopes);
   ReferenceAttributeResolver().visit(Scopes);
-  TreeResolver(*this, Settings).visit(Scopes);
+  GlobalResolver().visit(Scopes);
 
   Scopes->sortScopes(Settings.SortKey);
-}
-
-void Reader::propagatePatternMatch() {
-  // At this stage, we have finished creating the Scopes tree and we have
-  // a list of objects that match the pattern specified in the command line
-  // by the user. The pattern corresponds to a subtree; mark its parents and
-  // children as having that pattern, before any printing is done.
-  for (Scope *Matched : ViewMatchedScopes)
-    Matched->traverse(&Scope::getHasPattern, &Scope::setHasPattern,
-                      /*down=*/true);
-}
-
-void Reader::resolveTreePatternMatch(Scope *Scp,
-                                     const PrintSettings &Settings) {
-  if (Scp->isNamed() &&
-      Settings.matchesWithChildrenFilterPattern(Scp->getName())) {
-    ViewMatchedScopes.push_back(Scp);
-  }
-}
-
-void Reader::resolveFilterPatternMatch(Object *Object,
-                                       const PrintSettings &Settings) {
-  if (Object->isNamed() && Settings.matchesFilterPattern(Object->getName())) {
-    ViewMatchedObjects.push_back(Object);
-  }
-}
-
-void Reader::resolveFilterPatternMatch(Line *Line,
-                                       const PrintSettings &Settings) {
-  if (Settings.matchesFilterPattern(
-          trim(Line->getLineNumberAsString()).c_str())) {
-    ViewMatchedObjects.push_back(Line);
-  }
 }

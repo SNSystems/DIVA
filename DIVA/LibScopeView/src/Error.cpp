@@ -28,7 +28,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Error.h"
-#include "PrintContext.h"
 
 #include <assert.h>
 #include <sstream>
@@ -68,8 +67,6 @@ const ErrorEntry ErrorTable[] = {
     {"ERR_FILEIO_MAKE_DIR_FAILURE", "Unable to create directory '%s'."},
 
     // Internal Error.
-    {"ERR_OPTIONS_INVALID_TABLE_INDEX",
-     "Invalid option '%s' for Long Names Table."},
     {"ERR_SPLIT_UNABLE_TO_OPEN_FILE",
      "Unable to open file '%s' for Logical View Split."},
 
@@ -132,10 +129,3 @@ void LibScopeError::fatalError(const ErrorCode Code, const std::string &Detail1,
 #ifdef __GNUC__
 #pragma GCC diagnostic pop
 #endif
-
-void LibScopeError::printErrorTable() {
-  LibScopeView::GlobalPrintContext->print("Error Table:\n\n");
-  for (size_t Index = 0; ErrorCode(Index) != ErrorCode::ERR_LAST_CODE; ++Index)
-    LibScopeView::GlobalPrintContext->print("%s: %s\n", ErrorTable[Index].Name,
-                                            ErrorTable[Index].Format);
-}

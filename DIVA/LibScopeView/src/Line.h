@@ -130,19 +130,7 @@ public:
     setHasDiscriminator();
   }
 
-  /// \brief Line number for display.
-  ///
-  /// In the case of Inlined Functions, we use the DW_AT_call_line attribute;
-  /// otherwise use DW_AT_decl_line attribute.
-  const char *getLineNumberAsString() const override {
-    return getLineAsString(getLineNumber());
-  }
-  std::string getLineNumberAsStringStripped() override;
-
 public:
-  void dump(const PrintSettings &Settings) override;
-  virtual void dumpExtra(const PrintSettings &Settings);
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.

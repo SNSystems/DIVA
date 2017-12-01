@@ -29,7 +29,6 @@
 
 #include "Utilities.h"
 #include "Platform.h"
-#include "PrintContext.h"
 #include "StringPool.h"
 
 #include <iomanip>
@@ -54,9 +53,6 @@ void LibScopeView::initialize() {
 
   // Create the String Pool, to be used for all readers.
   StringPool::create();
-
-  // Default print context.
-  PrintContext::create(stdout);
 }
 
 void LibScopeView::terminate() {

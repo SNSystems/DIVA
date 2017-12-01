@@ -27,7 +27,6 @@
 //===----------------------------------------------------------------------===//
 
 #include "Type.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "StringPool.h"
 #include "Scope.h"
@@ -155,36 +154,9 @@ bool Type::setFullName(const PrintSettings &Settings) {
   return setFullName(Settings, BaseType, BaseScope, nullptr, BaseText);
 }
 
-void Type::dump(const PrintSettings &Settings) {
-  if (Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Type::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
-bool Type::dump(bool DoHeader, const char *Header,
-                const PrintSettings &Settings) {
-  if (DoHeader) {
-    GlobalPrintContext->print("\n%s\n", Header);
-    DoHeader = false;
-  }
-
-  // Dump object.
-  dump(Settings);
-
-  return DoHeader;
-}
-
 bool Type::getIsPrintedAsObject() const { return getIsBaseType(); }
 
-std::string Type::getAsText(const PrintSettings &Settings) const {
+std::string Type::getAsText(const PrintSettings &) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
@@ -194,7 +166,7 @@ std::string Type::getAsText(const PrintSettings &Settings) const {
   unsigned byte_size = getByteSize();
   if (byte_size) {
     Result += '\n';
-    Result += getAttributeInfoAsText(std::to_string(byte_size), Settings);
+    Result += formatAttributeText(std::to_string(byte_size));
     Result += " bytes";
   }
   return Result;
@@ -252,11 +224,6 @@ Object *TypeDefinition::getUnderlyingType() {
 
 void TypeDefinition::setUnderlyingType(Object *Obj) { setType(Obj); }
 
-void TypeDefinition::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string TypeDefinition::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
@@ -293,23 +260,16 @@ void TypeEnumerator::setValue(const char *value) {
 
 size_t TypeEnumerator::getValueIndex() const { return ValueIndex; }
 
-void TypeEnumerator::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string TypeEnumerator::getAsText(const PrintSettings &Settings) const {
-  std::string ObjectAsText = "  -";
-  std::string Name = getName();
-  std::string Value = getValue();
-  std::string DieOffset = getTypeDieOffsetAsString(Settings);
+  std::string ObjectAsText;
+  ObjectAsText.append("\"").append(getName()).append("\" = ")
+              .append(getValue());
 
-  ObjectAsText.append(" \"").append(Name).append("\" = ").append(Value);
-
+  std::string DieOffset(getTypeDieOffsetAsString(Settings));
   if (!DieOffset.empty())
     ObjectAsText.append(" ").append(DieOffset);
 
-  return ObjectAsText;
+  return formatAttributeText(ObjectAsText);
 }
 
 std::string TypeEnumerator::getAsYAML() const {
@@ -337,10 +297,6 @@ void TypeImport::setInheritanceAccess(AccessSpecifier access) {
   InheritanceAccess = access;
 }
 
-void TypeImport::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 bool TypeImport::getIsPrintedAsObject() const { return !getIsInheritance(); }
 
 std::string TypeImport::getAsText(const PrintSettings &Settings) const {
@@ -352,7 +308,6 @@ std::string TypeImport::getAsText(const PrintSettings &Settings) const {
 
 std::string TypeImport::getInheritanceAsText() const {
   std::stringstream Result;
-  Result << "  - ";
   switch (getInheritanceAccess()) {
   case AccessSpecifier::Private:
     Result << "private";
@@ -372,7 +327,7 @@ std::string TypeImport::getInheritanceAsText() const {
     break;
   }
   Result << " \"" << getTypeName() << '"';
-  return Result.str();
+  return formatAttributeText(Result.str());
 }
 
 std::string TypeImport::getUsingAsText(const PrintSettings &Settings) const {
@@ -524,12 +479,6 @@ void TypeParam::setValue(const char *value) {
 
 size_t TypeParam::getValueIndex() const { return ValueIndex; }
 
-void TypeParam::dumpExtra(const PrintSettings &Settings) {
-  // Depending on the type of parameter, the dump includes different
-  // information: type, value or reference to a template.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 bool TypeParam::getIsPrintedAsObject() const {
   // Template parameters within template packs are printed by the pack.
   return !(getParent() && getParent()->getIsTemplatePack());
@@ -590,10 +539,3 @@ TypeSubrange::TypeSubrange(LevelType Lvl) : Type(Lvl) {}
 TypeSubrange::TypeSubrange() : Type() {}
 
 TypeSubrange::~TypeSubrange() {}
-
-void TypeSubrange::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("{%s} -> %s'%s' '%s'\n", getKindAsString(),
-                            getTypeDieOffsetAsString(Settings), getTypeName(),
-                            getName());
-}

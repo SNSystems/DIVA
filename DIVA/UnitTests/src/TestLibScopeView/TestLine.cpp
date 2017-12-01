@@ -72,32 +72,28 @@ TEST(Line, getAsText_Line_Attributes) {
   Line Ln(/*level*/ 3);
   Ln.setIsLineRecord();
 
-  // See Object::getAttributeInfoAsText() for why the indent is this size.
-  std::string AttrIndent(3 + 4 + 8 + ((Ln.getLevel() + 1) * 2), ' ');
-
   Ln.setIsNewStatement();
-  std::string Expected(std::string("{CodeLine}\n") + AttrIndent +
-                       std::string("- NewStatement"));
+  std::string Expected("{CodeLine}\n    - NewStatement");
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsPrologueEnd();
-  Expected += '\n' + AttrIndent + std::string("- PrologueEnd");
+  Expected += "\n    - PrologueEnd";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsLineEndSequence();
-  Expected += '\n' + AttrIndent + std::string("- EndSequence");
+  Expected += "\n    - EndSequence";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsNewBasicBlock();
-  Expected += '\n' + AttrIndent + std::string("- BasicBlock");
+  Expected += "\n    - BasicBlock";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setHasDiscriminator();
-  Expected += '\n' + AttrIndent + std::string("- Discriminator");
+  Expected += "\n    - Discriminator";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsEpilogueBegin();
-  Expected += '\n' + AttrIndent + std::string("- EpilogueBegin");
+  Expected += "\n    - EpilogueBegin";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 }
 

@@ -1,4 +1,4 @@
-//===-- LibScopeView/ScopeYAMLPrinter.h -------------------------*- C++ -*-===//
+//===-- LibScopeView/ScopeTextPrinter.h -------------------------*- C++ -*-===//
 ///
 /// Copyright (c) 2017 by Sony Interactive Entertainment Inc.
 ///
@@ -23,33 +23,53 @@
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// This file contains the declaration of the ScopeYAMLPrinter class.
+/// This file contains the declaration of the ScopeTextPrinter class.
 ///
 //===----------------------------------------------------------------------===//
 
-#ifndef SCOPEVIEW_SCOPEYAMLPRINTER_H
-#define SCOPEVIEW_SCOPEYAMLPRINTER_H
+#ifndef SCOPEVIEW_SCOPETEXTPRINTER_H
+#define SCOPEVIEW_SCOPETEXTPRINTER_H
 
 #include "ScopePrinter.h"
 
+#include <unordered_set>
+
 namespace LibScopeView {
 
-/// \brief A Scope printer that outputs in the YAML format.
-class ScopeYAMLPrinter : public ScopePrinter {
+/// \brief A Scope printer that outputs in the text format.
+class ScopeTextPrinter : public ScopePrinter {
 public:
-  ScopeYAMLPrinter(const PrintSettings &Settings, const std::string &InputFile,
-                   const std::string &Version, uint8_t SizeOfIndent = 2);
+  ScopeTextPrinter(const PrintSettings &PrintingSettings, std::string InputFile,
+                   uint8_t IndentSize = 2);
 
 private:
+  void initBeforePrint(const Object *Obj) override;
+
   const std::string &getFileExtension() override;
   const std::string &getHeader() override;
-  void printImpl(const Object *Obj, std::ostream &OutputStream) override;
 
-  std::string YAMLHeader;
+  void printImpl(const Object *Obj, std::ostream &OutputStream) override;
+  void printObjectText(const Object *Obj, std::ostream &OutputStream);
+  void printIndentedChildren(const Object *Obj);
+
+  std::string HeaderText;
   const uint8_t IndentSize;
-  uint32_t IndentLevel;
+  uint32_t IndentLevel = 1;
+  size_t CurrentFileIndex = 0;
+
+  // Indent sizes calculated from the tree being printed.
+  size_t LineNumberIndentSize = 0;
+  size_t TagIndentSize = 0;
+  size_t LevelNumberIndentSize = 0;
+  size_t AttributesIndentSize = 0;
+  size_t FollowingLineExtraIndent = 0;
+
+  // Objects where the children match a tree filter.
+  std::unordered_set<const Object *> ObjectsWithTreeFilteredChildren;
+  // Set to true when the parent matched a tree filter.
+  bool IgnoreFilters = false;
 };
 
 } // end namespace LibScopeView
 
-#endif // SCOPEVIEW_SCOPEYAMLPRINTER_H
+#endif // SCOPEVIEW_SCOPETEXTPRINTER_H

@@ -43,14 +43,15 @@ TEST(Type, getAsText_Enumerator) {
   TypeEnumerator TyEnumerator;
 
   TyEnumerator.setName("mon");
-  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = ");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings), "    - \"mon\" = ");
 
   TyEnumerator.setValue("10");
-  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings), "    - \"mon\" = 10");
 
   Settings.ShowDWARFOffset = true;
   TyEnumerator.setDieOffset(0x0);
-  EXPECT_EQ(TyEnumerator.getAsText(Settings), "  - \"mon\" = 10 [0x00000000]");
+  EXPECT_EQ(TyEnumerator.getAsText(Settings),
+            "    - \"mon\" = 10 [0x00000000]");
 }
 
 TEST(Type, getAsYAML_Enumerator) {
@@ -73,21 +74,21 @@ TEST(Type, getAsText_Inheritance) {
   TypeImport Inherit;
   Inherit.setIsInheritance();
   Inherit.setParent(&ParentClass);
-  EXPECT_EQ(Inherit.getAsText(Settings), "  - private \"\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - private \"\"");
 
   // Test type name, no access, struct parent.
   Inherit.setType(&Base);
   Inherit.setParent(&ParentStruct);
-  EXPECT_EQ(Inherit.getAsText(Settings), "  - public \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - public \"Base\"");
 
   // Test different access.
   Inherit.setParent(nullptr); // Parent should not be checked.
   Inherit.setInheritanceAccess(AccessSpecifier::Private);
-  EXPECT_EQ(Inherit.getAsText(Settings), "  - private \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - private \"Base\"");
   Inherit.setInheritanceAccess(AccessSpecifier::Protected);
-  EXPECT_EQ(Inherit.getAsText(Settings), "  - protected \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - protected \"Base\"");
   Inherit.setInheritanceAccess(AccessSpecifier::Public);
-  EXPECT_EQ(Inherit.getAsText(Settings), "  - public \"Base\"");
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - public \"Base\"");
 }
 
 TEST(Type, getAsText_Param) {
@@ -241,18 +242,13 @@ TEST(Type, getAsText_PrimitiveType) {
   Ty.setName("qaz");
   EXPECT_EQ(Ty.getAsText(Settings), "{PrimitiveType} -> \"qaz\"");
 
-  // See Object::getAttributeInfoAsText() for why the indent is this size.
-  std::string AttrIndent(3 + 4 + 8 + ((Ty.getLevel() + 1) * 2), ' ');
-
   Ty.setByteSize(4);
-  EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
-                                        '\n' + AttrIndent +
-                                        std::string("- 4 bytes"));
+  EXPECT_EQ(Ty.getAsText(Settings), "{PrimitiveType} -> \"qaz\"\n"
+                                    "    - 4 bytes");
 
   Ty.setByteSize(23);
-  EXPECT_EQ(Ty.getAsText(Settings), std::string("{PrimitiveType} -> \"qaz\"") +
-                                        '\n' + AttrIndent +
-                                        std::string("- 23 bytes"));
+  EXPECT_EQ(Ty.getAsText(Settings), "{PrimitiveType} -> \"qaz\"\n"
+                                    "    - 23 bytes");
 }
 
 TEST(Type, getAsYAML_PrimitiveType) {

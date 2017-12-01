@@ -4,14 +4,12 @@ import py
 this_dir = py.path.local(__file__).dirpath()
 
 expected = """\
-           {InputFile} "helloworld"
+{InputFile} "helloworld"
+   {CompileUnit} "helloworld.cpp"
 
-             {CompileUnit} "helloworld.cpp"
-
-  {Source} "helloworld.cpp"
-     5         {Function} "main" -> "int"
-                   - No declaration
-
+{Source} "helloworld.cpp"
+5    {Function} "main" -> "int"
+         - No declaration
 """
 
 

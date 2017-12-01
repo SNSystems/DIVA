@@ -1,13 +1,11 @@
 expected_txt = """\
-           {InputFile} "primitive_type.o"
+{InputFile} "primitive_type.o"
+   {CompileUnit} "primitive_type.cpp"
+     {PrimitiveType} -> "int"
+         - 4 bytes
 
-             {CompileUnit} "primitive_type.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "primitive_type.cpp"
-     3         {Variable} "g" -> "int"
-
+{Source} "primitive_type.cpp"
+3    {Variable} "g" -> "int"
 """
 
 

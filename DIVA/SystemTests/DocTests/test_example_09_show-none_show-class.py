@@ -1,11 +1,9 @@
 expected = """\
-           {InputFile} "example_09.o"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
-             {CompileUnit} "example_09.cpp"
-
-  {Source} "example_09.cpp"
-     4         {Class} "A"
-
+{Source} "example_09.cpp"
+ 4    {Class} "A"
 """
 
 

@@ -31,6 +31,7 @@
 #define SCOPEVIEW_SCOPEPRINTER_H
 
 #include "ScopeVisitor.h"
+#include "PrintSettings.h"
 
 #include <string>
 
@@ -62,7 +63,8 @@ class ScopeRoot;
 /// \endcode
 class ScopePrinter : private ConstScopeVisitor {
 public:
-  ScopePrinter() : OutputStream(nullptr) {}
+  ScopePrinter(const PrintSettings &PrintingSettings) :
+      Settings(PrintingSettings), OutputStream(nullptr) {}
   virtual ~ScopePrinter() override {}
 
   /// \brief Print Obj to Output.
@@ -74,20 +76,29 @@ public:
 protected:
   void printChildren(const Object *Obj) { visitChildren(Obj); }
 
+  // Print settings.
+  const PrintSettings &Settings;
+
 private:
+  /// \brief Do any setup required before printing Obj.
+  virtual void initBeforePrint(const Object *) {}
+
   /// \brief Subclass interface for printing an object.
   virtual void printImpl(const Object *Obj, std::ostream &OutputStream) = 0;
 
-  /// \brief get the file extension to use when splitting output (e.g. "txt").
+  /// \brief Get the file extension to use when splitting output (e.g. "txt").
   virtual const std::string &getFileExtension() = 0;
 
-  /// \brief get header text to be added to the start of the output, or at the
+  /// \brief Get header text to be added to the start of the output, or at the
   /// top of each split file.
   virtual const std::string &getHeader();
 
-  /// \brief get footer text to be added to the end of the output, or at the
+  /// \brief Get footer text to be added to the end of the output, or at the
   /// bottom of each split file.
   virtual const std::string &getFooter();
+
+  // Do the printing for one output.
+  void printSingleOutput(const Object *Obj, std::ostream &OutputStream);
 
   // Call printImpl() on the object with the appropriate OutputStream.
   void visitImpl(const Object *Obj) override;

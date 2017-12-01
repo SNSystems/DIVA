@@ -1,13 +1,12 @@
 expected = """\
-           {InputFile} "example_01.o"
+{InputFile} "example_01.o"
+   {CompileUnit} "example_01.cpp"
 
-             {CompileUnit} "example_01.cpp"
-
-  {Source} "example_01.cpp"
-     2         {Function} "foo" -> "void"
-                   - No declaration
-     2           {Parameter} "c" -> "char"
-     4           {Variable} "i" -> "int"
+{Source} "example_01.cpp"
+2    {Function} "foo" -> "void"
+         - No declaration
+2      {Parameter} "c" -> "char"
+4      {Variable} "i" -> "int"
 
      -------------------------------------
      Object                 Total  Printed

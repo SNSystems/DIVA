@@ -1,17 +1,15 @@
 expected = """\
-           {InputFile} "example_04.o"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
-             {CompileUnit} "example_04.cpp"
+{Source} "debug.h"
+ 54    {Namespace} "__gnu_debug"
 
-  {Source} "debug.h"
-    54         {Namespace} "__gnu_debug"
+{Source} "c++config.h"
+184    {Namespace} "std"
 
-  {Source} "c++config.h"
-   184         {Namespace} "std"
-
-  {Source} "debug.h"
-    48           {Namespace} "std::__debug"
-
+{Source} "debug.h"
+ 48      {Namespace} "std::__debug"
 """
 
 

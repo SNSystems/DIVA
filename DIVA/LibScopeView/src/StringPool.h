@@ -55,8 +55,8 @@ public:
 
   static void create();
   static void destroy();
-  static void dumpPool();
-  static void poolInfo();
+  static void dumpPool(std::ostream &Out);
+  static void poolInfo(std::ostream &Out);
 
 public:
   /// \brief Inserts a string in the pool, if required, and then returns an
@@ -74,10 +74,10 @@ public:
   const char *getString(size_t Index);
 
   /// \brief Dump the whole String Pool contents.
-  void dump(const char *Title = "String Pool Table:");
+  void dump(std::ostream &Out, const char *Title = "String Pool Table:");
 
   /// \brief Dump statistics on String Pool contents.
-  void info(const char *Title = "String Pool Info:");
+  void info(std::ostream &Out, const char *Title = "String Pool Info:");
 
 protected:
   // Destructor can only be called by destroy().

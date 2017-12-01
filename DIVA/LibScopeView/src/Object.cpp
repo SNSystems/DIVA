@@ -29,7 +29,6 @@
 
 #include "FileUtilities.h"
 #include "Line.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "StringPool.h"
 #include "Scope.h"
@@ -55,22 +54,22 @@
 
 using namespace LibScopeView;
 
-void LibScopeView::printAllocationInfo() {
+void LibScopeView::printAllocationInfo(std::ostream &Out) {
 #ifndef NDEBUG
   // Data structure sizes.
-  GlobalPrintContext->print("\n** Size of data structures: **\n");
-  GlobalPrintContext->print("Scope:  %3d\n", sizeof(Scope));
-  GlobalPrintContext->print("Symbol: %3d\n", sizeof(Symbol));
-  GlobalPrintContext->print("Type:   %3d\n", sizeof(Type));
-  GlobalPrintContext->print("Line:   %3d\n", sizeof(Line));
+  Out << "\n** Size of data structures: **\n";
+  Out << "Scope:  " << sizeof(Scope) << "\n";
+  Out << "Symbol: " << sizeof(Symbol) << "\n";
+  Out << "Type:   " << sizeof(Type) << "\n";
+  Out << "Line:   " << sizeof(Line) << "\n";
 #endif // NDEBUG
 
-  GlobalPrintContext->print("\n** Allocated Objects: **\n");
-  GlobalPrintContext->print("%s %6d\n", "Scopes:  ", Scope::getInstanceCount());
-  GlobalPrintContext->print("%s %6d\n",
-                            "Symbols: ", Symbol::getInstanceCount());
-  GlobalPrintContext->print("%s %6d\n", "Types:   ", Type::getInstanceCount());
-  GlobalPrintContext->print("%s %6d\n", "Lines:   ", Line::getInstanceCount());
+  // TODO: Count this here rather than whenever objects are created.
+  Out << "\n** Allocated Objects: **\n";
+  Out << "Scopes:   " << Scope::getInstanceCount() << "\n";
+  Out << "Symbols:  " << Symbol::getInstanceCount() << "\n";
+  Out << "Types:    " << Type::getInstanceCount() << "\n";
+  Out << "Lines:    " << Line::getInstanceCount() << "\n";
 }
 
 //===----------------------------------------------------------------------===//
@@ -150,47 +149,6 @@ Dwarf_Off Object::getDieParent() const {
   return DieParent ? DieParent->getDieOffset() : 0;
 }
 
-const char *Object::getNoLineString() const {
-  static const char *NoLine = "        ";
-  return NoLine;
-}
-
-const char *Object::getLineAsString(uint64_t LnNumber) const {
-  const unsigned MaxLineSize = 16;
-  static char Buffer[MaxLineSize];
-  const char *Str = Buffer;
-  if (LnNumber) {
-    int Res;
-    Res = snprintf(Buffer, MaxLineSize, "%5s %s",
-                   std::to_string(LnNumber).c_str(), "  ");
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
-           "string overflow");
-    (void)Res;
-  } else {
-    Str = getNoLineString();
-  }
-  return Str;
-}
-
-std::string Object::getLineNumberAsStringStripped() {
-  return trim(getLineNumberAsString());
-}
-
-const char *Object::getReferenceAsString(uint64_t LnNumber, bool Spaces) const {
-  const char *Str = "";
-  if (LnNumber) {
-    const unsigned MaxLineSize = 16;
-    static char Buffer[MaxLineSize];
-    int Res = snprintf(Buffer, MaxLineSize, "@%s%s",
-                       std::to_string(LnNumber).c_str(), Spaces ? " " : "");
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
-           "string overflow");
-    (void)Res;
-    Str = Buffer;
-  }
-  return Str;
-}
-
 const char *Object::getTypeAsString(const PrintSettings &Settings) const {
   return getHasType() ? (getTypeName()) : (Settings.ShowVoid ? "void" : "");
 }
@@ -224,15 +182,6 @@ std::string Object::getIndentString(const PrintSettings &Settings) const {
   if (getLevel() == 0 && getIsScope() && getParent() == nullptr)
     return "";
   return Settings.ShowIndent ? std::string((getLevel() + 1) * 2, ' ') : "";
-}
-
-bool Object::referenceMatch(const Object *Obj) const {
-  if ((getHasReference() && !Obj->getHasReference()) ||
-      (!getHasReference() && Obj->getHasReference())) {
-    return false;
-  }
-
-  return true;
 }
 
 bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
@@ -386,196 +335,8 @@ bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
   return true;
 }
 
-namespace {
-
-std::string getTagString(const Dwarf_Half DWTag, const bool IsLine) {
-  if (IsLine)
-    return "[DW_AT_stml_list]";
-
-  if (DWTag) {
-    const char *tag_name;
-    if (dwarf_get_TAG_name(DWTag, &tag_name) == DW_DLV_OK)
-      return std::string("[") + std::string(tag_name) + std::string("]");
-  }
-  return "[DW_TAG_file]";
-}
-
-} // namespace
-
-// Number of characters written by PrintAttributes.
-size_t Object::IndentationSize = 0;
-
-std::string Object::getAttributesAsText(const PrintSettings &Settings) {
-  static bool CalculateIndentation = true;
-  // Record the required space for the offsets (object and parent) and
-  // DWARF tag. These fields are not required for the {InputFile} object.
-  static size_t OffsetWidth = 0;
-  static size_t ParentWidth = 0;
-  static size_t TagWidth = 0;
-
-  // Calculate the indentation size, so we can use that value when printing
-  // additional attributes to DIVA objects. This value is calculated just for
-  // the first object.
-  if (CalculateIndentation) {
-    CalculateIndentation = false;
-    if (Settings.ShowDWARFOffset) {
-      OffsetWidth = static_cast<size_t>(
-          snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieOffset()));
-      IndentationSize += OffsetWidth;
-    }
-    if (Settings.ShowDWARFParent) {
-      ParentWidth = static_cast<size_t>(
-          snprintf(nullptr, 0, "[0x%08" DW_PR_DUx "]", getDieParent()));
-      IndentationSize += ParentWidth;
-    }
-    if (Settings.ShowLevel) {
-      IndentationSize +=
-          static_cast<size_t>(snprintf(nullptr, 0, "%03d", getLevel()));
-    }
-    if (Settings.ShowIsGlobal) {
-      IndentationSize += static_cast<size_t>(
-          snprintf(nullptr, 0U, "%c", getIsGlobalReference() ? 'X' : ' '));
-    }
-    if (Settings.ShowDWARFTag) {
-      std::string tag_str = getTagString(getDieTag(), getIsLine());
-      TagWidth =
-          static_cast<size_t>(snprintf(nullptr, 0U, "%-42s", tag_str.c_str()));
-      IndentationSize += TagWidth;
-    }
-  }
-
-  // The values for the attributes are well defined (DIE offsets, scope level
-  // and 'global' bits, etc. A buffer size of 64 is more than adequate to hold
-  // the largest value (DWARF tag).
-  const unsigned MaxSize = 64;
-  int Res;
-  static char Literal[MaxSize];
-  Literal[0] = 0;
-
-  std::string Attributes;
-
-  // Do not print the DIE offset, Level or DWARF TAG for a {InputFile} object.
-  bool IsInputFileObject = (getIsScope() && !getParent());
-  if (Settings.ShowDWARFOffset) {
-    if (IsInputFileObject) {
-      Res = std::snprintf(Literal, MaxSize, "%s",
-                          std::string(OffsetWidth, ' ').c_str());
-    } else {
-      Res = std::snprintf(Literal, MaxSize, "[0x%08" DW_PR_DUx "]",
-                          getDieOffset());
-    }
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  if (Settings.ShowDWARFParent) {
-    if (IsInputFileObject) {
-      Res = std::snprintf(Literal, MaxSize, "%s",
-                          std::string(ParentWidth, ' ').c_str());
-    } else {
-      Res = std::snprintf(Literal, MaxSize, "[0x%08" DW_PR_DUx "]",
-                          getDieParent());
-    }
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  if (Settings.ShowLevel) {
-    if (IsInputFileObject) {
-      Res = std::snprintf(Literal, MaxSize, "   ");
-    } else {
-      Res = std::snprintf(Literal, MaxSize, "%03d", getLevel());
-    }
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  if (Settings.ShowIsGlobal) {
-    Res = std::snprintf(Literal, MaxSize, "%c",
-                        getIsGlobalReference() ? 'X' : ' ');
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  if (Settings.ShowDWARFTag) {
-    if (IsInputFileObject) {
-      Res = std::snprintf(Literal, MaxSize, "%s",
-                          std::string(TagWidth, ' ').c_str());
-    } else {
-      std::string tag_str = getTagString(getDieTag(), getIsLine());
-      Res = std::snprintf(Literal, MaxSize, "%-42s", tag_str.c_str());
-    }
-    assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxSize) &&
-           "string overflow");
-    Attributes += std::string(Literal);
-  }
-  (void)Res;
-
-  return Attributes;
-}
-
-void Object::printAttributes(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s", getAttributesAsText(Settings).c_str());
-}
-
-// Record the last seen filename index. It is reset after the object that
-// represents the Compile Unit is printed.
-size_t Object::LastFilenameIndex = 0;
-
-void Object::printFileIndex() {
-  // Check if there is a change in the File ID sequence.
-  size_t FNameIndex = getFileNameIndex();
-  if (getInvalidFileName() || FNameIndex != LastFilenameIndex) {
-    LastFilenameIndex = FNameIndex;
-
-    // Keep a nice layout.
-    GlobalPrintContext->print("\n");
-    std::string Indent(IndentationSize, ' ');
-    GlobalPrintContext->print(Indent.c_str());
-
-    const char *Source = "  {Source}";
-    if (getInvalidFileName()) {
-      GlobalPrintContext->print("%s [0x%08x]\n", Source, FNameIndex);
-    } else {
-      std::string FName = getFileName(/*format_options=*/true);
-      GlobalPrintContext->print("%s \"%s\"\n", Source, FName.c_str());
-    }
-  }
-}
-
-void Object::dump(const PrintSettings &Settings) {
-  // Print the File ID if needed.
-  if (getFileNameIndex())
-    printFileIndex();
-
-  // Print Debug Data (tag, offset, etc).
-  printAttributes(Settings);
-
-  // Print the line and any discriminator.
-  GlobalPrintContext->print(" %5s %s ", getLineNumberAsString(),
-                            getIndentString(Settings).c_str());
-}
-
-void Object::print(bool /*SplitCU*/, bool /*Match*/, bool /*IsNull*/,
-                   const PrintSettings &Settings) {
-  dump(Settings);
-}
-
-std::string
-Object::getAttributeInfoAsText(const std::string &AttributeText,
-                               const PrintSettings &Settings) const {
-  // First we want to indent for any left aligned info being printed
-  // (indentation_size). An extra space is printed before the line number, after
-  // the line number and after the level indent so we need to indent an extra 3
-  // for those. Then we want to indent the space where the line number would be.
-  // Then We want to indent the attribute info 4 columns to the right of the
-  // object.
-  static const std::string ConstantIndent(
-      std::string(IndentationSize, ' ') + std::string(3, ' ') +
-      getNoLineString() + std::string(4, ' '));
-
-  // Then we want to indent based on the object level and add the dash.
-  return ConstantIndent + getIndentString(Settings) + "- " + AttributeText;
+std::string Object::formatAttributeText(const std::string &AttributeText) {
+  return "    - " + AttributeText;
 }
 
 std::string Object::getCommonYAML() const {

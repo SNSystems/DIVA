@@ -1,20 +1,18 @@
 expected_txt = """\
-           {InputFile} "block.o"
+{InputFile} "block.o"
+    {CompileUnit} "block.cpp"
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
-             {CompileUnit} "block.cpp"
-               {PrimitiveType} -> "int"
-                   - 4 bytes
-
-  {Source} "block.cpp"
-     3         {Function} "test" -> "void"
-                   - No declaration
-                 {Block}
-     5             {Variable} "x" -> "int"
-                 {Block}
-     8             {Variable} "y" -> "int"
-                 {Block}
-    12             {Variable} "x" -> "int"
-
+{Source} "block.cpp"
+ 3    {Function} "test" -> "void"
+          - No declaration
+        {Block}
+ 5        {Variable} "x" -> "int"
+        {Block}
+ 8        {Variable} "y" -> "int"
+        {Block}
+12        {Variable} "x" -> "int"
 """
 
 

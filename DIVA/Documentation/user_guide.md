@@ -107,12 +107,12 @@ $ cd <path to>\diva\examples\
 $ clang++ helloworld.cpp –c –g –o helloworld.o
 $ diva helloworld.o
 
-         {InputFile} "helloworld.o"
-           {CompileUnit} "helloworld.cpp"
+{InputFile} "helloworld.o"
+   {CompileUnit} "helloworld.cpp"
 
 {Source} "helloworld.cpp"
-   5         {Function} "main" -> "int"
-                 - No declaration
+5    {Function} "main" -> "int"
+         - No declaration
 ```
 
 *Figure 1. DIVA output of HelloWorld.o*
@@ -221,15 +221,14 @@ input ELF file has associated the attribute with the object.
 $ clang++ -c -g helloworld.cpp -o helloworld.o
 $ diva helloworld.o --show-all
 
-         {InputFile} "helloworld.o"
-
-           {CompileUnit} "helloworld.cpp"
-             {PrimitiveType} -> "int"
-                 - 4 bytes
+{InputFile} "helloworld.o"
+   {CompileUnit} "helloworld.cpp"
+     {PrimitiveType} -> "int"
+         - 4 bytes
 
 {Source} "helloworld.cpp"
-   5         {Function} "main" -> "int"
-                 - No declaration
+5    {Function} "main" -> "int"
+         - No declaration
 ```
 
 *Figure 3. The default DIVA output for HelloWorld.o*
@@ -409,16 +408,15 @@ can visualize each file contained within the output directory separately.
 |-----------------------------------------------------------------------------|
 | ../examples/scopes_org.txt          | ../examples/scopes_mod.txt            |
 |-------------------------------------|---------------------------------------|
-|         {InputFile} "scopes_org.o"  |         {InputFile} "scopes_mod.o"    |
-|                                     |                                       |
-|           {CompileUnit} "scopes.cpp"|           {CompileUnit} "scopes.cpp"  |
+|{InputFile} "scopes_org.o"           |{InputFile} "scopes_mod.o"             |
+|    {CompileUnit} "scopes.cpp"       |    {CompileUnit} "scopes.cpp"         |
 |                                     |                                       |
 |{Source} "scopes.cpp"                |{Source} "scopes.cpp"                  |
-|   3     {Alias} "INT" -> "int"      |                                       |
-|   6     {Function} "foo" -> "void"  |   6     {Function} "foo" -> "void"    |
-|           - No declaration          |           - No declaration            |
-|                                     |   9       {Alias} "INT" -> "int"      |
-|  11       {Variable} "a" -> "INT"   |  11       {Variable} "a" -> "foo::INT"|
+| 3    {Alias} "INT" -> "int"         |                                       |
+| 6    {Function} "foo" -> "void"     | 6    {Function} "foo" -> "void"       |
+|          - No declaration           |          - No declaration             |
+|                                     | 9      {Alias} "INT" -> "int"         |
+|11      {Variable} "a" -> "INT"      |11      {Variable} "a" -> "foo::INT"   |
 |                                     |                                       |
 |-----------------------------------------------------------------------------|
 ```
@@ -612,23 +610,22 @@ engineers - see section 4.3.
 ```
 $ diva example_09.o --show-all
 
-     {InputFile} "example_09.o"
-
-       {CompileUnit} "example_09.cpp"
-         {PrimitiveType} -> "char"
-                            - 1 bytes
-         {PrimitiveType} -> "int"
-                            - 4 bytes
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
+      {PrimitiveType} -> "char"
+          - 1 bytes
+      {PrimitiveType} -> "int"
+          - 4 bytes
 
 {Source} "example_09.cpp"
-   2       {Alias} "CHAR" -> "char"
-   4       {Class} "A"
-   5         {Member} private "a" -> "int"
-   8       {Variable} "a" -> "A"
-   10      {Function} "foo" -> "CHAR"
-                      - No declaration
-   10        {Parameter} "p" -> "char *"
-   12        {Variable} "c" -> "CHAR"
+ 2    {Alias} "CHAR" -> "char"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -648,18 +645,18 @@ default. To disable it, use --show-none.
 ```
 $ diva example_09.o --show-brief
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   2         {Alias} "CHAR" -> "char" 4 {Class} "A"
-   5         {Member} private "a" -> "int"
-   8         {Variable} "a" -> "A"
-  10         {Function} "foo" -> "CHAR"
-                        - No declaration
-  10           {Parameter} "p" -> "char *"
-  12           {Variable} "c" -> "CHAR"
+ 2    {Alias} "CHAR" -> "char"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -677,14 +674,14 @@ objects in the DIVA output.
 ```
 $ diva example_01.o --show-summary
 
-         {InputFile} "example_01.o"
-
-           {CompileUnit} "example_01.cpp"
+{InputFile} "example_01.o"
+   {CompileUnit} "example_01.cpp"
 
 {Source} "example_01.cpp"
-   2         {Function} "foo" -> "void"
-   2           {Parameter} "c" -> "char"
-   4           {Variable} "i" -> "int"
+2    {Function} "foo" -> "void"
+         - No declaration
+2      {Parameter} "c" -> "char"
+4      {Variable} "i" -> "int"
 
 -----------------------------
 Object        Total Printed
@@ -780,19 +777,18 @@ affect the order the objects within the same block.
 ```
 $ diva example_09.o --sort=line
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   2       {Alias} "CHAR" -> "char"
-   4       {Class} "A"
-   5         {Member} private "a" -> "int"
-   8       {Variable} "a" -> "A"
-  10       {Function} "foo" -> "CHAR"
-                      - No declaration
-  10         {Parameter} "p" -> "char *"
-  12         {Variable} "c" -> "CHAR"
+ 2    {Alias} "CHAR" -> "char"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -803,19 +799,18 @@ by its indent and objects with no name will appear at the top.*
 ```
 $ diva example_09.o --sort=name
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   4         {Class} "A"
-   5           {Member} private "a" -> "int"
-   2         {Alias} "CHAR" -> "char"
-   8         {Variable} "a" -> "A"
-  10         {Function} "foo" -> "CHAR"
-                        - No declaration
-  12           {Variable} "c" -> "CHAR"
-  10           {Parameter} "p" -> "char *"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 2    {Alias} "CHAR" -> "char"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+12      {Variable} "c" -> "CHAR"
+10      {Parameter} "p" -> "char *"
 ```
 
 
@@ -827,15 +822,14 @@ $ diva example_09.o --sort=name
 The filtering options hide all DIVA objects in the output that does not match
 <text\>. The given <text\> can be a regular expression and 'any=' can be used
 for partial matching where the default is an exact match. Multiple filtering
-options can be specified and their affect is concatenated, however --filter and
---tree cannot be concatenated, where --filter takes precedence. --filter
+options can be specified and their affect is concatenated. --filter
 [any=]<text\> --tree [any=]<text\>
 
 
-| **Option**  | **Filtering Action**                                                                                                               | **Note** |
-|-------------|------------------------------------------------------------------------------------------------------------------------------------|----------|
-| any=<text\> | Check if <text\> is contained in the ‘name of the object instance’. In the case of objects that are lines, its number is used.     |          |
-| <text\>     | Check if <text\> is an exact match to the ‘name of the object instance. In the case of objects that are lines, its number is used. | Default  |
+| **Option**  | **Filtering Action**                                                    | **Note** |
+|-------------|-------------------------------------------------------------------------|----------|
+| any=<text\> | Check if <text\> is contained in the ‘name of the object instance’.     |          |
+| <text\>     | Check if <text\> is an exact match to the ‘name of the object instance. | Default  |
 
 Table 1 - Filtering options settings
 
@@ -865,19 +859,18 @@ Table 1 - Filtering options settings
 ```
 $ diva example_09.o
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   2         {Alias} "CHAR" -> "char"
-   4         {Class} "A"
-   5           {Member} private "a" -> "int"
-   8         {Variable} "a" -> "A"
-  10         {Function} "foo" -> "CHAR"
-                        - No declaration
-  10           {Parameter} "p" -> "char *"
-  12           {Variable} "c" -> "CHAR"
+ 2    {Alias} "CHAR" -> "char"
+ 4    {Class} "A"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -887,12 +880,12 @@ $ diva example_09.o
 ```
 $ diva example_09.o --filter=a --filter=p
 
-         {InputFile} "example_09.o"
+{InputFile} "example_09.o"
 
 {Source} "example_09.cpp"
-   5           {Member} private "a" -> "int"
-   8         {Variable} "a" -> "A"
-  10           {Parameter} "p" -> "char *"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10      {Parameter} "p" -> "char *"
 ```
 
 
@@ -901,26 +894,12 @@ $ diva example_09.o --filter=a --filter=p
 ```
 $ diva example_09.o --filter="(a|p)"
 
-         {InputFile} "example_09.o"
+{InputFile} "example_09.o"
 
 {Source} "example_09.cpp"
-   5           {Member} private "a" -> "int"
-   8         {Variable} "a" -> "A"
-  10           {Parameter} "p" -> "char *"
-```
-
-
-*Example: Filter for the lines numbered 12*
-
-```
-$ diva example_09.o --filter=12its
-
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
-
-{Source} "example_09.cpp"
-   12        {Variable} "c" -> "CHAR"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10      {Parameter} "p" -> "char *"
 ```
 
 
@@ -929,15 +908,14 @@ $ diva example_09.o --filter=12its
 ```
 $ diva example_09.o --tree=foo
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   10        {Function} "foo" -> "CHAR"
-               - No declaration
-   10          {Parameter} "p" -> "char *"
-   12          {Variable} "c" -> "CHAR"
+10    {Function} "foo" -> "CHAR"
+          - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -953,16 +931,15 @@ Show (or hide) the alias objects, which describe a typedef or template alias.
 ```
 $ diva example_03.o --show-alias
 
-         {InputFile} "example_03.o"
-
-           {CompileUnit} "example_03.cpp"
+{InputFile} "example_03.o"
+   {CompileUnit} "example_03.cpp"
 
 {Source} "example_03.cpp"
-   2         {Alias} "INTEGER" -> "int"
-   4         {Function} "foo" -> "void"
-             - No declaration
-   4           {Parameter} "c" -> "char"
-   6           {Variable} "i" -> "INTEGER"
+2    {Alias} "INTEGER" -> "int"
+4    {Function} "foo" -> "void"
+     - No declaration
+4      {Parameter} "c" -> "char"
+6      {Variable} "i" -> "INTEGER"
 ```
 
 
@@ -971,15 +948,14 @@ $ diva example_03.o --show-alias
 ```
 $ diva example_03.o --no-show-alias
 
-         {InputFile} "example_03.o"
-
-           {CompileUnit} "example_03.cpp"
+{InputFile} "example_03.o"
+   {CompileUnit} "example_03.cpp"
 
 {Source} "example_03.cpp"
-   4         {Function} "foo" -> "void"
-             - No declaration
-   4           {Parameter} "c" -> "char"
-   6           {Variable} "i" -> "INTEGER"
+4    {Function} "foo" -> "void"
+         - No declaration
+4      {Parameter} "c" -> "char"
+6      {Variable} "i" -> "INTEGER"
 ```
 
 
@@ -992,17 +968,16 @@ Show (or hide) the block objects, which describe a lexical block.
 ```
 $ diva example_13.o --show-block
 
-         {InputFile} "example_13.o"
-
-           {CompileUnit} "example_13.cpp"
+{InputFile} "example_13.o"
+   {CompileUnit} "example_13.cpp"
 
 {Source} "example_13.cpp"
-   4         {Function} "bar" -> "int"
-             - No decalaration
-               {Block}
-   5             {Variable} "i" -> "int"
-   4           {Parameter} "A" -> "int *"
-   4           {Parameter} "X" -> "int"
+4    {Function} "bar" -> "int"
+         - No declaration
+       {Block}
+5        {Variable} "i" -> "int"
+4      {Parameter} "A" -> "int *"
+4      {Parameter} "X" -> "int"
 ```
 
 
@@ -1024,12 +999,11 @@ Show (or hide) the class objects, which describe a C++ class type.
 ```
 $ diva example_09.o --show-none --show-class
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+   {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   4         {Class} "A"
+4    {Class} "A"
 ```
 
 
@@ -1039,18 +1013,17 @@ $ diva example_09.o --show-none --show-class
 ```
 $ diva example_09.o --no-show-class
 
-         {InputFile} "example_09.o"
-
-           {CompileUnit} "example_09.cpp"
+{InputFile} "example_09.o"
+    {CompileUnit} "example_09.cpp"
 
 {Source} "example_09.cpp"
-   2         {Alias} "CHAR" -> "char"
-   5           {Member} private "a" -> "int"
-   8         {Variable} "a" -> "A"
-  10         {Function} "foo" -> "CHAR"
-               - No declaration
-  10           {Parameter} "p" -> "char *"
-  12           {Variable} "c" -> "CHAR"
+ 2    {Alias} "CHAR" -> "char"
+ 5      {Member} private "a" -> "int"
+ 8    {Variable} "a" -> "A"
+10    {Function} "foo" -> "CHAR"
+        - No declaration
+10      {Parameter} "p" -> "char *"
+12      {Variable} "c" -> "CHAR"
 ```
 
 
@@ -1073,19 +1046,18 @@ function name, then it is a function pointer.
 ```
 $ diva example_12.o --show-none --show-function
 
-         {InputFile} "example_12.o"
-
-           {CompileUnit} "example_12.cpp"
+{InputFile} "example_12.o"
+    {CompileUnit} "example_12.cpp"
 
 {Source} "example_12.cpp"
-   4             {Function} "A::B::foo" -> "void"
-                 - Is declaration
-  10             {Function} "A::C::bar" -> "void"
-                 - Is declaration
-   4         {Function} "foo" -> "void"
-             - Declaration \@ example_12.cpp,4
-  10         {Function} "bar" -> "void"
-             - Declaration \@ example_12.cpp,10
+ 4        {Function} "A::B::foo" -> "void"
+              - Is declaration
+10        {Function} "A::C::bar" -> "void"
+              - Is declaration
+ 4    {Function} "foo" -> "void"
+          - Declaration @ example_12.cpp,4
+10    {Function} "bar" -> "void"
+          - Declaration @ example_12.cpp,10
 ```
 
 
@@ -1099,17 +1071,16 @@ Show (or hide) the member objects, which describe a class member.
 ```
 $ diva example_04.o --show-none --show-member
 
-         {InputFile} "example_04.o"
-
-           {CompileUnit} "example_04.cpp"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
 {Source} "example_04.cpp"
-   6         {Member} private "x" -> "int"
-   6         {Member} private "y" -> "int"
+  6      {Member} private "x" -> "int"
+  6      {Member} private "y" -> "int"
 
 {Source} "ios_base.h"
- 547               {Member} private "_S_refcount" -> "_Atomic_word"
- 548               {Member} private "_S_synced_with_stdio" -> "bool"
+547          {Member} private "_S_refcount" -> "_Atomic_word"
+548          {Member} private "_S_synced_with_stdio" -> "bool"
 ```
 
 
@@ -1124,18 +1095,17 @@ namespaces will not print anything after {Namespace}
 ```
 $ diva example_04.o --show-none --show-namespace
 
-         {InputFile} "example_04.o"
-
-           {CompileUnit} "example_04.cpp"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
 {Source} "debug.h"
-  54         {Namespace} "__gnu_debug"
+ 54    {Namespace} "__gnu_debug"
 
 {Source} "c++config.h"
- 184         {Namespace} "std"
+184    {Namespace} "std"
 
 {Source} "debug.h"
-  48           {Namespace} "std::__debug"
+ 48      {Namespace} "std::__debug"
 ```
 
 
@@ -1153,13 +1123,12 @@ unspecified number of parameters.
 ```
 $ diva example_13.o --show-none --show-parameter
 
-         {InputFile} "example_13.o"
-
-           {CompileUnit} "example_13.cpp"
+{InputFile} "example_13.o"
+   {CompileUnit} "example_13.cpp"
 
 {Source} "example_13.cpp"
-   4           {Parameter} "A" -> "int *"
-   4           {Parameter} "X" -> "int"
+4      {Parameter} "A" -> "int *"
+4      {Parameter} "X" -> "int"
 ```
 
 
@@ -1176,11 +1145,10 @@ used in the program and the number of bytes used.
 ```
 $ diva example_13.o --show-none --show-primitivetype
 
-       {InputFile} "example_13.o"
-
-         {CompileUnit} "example_13.cpp"
-           {PrimitiveType} -> "int"
-           - 4 bytes
+{InputFile} "example_13.o"
+   {CompileUnit} "example_13.cpp"
+     {PrimitiveType} -> "int"
+     - 4 bytes
 ```
 
 
@@ -1196,14 +1164,13 @@ Show (or hide) the struct objects, which describe a structure type.
 ```
 $ diva example_14.o --show-none --show-struct
 
-        {InputFile} "example_14.o"
-
-          {CompileUnit} "example_14.cpp"
+{InputFile} "example_14.o"
+    {CompileUnit} "example_14.cpp"
 
 {Source} "example_14.cpp"
-   2         {Struct} "bar"
-   6           {Struct} "bar"
-   9             {Struct} "bar"
+ 2    {Struct} "bar"
+ 6      {Struct} "bar"
+ 9        {Struct} "bar"
 ```
 
 
@@ -1233,15 +1200,14 @@ namespaced function or namespaced variable.
 ```
 $ diva example_04.o --show-none --show-using
 
-         {InputFile} "example_04.o"
-
-           {CompileUnit} "example_04.cpp"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
 {Source} "example_04.cpp"
-   3         {Using} namespace "std"
+ 3     {Using} namespace "std"
 
 {Source} "debug.h"
-  56           {Using} namespace "__debug"
+56       {Using} namespace "__debug"
 ```
 
 
@@ -1258,17 +1224,16 @@ variable.
 ```
 $ diva example_04.o --show-none --show-variable
 
-         {InputFile} "example_04.o"
-
-           {CompileUnit} "example_04.cpp"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 
 {Source} "example_04.cpp"
-  15           {Variable} "p1" -> "Point"
-  16           {Variable} "p2" -> "Point"
+15       {Variable} "p1" -> "Point"
+16       {Variable} "p2" -> "Point"
 
 {Source} "iostream"
-  74         {Variable} "std::__ioinit" -> "std::ios_base::Init"
-  74           {Variable} "__ioinit" -> "std::ios_base::Init"
+74     {Variable} "std::__ioinit" -> "std::ios_base::Init"
+74       {Variable} "__ioinit" -> "std::ios_base::Init"
 ```
 
 
@@ -1288,15 +1253,14 @@ information will be printed inside [] braces.
 ```
 $ diva example_01.o --show-DWARF-offset --show-DWARF-parent
 
-                              {InputFile} "example_01.o"
+                          {InputFile} "example_01.o"
+[0x0000000b][0x00000000]     {CompileUnit} "example_01.cpp"
 
-[0x0000000b][0x00000000]        {CompileUnit} "example_01.cpp"
-
-                      {Source} "example_01.cpp"
-[0x00000026][0x0000000b] 2        {Function} "foo" -> [0x00000026]"void"
-                                  - No declaration
-[0x00000043][0x00000026] 2          {Parameter} "c" -> [0x00000060]"char"
-[0x00000051][0x00000026] 4          {Variable} "i" -> [0x00000067]"int"
+                          {Source} "example_01.cpp"
+[0x00000026][0x0000000b]  2    {Function} "foo" -> [0x00000026]"void"
+                                   - No declaration
+[0x00000043][0x00000026]  2      {Parameter} "c" -> [0x00000060]"char"
+[0x00000051][0x00000026]  4      {Variable} "i" -> [0x00000067]"int"
 ```
 
 *Figure 11 DIVA output with DWARF offsets*
@@ -1306,14 +1270,14 @@ $ diva example_01.o --show-DWARF-offset --show-DWARF-parent
 ```
 $ diva example_01.o --show-DWARF-tag
 
-                                {InputFile} "example_01.o"
+                           {InputFile} "example_01.o"
+[DW_TAG_compile_unit]         {CompileUnit} "example_01.cpp"
 
-[DW_TAG_compile_unit]             {CompileUnit} "example_01.cpp"
-
-                       {Source} "example_01.cpp"
-[DW_TAG_subprogram]       2         {Function} "foo" -> "void"
-[DW_TAG_formal_parameter] 2           {Parameter} "c" -> "char"
-[DW_TAG_variable]         4           {Variable} "i" -> "int"
+                           {Source} "example_01.cpp"
+[DW_TAG_subprogram]        2    {Function} "foo" -> "void"
+                                    - No declaration
+[DW_TAG_formal_parameter]  2      {Parameter} "c" -> "char"
+[DW_TAG_variable]          4      {Variable} "i" -> "int"
 ```
 
 *Figure 12 DIVA output with DWARF tags*
@@ -1347,19 +1311,18 @@ to show the DWARF attributes in [] brackets.*
 ```
 $ diva example_09.o --show-dwarf-offset --sort=offset
 
-                   {InputFile} "example_09.o"
+              {InputFile} "example_09.o"
+[0x0000000b]      {CompileUnit} "example_09.cpp"
 
-[0x0000000b]         {CompileUnit} "example_09.cpp"
-
-          {Source} "example_09.cpp"
-[0x00000026] 8         {Variable} "a" -> [0x0000003b]"A"
-[0x0000003b] 4         {Class} "A"
-[0x00000043] 5           {Member} private "a" -> [0x00000051]"int"
-[0x00000058] 10        {Function} "foo" -> [0x00000058]"CHAR"
-                       - No declaration
-[0x00000079] 10          {Parameter} "p" -> [0x000000a8]"char *"
-[0x00000087] 12          {Variable} "c" -> [0x00000096]"CHAR"
-[0x00000096] 2         {Alias} "CHAR" -> [0x000000a1]"char"
+              {Source} "example_09.cpp"
+[0x00000026]   8    {Variable} "a" -> [0x0000003b]"A"
+[0x0000003b]   4    {Class} "A"
+[0x00000043]   5      {Member} private "a" -> [0x00000051]"int"
+[0x00000058]  10    {Function} "foo" -> [0x00000058]"CHAR"
+                        - No declaration
+[0x00000079]  10      {Parameter} "p" -> [0x000000a8]"char *"
+[0x00000087]  12      {Variable} "c" -> [0x00000096]"CHAR"
+[0x00000096]   2    {Alias} "CHAR" -> [0x000000a1]"char"
 ```
 
 Advanced command line options
@@ -1379,17 +1342,16 @@ the parent block objects to which the line belongs.
 ```
 $ diva example_13.o --show-none --show-codeline
 
-         {InputFile} "example_13.o"
-
-           {CompileUnit} "example_13.cpp"
+{InputFile} "example_13.o"
+   {CompileUnit} "example_13.cpp"
 
 {Source} "example_13.cpp"
-   4         {CodeLine}
-   5         {CodeLine}
-   6         {CodeLine}
-   5         {CodeLine}
-   9         {CodeLine}
-   9         {CodeLine}
+4    {CodeLine}
+5    {CodeLine}
+6    {CodeLine}
+5    {CodeLine}
+9    {CodeLine}
+9    {CodeLine}
 ```
 
 
@@ -1435,22 +1397,21 @@ under the class definition.
 ```
 $ diva example_12.o
 
-         {InputFile} "example_12.o"
-
-           {CompileUnit} "example_12.cpp"
+{InputFile} "example_12.o"
+    {CompileUnit} "example_12.cpp"
 
 {Source} "example_12.cpp"
-   2         {Namespace} "A"
-   3           {Namespace} "A::B"
-   4             {Function} "A::B::foo" -> "void"
-                 - Is declaration
-   9           {Namespace} "A::C"
-  10             {Function} "A::C::bar" -> "void"
-                 - Is declaration
-   4         {Function} "foo" -> "void"
-               - Declaration @ example_12.cpp,4
-  10         {Function} "bar" -> "void"
-               - Declaration @ example_12.cpp,10
+ 2    {Namespace} "A"
+ 3      {Namespace} "A::B"
+ 4        {Function} "A::B::foo" -> "void"
+              - Is declaration
+ 9      {Namespace} "A::C"
+10        {Function} "A::C::bar" -> "void"
+              - Is declaration
+ 4    {Function} "foo" -> "void"
+          - Declaration @ example_12.cpp,4
+10    {Function} "bar" -> "void"
+          - Declaration @ example_12.cpp,10
 ```
 
 
@@ -1460,22 +1421,21 @@ $ diva example_12.o
 ```
 $ diva example_12.o --show-combined
 
-         {InputFile} "example_12.o"
-
-           {CompileUnit} "example_12.cpp"
+{InputFile} "example_12.o"
+    {CompileUnit} "example_12.cpp"
 
 {Source} "example_12.cpp"
-   2         {Namespace} "A"
-   3           {Namespace} "A::B"
-   4             {Function} "A::B::foo" -> "void"
-                 - Is declaration
-   9           {Namespace} "A::C"
-  10             {Function} "A::C::bar" -> "void"
-                 - Is declaration
-   4         {Function} "foo" -> "void"
-             - Declaration @ example_12.cpp,4
-  10         {Function} "bar" -> "void"
-             - Declaration @ example_12.cpp,10
+ 2    {Namespace} "A"
+ 3      {Namespace} "A::B"
+ 4        {Function} "A::B::foo" -> "void"
+              - Is declaration
+ 9      {Namespace} "A::C"
+10        {Function} "A::C::bar" -> "void"
+              - Is declaration
+ 4    {Function} "foo" -> "void"
+          - Declaration @ example_12.cpp,4
+10    {Function} "bar" -> "void"
+          - Declaration @ example_12.cpp,10
 ```
 
 
@@ -1503,19 +1463,18 @@ $ diva example_12.o --show-combined
 ```
 $ diva example_15.o
 
-         {InputFile} "example_15.o"
-
-           {CompileUnit} "example_15.cpp"
+{InputFile} "example_15.o"
+    {CompileUnit} "example_15.cpp"
 
 {Source} "example_15.cpp"
-   2         {Class} "bar"
-   4           {Function} "bar::foo" -> "void"
-               - Is declaration
-                 {Parameter} -> "bar *"
-   4         {Function} "foo" -> "void"
-             - Declaration @ example_15.cpp,4
-               {Parameter} "this" -> "bar *"
-  11         {Variable} "b" -> "bar"
+ 2    {Class} "bar"
+ 4      {Function} "bar::foo" -> "void"
+            - Is declaration
+          {Parameter} -> "bar *"
+ 4    {Function} "foo" -> "void"
+          - Declaration @ example_15.cpp,4
+        {Parameter} "this" -> "bar *"
+11    {Variable} "b" -> "bar"
 ```
 
 
@@ -1525,19 +1484,18 @@ $ diva example_15.o
 ```
 $ diva example_15.o --show-combined
 
-         {InputFile} "example_15.o"
-
-           {CompileUnit} "example_15.cpp"
+{InputFile} "example_15.o"
+    {CompileUnit} "example_15.cpp"
 
 {Source} "example_15.cpp"
-   2         {Class} "bar"
-   4           {Function} "bar::foo" -> "void"
-                - Is declaration
-                  {Parameter} -> "bar *"
-   4         {Function} "foo" -> "void"
-             - Declaration @ example_15.cpp,4
-               {Parameter} "this" -> "bar *"
-  11         {Variable} "b" -> "bar"
+ 2    {Class} "bar"
+ 4      {Function} "bar::foo" -> "void"
+            - Is declaration
+          {Parameter} -> "bar *"
+ 4    {Function} "foo" -> "void"
+          - Declaration @ example_15.cpp,4
+        {Parameter} "this" -> "bar *"
+11    {Variable} "b" -> "bar"
 ```
 
 
@@ -1555,15 +1513,14 @@ tools, such as DwarfDump.
 ```
 $ diva example_01.o --show-DWARF-offset
 
-                     {InputFile} "example_01.o"
+              {InputFile} "example_01.o"
+[0x0000000b]     {CompileUnit} "example_01.cpp"
 
-[0x0000000b]           {CompileUnit} "example_01.cpp"
-
-            {Source} "example_01.cpp"
-[0x00000026]   2         {Function} "foo" -> [0x00000026]"void"
-                         - No declaration
-[0x00000043]   2           {Parameter} "c" -> [0x00000060]"char"
-[0x00000051]   4           {Variable} "i" -> [0x00000067]"int"
+              {Source} "example_01.cpp"
+[0x00000026]  2    {Function} "foo" -> [0x00000026]"void"
+                       - No declaration
+[0x00000043]  2      {Parameter} "c" -> [0x00000060]"char"
+[0x00000051]  4      {Variable} "i" -> [0x00000067]"int"
 ```
 
 
@@ -1578,15 +1535,14 @@ DIVA object parent (with respect to the lexical scopes).
 ```
 Example: $ diva example_01.o --show-DWARF-offset --show-DWARF-parent
 
-                               {InputFile} "example_01.o"
+                          {InputFile} "example_01.o"
+[0x0000000b][0x00000000]     {CompileUnit} "example_01.cpp"
 
-[0x0000000b][0x00000000]         {CompileUnit} "example_01.cpp"
-
-                      {Source} "example_01.cpp"
-[0x00000026][0x0000000b] 2         {Function} "foo" -> [0x00000026]"void"
+                          {Source} "example_01.cpp"
+[0x00000026][0x0000000b]  2    {Function} "foo" -> [0x00000026]"void"
                                    - No declaration
-[0x00000043][0x00000026] 2           {Parameter} "c" -> [0x00000060]"char"
-[0x00000051][0x00000026] 4           {Variable} "i" -> [0x00000067]"int"
+[0x00000043][0x00000026]  2      {Parameter} "c" -> [0x00000060]"char"
+[0x00000051][0x00000026]  4      {Variable} "i" -> [0x00000067]"int"
 ```
 
 
@@ -1602,15 +1558,14 @@ The --show-dwarf-tag option prints the DWARF Tag associated to the DIVA object.
 ```
 $ diva example_01.o --show-DWARF-tag
 
-                                {InputFile} "example_01.o"
+                           {InputFile} "example_01.o"
+[DW_TAG_compile_unit]         {CompileUnit} "example_01.cpp"
 
-[DW_TAG_compile_unit]             {CompileUnit} "example_01.cpp"
-
-                       {Source} "example_01.cpp"
-[DW_TAG_subprogram]       2         {Function} "foo" -> "void"
+                           {Source} "example_01.cpp"
+[DW_TAG_subprogram]        2    {Function} "foo" -> "void"
                                     - No declaration
-[DW_TAG_formal_parameter] 2           {Parameter} "c" -> "char"
-[DW_TAG_variable]         4           {Variable} "i" -> "int"
+[DW_TAG_formal_parameter]  2      {Parameter} "c" -> "char"
+[DW_TAG_variable]          4      {Variable} "i" -> "int"
 ```
 
 
@@ -1654,12 +1609,11 @@ information can be represented in many ways.)
 
 ```
 $ diva example_04.o --show-generated
-           {InputFile} "example_04.o"
-
-             {CompileUnit} "example_04.cpp"
+{InputFile} "example_04.o"
+     {CompileUnit} "example_04.cpp"
 ...
-     8         {Function} static "" -> "void"
-                   - No declaration
+  8    {Function} static "" -> "void"
+           - No declaration
 ...
 ```
 
@@ -1685,15 +1639,14 @@ spaces for each level object’s lexical scope depth,
 ```
 $ diva example_01.o --show-indent
 
-         {InputFile} "example_01.o"
-
-           {CompileUnit} "example_01.cpp"
+{InputFile} "example_01.o"
+   {CompileUnit} "example_01.cpp"
 
 {Source} "example_01.cpp"
-   2         {Function} "foo" -> "void"
-             - No declaration
-   2           {Parameter} "c" -> "char"
-   4           {Variable} "i" -> "int"
+2    {Function} "foo" -> "void"
+         - No declaration
+2      {Parameter} "c" -> "char"
+4      {Variable} "i" -> "int"
 ```
 
 
@@ -1703,15 +1656,14 @@ $ diva example_01.o --show-indent
 ```
 $ diva example_01.o --no-show-indent
 
-         {InputFile} "example_01.o"
-
-         {CompileUnit} "example_01.cpp"
+{InputFile} "example_01.o"
+   {CompileUnit} "example_01.cpp"
 
 {Source} "example_01.cpp"
-   2     {Function} "foo" -> "void"
-         - No declaration
-   2     {Parameter} "c" -> "char"
-   4     {Variable} "i" -> "int"
+2  {Function} "foo" -> "void"
+       - No declaration
+2  {Parameter} "c" -> "char"
+4  {Variable} "i" -> "int"
 ```
 
 
@@ -1728,15 +1680,14 @@ input file is -1 and a compilation unit is zero.
 ```
 $ diva example_01.o --no-show-indent --show-level
 
-         {InputFile} "example_01.o"
+    {InputFile} "example_01.o"
+0      {CompileUnit} "example_01.cpp"
 
-         {CompileUnit} "example_01.cpp"
-
-{Source} "example_01.cpp"
-001 2    {Function} "foo" -> "void"
-         - No declaration
-002 2    {Parameter} "c" -> "char"
-002 4    {Variable} "i" -> "int"
+    {Source} "example_01.cpp"
+1   2  {Function} "foo" -> "void"
+           - No declaration
+2   2  {Parameter} "c" -> "char"
+2   4  {Variable} "i" -> "int"
 ```
 
 
@@ -1908,20 +1859,19 @@ hierarchy information.
 ```
 $ diva example_14.o --show-none --show-template
 
-         {InputFile} "example_14.o"
-
-           {CompileUnit} "example_14.cpp"
+{InputFile} "example_14.o"
+    {CompileUnit} "example_14.cpp"
 
 {Source} "example_14.cpp"
-  15         {Class} "foo<bar>"
-             - Template
-               {TemplateParameter} "foo<bar>::_Ty" <- "bar"
-  15         {Class} "foo<nsp_1::bar>"
-             - Template
-               {TemplateParameter} "foo<nsp_1::bar>::_Ty" <- "nsp_1::bar"
-  15         {Class} "foo<nsp_1::nsp_2::bar>"
-             - Template
-               {TemplateParameter} "foo<nsp_1::nsp_2::bar>::_Ty" <- a"nsp_1::nsp_2::bar"
+15    {Class} "foo<bar>"
+          - Template
+        {TemplateParameter} "foo<bar>::_Ty" <- "bar"
+15    {Class} "foo<nsp_1::bar>"
+          - Template
+        {TemplateParameter} "foo<nsp_1::bar>::_Ty" <- "nsp_1::bar"
+15    {Class} "foo<nsp_1::nsp_2::bar>"
+          - Template
+        {TemplateParameter} "foo<nsp_1::nsp_2::bar>::_Ty" <- "nsp_1::nsp_2::bar"
 ```
 
 
@@ -1952,15 +1902,14 @@ debug information.
 ```
 $ diva example_07.o --no-show-void
 
-         {InputFile} "example_07.o"
-
-           {CompileUnit} "example_07.cpp"
+{InputFile} "example_07.o"
+   {CompileUnit} "example_07.cpp"
 
 {Source} "example_07.cpp"
-   2         {Variable} "pv" -> "*"
-   3         {Variable} "pi" -> "int *"
-   4         {Function} "foo" -> ""
-             - No declaration
+2    {Variable} "pv" -> "*"
+3    {Variable} "pi" -> "int *"
+4    {Function} "foo" -> ""
+         - No declaration
 ```
 
 
@@ -1970,15 +1919,14 @@ $ diva example_07.o --no-show-void
 ```
 $ diva example_07.o --show-void
 
-         {InputFile} "example_07.o"
-
-           {CompileUnit} "example_07.cpp"
+{InputFile} "example_07.o"
+   {CompileUnit} "example_07.cpp"
 
 {Source} "example_07.cpp"
-   2         {Variable} "pv" -> "void *"
-   3         {Variable} "pi" -> "int *"
-   4         {Function} "foo" -> "void"
-               - No declaration
+2    {Variable} "pv" -> "void *"
+3    {Variable} "pi" -> "int *"
+4    {Function} "foo" -> "void"
+         - No declaration
 ```
 
 
@@ -2179,7 +2127,10 @@ Example:
 Syntax:
 {Parameter} "<name of instance>" -> "<type>"
 {TemplateParameter} "<name of instance>" <- "<template argument>"
-{TemplateParameter} "<name of instance>" <- "<type>" <- "<type>" <- "<type>"
+{TemplateParameter} "<name of instance>"
+    <- "<type>"
+    <- "<type>"
+    <- "<type>"
 
 Examples:
 {Parameter} "pArray" -> "const int" 5,23

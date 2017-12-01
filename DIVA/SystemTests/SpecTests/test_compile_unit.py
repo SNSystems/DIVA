@@ -1,8 +1,6 @@
 expected_txt = """\
-           {InputFile} "compile_unit.o"
-
-             {CompileUnit} "compile_unit.cpp"
-
+{InputFile} "compile_unit.o"
+   {CompileUnit} "compile_unit.cpp"
 """
 
 

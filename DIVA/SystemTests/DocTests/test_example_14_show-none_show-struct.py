@@ -1,13 +1,11 @@
 expected = """\
-           {InputFile} "example_14.o"
+{InputFile} "example_14.o"
+    {CompileUnit} "example_14.cpp"
 
-             {CompileUnit} "example_14.cpp"
-
-  {Source} "example_14.cpp"
-     2         {Struct} "bar"
-     6           {Struct} "bar"
-     9             {Struct} "bar"
-
+{Source} "example_14.cpp"
+ 2    {Struct} "bar"
+ 6      {Struct} "bar"
+ 9        {Struct} "bar"
 """
 
 

@@ -31,7 +31,6 @@
 #include "Error.h"
 #include "FileUtilities.h"
 #include "Line.h"
-#include "PrintContext.h"
 #include "PrintSettings.h"
 #include "Symbol.h"
 #include "Type.h"
@@ -145,9 +144,6 @@ void Scope::addObject(Line *Ln) {
     // Do not add the line records to the children, as they represent the
     // logical view for the text section. Preserve the original sequence.
     // m_children->push_back(line);
-
-    // Indicate that this tree branch has lines.
-    traverse(&Scope::getHasLines, &Scope::setHasLines, /*down=*/false);
   } else {
     throw std::logic_error("Cannot set line records on a scope that's not a "
                            "function or module.\n");
@@ -159,18 +155,6 @@ void Scope::addObject(Scope *Scp) {
   TheScopes.push_back(Scp);
   Children.push_back(Scp);
   Scp->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Scp->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has scopes.
-  traverse(&Scope::getHasScopes, &Scope::setHasScopes, /*down=*/false);
 }
 
 void Scope::addObject(Symbol *Sym) {
@@ -178,18 +162,6 @@ void Scope::addObject(Symbol *Sym) {
   TheSymbols.push_back(Sym);
   Children.push_back(Sym);
   Sym->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Sym->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has symbols.
-  traverse(&Scope::getHasSymbols, &Scope::setHasSymbols, /*down=*/false);
 }
 
 void Scope::addObject(Type *Ty) {
@@ -197,18 +169,6 @@ void Scope::addObject(Type *Ty) {
   TheTypes.push_back(Ty);
   Children.push_back(Ty);
   Ty->setParent(this);
-
-  // If the object is a global reference, mark its parent as having global
-  // references; that information is used, to print only those branches
-  // with global references.
-  if (Ty->getIsGlobalReference()) {
-    traverse(&Scope::getHasGlobals, &Scope::setHasGlobals, /*down=*/false);
-  } else {
-    traverse(&Scope::getHasLocals, &Scope::setHasLocals, /*down=*/false);
-  }
-
-  // Indicate that this tree branch has types.
-  traverse(&Scope::getHasTypes, &Scope::setHasTypes, /*down=*/false);
 }
 
 void Scope::getQualifiedName(std::string &qualified_name) const {
@@ -257,141 +217,6 @@ void Scope::sortCompileUnits(const SortingKey &SortKey) {
   }
 }
 
-void Scope::traverse(ScopeGetFunction GetFunc, ScopeSetFunction SetFunc,
-                     bool down) {
-  // First traverse the parent tree.
-  Scope *parent = this;
-  while (parent) {
-    // Terminates if the 'set_function' has already been executed.
-    if ((parent->*GetFunc)()) {
-      break;
-    }
-    (parent->*SetFunc)();
-    parent = parent->getParent();
-  }
-  // If requested, traverse the children tree.
-  if (down) {
-    // Traverse(get_function,set_function);
-  }
-}
-
-void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc,
-                     bool down) {
-  // First traverse the parent tree.
-  Scope *parent = this;
-  while (parent) {
-    // Terminates if the 'set_function' have been already executed.
-    if ((parent->*GetFunc)()) {
-      break;
-    }
-    (parent->*SetFunc)();
-    parent = parent->getParent();
-  }
-  // If requested, traverse the children tree.
-  if (down) {
-    traverse(GetFunc, SetFunc);
-  }
-}
-
-void Scope::traverse(ObjGetFunction GetFunc, ObjSetFunction SetFunc) {
-  (this->*SetFunc)();
-
-  // Types.
-  for (Type *Ty : TheTypes)
-    (Ty->*SetFunc)();
-
-  // Symbols.
-  for (Symbol *Sym : TheSymbols)
-    (Sym->*SetFunc)();
-
-  // Line records.
-  for (Line *Ln : TheLines)
-    (Ln->*SetFunc)();
-
-  // Scopes.
-  for (Scope *Scp : TheScopes)
-    Scp->traverse(GetFunc, SetFunc);
-}
-
-bool Scope::resolvePrinting(const PrintSettings &Settings) {
-  bool DoPrint = true;
-
-  bool Globals = Settings.ShowOnlyGlobals;
-  bool Locals = Settings.ShowOnlyLocals;
-  if (Globals == Locals) {
-    // Print both Global and Local.
-  } else {
-    // Check for Global or Local Objects.
-    if ((Globals && !(getHasGlobals() || getIsGlobalReference())) ||
-        (Locals && !(getHasLocals() || !getIsGlobalReference()))) {
-      DoPrint = false;
-    }
-  }
-
-  // For the case of functions, skip it if unnamed (name is NULL) or
-  // unlined (line number is zero).
-  if (DoPrint && getIsFunction()) {
-    if (!Settings.ShowGenerated && isNotPrintable()) {
-      DoPrint = false;
-    }
-  }
-
-  // Check if we are using any pattern.
-  if (DoPrint) {
-    // Indicate that this tree branch has a matched pattern.
-    if (!Settings.WithChildrenFilters.empty() ||
-        !Settings.WithChildrenFilterAnys.empty()) {
-      DoPrint = getHasPattern();
-    }
-  }
-
-  return DoPrint;
-}
-
-void Scope::print(bool SplitCU, bool Match, bool IsNull,
-                  const PrintSettings &Settings) {
-  // If 'split_cu', we use the scope name (CU name) as the ouput file.
-  if (SplitCU && getIsCompileUnit()) {
-    std::string OutFilePath(GlobalPrintContext->getLocation() +
-                            flattenFilePath(getName()) + ".txt");
-
-    // Open print context.
-    if (!GlobalPrintContext->open(OutFilePath)) {
-      fatalError(LibScopeError::ErrorCode::ERR_SPLIT_UNABLE_TO_OPEN_FILE,
-                 OutFilePath);
-    }
-  }
-
-  // Check conditions such as local, global, etc.
-  bool DoPrint = resolvePrinting(Settings);
-
-  // Don't print in quiet mode unless splitting output.
-  DoPrint = DoPrint && (!Settings.QuietMode || Settings.SplitOutput);
-
-  if (DoPrint) {
-    // Dump the object itself.
-    dump(Settings);
-    // Dump the children.
-    for (Object *Obj : Children) {
-      if (Match && !Obj->getHasPattern())
-        continue;
-      Obj->print(SplitCU, Match, IsNull, Settings);
-    }
-    // Dump the line records.
-    for (Line *Ln : TheLines) {
-      if (Match && !Ln->getHasPattern())
-        continue;
-      Ln->print(SplitCU, Match, IsNull, Settings);
-    }
-  }
-
-  // Restore the original output context.
-  if (SplitCU && getIsCompileUnit()) {
-    // Close the print context.
-    GlobalPrintContext->close();
-  }
-}
-
 const char *Scope::resolveName() {
   // If the scope has a DW_AT_specification or DW_AT_abstract_origin,
   // follow the chain to resolve the name from those references.
@@ -404,45 +229,15 @@ const char *Scope::resolveName() {
   return getName();
 }
 
-void Scope::dump(const PrintSettings &Settings) {
-  // Check if the object needs to be printed.
-  if (dumpAllowed() || Settings.printObject(*this)) {
-    // Common Object Data.
-    Element::dump(Settings);
-
-    // Specific Object Data.
-    dumpExtra(Settings);
-  }
-}
-
-void Scope::dumpExtra(const PrintSettings &Settings) {
-  std::string Text = getAsText(Settings);
-  if (!Text.empty())
-    GlobalPrintContext->print("%s\n", Text.c_str());
-}
-
-bool Scope::dump(bool DoHeader, const char *Header,
-                 const PrintSettings &Settings) {
-  if (DoHeader) {
-    GlobalPrintContext->print("\n%s\n", Header);
-    DoHeader = false;
-  }
-
-  // Dump object.
-  dump(Settings);
-
-  return DoHeader;
-}
-
 std::string Scope::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   if (getIsBlock()) {
     Result << '{' << getKindAsString() << '}';
     if (Settings.ShowBlockAttributes) {
       if (getIsTryBlock())
-        Result << '\n' << getAttributeInfoAsText("try", Settings);
+        Result << '\n' << formatAttributeText("try");
       else if (getIsCatchBlock())
-        Result << '\n' << getAttributeInfoAsText("catch", Settings);
+        Result << '\n' << formatAttributeText("catch");
     }
   }
   return Result.str();
@@ -479,8 +274,12 @@ std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template", Settings);
+    Result += formatAttributeText("Template");
   }
+
+  for (auto Ty : TheTypes)
+    if (Ty->getIsInheritance())
+      Result.append("\n").append(Ty->getAsText(Settings));
 
   return Result;
 }
@@ -500,10 +299,10 @@ std::string ScopeAggregate::getAsYAML() const {
   Result << "\n  inherits_from:";
 
   bool hasInheritance = false;
-  for (auto type : TheTypes) {
-    if (type->getIsInheritance()) {
+  for (auto Ty : TheTypes) {
+    if (Ty->getIsInheritance()) {
       hasInheritance = true;
-      Result << "\n" << static_cast<TypeImport *>(type)->getAsYAML();
+      Result << "\n" << Ty->getAsYAML();
     }
   }
 
@@ -518,10 +317,6 @@ ScopeAlias::ScopeAlias(LevelType Lvl) : Scope(Lvl) {}
 ScopeAlias::ScopeAlias() : Scope() {}
 
 ScopeAlias::~ScopeAlias() {}
-
-void ScopeAlias::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
 
 std::string ScopeAlias::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
@@ -541,10 +336,6 @@ ScopeArray::ScopeArray() : Scope() {}
 
 ScopeArray::~ScopeArray() {}
 
-void ScopeArray::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} "
@@ -561,19 +352,6 @@ ScopeCompileUnit::~ScopeCompileUnit() {}
 void ScopeCompileUnit::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
   Scope::setName(Path.c_str());
-}
-
-void ScopeCompileUnit::dump(const PrintSettings &Settings) {
-  // An extra line to improve readibility.
-  if (Settings.printObject(*this)) {
-    GlobalPrintContext->print("\n");
-  }
-  Scope::dump(Settings);
-}
-
-void ScopeCompileUnit::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-  resetFileIndex();
 }
 
 std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
@@ -595,12 +373,7 @@ ScopeEnumeration::ScopeEnumeration() : Scope(), IsClass(false) {}
 
 ScopeEnumeration::~ScopeEnumeration() {}
 
-void ScopeEnumeration::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
-std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
+std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
   std::string Name = getName();
 
@@ -613,6 +386,14 @@ std::string ScopeEnumeration::getAsText(const PrintSettings &) const {
 
   if (getType() && Name != getType()->getName())
     ObjectAsText.append(" -> \"").append(getType()->getName()).append("\"");
+
+  for (auto *Child : getChildren()) {
+    if (!(Child->getIsType() &&
+          static_cast<const Type *>(Child)->getIsEnumerator()))
+      // TODO: Raise a warning here?
+      continue;
+    ObjectAsText.append("\n").append(Child->getAsText(Settings));
+  }
 
   return ObjectAsText;
 }
@@ -654,10 +435,6 @@ ScopeFunction::ScopeFunction()
 
 ScopeFunction::~ScopeFunction() {}
 
-void ScopeFunction::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
   Result += getKindAsString();
@@ -684,7 +461,7 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   // Attributes.
   if (Reference && Reference->getIsFunction()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Declaration @ ", Settings);
+    Result += formatAttributeText("Declaration @ ");
     // Cast to element as Scope has a different overload (not override) of
     // getFileName that returns nothing.
     if (!Reference->getInvalidFileName())
@@ -697,21 +474,21 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   } else {
     if (!getIsDeclaration()) {
       Result += '\n';
-      Result += getAttributeInfoAsText("No declaration", Settings);
+      Result += formatAttributeText("No declaration");
     }
   }
 
   if (getIsTemplate()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Template", Settings);
+    Result += formatAttributeText("Template");
   }
   if (getIsInlined()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Inlined", Settings);
+    Result += formatAttributeText("Inlined");
   }
   if (getIsDeclaration()) {
     Result += '\n';
-    Result += getAttributeInfoAsText("Is declaration", Settings);
+    Result += formatAttributeText("Is declaration");
   }
 
   return Result;
@@ -767,10 +544,6 @@ ScopeNamespace::ScopeNamespace() : Scope() { Reference = nullptr; }
 
 ScopeNamespace::~ScopeNamespace() {}
 
-void ScopeNamespace::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
-
 std::string ScopeNamespace::getAsText(const PrintSettings &) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
@@ -791,12 +564,14 @@ ScopeTemplatePack::ScopeTemplatePack() : Scope() {}
 
 ScopeTemplatePack::~ScopeTemplatePack() {}
 
-void ScopeTemplatePack::dumpExtra(const PrintSettings &Settings) {
-  // Print the full type name.
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
-}
+namespace {
+bool isTemplate(const Object *Obj) {
+  return Obj->getIsType() &&
+         static_cast<const Type *>(Obj)->getIsTemplateParam();
+};
+} // end anonymous namespace.
 
-std::string ScopeTemplatePack::getAsText(const PrintSettings &) const {
+std::string ScopeTemplatePack::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
   Result += getKindAsString();
@@ -804,6 +579,12 @@ std::string ScopeTemplatePack::getAsText(const PrintSettings &) const {
   Result += " \"";
   Result += getName();
   Result += "\"";
+
+  for (const auto *Child : getChildren()) {
+    if (isTemplate(Child))
+      Result.append("\n    ").append(Child->getAsText(Settings));
+  }
+
   return Result;
 }
 
@@ -811,10 +592,6 @@ std::string ScopeTemplatePack::getAsYAML() const {
   std::stringstream YAML;
   YAML << getCommonYAML() << "\nattributes:\n  types:";
 
-  auto isTemplate = [](const Object *Obj) -> bool {
-    return Obj->getIsType() &&
-           static_cast<const Type *>(Obj)->getIsTemplateParam();
-  };
   if (getChildrenCount() == 0 ||
       std::none_of(getChildren().cbegin(), getChildren().cend(), isTemplate)) {
     YAML << " []";
@@ -838,16 +615,6 @@ ScopeRoot::~ScopeRoot() {}
 void ScopeRoot::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
   Scope::setName(Path.c_str());
-}
-
-void ScopeRoot::dump(const PrintSettings &Settings) {
-  if (!Settings.SplitOutput) {
-    Scope::dump(Settings);
-  }
-}
-
-void ScopeRoot::dumpExtra(const PrintSettings &Settings) {
-  GlobalPrintContext->print("%s\n", getAsText(Settings).c_str());
 }
 
 std::string ScopeRoot::getAsText(const PrintSettings &) const {
