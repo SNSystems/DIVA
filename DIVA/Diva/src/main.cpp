@@ -43,14 +43,69 @@
 
 namespace {
 
-typedef std::unique_ptr<LibScopeView::Reader> ReaderUPtr;
+/// \brief Read an input file, creating a Scope tree.
+std::unique_ptr<LibScopeView::ScopeRoot>
+readInputFile(const std::string &InputFilePath,
+              const LibScopeView::PrintSettings &Settings) {
+  // Check that the file exists.
+  if (!LibScopeView::doesFileExist(InputFilePath))
+    fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
 
-/// \brief Allocate an appropriate reader for the given file.
-ReaderUPtr createReader(const std::string &InputFilePath) {
+  // Create an appropriate reader.
+  std::unique_ptr<LibScopeView::Reader> Reader;
   if (LibScopeView::isFileFormatElf(InputFilePath))
-    return std::make_unique<ElfDwarfReader::DwarfReader>();
+    Reader = std::make_unique<ElfDwarfReader::DwarfReader>();
 
-  fatalError(LibScopeError::ErrorCode::ERR_INVALID_FILE, InputFilePath);
+  if (!Reader)
+    fatalError(LibScopeError::ErrorCode::ERR_INVALID_FILE, InputFilePath);
+
+  // Load the file.
+  std::unique_ptr<LibScopeView::ScopeRoot> Root =
+      Reader->loadFile(InputFilePath, Settings);
+  if (!Root)
+    // Currently the ElfDwarfReader will always call fatalError itself so we
+    // should never reach this code.
+    fatalError(LibScopeError::ErrorCode::ERR_READ_FAILED, InputFilePath);
+
+  return Root;
+}
+
+void printScopeView(const LibScopeView::ScopeRoot &Root,
+                    const std::string &InputFilePath,
+                    const DivaOptions &Options) {
+  if (Options.ShowScopeAllocation)
+    LibScopeView::printAllocationInfo(std::cout);
+
+  std::vector<std::unique_ptr<LibScopeView::ScopePrinter>> Printers;
+
+  // Create text printer.
+  if (Options.OutputFormats.count(OutputFormat::TEXT))
+    Printers.emplace_back(std::make_unique<LibScopeView::ScopeTextPrinter>(
+        Options.PrintingSettings, InputFilePath));
+  // Create YAML printer.
+  if (Options.OutputFormats.count(OutputFormat::YAML))
+    Printers.emplace_back(std::make_unique<LibScopeView::ScopeYAMLPrinter>(
+        Options.PrintingSettings, InputFilePath, YAML_OUTPUT_VERSION_STR));
+
+  // Print the Logical Views.
+  for (auto &Printer : Printers) {
+    if (Options.PrintingSettings.SplitOutput) {
+      Printer->print(&Root, Options.PrintingSettings.OutputDirectory);
+    } else if (!Options.PrintingSettings.QuietMode) {
+      Printer->print(&Root, std::cout);
+    }
+  }
+
+  // Print summary.
+  if (Options.ShowSummary) {
+    const auto *Settings = &Options.PrintingSettings;
+    // Print settings were ignored for YAML.
+    if (Options.OutputFormats.count(OutputFormat::YAML))
+      Settings = nullptr;
+    LibScopeView::SummaryTable Table(Root, Settings);
+    std::cout << '\n';
+    Table.printSummaryTable(std::cout);
+  }
 }
 
 } // namespace
@@ -67,63 +122,10 @@ int main(int argc, char *argv[]) {
                             /*VersionOut*/ std::cerr,
                             /*ErrOut*/ std::cerr);
 
-  std::vector<std::unique_ptr<LibScopeView::ScopeRoot>> ScopeRoots;
-
-  // Create readers and load the input files.
+  // Load and print each input file.
   for (const std::string &InputFilePath : Options.InputFiles) {
-    // Check that the file exists.
-    if (!LibScopeView::doesFileExist(InputFilePath))
-      fatalError(LibScopeError::ErrorCode::ERR_FILE_NOT_FOUND, InputFilePath);
-
-    ReaderUPtr Reader = createReader(InputFilePath);
-    assert(Reader);
-    ScopeRoots.push_back(
-        Reader->loadFile(InputFilePath, Options.PrintingSettings));
-
-    if (!ScopeRoots.back())
-      // Currently the ElfDwarfReader will always call fatalError itself so we
-      // should never reach this code.
-      fatalError(LibScopeError::ErrorCode::ERR_READ_FAILED, InputFilePath);
-  }
-
-  if (Options.ShowScopeAllocation)
-    LibScopeView::printAllocationInfo(std::cout);
-
-  // Print the scope views in the readers.
-  assert(ScopeRoots.size() == Options.InputFiles.size()); // TODO: restructure.
-  for (size_t RootIndex = 0; RootIndex < ScopeRoots.size(); ++RootIndex) {
-    const auto &Root = ScopeRoots[RootIndex];
-    const auto &InputFile = Options.InputFiles[RootIndex];
-
-    std::vector<std::unique_ptr<LibScopeView::ScopePrinter>> Printers;
-    // Create text printer.
-    if (Options.OutputFormats.count(OutputFormat::TEXT))
-      Printers.emplace_back(std::make_unique<LibScopeView::ScopeTextPrinter>(
-          Options.PrintingSettings, InputFile));
-    // Create YAML printer.
-    if (Options.OutputFormats.count(OutputFormat::YAML))
-      Printers.emplace_back(std::make_unique<LibScopeView::ScopeYAMLPrinter>(
-          Options.PrintingSettings, InputFile, YAML_OUTPUT_VERSION_STR));
-
-    // Print the Logical Views.
-    for (auto &Printer : Printers) {
-      if (Options.PrintingSettings.SplitOutput) {
-        Printer->print(Root.get(), Options.PrintingSettings.OutputDirectory);
-      } else if (!Options.PrintingSettings.QuietMode) {
-        Printer->print(Root.get(), std::cout);
-      }
-    }
-
-    // Print summary.
-    if (Options.ShowSummary) {
-      const auto *Settings = &Options.PrintingSettings;
-      // Print settings were ignored for YAML.
-      if (Options.OutputFormats.count(OutputFormat::YAML))
-        Settings = nullptr;
-      LibScopeView::SummaryTable Table(*Root, Settings);
-      std::cout << '\n';
-      Table.printSummaryTable(std::cout);
-    }
+    auto Root = readInputFile(InputFilePath, Options.PrintingSettings);
+    printScopeView(*Root, InputFilePath, Options);
   }
 
   // Print string pool data.
