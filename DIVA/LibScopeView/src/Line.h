@@ -40,7 +40,6 @@ namespace LibScopeView {
 class Line : public Element {
 public:
   Line();
-  Line(LevelType Lvl);
   virtual ~Line() override;
 
   Line &operator=(const Line &) = delete;
@@ -141,8 +140,6 @@ private:
 
 public:
   static uint32_t getInstanceCount() { return LinesAllocated; }
-  uint32_t getTag() const override;
-  void setTag() override;
 };
 
 } // namespace LibScopeView

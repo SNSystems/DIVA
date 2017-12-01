@@ -76,42 +76,14 @@ void LibScopeView::printAllocationInfo(std::ostream &Out) {
 // Class to represent the logical view of an object.
 //===----------------------------------------------------------------------===//
 
-Object::Object(LevelType Lvl) {
-  commonConstructor();
-
-  Level = Lvl;
-}
-
-Object::Object() { commonConstructor(); }
-
-Object::~Object() {}
-
-void Object::commonConstructor() {
-
+Object::Object() {
   LineNumber = 0;
   Parent = nullptr;
-  Level = 0;
   DieOffset = 0;
   DieTag = 0;
-
-#ifndef NDEBUG
-  Tag = 0;
-#endif
 }
 
-void Object::setTag() {
-#ifndef NDEBUG
-  Tag = 0;
-#endif
-}
-
-uint32_t Object::getTag() const {
-#ifndef NDEBUG
-  return Tag;
-#else
-  return 0;
-#endif
-}
+Object::~Object() {}
 
 namespace {
 
@@ -175,13 +147,6 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
     setQualifiedName(QualifiedName.c_str());
     setHasQualifiedName();
   }
-}
-
-std::string Object::getIndentString(const PrintSettings &Settings) const {
-  // No indent for root.
-  if (getLevel() == 0 && getIsScope() && getParent() == nullptr)
-    return "";
-  return Settings.ShowIndent ? std::string((getLevel() + 1) * 2, ' ') : "";
 }
 
 bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
@@ -408,11 +373,7 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 // Class to represent the basic data for an object.
 //===----------------------------------------------------------------------===//
-Element::Element(LevelType level) : Object(level) { CommonConstructor(); }
-
-Element::Element() : Object() { CommonConstructor(); }
-
-void Element::CommonConstructor() {
+Element::Element() : Object() {
   NameIndex = 0;
   QualifiedIndex = 0;
   FilenameIndex = 0;

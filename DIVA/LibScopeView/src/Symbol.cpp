@@ -36,41 +36,15 @@
 
 using namespace LibScopeView;
 
-Symbol::Symbol(LevelType Lvl)
-    : Element(Lvl), TheAccessSpecifier(AccessSpecifier::Unspecified),
-      IsStatic(false), Reference(nullptr) {
-  setIsSymbol();
-
-  Symbol::setTag();
-}
-
 Symbol::Symbol()
     : Element(), TheAccessSpecifier(AccessSpecifier::Unspecified),
       IsStatic(false), Reference(nullptr) {
   setIsSymbol();
-
-  Symbol::setTag();
 }
 
 Symbol::~Symbol() {}
 
 uint32_t Symbol::SymbolsAllocated = 0;
-
-// Set Unique Object identifier, for debug purposes
-void Symbol::setTag() {
-  ++Symbol::SymbolsAllocated;
-#ifndef NDEBUG
-  Tag = Symbol::SymbolsAllocated;
-#endif
-}
-
-uint32_t Symbol::getTag() const {
-#ifndef NDEBUG
-  return Tag;
-#else
-  return 0;
-#endif
-}
 
 // Symbol Kind.
 const char *Symbol::KindMember = "Member";

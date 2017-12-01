@@ -55,8 +55,6 @@ class Type;
 
 void printAllocationInfo(std::ostream &Out);
 
-typedef uint16_t LevelType;
-
 /// \brief Enum to represent C++ access specifiers.
 enum class AccessSpecifier { Unspecified, Private, Protected, Public };
 
@@ -64,14 +62,10 @@ enum class AccessSpecifier { Unspecified, Private, Protected, Public };
 class Object {
 public:
   Object();
-  Object(LevelType Lvl);
   virtual ~Object();
 
   Object(const Object &) = delete;
   Object &operator=(const Object &) = delete;
-
-private:
-  void commonConstructor();
 
 private:
   // Flags specifying various properties of the Object.
@@ -145,9 +139,6 @@ public:
   void setHasQualifiedName() { ObjectAttributesFlags.set(HasQualifiedName); }
 
 protected:
-  // Scope level for this object.
-  LevelType Level;
-
   // Line associated with this object.
   uint64_t LineNumber;
 
@@ -221,11 +212,6 @@ public:
   virtual Dwarf_Half getDiscriminator() const { return 0; }
   virtual void setDiscriminator(Dwarf_Half /*Discriminator*/) {}
 
-  /// \brief The level where this object is located.
-  LevelType getLevel() const { return Level; }
-  void setLevel(LevelType Lvl) { Level = Lvl; }
-  std::string getIndentString(const PrintSettings &Settings) const;
-
   /// \brief The parent scope for this object.
   Scope *getParent() const { return Parent; }
   void setParent(Scope *ObjParent) { Parent = ObjParent; }
@@ -252,9 +238,6 @@ public:
                    const char *BaseText = nullptr);
 
 public:
-  virtual uint32_t getTag() const;
-  virtual void setTag();
-
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
   /// \brief Returns a text representation of this DIVA Object.
@@ -267,25 +250,16 @@ protected:
   static std::string formatAttributeText(const std::string &AttributeText);
   /// \brief Returns the common YAML information for this object.
   std::string getCommonYAML() const;
-
-#ifndef NDEBUG
-protected:
-  uint32_t Tag;
-#endif
 };
 
 /// \brief Class to represent the basic data for an object.
 class Element : public Object {
 public:
   Element();
-  Element(LevelType Lvl);
   virtual ~Element() override {}
 
   Element &operator=(const Element &) = delete;
   Element(const Element &) = delete;
-
-private:
-  void CommonConstructor();
 
 protected:
   // The name, type name, qualified name and filename in String Pool.

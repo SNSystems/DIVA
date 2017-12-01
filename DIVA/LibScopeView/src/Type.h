@@ -37,7 +37,6 @@ namespace LibScopeView {
 class Type : public Element {
 public:
   Type();
-  Type(LevelType Lvl);
   virtual ~Type() override;
 
   Type &operator=(const Type &) = delete;
@@ -218,8 +217,6 @@ private:
 
 public:
   static uint32_t getInstanceCount() { return TypesAllocated; }
-  uint32_t getTag() const override;
-  void setTag() override;
 
 private:
   // DW_AT_byte_size for PrimitiveType.
@@ -234,7 +231,6 @@ public:
 class TypeDefinition : public Type {
 public:
   TypeDefinition();
-  TypeDefinition(LevelType Lvl);
   virtual ~TypeDefinition() override;
 
   TypeDefinition &operator=(const TypeDefinition &) = delete;
@@ -259,7 +255,6 @@ public:
 class TypeEnumerator : public Type {
 public:
   TypeEnumerator();
-  TypeEnumerator(LevelType Lvl);
   virtual ~TypeEnumerator() override;
 
   TypeEnumerator &operator=(const TypeEnumerator &) = delete;
@@ -287,7 +282,6 @@ public:
 class TypeImport : public Type {
 public:
   TypeImport();
-  TypeImport(LevelType Lvl);
   virtual ~TypeImport() override;
 
   TypeImport &operator=(const TypeImport &) = delete;
@@ -323,7 +317,6 @@ private:
 class TypeParam : public Type {
 public:
   TypeParam();
-  TypeParam(LevelType Lvl);
   virtual ~TypeParam() override;
 
   TypeParam &operator=(const TypeParam &) = delete;
@@ -351,7 +344,6 @@ public:
 class TypeSubrange : public Type {
 public:
   TypeSubrange();
-  TypeSubrange(LevelType Lvl);
   virtual ~TypeSubrange() override;
 
   TypeSubrange &operator=(const TypeSubrange &) = delete;

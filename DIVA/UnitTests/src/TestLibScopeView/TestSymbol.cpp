@@ -142,7 +142,7 @@ TEST(Symbol, getAsYAML_Member) {
 TEST(Symbol, getAsText_Parameter) {
   PrintSettings Settings;
 
-  Symbol Sym(0);
+  Symbol Sym;
   Sym.setIsParameter();
   EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} -> \"void\"");
 
@@ -152,14 +152,14 @@ TEST(Symbol, getAsText_Parameter) {
   Sym.setName("qaz");
   EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" -> \"\"");
 
-  Type Ty(0);
+  Type Ty;
   Ty.setIsBaseType();
   Ty.setName("wsx");
   Sym.setType(&Ty);
   EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" -> \"wsx\"");
 
   // Templates have the indicator reversed '<-'.
-  Scope Scp(0);
+  Scope Scp;
   Scp.setIsScope();
   Scp.setIsTemplate();
   Sym.setParent(&Scp);

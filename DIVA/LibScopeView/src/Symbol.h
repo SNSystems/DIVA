@@ -38,7 +38,6 @@ namespace LibScopeView {
 class Symbol : public Element {
 public:
   Symbol();
-  Symbol(LevelType Lvl);
   virtual ~Symbol() override;
 
   Symbol &operator=(const Symbol &) = delete;
@@ -123,8 +122,6 @@ private:
 
 public:
   static uint32_t getInstanceCount() { return SymbolsAllocated; }
-  uint32_t getTag() const override;
-  void setTag() override;
 };
 
 } // namespace LibScopeView
