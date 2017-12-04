@@ -113,7 +113,7 @@ void writeStringOrHex(std::ostream &Out, const std::string Str,
 } // end anonymous namespace
 
 bool DwarfReader::createScopes() {
-  auto *Root = new LibScopeView::ScopeRoot(0U);
+  auto *Root = new LibScopeView::ScopeRoot;
   Root->setIsRoot();
   Root->setName(getInputFile().c_str());
   Scopes = Root;
@@ -145,7 +145,7 @@ void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
     SourceFileMapping = getSourceFileMapping(DebugData, CU.CUDie);
 
     // Recursively create the tree of Objects from the CU and down.
-    createObject(DebugData, CU.CUDie, Root, 0U);
+    createObject(DebugData, CU.CUDie, Root);
   }
 
   // If we didn't skip any Dies (because of unknown tags) then we should have
@@ -158,8 +158,7 @@ void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
 
 void DwarfReader::createObject(const DwarfDebugData &DebugData,
                                const DwarfDie &Die,
-                               LibScopeView::Object &ParentObj,
-                               LibScopeView::LevelType Level) {
+                               LibScopeView::Object &ParentObj) {
   // For now do nothing if the parent is not a scope.
   if (!ParentObj.getIsScope())
     return;
@@ -169,7 +168,7 @@ void DwarfReader::createObject(const DwarfDebugData &DebugData,
   auto ObjTag = Die.getTag();
 
   // Create the object from the DWARF tag.
-  LibScopeView::Object *Obj = createObjectByTag(ObjTag, Level);
+  LibScopeView::Object *Obj = createObjectByTag(ObjTag);
   if (!Obj)
     return;
 
@@ -203,208 +202,208 @@ void DwarfReader::createObject(const DwarfDebugData &DebugData,
 
   // Recurse on the DIE children.
   for (auto IT = Die.childrenBegin(), End = Die.childrenEnd(); IT != End; ++IT)
-    createObject(DebugData, *IT, *Obj, Level + 1);
+    createObject(DebugData, *IT, *Obj);
 }
 
 LibScopeView::Object *
-DwarfReader::createObjectByTag(Dwarf_Half Tag, LibScopeView::LevelType Level) {
+DwarfReader::createObjectByTag(Dwarf_Half Tag) {
   switch (Tag) {
   // Types.
   case DW_TAG_base_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsBaseType();
     return Obj;
   }
   case DW_TAG_const_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsConstType();
     return Obj;
   }
   case DW_TAG_enumerator: {
-    auto Obj = new LibScopeView::TypeEnumerator(Level);
+    auto Obj = new LibScopeView::TypeEnumerator;
     Obj->setIsEnumerator();
     return Obj;
   }
   case DW_TAG_imported_declaration: {
-    auto Obj = new LibScopeView::TypeImport(Level);
+    auto Obj = new LibScopeView::TypeImport;
     Obj->setIsImportedDeclaration();
     return Obj;
   }
   case DW_TAG_imported_module: {
-    auto Obj = new LibScopeView::TypeImport(Level);
+    auto Obj = new LibScopeView::TypeImport;
     Obj->setIsImportedModule();
     return Obj;
   }
   case DW_TAG_inheritance: {
-    auto Obj = new LibScopeView::TypeImport(Level);
+    auto Obj = new LibScopeView::TypeImport;
     Obj->setIsInheritance();
     return Obj;
   }
   case DW_TAG_pointer_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsPointerType();
     return Obj;
   }
   case DW_TAG_ptr_to_member_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsPointerMemberType();
     return Obj;
   }
   case DW_TAG_reference_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsReferenceType();
     return Obj;
   }
   case DW_TAG_restrict_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsRestrictType();
     return Obj;
   }
   case DW_TAG_rvalue_reference_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsRvalueReferenceType();
     return Obj;
   }
   case DW_TAG_subrange_type: {
-    auto Obj = new LibScopeView::TypeSubrange(Level);
+    auto Obj = new LibScopeView::TypeSubrange;
     Obj->setIsSubrangeType();
     return Obj;
   }
   case DW_TAG_template_value_parameter: {
-    auto Obj = new LibScopeView::TypeParam(Level);
+    auto Obj = new LibScopeView::TypeParam;
     Obj->setIsTemplateValue();
     return Obj;
   }
   case DW_TAG_template_type_parameter: {
-    auto Obj = new LibScopeView::TypeParam(Level);
+    auto Obj = new LibScopeView::TypeParam;
     Obj->setIsTemplateType();
     return Obj;
   }
   case DW_TAG_GNU_template_template_parameter: {
-    auto Obj = new LibScopeView::TypeParam(Level);
+    auto Obj = new LibScopeView::TypeParam;
     Obj->setIsTemplateTemplate();
     return Obj;
   }
   case DW_TAG_typedef: {
-    auto Obj = new LibScopeView::TypeDefinition(Level);
+    auto Obj = new LibScopeView::TypeDefinition;
     Obj->setIsTypedef();
     return Obj;
   }
   case DW_TAG_unspecified_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsUnspecifiedType();
     return Obj;
   }
   case DW_TAG_volatile_type: {
-    auto Obj = new LibScopeView::Type(Level);
+    auto Obj = new LibScopeView::Type;
     Obj->setIsVolatileType();
     return Obj;
   }
   // Symbols.
   case DW_TAG_formal_parameter: {
-    auto Obj = new LibScopeView::Symbol(Level);
+    auto Obj = new LibScopeView::Symbol;
     Obj->setIsParameter();
     return Obj;
   }
   case DW_TAG_unspecified_parameters: {
-    auto Obj = new LibScopeView::Symbol(Level);
+    auto Obj = new LibScopeView::Symbol;
     Obj->setIsUnspecifiedParameter();
     return Obj;
   }
   case DW_TAG_member: {
-    auto Obj = new LibScopeView::Symbol(Level);
+    auto Obj = new LibScopeView::Symbol;
     Obj->setIsMember();
     return Obj;
   }
   case DW_TAG_variable: {
-    auto Obj = new LibScopeView::Symbol(Level);
+    auto Obj = new LibScopeView::Symbol;
     Obj->setIsVariable();
     return Obj;
   }
   // Scopes.
   case DW_TAG_catch_block: {
-    auto Obj = new LibScopeView::Scope(Level);
+    auto Obj = new LibScopeView::Scope;
     Obj->setIsCatchBlock();
     return Obj;
   }
   case DW_TAG_lexical_block: {
-    auto Obj = new LibScopeView::Scope(Level);
+    auto Obj = new LibScopeView::Scope;
     Obj->setIsLexicalBlock();
     return Obj;
   }
   case DW_TAG_try_block: {
-    auto Obj = new LibScopeView::Scope(Level);
+    auto Obj = new LibScopeView::Scope;
     Obj->setIsTryBlock();
     return Obj;
   }
   case DW_TAG_compile_unit: {
-    auto Obj = new LibScopeView::ScopeCompileUnit(0);
+    auto Obj = new LibScopeView::ScopeCompileUnit;
     Obj->setIsCompileUnit();
     return Obj;
   }
   case DW_TAG_inlined_subroutine: {
-    auto Obj = new LibScopeView::ScopeFunctionInlined(Level);
+    auto Obj = new LibScopeView::ScopeFunctionInlined;
     Obj->setIsInlinedSubroutine();
     return Obj;
   }
   case DW_TAG_namespace: {
-    auto Obj = new LibScopeView::ScopeNamespace(Level);
+    auto Obj = new LibScopeView::ScopeNamespace;
     Obj->setIsNamespace();
     return Obj;
   }
   case DW_TAG_template_alias: {
-    auto Obj = new LibScopeView::ScopeAlias(Level);
+    auto Obj = new LibScopeView::ScopeAlias;
     Obj->setIsTemplateAlias();
     Obj->setIsTemplate();
     return Obj;
   }
   case DW_TAG_array_type: {
-    auto Obj = new LibScopeView::ScopeArray(Level);
+    auto Obj = new LibScopeView::ScopeArray;
     Obj->setIsArrayType();
     return Obj;
   }
   case DW_TAG_entry_point: {
-    auto Obj = new LibScopeView::ScopeFunction(Level);
+    auto Obj = new LibScopeView::ScopeFunction;
     Obj->setIsEntryPoint();
     return Obj;
   }
   case DW_TAG_subprogram: {
-    auto Obj = new LibScopeView::ScopeFunction(Level);
+    auto Obj = new LibScopeView::ScopeFunction;
     Obj->setIsSubprogram();
     return Obj;
   }
   case DW_TAG_subroutine_type: {
-    auto Obj = new LibScopeView::ScopeFunction(Level);
+    auto Obj = new LibScopeView::ScopeFunction;
     Obj->setIsSubroutineType();
     return Obj;
   }
   case DW_TAG_label: {
-    auto Obj = new LibScopeView::ScopeFunction(Level);
+    auto Obj = new LibScopeView::ScopeFunction;
     Obj->setIsLabel();
     return Obj;
   }
   case DW_TAG_class_type: {
-    auto Obj = new LibScopeView::ScopeAggregate(Level);
+    auto Obj = new LibScopeView::ScopeAggregate;
     Obj->setIsClassType();
     return Obj;
   }
   case DW_TAG_structure_type: {
-    auto Obj = new LibScopeView::ScopeAggregate(Level);
+    auto Obj = new LibScopeView::ScopeAggregate;
     Obj->setIsStructType();
     return Obj;
   }
   case DW_TAG_union_type: {
-    auto Obj = new LibScopeView::ScopeAggregate(Level);
+    auto Obj = new LibScopeView::ScopeAggregate;
     Obj->setIsUnionType();
     return Obj;
   }
   case DW_TAG_enumeration_type: {
-    auto Obj = new LibScopeView::ScopeEnumeration(Level);
+    auto Obj = new LibScopeView::ScopeEnumeration;
     Obj->setIsEnumerationType();
     return Obj;
   }
   case DW_TAG_GNU_template_parameter_pack: {
-    auto Obj = new LibScopeView::ScopeTemplatePack(Level);
+    auto Obj = new LibScopeView::ScopeTemplatePack;
     Obj->setIsTemplatePack();
     return Obj;
   }
@@ -577,7 +576,7 @@ void DwarfReader::createLines(const DwarfDie &CUDie,
 
   for (size_t LineIndex = 0; LineIndex < LineTable.size(); ++LineIndex) {
     auto DwarfLine = LineTable[LineIndex];
-    auto *Ln = new LibScopeView::Line(1U);
+    auto *Ln = new LibScopeView::Line;
 
     Ln->setIsLineRecord();
     CUObj.addObject(Ln);

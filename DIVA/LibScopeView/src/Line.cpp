@@ -35,36 +35,13 @@
 
 using namespace LibScopeView;
 
-Line::Line(LevelType Lvl) : Element(Lvl), Discriminator(0) {
-  setIsLine();
-
-  Line::setTag();
-}
-
 Line::Line() : Element(), Discriminator(0) {
   setIsLine();
-
-  Line::setTag();
 }
 
 Line::~Line() {}
 
 uint32_t Line::LinesAllocated = 0;
-
-void Line::setTag() {
-  ++Line::LinesAllocated;
-#ifndef NDEBUG
-  Tag = Line::LinesAllocated;
-#endif
-}
-
-uint32_t Line::getTag() const {
-#ifndef NDEBUG
-  return Tag;
-#else
-  return 0;
-#endif
-}
 
 // Line Kind.
 const char *Line::KindBasicBlock = "BasicBlock";

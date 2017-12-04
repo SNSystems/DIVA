@@ -317,10 +317,6 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   Child1->setDieOffset(0x11);
   Child2->setDieOffset(0x11111111);
 
-  Top->setLevel(1);
-  Child1->setLevel(2);
-  Child2->setLevel(222);
-
   Top->setDieTag(DW_TAG_compile_unit);
   Child1->setDieTag(DW_TAG_namespace);
   Child2->setDieTag(DW_TAG_enumeration_type);
@@ -355,14 +351,14 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   Settings.ShowDWARFParent = false;
   Settings.ShowLevel = true;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
-  EXPECT_EQ(Output.str(), "      {InputFile} \"In.o\"\n\n"
-                          "      {Source} \"foo.cpp\"\n"
-                          "001     11  {Fake} Top\n"
+  EXPECT_EQ(Output.str(), "    {InputFile} \"In.o\"\n\n"
+                          "    {Source} \"foo.cpp\"\n"
+                          "0     11  {Fake} Top\n"
+                          "            - Attr\n"
+                          "1    111    {Fake} Child1\n"
                           "              - Attr\n"
-                          "002    111    {Fake} Child1\n"
-                          "                - Attr\n"
-                          "222   1122    {Fake} Child2\n"
-                          "                - Attr\n");
+                          "1   1122    {Fake} Child2\n"
+                          "              - Attr\n");
 
   Output.str("");
   Settings.ShowLevel = false;
@@ -383,22 +379,17 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   Settings.ShowLevel = true;
   Settings.ShowDWARFTag = true;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
+  // clang-format off
   std::string Expected(
-      "                                                       {InputFile} "
-      "\"In.o\"\n\n"
-      "                                                       {Source} "
-      "\"foo.cpp\"\n"
-      "[0x00001234][0x00000000]001 [DW_TAG_compile_unit]        11  {Fake} "
-      "Top\n"
+      "                                                     {InputFile} \"In.o\"\n\n"
+      "                                                     {Source} \"foo.cpp\"\n"
+      "[0x00001234][0x00000000]0 [DW_TAG_compile_unit]        11  {Fake} Top\n"
+      "                                                             - Attr\n"
+      "[0x00000011][0x00001234]1 [DW_TAG_namespace]          111    {Fake} Child1\n"
       "                                                               - Attr\n"
-      "[0x00000011][0x00001234]002 [DW_TAG_namespace]          111    {Fake} "
-      "Child1\n"
-      "                                                                 - "
-      "Attr\n"
-      "[0x11111111][0x00001234]222 [DW_TAG_enumeration_type]  1122    {Fake} "
-      "Child2\n"
-      "                                                                 - "
-      "Attr\n");
+      "[0x11111111][0x00001234]1 [DW_TAG_enumeration_type]  1122    {Fake} Child2\n"
+      "                                                               - Attr\n");
+  // clang-format on
   EXPECT_EQ(Output.str(), Expected);
 }
 
@@ -416,11 +407,6 @@ TEST(ScopeTextPrinter, PrintFlagAttributes) {
   Top->addObject(Child1);
   Top->addObject(Child2);
   Top->addObject(Child3);
-
-  Top->setLevel(1);
-  Child1->setLevel(2);
-  Child2->setLevel(2);
-  Child3->setLevel(2);
 
   Child1->setIsGlobalReference();
   Child3->setIsGlobalReference();
@@ -446,13 +432,13 @@ TEST(ScopeTextPrinter, PrintFlagAttributes) {
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "      {InputFile} \"In.o\"\n\n"
                           "      {Source} \"foo.cpp\"\n"
-                          "1       1  {Fake} Top\n"
+                          "0       1  {Fake} Top\n"
                           "             - Attr\n"
-                          "2   X 111    {Fake} Child1\n"
+                          "1   X 111    {Fake} Child1\n"
                           "               - Attr\n"
-                          "2     222    {Fake} Child2\n"
+                          "1     222    {Fake} Child2\n"
                           "               - Attr\n"
-                          "2   X 333    {Fake} Child3\n"
+                          "1   X 333    {Fake} Child3\n"
                           "               - Attr\n");
 }
 
@@ -469,10 +455,6 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   Top->addObject(Child1);
   Child1->addObject(Child2);
 
-  Top->setLevel(1);
-  Child1->setLevel(2);
-  Child2->setLevel(3);
-
   Child1->setIsGlobalReference();
 
   std::stringstream Output;
@@ -484,11 +466,11 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "      {InputFile} \"In.o\"\n\n"
                           "      {Source} \"foo.cpp\"\n"
-                          "1       1  {Fake} Top\n"
+                          "0       1  {Fake} Top\n"
                           "             - Attr\n"
-                          "2   X 111    {Fake} Child1\n"
+                          "1   X 111    {Fake} Child1\n"
                           "               - Attr\n"
-                          "3     222      {Fake} Child2\n"
+                          "2     222      {Fake} Child2\n"
                           "                 - Attr\n");
 
   Output.str("");
@@ -496,10 +478,10 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "      {InputFile} \"In.o\"\n\n"
                           "      {Source} \"foo.cpp\"\n"
-                          "1       1  {Fake} Top\n"
+                          "0       1  {Fake} Top\n"
                           "             - Attr\n"
-                          "2   X 111  {Fake} Child1\n"
+                          "1   X 111  {Fake} Child1\n"
                           "             - Attr\n"
-                          "3     222  {Fake} Child2\n"
+                          "2     222  {Fake} Child2\n"
                           "             - Attr\n");
 }

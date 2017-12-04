@@ -54,7 +54,8 @@ private:
 
   std::string HeaderText;
   const uint8_t IndentSize;
-  uint32_t IndentLevel = 1;
+  size_t CurrentLevel = 0;
+  size_t IndentLevel = 1;
   size_t CurrentFileIndex = 0;
 
   // Indent sizes calculated from the tree being printed.

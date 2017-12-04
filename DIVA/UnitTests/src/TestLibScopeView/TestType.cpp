@@ -98,7 +98,7 @@ TEST(Type, getAsText_Param) {
   Ty.setName("wsx");
 
   // Template type.
-  TypeParam TyParam(0);
+  TypeParam TyParam;
   TyParam.setIsType();
   TyParam.setIncludeInPrint();
   TyParam.setName("qaz");
@@ -134,7 +134,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"TTemp\" <- \"vector\"");
 
   // Template packs print differently.
-  Scope ScpTP(0);
+  Scope ScpTP;
   ScpTP.setIsScope();
   ScpTP.setIsTemplatePack();
   TyParam.setParent(&ScpTP);
@@ -233,7 +233,7 @@ TEST(Type, getAsYAML_Param) {
 TEST(Type, getAsText_PrimitiveType) {
   PrintSettings Settings;
 
-  Type Ty(/*level*/ 3);
+  Type Ty;
   Ty.setIsBaseType();
   Ty.setIncludeInPrint();
 
@@ -277,7 +277,7 @@ TEST(Type, getAsYAML_PrimitiveType) {
 TEST(Type, getAsText_Typedef) {
   PrintSettings Settings;
 
-  TypeDefinition TyDef(0);
+  TypeDefinition TyDef;
   ASSERT_TRUE(TyDef.getIsPrintedAsObject());
   TyDef.setIsTypedef();
   TyDef.setIncludeInPrint();
@@ -287,7 +287,7 @@ TEST(Type, getAsText_Typedef) {
   TyDef.setName("qaz");
   EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"qaz\" -> \"\"");
 
-  TypeDefinition TyDef2(0);
+  TypeDefinition TyDef2;
   TyDef2.setIsTypedef();
   TyDef2.setIncludeInPrint();
   TyDef2.setName("wsx");
@@ -296,7 +296,7 @@ TEST(Type, getAsText_Typedef) {
 }
 
 TEST(Type, getAsYAML_Typedef) {
-  TypeDefinition TD(0);
+  TypeDefinition TD;
   TD.setIsTypedef();
   TD.setDieOffset(0x84);
   TD.setDieTag(DW_TAG_typedef);
@@ -322,13 +322,13 @@ TEST(Type, getAsYAML_Typedef) {
 TEST(Type, getAsText_Using) {
   PrintSettings Settings;
 
-  Scope CU(0);
+  Scope CU;
   CU.setIsCompileUnit();
   CU.setName("I should never be seen!");
 
   TypeImport UsingNamespace;
   UsingNamespace.setIsImportedModule();
-  Scope NS(0);
+  Scope NS;
   NS.setName("test_name");
   NS.setParent(&CU);
   UsingNamespace.setType(&NS);
@@ -337,13 +337,13 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingType;
   UsingType.setIsImportedDeclaration();
-  Type Ty(0);
+  Type Ty;
   Ty.setName("test_type");
   Ty.setParent(&CU);
   UsingType.setType(&Ty);
   EXPECT_EQ(UsingType.getAsText(Settings), "{Using} type \"test_type\"");
 
-  Scope Parent(0);
+  Scope Parent;
   Parent.setName("parent");
   Ty.setParent(&Parent);
   EXPECT_EQ(UsingType.getAsText(Settings),
@@ -351,7 +351,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingVariable;
   UsingVariable.setIsImportedDeclaration();
-  Symbol Variable(0);
+  Symbol Variable;
   Variable.setIsVariable();
   Variable.setName("test_variable");
   Variable.setParent(&CU);
@@ -365,7 +365,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingMember;
   UsingMember.setIsImportedDeclaration();
-  Symbol Member(0);
+  Symbol Member;
   Member.setIsMember();
   Member.setName("test_member");
   Member.setParent(&CU);
@@ -379,7 +379,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingFunction;
   UsingFunction.setIsImportedDeclaration();
-  Scope Func(0);
+  Scope Func;
   Func.setIsFunction();
   Func.setName("test_function");
   Func.setParent(&CU);
@@ -393,7 +393,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingStruct;
   UsingStruct.setIsImportedDeclaration();
-  Scope ScpStruct(0);
+  Scope ScpStruct;
   ScpStruct.setIsStructType();
   ScpStruct.setName("test_struct");
   ScpStruct.setParent(&CU);
@@ -405,7 +405,7 @@ TEST(Type, getAsText_Using) {
             "{Using} type \"parent::test_struct\"");
 
   // What if we have nested parents?
-  Scope GrandParent(0);
+  Scope GrandParent;
   GrandParent.setName("grandparent");
   Parent.setParent(&GrandParent);
   EXPECT_EQ(UsingFunction.getAsText(Settings),
@@ -413,7 +413,7 @@ TEST(Type, getAsText_Using) {
 }
 
 TEST(Type, getAsYAML_Using) {
-  Scope CU(0);
+  Scope CU;
   CU.setIsCompileUnit();
   CU.setName("I should never be seen!");
 
@@ -423,7 +423,7 @@ TEST(Type, getAsYAML_Using) {
   UsingNamespace.setFileName("test_file.cpp");
   UsingNamespace.setDieTag(DW_TAG_imported_module);
   UsingNamespace.setDieOffset(0xdeadb33f);
-  Scope NS(0);
+  Scope NS;
   NS.setName("test_name");
   NS.setParent(&CU);
   UsingNamespace.setType(&NS);
@@ -445,7 +445,7 @@ TEST(Type, getAsYAML_Using) {
   UsingType.setFileName("test_file.cpp");
   UsingType.setDieTag(DW_TAG_imported_declaration);
   UsingType.setDieOffset(0xdeadb33f);
-  Type Ty(0);
+  Type Ty;
   Ty.setName("test_type");
   Ty.setParent(&CU);
   UsingType.setType(&Ty);
@@ -461,7 +461,7 @@ TEST(Type, getAsYAML_Using) {
                                    "\nattributes:"
                                    "\n  using_type: \"type\"");
 
-  Scope Parent(0);
+  Scope Parent;
   Parent.setName("parent");
   Ty.setParent(&Parent);
   EXPECT_EQ(UsingType.getAsYAML(), "object: \"Using\""
@@ -482,7 +482,7 @@ TEST(Type, getAsYAML_Using) {
   UsingVariable.setFileName("test_file.cpp");
   UsingVariable.setDieTag(DW_TAG_imported_declaration);
   UsingVariable.setDieOffset(0xdeadb33f);
-  Symbol Variable(0);
+  Symbol Variable;
   Variable.setIsVariable();
   Variable.setName("test_variable");
   Variable.setParent(&CU);
@@ -520,7 +520,7 @@ TEST(Type, getAsYAML_Using) {
   UsingMember.setFileName("test_file.cpp");
   UsingMember.setDieTag(DW_TAG_imported_declaration);
   UsingMember.setDieOffset(0xdeadb33f);
-  Symbol Member(0);
+  Symbol Member;
   Member.setIsMember();
   Member.setName("test_member");
   Member.setParent(&CU);
@@ -556,7 +556,7 @@ TEST(Type, getAsYAML_Using) {
   UsingFunction.setFileName("test_file.cpp");
   UsingFunction.setDieTag(DW_TAG_imported_declaration);
   UsingFunction.setDieOffset(0xdeadb33f);
-  Scope Function(0);
+  Scope Function;
   Function.setIsFunction();
   Function.setName("test_function");
   Function.setParent(&CU);
@@ -594,7 +594,7 @@ TEST(Type, getAsYAML_Using) {
   UsingStruct.setFileName("test_file.cpp");
   UsingStruct.setDieTag(DW_TAG_imported_declaration);
   UsingStruct.setDieOffset(0xdeadb33f);
-  Scope StructType(0);
+  Scope StructType;
   StructType.setIsStructType();
   StructType.setName("test_struct");
   StructType.setParent(&CU);
@@ -625,7 +625,7 @@ TEST(Type, getAsYAML_Using) {
                                      "\n  using_type: \"type\"");
 
   // Test nested parents.
-  Scope Grandparent(0);
+  Scope Grandparent;
   Grandparent.setName("grandparent");
   Parent.setParent(&Grandparent);
   EXPECT_EQ(UsingFunction.getAsYAML(), "object: \"Using\""

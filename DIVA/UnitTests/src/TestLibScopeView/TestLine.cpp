@@ -35,7 +35,7 @@
 using namespace LibScopeView;
 
 TEST(Line, getAsText_Line) {
-  Line Ln(0);
+  Line Ln;
   Ln.setIsLineRecord();
   EXPECT_EQ(Ln.getAsText(PrintSettings()), "{CodeLine}");
 }
@@ -69,7 +69,7 @@ TEST(Line, getAsText_Line_Attributes) {
   PrintSettings Settings;
   Settings.ShowCodelineAttributes = true;
 
-  Line Ln(/*level*/ 3);
+  Line Ln;
   Ln.setIsLineRecord();
 
   Ln.setIsNewStatement();

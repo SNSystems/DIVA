@@ -38,36 +38,13 @@
 
 using namespace LibScopeView;
 
-Type::Type(LevelType Lvl) : Element(Lvl), ByteSize(0) {
-  setIsType();
-
-  Type::setTag();
-}
-
 Type::Type() : ByteSize(0) {
   setIsType();
-
-  Type::setTag();
 }
 
 Type::~Type() {}
 
 uint32_t Type::TypesAllocated = 0;
-
-void Type::setTag() {
-  ++Type::TypesAllocated;
-#ifndef NDEBUG
-  Tag = Type::TypesAllocated;
-#endif
-}
-
-uint32_t Type::getTag() const {
-#ifndef NDEBUG
-  return Tag;
-#else
-  return 0;
-#endif
-}
 
 // Type Kind.
 const char *Type::KindBase = "PrimitiveType";
@@ -195,9 +172,6 @@ unsigned Type::getByteSize() const { return ByteSize; }
 
 void Type::setByteSize(unsigned Size) { ByteSize = Size; }
 
-/// \brief Class to represent a DWARF typedef object.
-TypeDefinition::TypeDefinition(LevelType Lvl) : Type(Lvl) {}
-
 TypeDefinition::TypeDefinition() : Type() {}
 
 TypeDefinition::~TypeDefinition() {}
@@ -243,9 +217,6 @@ std::string TypeDefinition::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-/// \brief Class to represent a DWARF enumerator (DW_TAG_enumerator).
-TypeEnumerator::TypeEnumerator(LevelType Lvl) : Type(Lvl) { ValueIndex = 0; }
-
 TypeEnumerator::TypeEnumerator() : Type() { ValueIndex = 0; }
 
 TypeEnumerator::~TypeEnumerator() {}
@@ -276,10 +247,6 @@ std::string TypeEnumerator::getAsYAML() const {
   // Printing enumerators is handled in ScopeEnumeration.
   return "";
 }
-
-/// \brief Class to represent a DWARF Import object (Using).
-TypeImport::TypeImport(LevelType Lvl)
-    : Type(Lvl), InheritanceAccess(AccessSpecifier::Unspecified) {}
 
 TypeImport::TypeImport()
     : Type(), InheritanceAccess(AccessSpecifier::Unspecified) {}
@@ -463,8 +430,6 @@ std::string TypeImport::getUsingAsYAML() const {
   return Result.str();
 }
 
-TypeParam::TypeParam(LevelType Lvl) : Type(Lvl) { ValueIndex = 0; }
-
 TypeParam::TypeParam() : Type() { ValueIndex = 0; }
 
 TypeParam::~TypeParam() {}
@@ -533,8 +498,6 @@ std::string TypeParam::getAsYAML() const {
 
   return YAML.str();
 }
-
-TypeSubrange::TypeSubrange(LevelType Lvl) : Type(Lvl) {}
 
 TypeSubrange::TypeSubrange() : Type() {}
 

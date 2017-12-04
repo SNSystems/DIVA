@@ -112,16 +112,16 @@ TEST(Scope, getAsText_Block) {
   PrintSettings Settings;
   Settings.ShowBlockAttributes = true;
 
-  Scope Block(/*Level*/ 3);
+  Scope Block;
   Block.setIsBlock();
   EXPECT_EQ(Block.getAsText(Settings), "{Block}");
 
-  Scope TryBlock(/*Level*/ 3);
+  Scope TryBlock;
   TryBlock.setIsBlock();
   TryBlock.setIsTryBlock();
   EXPECT_EQ(TryBlock.getAsText(Settings), "{Block}\n    - try");
 
-  Scope CatchBlock(/*Level*/ 3);
+  Scope CatchBlock;
   CatchBlock.setIsBlock();
   CatchBlock.setIsCatchBlock();
   EXPECT_EQ(CatchBlock.getAsText(Settings), "{Block}\n    - catch");
@@ -428,7 +428,7 @@ TEST(Scope, getAsYAML_Enumeration) {
 TEST(Scope, getAsText_Function) {
   PrintSettings Settings;
 
-  ScopeFunction ScpFunc(0);
+  ScopeFunction ScpFunc;
   ScpFunc.setIsScope();
   ScpFunc.setIsFunction();
 
@@ -443,7 +443,7 @@ TEST(Scope, getAsText_Function) {
   EXPECT_EQ(ScpFunc.getAsText(Settings), "{Function} \"qaz\" -> \"\"\n"
                                          "    - No declaration");
 
-  Type RetType(0);
+  Type RetType;
   RetType.setName("wsx");
   ScpFunc.setType(&RetType);
   EXPECT_EQ(ScpFunc.getAsText(Settings), "{Function} \"qaz\" -> \"wsx\"\n"
@@ -454,7 +454,7 @@ TEST(Scope, getAsText_Function) {
   NS.setName("TestNamespace");
   ScpFunc.setParent(&NS);
   ScpFunc.resolveName();
-  EXPECT_EQ(ScpFunc.getAsText(Settings), 
+  EXPECT_EQ(ScpFunc.getAsText(Settings),
             "{Function} \"TestNamespace::qaz\" -> \"wsx\"\n"
             "    - No declaration");
 
@@ -484,7 +484,7 @@ TEST(Scope, getAsText_Function) {
             "{Function} inline \"dif\" -> \"\"\n"
             "    - No declaration");
 
-  ScopeFunction ScpQualFunc(0);
+  ScopeFunction ScpQualFunc;
   ScpQualFunc.setIsScope();
   ScpQualFunc.setIsFunction();
   ScpQualFunc.setName("qaz");
@@ -550,7 +550,7 @@ TEST(Scope, getAsText_Function_Attributes) {
   EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   // ScopeFunctionInlined.
-  ScopeFunctionInlined inlined(0);
+  ScopeFunctionInlined inlined;
   inlined.setIsInlinedSubroutine();
   inlined.setName("Foo");
   EXPECT_EQ(inlined.getAsText(Settings), "{Function} \"Foo\" -> \"\"\n"
@@ -559,7 +559,7 @@ TEST(Scope, getAsText_Function_Attributes) {
 }
 
 TEST(Scope, getAsYAML_Function) {
-  ScopeFunction Func(0);
+  ScopeFunction Func;
   Func.setIsScope();
   Func.setIsFunction();
   Func.setName("Foo");
@@ -589,7 +589,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_inlined: false\n"
                               "  is_declaration: false");
 
-  Type Ty(0);
+  Type Ty;
   Ty.setName("int");
   Func.setType(&Ty);
   EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
@@ -677,7 +677,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_declaration: true");
 
   // Function to be used as Reference.
-  ScopeFunction Reference(0);
+  ScopeFunction Reference;
   Reference.setIsScope();
   Reference.setIsFunction();
   Reference.setName("Ref");
@@ -729,7 +729,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_declaration: true");
 
   // ScopeFunctionInlined.
-  ScopeFunctionInlined Inlined(0);
+  ScopeFunctionInlined Inlined;
   Inlined.setIsInlinedSubroutine();
   Inlined.setName("Foo");
   Inlined.setDieOffset(0x100);

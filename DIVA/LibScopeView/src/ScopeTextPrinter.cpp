@@ -41,11 +41,21 @@ namespace {
 
 const size_t DwarfOffsetHexStringLength = 8;
 
+size_t findLevel(const Object *Obj) {
+  size_t Result = 0;
+  while (Obj->getParent()) {
+    ++Result;
+    Obj = Obj->getParent();
+  }
+  return Result;
+}
+
 // Visitor that finds the maximum sizes of text output for aligning printing.
 class IndentSizeFinder : private ConstScopeVisitor {
 public:
   IndentSizeFinder(const Object *Obj)
-      : TagNameIndent(0), MaxLine(0), MaxLevel(0) {
+      : CurrentLevel(findLevel(Obj)), TagNameIndent(0), MaxLine(0),
+        MaxLevel(0) {
     visit(Obj);
   }
 
@@ -56,7 +66,11 @@ public:
 private:
   void visitImpl(const Object *Obj) override {
     MaxLine = std::max(MaxLine, Obj->getLineNumber());
-    MaxLevel = std::max(MaxLevel, Obj->getLevel());
+    MaxLevel = std::max(MaxLevel, CurrentLevel);
+
+    // Root doesn't have a level.
+    if (Obj->getParent())
+      ++CurrentLevel;
 
     // TODO: Store the tag name string in the Object.
     Dwarf_Half Tag = Obj->getDieTag();
@@ -70,9 +84,11 @@ private:
     visitChildren(Obj);
   }
 
+  size_t CurrentLevel;
+
   size_t TagNameIndent;
   uint64_t MaxLine;
-  LevelType MaxLevel;
+  size_t MaxLevel;
 
   std::set<Dwarf_Half> SeenDwarfTags;
 };
@@ -104,7 +120,7 @@ private:
 
 // Get any DWARF info for the start of the object line.
 // [OFFSET][PARENT OFFSET]LEVEL [TAG]
-std::string getDWARFAttributesString(const Object *Obj,
+std::string getDWARFAttributesString(const Object *Obj, size_t Level,
                                      const PrintSettings &Settings,
                                      size_t LevelNumberIndentSize,
                                      size_t TagIndentSize) {
@@ -126,7 +142,7 @@ std::string getDWARFAttributesString(const Object *Obj,
   // LEVEL
   if (Settings.ShowLevel)
     AttrString << std::setw(static_cast<int>(LevelNumberIndentSize)) << std::dec
-               << Obj->getLevel() << ' ';
+               << Level << ' ';
   AttrString << std::setfill(' ');
   // [TAG]
   if (Settings.ShowDWARFTag) {
@@ -172,7 +188,7 @@ void ScopeTextPrinter::initBeforePrint(const Object *Obj) {
   // Figure out how much indent will be needed on lines without dwarf attributes
   // by getting the length of any dwarf attribute line.
   std::string DAttrs = getDWARFAttributesString(
-      Obj, Settings, LevelNumberIndentSize, TagIndentSize);
+      Obj, 0, Settings, LevelNumberIndentSize, TagIndentSize);
   // Find out the length of the flag attributes.
   std::string FAttrs = getFlagAttributesString(Obj, Settings);
 
@@ -253,8 +269,8 @@ void ScopeTextPrinter::printObjectText(const Object *Obj,
   }
 
   // Preceding attributes.
-  OutputStream << getDWARFAttributesString(Obj, Settings, LevelNumberIndentSize,
-                                           TagIndentSize);
+  OutputStream << getDWARFAttributesString(
+      Obj, CurrentLevel, Settings, LevelNumberIndentSize, TagIndentSize);
   OutputStream << getFlagAttributesString(Obj, Settings);
 
   auto LineNo = Obj->getLineNumber();
@@ -282,7 +298,9 @@ void ScopeTextPrinter::printObjectText(const Object *Obj,
 }
 
 void ScopeTextPrinter::printIndentedChildren(const Object *Obj) {
-  IndentLevel += 1;
+  ++CurrentLevel;
+  ++IndentLevel;
   printChildren(Obj);
-  IndentLevel -= 1;
+  --IndentLevel;
+  --CurrentLevel;
 }

@@ -64,13 +64,11 @@ private:
   /// Create a LibScopeView::Object from a Die and then recursivly create its
   /// children.
   void createObject(const DwarfDebugData &DebugData, const DwarfDie &Die,
-                    LibScopeView::Object &ParentObj,
-                    LibScopeView::LevelType Level);
+                    LibScopeView::Object &ParentObj);
 
   /// Create the appropriate subclass of LibScopeView::Object for the given
   /// DWARF tag.
-  LibScopeView::Object *createObjectByTag(Dwarf_Half Tag,
-                                          LibScopeView::LevelType Level);
+  LibScopeView::Object *createObjectByTag(Dwarf_Half Tag);
 
   /// setup the objects state from attributes on the DWARF Die.
   void initObjectFromAttrs(LibScopeView::Object &Obj, const DwarfDie &Die,

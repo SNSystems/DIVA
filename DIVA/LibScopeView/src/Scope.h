@@ -45,7 +45,6 @@ class Scope : public Element {
 
 public:
   Scope();
-  Scope(LevelType Lvl);
   virtual ~Scope() override;
 
   Scope &operator=(const Scope &) = delete;
@@ -345,15 +344,12 @@ private:
 
 public:
   static uint32_t getInstanceCount() { return ScopesAllocated; }
-  uint32_t getTag() const override;
-  void setTag() override;
 };
 
 /// \brief Class to represent a DWARF Union/Structure/Class object.
 class ScopeAggregate : public Scope {
 public:
   ScopeAggregate();
-  ScopeAggregate(LevelType Lvl);
   virtual ~ScopeAggregate() override;
 
   ScopeAggregate &operator=(const ScopeAggregate &) = delete;
@@ -381,7 +377,6 @@ public:
 class ScopeAlias : public Scope {
 public:
   ScopeAlias();
-  ScopeAlias(LevelType Lvl);
   virtual ~ScopeAlias() override;
 
   ScopeAlias &operator=(const ScopeAlias &) = delete;
@@ -398,7 +393,6 @@ public:
 class ScopeArray : public Scope {
 public:
   ScopeArray();
-  ScopeArray(LevelType Lvl);
   virtual ~ScopeArray() override;
 
   ScopeArray &operator=(const ScopeArray &) = delete;
@@ -414,7 +408,6 @@ public:
 class ScopeCompileUnit : public Scope {
 public:
   ScopeCompileUnit();
-  ScopeCompileUnit(LevelType Lvl);
   virtual ~ScopeCompileUnit() override;
 
   ScopeCompileUnit &operator=(const ScopeCompileUnit &) = delete;
@@ -436,7 +429,6 @@ public:
 class ScopeEnumeration : public Scope {
 public:
   ScopeEnumeration();
-  ScopeEnumeration(LevelType Lvl);
   virtual ~ScopeEnumeration() override;
 
   ScopeEnumeration &operator=(const ScopeEnumeration &) = delete;
@@ -459,7 +451,6 @@ private:
 class ScopeFunction : public Scope {
 public:
   ScopeFunction();
-  ScopeFunction(LevelType Lvl);
   virtual ~ScopeFunction() override;
 
   ScopeFunction &operator=(const ScopeFunction &) = delete;
@@ -502,7 +493,6 @@ public:
 class ScopeFunctionInlined : public ScopeFunction {
 public:
   ScopeFunctionInlined();
-  ScopeFunctionInlined(LevelType Lvl);
   virtual ~ScopeFunctionInlined() override;
 
   ScopeFunctionInlined &operator=(const ScopeFunctionInlined &) = delete;
@@ -535,7 +525,6 @@ public:
 class ScopeNamespace : public Scope {
 public:
   ScopeNamespace();
-  ScopeNamespace(LevelType Lvl);
   virtual ~ScopeNamespace() override;
 
   ScopeNamespace &operator=(const ScopeNamespace &) = delete;
@@ -566,7 +555,6 @@ public:
 class ScopeTemplatePack : public Scope {
 public:
   ScopeTemplatePack();
-  ScopeTemplatePack(LevelType Lvl);
   virtual ~ScopeTemplatePack() override;
 
   ScopeTemplatePack &operator=(const ScopeTemplatePack &) = delete;
@@ -583,7 +571,6 @@ public:
 class ScopeRoot : public Scope {
 public:
   ScopeRoot();
-  ScopeRoot(LevelType Lvl);
   virtual ~ScopeRoot() override;
 
   ScopeRoot &operator=(const ScopeRoot &) = delete;
