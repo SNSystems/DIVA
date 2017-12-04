@@ -42,21 +42,6 @@
 
 using namespace LibScopeView;
 
-Reader::~Reader() { delete Scopes; }
-
-bool Reader::loadFile(const std::string &FileName,
-                      const PrintSettings &Settings) {
-  destroyScopes();
-  InputFile = FileName;
-
-  // Delegate the scope tree creation to the respective reader.
-  if (!createScopes())
-    return false;
-
-  postCreationActions(Settings);
-  return true;
-}
-
 // Visitors for post-creation actions.
 namespace {
 
@@ -218,12 +203,23 @@ private:
 };
 } // namespace
 
-void Reader::postCreationActions(const PrintSettings &Settings) {
-  assert(Scopes);
+Reader::~Reader() {}
 
-  NameResolver(Settings).visit(Scopes);
-  ReferenceAttributeResolver().visit(Scopes);
-  GlobalResolver().visit(Scopes);
+std::unique_ptr<ScopeRoot> Reader::loadFile(const std::string &FileName,
+                                            const PrintSettings &Settings) {
+  std::unique_ptr<ScopeRoot> Root = createScopes(FileName);
+  if (Root)
+    postCreationActions(Root.get(), Settings);
+  return Root;
+}
 
-  Scopes->sortScopes(Settings.SortKey);
+void Reader::postCreationActions(ScopeRoot *Root,
+                                 const PrintSettings &Settings) {
+  assert(Root);
+
+  NameResolver(Settings).visit(Root);
+  ReferenceAttributeResolver().visit(Root);
+  GlobalResolver().visit(Root);
+
+  Root->sortScopes(Settings.SortKey);
 }

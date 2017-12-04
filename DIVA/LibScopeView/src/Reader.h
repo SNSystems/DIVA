@@ -33,41 +33,32 @@
 #include "PrintSettings.h"
 #include "Scope.h"
 
+#include <memory>
+
 namespace LibScopeView {
 
 class Scope;
 
-/// \brief Representation for a generic reader.
+/// \brief Representation of a generic reader.
 class Reader {
 public:
-  Reader() : Scopes(nullptr) {}
-
-  bool loadFile(const std::string &FileName, const PrintSettings &Settings);
-
+  Reader() = default;
   virtual ~Reader();
+
+  Reader(const Reader &) = delete;
+  Reader &operator=(const Reader &) = delete;
+
+  /// \brief Load a ScopeView from the file.
+  std::unique_ptr<ScopeRoot> loadFile(const std::string &FileName,
+                                      const PrintSettings &Settings);
 
 private:
   /// \brief Implements the creation of the tree from a file.
-  virtual bool createScopes() = 0;
+  virtual std::unique_ptr<ScopeRoot>
+  createScopes(const std::string &FileName) = 0;
 
-  void postCreationActions(const PrintSettings &Settings);
-
-  void destroyScopes() {
-    delete Scopes;
-    Scopes = nullptr;
-  }
-
-protected:
-  Scope *Scopes;
-
-private:
-  std::string InputFile;
-
-public:
-  std::string getInputFile() const { return InputFile; }
-
-  // Access to the scopes root.
-  Scope *getScopesRoot() const { return Scopes; }
+  /// \brief Do general post creation setup on the tree.
+  void postCreationActions(ScopeRoot *Root, const PrintSettings &Settings);
 };
 
 } // namespace LibScopeView

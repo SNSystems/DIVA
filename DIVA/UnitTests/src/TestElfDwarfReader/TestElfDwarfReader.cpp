@@ -87,15 +87,12 @@ public:
       return ::testing::AssertionFailure() << "Test file does not exist";
 
     Settings.SortKey = LibScopeView::SortingKey::OFFSET;
-    Reader = std::make_unique<DwarfReader>();
+    DwarfReader Reader;
 
-    if (!Reader->loadFile(getTestInputFilePath(TestFile), Settings))
+    ScpRoot = Reader.loadFile(getTestInputFilePath(TestFile), Settings);
+    if (!ScpRoot)
       return ::testing::AssertionFailure() << "Failed to load test file";
-
-    *Root = Reader->getScopesRoot();
-    if (!(*Root)->getIsRoot())
-      return ::testing::AssertionFailure()
-             << "Root in test file was not a ScopeRoot";
+    *Root = ScpRoot.get();
 
     return ::testing::AssertionSuccess();
   }
@@ -122,10 +119,8 @@ public:
     return ::testing::AssertionSuccess();
   }
 
-  LibScopeView::Reader &getReader() { return *Reader; }
-
 private:
-  std::unique_ptr<DwarfReader> Reader;
+  std::unique_ptr<LibScopeView::ScopeRoot> ScpRoot;
 };
 
 } // namespace
