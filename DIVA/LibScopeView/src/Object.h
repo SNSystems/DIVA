@@ -167,9 +167,6 @@ public:
   Dwarf_Off getDieOffset() const { return DieOffset; }
   void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
 
-  /// \brief DWARF parent Die offset.
-  Dwarf_Off getDieParent() const;
-
 public:
   /// \brief The Object's name.
   virtual const char *getName() const = 0;
