@@ -75,7 +75,7 @@ LibScopeView::Symbol *getNthSymbolIn(LibScopeView::Scope *Parent, size_t N) {
 }
 
 template <class Ty>
-size_t countChildrenOfType(LibScopeView::Scope *Parent) {
+size_t countChildrenOfType(const LibScopeView::Scope *Parent) {
   size_t Count = 0;
   for (auto *Child : Parent->getChildren())
     if (dynamic_cast<Ty *>(Child))
@@ -83,30 +83,22 @@ size_t countChildrenOfType(LibScopeView::Scope *Parent) {
   return Count;
 }
 
-size_t countScopesIn(LibScopeView::Scope *Parent) {
+size_t countScopesIn(const LibScopeView::Scope *Parent) {
   return countChildrenOfType<LibScopeView::Scope>(Parent);
 }
-size_t countTypesIn(LibScopeView::Scope *Parent) {
+size_t countTypesIn(const LibScopeView::Scope *Parent) {
   return countChildrenOfType<LibScopeView::Type>(Parent);
 }
-size_t countSymbolsIn(LibScopeView::Scope *Parent) {
+size_t countSymbolsIn(const LibScopeView::Scope *Parent) {
   return countChildrenOfType<LibScopeView::Symbol>(Parent);
 }
 
 AssertionResult checkChildCount(const LibScopeView::Scope *Parent,
                                 size_t ScopeCount, size_t TypeCount,
                                 size_t SymbolCount) {
-  size_t ScopesFound = 0;
-  size_t TypesFound = 0;
-  size_t SymbolsFound = 0;
-  for (const LibScopeView::Object *Child : Parent->getChildren()) {
-    if (Child->getIsScope())
-      ++ScopesFound;
-    if (Child->getIsType())
-      ++TypesFound;
-    if (Child->getIsSymbol())
-      ++SymbolsFound;
-  }
+  size_t ScopesFound = countScopesIn(Parent);
+  size_t TypesFound = countTypesIn(Parent);
+  size_t SymbolsFound = countSymbolsIn(Parent);
 
   if (ScopesFound != ScopeCount)
     return ::testing::AssertionFailure()

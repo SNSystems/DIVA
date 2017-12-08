@@ -169,8 +169,7 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
 TEST(SummaryTable, EmptySummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   SummaryTable STab(Root, nullptr);
 
   std::stringstream Result;
@@ -205,8 +204,7 @@ TEST(SummaryTable, EmptySummaryTable) {
 TEST(SummaryTable, OneIncrementSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
 
@@ -244,7 +242,6 @@ TEST(SummaryTable, OneIncrementSummaryTable) {
 TEST(SummaryTable, MultipleIncrementsSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
 
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
@@ -292,8 +289,7 @@ TEST(SummaryTable, MultipleIncrementsSummaryTable) {
 TEST(SummaryTable, PrintSettingsSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
 

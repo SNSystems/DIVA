@@ -76,14 +76,14 @@ void LibScopeView::printAllocationInfo(std::ostream &Out) {
 // Class to represent the logical view of an object.
 //===----------------------------------------------------------------------===//
 
+Object::~Object() {}
+
 Object::Object() {
   LineNumber = 0;
   Parent = nullptr;
   DieOffset = 0;
   DieTag = 0;
 }
-
-Object::~Object() {}
 
 namespace {
 
@@ -377,11 +377,6 @@ Element::Element() : Object() {
 
 void Element::setName(const char *name) {
   NameIndex = StringPool::getStringIndex(name);
-#ifndef NDEBUG
-  if (name) {
-    Name = name;
-  }
-#endif
 }
 
 const char *Element::getName() const {

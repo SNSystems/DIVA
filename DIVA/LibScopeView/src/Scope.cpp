@@ -113,11 +113,8 @@ void Scope::addChild(Object *Obj) {
   // Do not add the line records to the children, as they represent the
   // logical view for the text section. Preserve the original sequence.
   if (auto *Ln = dynamic_cast<Line *>(Obj)) {
-    assert(getCanHaveLines());
-    if (getCanHaveLines()) {
-      TheLines.push_back(Ln);
-      Ln->setParent(this);
-    }
+    TheLines.push_back(Ln);
+    Ln->setParent(this);
     return;
   }
 
@@ -195,8 +192,6 @@ std::string Scope::getAsYAML() const {
 
 ScopeAggregate::ScopeAggregate() : Scope() { Reference = nullptr; }
 
-ScopeAggregate::~ScopeAggregate() {}
-
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   const char *Name = getName();
@@ -212,7 +207,7 @@ std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
     Result += formatAttributeText("Template");
   }
 
-  for (const Object *Obj : Children)
+  for (const Object *Obj : getChildren())
     if (auto *Ty = dynamic_cast<const Type *>(Obj))
       if (Ty->getIsInheritance())
         Result.append("\n").append(Ty->getAsText(Settings));
@@ -235,7 +230,7 @@ std::string ScopeAggregate::getAsYAML() const {
   Result << "\n  inherits_from:";
 
   bool hasInheritance = false;
-  for (const Object *Obj : Children) {
+  for (const Object *Obj : getChildren()) {
     if (auto *Ty = dynamic_cast<const Type *>(Obj)) {
       if (Ty->getIsInheritance()) {
         hasInheritance = true;
@@ -250,10 +245,6 @@ std::string ScopeAggregate::getAsYAML() const {
   return Result.str();
 }
 
-ScopeAlias::ScopeAlias() : Scope() {}
-
-ScopeAlias::~ScopeAlias() {}
-
 std::string ScopeAlias::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} \"" << getName() << "\" -> "
@@ -266,20 +257,12 @@ std::string ScopeAlias::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-ScopeArray::ScopeArray() : Scope() {}
-
-ScopeArray::~ScopeArray() {}
-
 std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} "
          << getTypeDieOffsetAsString(Settings) << '"' << getName() << '"';
   return Result.str();
 }
-
-ScopeCompileUnit::ScopeCompileUnit() : Scope() {}
-
-ScopeCompileUnit::~ScopeCompileUnit() {}
 
 void ScopeCompileUnit::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
@@ -297,10 +280,6 @@ std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
 std::string ScopeCompileUnit::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
-
-ScopeEnumeration::ScopeEnumeration() : Scope(), IsClass(false) {}
-
-ScopeEnumeration::~ScopeEnumeration() {}
 
 std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
@@ -353,11 +332,8 @@ std::string ScopeEnumeration::getAsYAML() const {
 }
 
 ScopeFunction::ScopeFunction()
-    : Scope(), IsStatic(false), DeclaredInline(false), IsDeclaration(false) {
-  Reference = nullptr;
-}
-
-ScopeFunction::~ScopeFunction() {}
+    : Reference(nullptr), IsStatic(false), DeclaredInline(false),
+      IsDeclaration(false) {}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
@@ -448,16 +424,7 @@ std::string ScopeFunction::getAsYAML() const {
   return YAML.str();
 }
 
-ScopeFunctionInlined::ScopeFunctionInlined()
-    : ScopeFunction(), CallLineNumber(0) {
-  Discriminator = 0;
-}
-
 ScopeFunctionInlined::~ScopeFunctionInlined() {}
-
-ScopeNamespace::ScopeNamespace() : Scope() { Reference = nullptr; }
-
-ScopeNamespace::~ScopeNamespace() {}
 
 std::string ScopeNamespace::getAsText(const PrintSettings &) const {
   std::stringstream Result;
@@ -472,10 +439,6 @@ std::string ScopeNamespace::getAsText(const PrintSettings &) const {
 std::string ScopeNamespace::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
-
-ScopeTemplatePack::ScopeTemplatePack() : Scope() {}
-
-ScopeTemplatePack::~ScopeTemplatePack() {}
 
 namespace {
 bool isTemplate(const Object *Obj) {
@@ -505,7 +468,7 @@ std::string ScopeTemplatePack::getAsYAML() const {
   std::stringstream YAML;
   YAML << getCommonYAML() << "\nattributes:\n  types:";
 
-  if (Children.size() == 0 ||
+  if (getChildren().size() == 0 ||
       std::none_of(getChildren().cbegin(), getChildren().cend(), isTemplate)) {
     YAML << " []";
     return YAML.str();
@@ -518,10 +481,6 @@ std::string ScopeTemplatePack::getAsYAML() const {
 
   return YAML.str();
 }
-
-ScopeRoot::ScopeRoot() : Scope() {}
-
-ScopeRoot::~ScopeRoot() {}
 
 void ScopeRoot::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);

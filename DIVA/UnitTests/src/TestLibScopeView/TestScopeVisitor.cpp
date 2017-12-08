@@ -142,7 +142,6 @@ TEST(ScopeVisitor, VisitLineChildren) {
   Scope *Child1 = new Scope();
   Scope *Child2 = new Scope();
 
-  Scp.setCanHaveLines();
   Scp.addChild(Line1);
   Scp.addChild(Child1);
   Scp.addChild(Line2);

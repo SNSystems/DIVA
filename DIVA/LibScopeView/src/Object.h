@@ -48,7 +48,6 @@
 
 namespace LibScopeView {
 
-class Object;
 class PrintSettings;
 class Scope;
 class Type;
@@ -66,6 +65,9 @@ public:
 
   Object(const Object &) = delete;
   Object &operator=(const Object &) = delete;
+
+  Object(const Object &&) = delete;
+  Object &operator=(const Object &&) = delete;
 
 private:
   // Flags specifying various properties of the Object.
@@ -89,7 +91,6 @@ public:
   /// \brief Get the object kind as a string.
   virtual const char *getKindAsString() const = 0;
 
-public:
   /// \brief The Object is a line.
   bool getIsLine() const { return ObjectAttributesFlags[IsLine]; }
   void setIsLine() { ObjectAttributesFlags.set(IsLine); }
@@ -138,7 +139,7 @@ public:
   }
   void setHasQualifiedName() { ObjectAttributesFlags.set(HasQualifiedName); }
 
-protected:
+private:
   // Line associated with this object.
   uint64_t LineNumber;
 
@@ -158,7 +159,6 @@ public:
   Dwarf_Off getDieOffset() const { return DieOffset; }
   void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
 
-public:
   /// \brief The Object's name.
   virtual const char *getName() const = 0;
   virtual void setName(const char *Name) = 0;
@@ -185,7 +185,6 @@ public:
   /// \brief The Object's type qualified name.
   virtual const char *getTypeQualifiedName() const = 0;
 
-public:
   /// \brief If the Object has a name.
   virtual bool isNamed() const = 0;
   virtual bool isUnnamed() const { return !isNamed(); }
@@ -221,7 +220,6 @@ public:
   const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeAsString(const PrintSettings &Settings) const;
 
-public:
   // The object class type can point to a Type or Scope.
   virtual bool getIsKindType() const { return false; }
   virtual bool getIsKindScope() const { return false; }
@@ -234,7 +232,6 @@ public:
                    Scope *BaseScope, Scope *SpecScope,
                    const char *BaseText = nullptr);
 
-public:
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
   /// \brief Returns a text representation of this DIVA Object.
@@ -253,12 +250,8 @@ protected:
 class Element : public Object {
 public:
   Element();
-  virtual ~Element() override {}
 
-  Element &operator=(const Element &) = delete;
-  Element(const Element &) = delete;
-
-protected:
+private:
   // The name, type name, qualified name and filename in String Pool.
   size_t NameIndex;
   size_t QualifiedIndex;
@@ -267,23 +260,15 @@ protected:
   // Type of this object.
   Object *TheType;
 
-private:
-// The strings associated with the indexes, for easy debugging.
-#ifndef NDEBUG
-  std::string Name;
-#endif
-
 public:
   bool isNamed() const override { return NameIndex != 0; }
   bool isUnnamed() const override { return !isNamed(); }
 
-public:
   // The object class type can point to a Type or Scope.
   bool getIsKindType() const override {
     return TheType && TheType->getIsType();
   }
 
-public:
   /// \brief The Object's name.
   const char *getName() const override;
   void setName(const char *Name) override;
@@ -310,7 +295,6 @@ public:
   /// \brief The Object's type qualified name.
   const char *getTypeQualifiedName() const override;
 
-public:
   void setType(Object *Obj) override {
     setHasType();
     TheType = Obj;
