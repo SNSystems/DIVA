@@ -82,7 +82,7 @@ TEST(ScopePrinter, StandardPrint) {
   Scp1.setName("Scope1");
   auto *Scp2 = new Scope;
   Scp2->setName("Scope2");
-  Scp1.addObject(Scp2);
+  Scp1.addChild(Scp2);
 
   TestNamePrinter Printer;
   Printer.print(&Scp1, Output);
@@ -95,26 +95,26 @@ TEST(ScopePrinter, SplitPrint) {
   Root.setName("SHOULD NOT PRINT");
 
   auto *CU1 = new ScopeCompileUnit;
-  Root.addObject(CU1);
+  Root.addChild(CU1);
   CU1->setIsCompileUnit();
   CU1->setName("test/cu/1");
   Scope *Child1 = new Scope;
   Scope *Child2 = new Scope;
   Child1->setName("Child1");
   Child2->setName("Child2");
-  CU1->addObject(Child1);
-  CU1->addObject(Child2);
+  CU1->addChild(Child1);
+  CU1->addChild(Child2);
 
   auto *CU2 = new ScopeCompileUnit;
-  Root.addObject(CU2);
+  Root.addChild(CU2);
   CU2->setIsCompileUnit();
   CU2->setName("test.cu.2");
   Scope *Child3 = new Scope;
   Scope *Child4 = new Scope;
   Child3->setName("Child3");
   Child4->setName("Child4");
-  CU2->addObject(Child3);
-  CU2->addObject(Child4);
+  CU2->addChild(Child3);
+  CU2->addChild(Child4);
 
   std::string CUFilename1("test_cu_1.txt");
   std::string CUFilename2("test_cu_2.txt");

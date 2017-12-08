@@ -108,11 +108,11 @@ TEST(ScopeVisitor, VisitChildren) {
   Scope *Child2 = new Scope();
   Scope *Child3 = new Scope();
 
-  Scp.addObject(Child1);
-  Child1->addObject(Child1_Child1);
-  Child1->addObject(Child1_Child2);
-  Scp.addObject(Child2);
-  Scp.addObject(Child3);
+  Scp.addChild(Child1);
+  Child1->addChild(Child1_Child1);
+  Child1->addChild(Child1_Child2);
+  Scp.addChild(Child2);
+  Scp.addChild(Child3);
 
   {
     InSequence OrderedCalls;
@@ -143,10 +143,10 @@ TEST(ScopeVisitor, VisitLineChildren) {
   Scope *Child2 = new Scope();
 
   Scp.setCanHaveLines();
-  Scp.addObject(Line1);
-  Scp.addObject(Child1);
-  Scp.addObject(Line2);
-  Scp.addObject(Child2);
+  Scp.addChild(Line1);
+  Scp.addChild(Child1);
+  Scp.addChild(Line2);
+  Scp.addChild(Child2);
 
   {
     InSequence OrderedCalls;

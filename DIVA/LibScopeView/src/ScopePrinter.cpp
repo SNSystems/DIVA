@@ -48,7 +48,7 @@ void ScopePrinter::print(const Object *Obj, std::ostream &Output) {
 }
 
 void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
-  if (Root->getChildrenCount() == 0)
+  if (Root->getChildren().size() == 0)
     return;
 
   // Add a trailing seperator to OutputDir.

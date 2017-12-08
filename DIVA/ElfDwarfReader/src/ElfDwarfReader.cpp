@@ -173,17 +173,7 @@ void DwarfReader::createObject(const DwarfDebugData &DebugData,
     return;
 
   // Add to the parent.
-  if (auto Scp = dynamic_cast<LibScopeView::Scope *>(Obj))
-    ParentScope.addObject(Scp);
-  else if (auto Ty = dynamic_cast<LibScopeView::Type *>(Obj))
-    ParentScope.addObject(Ty);
-  else if (auto Sym = dynamic_cast<LibScopeView::Symbol *>(Obj))
-    ParentScope.addObject(Sym);
-  else {
-    assert(false && "Obj is not a Scope, Type or Symbol");
-    delete Obj;
-    return;
-  }
+  ParentScope.addChild(Obj);
 
   // Check this object hasn't been created before.
   assert(CreatedObjects.count(ObjOffset) == 0U && "DWARF offset seen twice");
@@ -579,7 +569,7 @@ void DwarfReader::createLines(const DwarfDie &CUDie,
     auto *Ln = new LibScopeView::Line;
 
     Ln->setIsLineRecord();
-    CUObj.addObject(Ln);
+    CUObj.addChild(Ln);
     Ln->setLineNumber(DwarfLine.LineNo);
     Ln->setAddress(DwarfLine.LineAddr);
     Ln->setDieOffset(static_cast<Dwarf_Off>(DwarfLine.LineAddr));

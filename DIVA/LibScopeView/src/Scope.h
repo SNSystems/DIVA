@@ -264,18 +264,7 @@ public:
   virtual Scope *getReference() const { return nullptr; }
   virtual void setReference(Scope * /*Scp*/) {}
 
-public:
-  void addObject(Symbol *Sym);
-  void addObject(Type *Ty);
-  void addObject(Scope *Scp);
-  void addObject(Line *Ln);
-
-public:
-  /// \brief Gets the child symbol at the specified index.
-  Symbol *getSymbolAt(size_t Index) const { return TheSymbols.at(Index); }
-
-  /// \brief Gets the child scope at the specified index.
-  Scope *getScopeAt(size_t Index) const { return TheScopes.at(Index); }
+  void addChild(Object *Obj);
 
 public:
   const std::vector<Object *> &getChildren() const { return Children; }
@@ -284,30 +273,9 @@ public:
   const std::vector<Line *> &getLines() const { return TheLines; }
   std::vector<Line *> &getLines() { return TheLines; }
 
-  const std::vector<Scope *> &getScopes() const { return TheScopes; }
-  const std::vector<Symbol *> &getSymbols() const { return TheSymbols; }
-  const std::vector<Type *> &getTypes() const { return TheTypes; }
-
-  /// \brief Get the number of children.
-  size_t getChildrenCount() const { return getChildren().size(); }
-
-  /// \brief Get the number of lines.
-  size_t getLineCount() const { return getLines().size(); }
-
-  /// \brief Get the number of scopes.
-  size_t getScopeCount() const { return getScopes().size(); }
-
-  /// \brief Get the number of symbols.
-  size_t getSymbolCount() const { return getSymbols().size(); }
-
-  /// \brief Get the number of types.
-  size_t getTypeCount() const { return getTypes().size(); }
-
-public:
   const char *resolveName();
 
   void sortScopes(const SortingKey &SortKey);
-  void sortCompileUnits(const SortingKey &SortKey);
 
   // bring parent method getQualifiedName into scope.
   using Element::getQualifiedName;
@@ -318,19 +286,10 @@ protected:
   void sortScopes(SortFunction SortFunc);
 
 protected:
-  // All the types in this scope.
-  std::vector<Type *> TheTypes;
-
-  // All the symbols in this scope.
-  std::vector<Symbol *> TheSymbols;
-
-  // All the child scopes underneath this one.
-  std::vector<Scope *> TheScopes;
-
   // All the line information for this scope.
   std::vector<Line *> TheLines;
 
-  // Vector of objects (types, scopes, symbols, lines).
+  // Vector of objects (types, scopes, symbols).
   std::vector<Object *> Children;
 
 public:

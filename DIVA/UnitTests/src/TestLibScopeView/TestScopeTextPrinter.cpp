@@ -76,7 +76,7 @@ TEST(ScopeTextPrinter, PrintNoChildren) {
 
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.addObject(new FakeObject("Top", 11, 1, "foo.cpp"));
+  Root.addChild(new FakeObject("Top", 11, 1, "foo.cpp"));
 
   std::stringstream Output;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
@@ -100,11 +100,11 @@ TEST(ScopeTextPrinter, Print) {
   auto *Child2 = new FakeObject("Child2", 1122, 2, "foo.cpp");
   auto *Child3 = new FakeObject("Child3", 2, 3, "bar.cpp");
   auto *Child4 = new FakeObject("Child4", 4, 3, "bar.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
-  Child1->addObject(Child3);
-  Child1->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
+  Child1->addChild(Child3);
+  Child1->addChild(Child4);
 
   std::stringstream Output;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
@@ -139,11 +139,11 @@ TEST(ScopeTextPrinter, SkipObjectsWithNoText) {
   auto *Child2NoText = new FakeNoTextObject;
   auto *Child3 = new FakeObject("Child3", 3, 1, "foo.cpp");
   auto *Child4 = new FakeObject("Child4", 4, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2NoText);
-  Child2NoText->addObject(Child3);
-  Child2NoText->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2NoText);
+  Child2NoText->addChild(Child3);
+  Child2NoText->addChild(Child4);
 
   std::stringstream Output;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
@@ -168,9 +168,9 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnSettings) {
   Top->setIsBlock();
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
 
   std::stringstream Output;
 
@@ -207,11 +207,11 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnFilters) {
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
   auto *Child3 = new FakeObject("Child3", 1, 1, "foo.cpp");
   auto *Child4 = new FakeObject("Child4", 2, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
-  Child1->addObject(Child3);
-  Child1->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
+  Child1->addChild(Child3);
+  Child1->addChild(Child4);
 
   std::stringstream Output;
 
@@ -274,8 +274,8 @@ TEST(ScopeTextPrinter, PrintZeroLine) {
   Root.setIsRoot();
   auto *Top = new FakeObject("Top", 0, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 1, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
+  Root.addChild(Top);
+  Top->addChild(Child1);
 
   std::stringstream Output;
 
@@ -308,9 +308,9 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
 
   Root.setDieOffset(0x0);
   Top->setDieOffset(0x1234);
@@ -403,10 +403,10 @@ TEST(ScopeTextPrinter, PrintFlagAttributes) {
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");
   auto *Child3 = new FakeObject("Child3", 333, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
-  Top->addObject(Child3);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
+  Top->addChild(Child3);
 
   Child1->setIsGlobalReference();
   Child3->setIsGlobalReference();
@@ -451,9 +451,9 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Child1->addObject(Child2);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Child1->addChild(Child2);
 
   Child1->setIsGlobalReference();
 
