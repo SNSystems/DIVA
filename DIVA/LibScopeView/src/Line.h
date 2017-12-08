@@ -41,6 +41,9 @@ class Line : public Element {
 public:
   Line();
 
+  /// \brief Return true if Obj is an insance of Line.
+  static bool classof(const Object *Obj) { return Obj->getKind() == SV_Line; }
+
 private:
   // Line Kind.
   static const char *KindDiscriminator;

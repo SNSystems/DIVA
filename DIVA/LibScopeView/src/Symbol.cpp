@@ -37,7 +37,7 @@
 using namespace LibScopeView;
 
 Symbol::Symbol()
-    : Element(), TheAccessSpecifier(AccessSpecifier::Unspecified),
+    : Element(SV_Symbol), TheAccessSpecifier(AccessSpecifier::Unspecified),
       IsStatic(false), Reference(nullptr) {
   setIsSymbol();
 }

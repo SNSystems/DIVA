@@ -78,7 +78,7 @@ void LibScopeView::printAllocationInfo(std::ostream &Out) {
 
 Object::~Object() {}
 
-Object::Object() {
+Object::Object(ObjectKind K) : Kind(K) {
   LineNumber = 0;
   Parent = nullptr;
   DieOffset = 0;
@@ -368,7 +368,7 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 // Class to represent the basic data for an object.
 //===----------------------------------------------------------------------===//
-Element::Element() : Object() {
+Element::Element(ObjectKind K) : Object(K) {
   NameIndex = 0;
   QualifiedIndex = 0;
   FilenameIndex = 0;

@@ -38,7 +38,7 @@
 
 using namespace LibScopeView;
 
-Type::Type() : ByteSize(0) {
+Type::Type(ObjectKind K) : Element(K), ByteSize(0) {
   setIsType();
 }
 

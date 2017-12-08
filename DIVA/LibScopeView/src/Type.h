@@ -36,7 +36,15 @@ namespace LibScopeView {
 /// \brief Class to represent a DWARF Type object.
 class Type : public Element {
 public:
-  Type();
+  Type() : Type(SV_Type) {}
+
+  /// \brief Return true if Obj is an insance of Type.
+  static bool classof(const Object *Obj) {
+    return SV_Type <= Obj->getKind() && Obj->getKind() <= SV_TypeSubrange;
+  }
+
+protected:
+  Type(ObjectKind K);
 
 private:
   // Type Kind.
@@ -222,6 +230,13 @@ public:
 /// \brief Class to represent DW_TAG_typedef_type
 class TypeDefinition : public Type {
 public:
+  TypeDefinition() : Type(SV_TypeDefinition) {}
+
+  /// \brief Return true if Obj is an insance of TypeDefinition.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeDefinition;
+  }
+
   /// \brief Get the underlying type for a typedef.
   Object *getUnderlyingType() override;
 
@@ -238,7 +253,12 @@ public:
 /// \brief Class to represent a DW_TAG_enumerator
 class TypeEnumerator : public Type {
 public:
-  TypeEnumerator() : ValueIndex(0) {}
+  TypeEnumerator() : Type(SV_TypeEnumerator), ValueIndex(0) {}
+
+  /// Return true if Obj is an insance of TypeEnumerator.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeEnumerator;
+  }
 
 private:
   size_t ValueIndex; // Enumerator value.
@@ -260,7 +280,13 @@ public:
 /// DW_TAG_imported_declaration
 class TypeImport : public Type {
 public:
-  TypeImport() : InheritanceAccess(AccessSpecifier::Unspecified) {}
+  TypeImport()
+      : Type(SV_TypeImport), InheritanceAccess(AccessSpecifier::Unspecified) {}
+
+  /// \brief Return true if Obj is an insance of TypeImport.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeImport;
+  }
 
   /// \brief Access specifier, only valid for inheritance.
   AccessSpecifier getInheritanceAccess() const;
@@ -290,7 +316,12 @@ private:
 /// Parameters can be values, types or templates.
 class TypeParam : public Type {
 public:
-  TypeParam() : ValueIndex(0) {}
+  TypeParam() : Type(SV_TypeParam), ValueIndex(0) {}
+
+  /// \brief Return true if Obj is an insance of TypeParam.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeParam;
+  }
 
 private:
   size_t ValueIndex; // Value in case of value or template parameters.
@@ -312,7 +343,13 @@ public:
 /// \brief Class to represent a DW_TAG_subrange_type
 class TypeSubrange : public Type {
 public:
+  TypeSubrange() : Type(SV_TypeSubrange) {}
   ~TypeSubrange();
+
+  /// Return true if Obj is an insance of TypeSubrange.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeSubrange;
+  }
 };
 
 } // namespace LibScopeView

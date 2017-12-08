@@ -44,14 +44,35 @@
 #endif
 
 #include <bitset>
+#include <cassert>
 #include <cstdint>
 
 namespace LibScopeView {
 
+class Object;
 class PrintSettings;
 class Scope;
 class Type;
 
+/// \brief Return true if Obj is an instance of T or its subclasses.
+template <class T> bool isa(const Object &Obj) { return T::classof(&Obj); }
+
+/// \brief Cast Obj to T. Obj must be instance of T or its subclasses.
+template <class T> T *cast(Object *Obj) {
+  assert(isa<T>(*Obj) && "Tried to cast Object instance to invalid type");
+  return static_cast<T *>(Obj);
+}
+template <class T> const T &cast(const Object &Obj) {
+  return *cast<T>(const_cast<Object *>(&Obj));
+}
+template <class T> T &cast(Object &Obj) { return *cast<T>(&Obj); }
+
+/// \brief Cast Obj to T or return nullptr if it is not an instance of T.
+template <class T> T *dyn_cast(Object *Obj) {
+  return isa<T>(*Obj) ? static_cast<T *>(Obj) : nullptr;
+}
+
+/// \brief Print sizes and counts of allocated Objects.
 void printAllocationInfo(std::ostream &Out);
 
 /// \brief Enum to represent C++ access specifiers.
@@ -60,7 +81,44 @@ enum class AccessSpecifier { Unspecified, Private, Protected, Public };
 /// \brief Class to represent the basic information for a DIVA object.
 class Object {
 public:
-  Object();
+  /// \brief Kind of Object.
+  ///
+  /// This enum is used to implement custom RTTI and is based on the LLVM style
+  /// described here: http://llvm.org/docs/HowToSetUpLLVMStyleRTTI.html
+  ///
+  /// The enum is ordered as a preorder traversal of the class hierarchy tree to
+  /// make checking classes more efficient. When modifying the list you need to
+  /// be careful to check any effect you might have on the subclasses static
+  /// 'classof' methods.
+  enum ObjectKind {
+    SV_Line,
+    SV_Scope,
+    SV_ScopeAggregate,
+    SV_ScopeAlias,
+    SV_ScopeArray,
+    SV_ScopeCompileUnit,
+    SV_ScopeEnumeration,
+    SV_ScopeFunction,
+    SV_ScopeFunctionInlined,
+    SV_ScopeNamespace,
+    SV_ScopeTemplatePack,
+    SV_ScopeRoot,
+    SV_Symbol,
+    SV_Type,
+    SV_TypeDefinition,
+    SV_TypeEnumerator,
+    SV_TypeImport,
+    SV_TypeParam,
+    SV_TypeSubrange,
+  };
+
+  /// \brief Get the kind of the Object.
+  ObjectKind getKind() const { return Kind; }
+
+  /// \brief Return true if Obj is an insance of Object.
+  static bool classof(const Object *) { return true; }
+
+  Object(ObjectKind K);
   virtual ~Object();
 
   Object(const Object &) = delete;
@@ -70,6 +128,8 @@ public:
   Object &operator=(const Object &&) = delete;
 
 private:
+  const ObjectKind Kind;
+
   // Flags specifying various properties of the Object.
   enum ObjectAttributes {
     IsLine,
@@ -249,7 +309,10 @@ protected:
 /// \brief Class to represent the basic data for an object.
 class Element : public Object {
 public:
-  Element();
+  Element(ObjectKind K);
+
+  /// Return true if Obj is an insance of Element.
+  static bool classof(const Object *) { return true; }
 
 private:
   // The name, type name, qualified name and filename in String Pool.

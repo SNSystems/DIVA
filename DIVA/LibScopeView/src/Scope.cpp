@@ -41,7 +41,7 @@
 
 using namespace LibScopeView;
 
-Scope::Scope() : Element() {
+Scope::Scope(ObjectKind K) : Element(K) {
   setIsScope();
 }
 
@@ -190,7 +190,9 @@ std::string Scope::getAsYAML() const {
   return "";
 }
 
-ScopeAggregate::ScopeAggregate() : Scope() { Reference = nullptr; }
+ScopeAggregate::ScopeAggregate() : Scope(SV_ScopeAggregate) {
+  Reference = nullptr;
+}
 
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
@@ -331,8 +333,8 @@ std::string ScopeEnumeration::getAsYAML() const {
   return YAML.str();
 }
 
-ScopeFunction::ScopeFunction()
-    : Reference(nullptr), IsStatic(false), DeclaredInline(false),
+ScopeFunction::ScopeFunction(ObjectKind K)
+    : Scope(K), Reference(nullptr), IsStatic(false), DeclaredInline(false),
       IsDeclaration(false) {}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {

@@ -35,7 +35,7 @@
 
 using namespace LibScopeView;
 
-Line::Line() : Discriminator(0) {
+Line::Line() : Element(SV_Line), Discriminator(0) {
   setIsLine();
 }
 
