@@ -60,7 +60,7 @@ TEST(ScopeYAMLPrinter, PrintNoChildren) {
   ScopeRoot Root;
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
-  Root.addObject(Top);
+  Root.addChild(Top);
 
   std::stringstream Output;
   ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
@@ -83,11 +83,11 @@ TEST(ScopeYAMLPrinter, Print) {
   auto *Child2 = new FakeObject("Child2");
   auto *Child3 = new FakeObject("Child3");
   auto *Child4 = new FakeObject("Child4");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2);
-  Child1->addObject(Child3);
-  Child1->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2);
+  Child1->addChild(Child3);
+  Child1->addChild(Child4);
 
   std::stringstream Output;
   ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
@@ -122,11 +122,11 @@ TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
   auto *Child2NoYAML = new FakeNoYAMLObject;
   auto *Child3 = new FakeObject("Child3");
   auto *Child4 = new FakeObject("Child4");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2NoYAML);
-  Child2NoYAML->addObject(Child3);
-  Child2NoYAML->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2NoYAML);
+  Child2NoYAML->addChild(Child3);
+  Child2NoYAML->addChild(Child4);
 
   std::stringstream Output;
   ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
@@ -149,8 +149,8 @@ TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
   Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   auto *Child2NoYAML = new FakeNoYAMLObject;
-  Root.addObject(Top);
-  Top->addObject(Child2NoYAML);
+  Root.addChild(Top);
+  Top->addChild(Child2NoYAML);
 
   std::stringstream Output;
   ScopeYAMLPrinter(Settings, "In.o", "V0").print(&Root, Output);
@@ -173,11 +173,11 @@ TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
   auto *Child2NoYAML = new FakeNoYAMLObject;
   auto *Child3 = new FakeObject("Child3");
   auto *Child4 = new FakeObject("Child4");
-  Root.addObject(Top);
-  Top->addObject(Child1);
-  Top->addObject(Child2NoYAML);
-  Child2NoYAML->addObject(Child3);
-  Child2NoYAML->addObject(Child4);
+  Root.addChild(Top);
+  Top->addChild(Child1);
+  Top->addChild(Child2NoYAML);
+  Child2NoYAML->addChild(Child3);
+  Child2NoYAML->addChild(Child4);
 
   std::stringstream Output;
   std::string inputFile = "..\\..\\file.o";

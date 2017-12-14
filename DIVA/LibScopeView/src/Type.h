@@ -37,10 +37,6 @@ namespace LibScopeView {
 class Type : public Element {
 public:
   Type();
-  virtual ~Type() override;
-
-  Type &operator=(const Type &) = delete;
-  Type(const Type &) = delete;
 
 private:
   // Type Kind.
@@ -65,7 +61,6 @@ private:
   static const char *KindUnspecified;
   static const char *KindVolatile;
 
-private:
   // Flags specifying various properties of the Type.
   enum TypeAttributes {
     IsBaseType,
@@ -97,7 +92,6 @@ public:
   /// \brief Gets the Type kind as a string (eg, "ARRAY").
   const char *getKindAsString() const override;
 
-public:
   bool getIsBaseType() const { return TypeAttributesFlags[IsBaseType]; }
   void setIsBaseType() { TypeAttributesFlags.set(IsBaseType); }
   bool getIsConstType() const { return TypeAttributesFlags[IsConstType]; }
@@ -194,7 +188,6 @@ public:
   using Object::setFullName;
   bool setFullName(const PrintSettings &Settings);
 
-public:
   // Functions to be implemented by derived classes.
 
   /// \brief Return the underlying type for a typedef.
@@ -205,7 +198,6 @@ public:
   virtual void setValue(const char * /*Value*/) {}
   virtual size_t getValueIndex() const { return 0; }
 
-public:
   bool getIsPrintedAsObject() const override;
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -230,20 +222,12 @@ public:
 /// \brief Class to represent DW_TAG_typedef_type
 class TypeDefinition : public Type {
 public:
-  TypeDefinition();
-  virtual ~TypeDefinition() override;
-
-  TypeDefinition &operator=(const TypeDefinition &) = delete;
-  TypeDefinition(const TypeDefinition &) = delete;
-
-public:
   /// \brief Get the underlying type for a typedef.
   Object *getUnderlyingType() override;
 
   /// \brief Set the underlying type for a typedef.
   void setUnderlyingType(Object *Obj) override;
 
-public:
   bool getIsPrintedAsObject() const override { return true; }
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -254,11 +238,7 @@ public:
 /// \brief Class to represent a DW_TAG_enumerator
 class TypeEnumerator : public Type {
 public:
-  TypeEnumerator();
-  virtual ~TypeEnumerator() override;
-
-  TypeEnumerator &operator=(const TypeEnumerator &) = delete;
-  TypeEnumerator(const TypeEnumerator &) = delete;
+  TypeEnumerator() : ValueIndex(0) {}
 
 private:
   size_t ValueIndex; // Enumerator value.
@@ -269,7 +249,6 @@ public:
   void setValue(const char *Value) override;
   size_t getValueIndex() const override;
 
-public:
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -281,13 +260,8 @@ public:
 /// DW_TAG_imported_declaration
 class TypeImport : public Type {
 public:
-  TypeImport();
-  virtual ~TypeImport() override;
+  TypeImport() : InheritanceAccess(AccessSpecifier::Unspecified) {}
 
-  TypeImport &operator=(const TypeImport &) = delete;
-  TypeImport(const TypeImport &) = delete;
-
-public:
   /// \brief Access specifier, only valid for inheritance.
   AccessSpecifier getInheritanceAccess() const;
   void setInheritanceAccess(AccessSpecifier Access);
@@ -316,11 +290,7 @@ private:
 /// Parameters can be values, types or templates.
 class TypeParam : public Type {
 public:
-  TypeParam();
-  virtual ~TypeParam() override;
-
-  TypeParam &operator=(const TypeParam &) = delete;
-  TypeParam(const TypeParam &) = delete;
+  TypeParam() : ValueIndex(0) {}
 
 private:
   size_t ValueIndex; // Value in case of value or template parameters.
@@ -331,7 +301,6 @@ public:
   void setValue(const char *Value) override;
   size_t getValueIndex() const override;
 
-public:
   bool getIsPrintedAsObject() const override;
 
   /// \brief Returns a text representation of this DIVA Object.
@@ -343,11 +312,7 @@ public:
 /// \brief Class to represent a DW_TAG_subrange_type
 class TypeSubrange : public Type {
 public:
-  TypeSubrange();
-  virtual ~TypeSubrange() override;
-
-  TypeSubrange &operator=(const TypeSubrange &) = delete;
-  TypeSubrange(const TypeSubrange &) = delete;
+  ~TypeSubrange();
 };
 
 } // namespace LibScopeView

@@ -66,98 +66,98 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
   case Alias: {
     auto *Scp = new Scope;
     Scp->setIsTemplateAlias();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Block: {
     auto *Scp = new Scope;
     Scp->setIsBlock();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Class: {
     auto *Scp = new Scope;
     Scp->setIsClassType();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case CodeLine: {
     auto *Ln = new Line;
     Ln->setIsLineRecord();
-    Root.addObject(Ln);
+    Root.addChild(Ln);
     break;
   }
   case CompileUnit: {
     auto *Scp = new Scope;
     Scp->setIsCompileUnit();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Enum: {
     auto *Scp = new Scope;
     Scp->setIsEnumerationType();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Function: {
     auto *Scp = new Scope;
     Scp->setIsFunction();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Member: {
     auto *Sym = new Symbol;
     Sym->setIsMember();
-    Root.addObject(Sym);
+    Root.addChild(Sym);
     break;
   }
   case Namespace: {
     auto *Scp = new Scope;
     Scp->setIsNamespace();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Parameter: {
     auto *Sym = new Symbol;
     Sym->setIsParameter();
-    Root.addObject(Sym);
+    Root.addChild(Sym);
     break;
   }
   case PrimitiveType: {
     auto *Ty = new Type;
     Ty->setIsBaseType();
-    Root.addObject(Ty);
+    Root.addChild(Ty);
     break;
   }
   case Struct: {
     auto *Scp = new Scope;
     Scp->setIsStructType();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case TemplateParameter: {
     auto *Ty = new Type;
     Ty->setIsTemplateParam();
     Ty->setIsTemplateType();
-    Root.addObject(Ty);
+    Root.addChild(Ty);
     break;
   }
   case Union: {
     auto *Scp = new Scope;
     Scp->setIsUnionType();
-    Root.addObject(Scp);
+    Root.addChild(Scp);
     break;
   }
   case Using: {
     auto *Ty = new Type;
     Ty->setIsImported();
-    Root.addObject(Ty);
+    Root.addChild(Ty);
     break;
   }
   case Variable: {
     auto *Sym = new Symbol;
     Sym->setIsVariable();
-    Root.addObject(Sym);
+    Root.addChild(Sym);
     break;
   }
   case ObjectKindSize:
@@ -169,8 +169,7 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
 TEST(SummaryTable, EmptySummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   SummaryTable STab(Root, nullptr);
 
   std::stringstream Result;
@@ -205,8 +204,7 @@ TEST(SummaryTable, EmptySummaryTable) {
 TEST(SummaryTable, OneIncrementSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
 
@@ -244,7 +242,6 @@ TEST(SummaryTable, OneIncrementSummaryTable) {
 TEST(SummaryTable, MultipleIncrementsSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
 
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
@@ -292,8 +289,7 @@ TEST(SummaryTable, MultipleIncrementsSummaryTable) {
 TEST(SummaryTable, PrintSettingsSummaryTable) {
   ScopeRoot Root;
   Root.setIsRoot();
-  Root.setCanHaveLines();
-  
+
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
 

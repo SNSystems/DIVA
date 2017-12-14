@@ -94,13 +94,15 @@ private:
 
     // Add the parameters.
     bool First = true;
-    for (auto *Sym : Func->getSymbols()) {
-      if (Sym->getIsParameter()) {
-        // Make sure the parameters are resolved.
-        if (Sym->getType())
-          resolve(Sym->getType());
-        ResolvedName << (First ? "" : ",") << Sym->getTypeName();
-        First = false;
+    for (const Object *Child : Func->getChildren()) {
+      if (auto *Sym = dynamic_cast<const Symbol *>(Child)) {
+        if (Sym->getIsParameter()) {
+          // Make sure the parameters are resolved.
+          if (Sym->getType())
+            resolve(Sym->getType());
+          ResolvedName << (First ? "" : ",") << Sym->getTypeName();
+          First = false;
+        }
       }
     }
 
@@ -130,10 +132,10 @@ private:
         ArrayType && ArrayType->getName() ? ArrayType->getName() : "?");
     ResolvedName += " ";
 
-    for (const auto *Ty : Array->getTypes()) {
-      if (Ty->getIsSubrangeType())
-        ResolvedName += Ty->getName();
-    }
+    for (const Object *Child : Array->getChildren())
+      if (auto *Ty = dynamic_cast<const Type *>(Child))
+        if (Ty->getIsSubrangeType())
+          ResolvedName += Ty->getName();
     Array->setName(ResolvedName.c_str());
   }
 

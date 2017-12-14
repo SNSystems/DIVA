@@ -38,10 +38,6 @@ namespace LibScopeView {
 class Symbol : public Element {
 public:
   Symbol();
-  virtual ~Symbol() override;
-
-  Symbol &operator=(const Symbol &) = delete;
-  Symbol(const Symbol &) = delete;
 
 private:
   // Symbol Kind.
@@ -51,7 +47,6 @@ private:
   static const char *KindUnspecified;
   static const char *KindVariable;
 
-private:
   // Flags specifying various properties of the Symbol.
   enum SymbolAttributes {
     IsMember,
@@ -66,7 +61,6 @@ public:
   /// \brief Gets the object kind as a string.
   const char *getKindAsString() const override;
 
-public:
   bool getIsMember() const { return SymbolAttributesFlags[IsMember]; }
   void setIsMember() { SymbolAttributesFlags.set(IsMember); }
 
@@ -111,7 +105,6 @@ public:
     setHasReference();
   }
 
-public:
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.

@@ -42,8 +42,6 @@ Symbol::Symbol()
   setIsSymbol();
 }
 
-Symbol::~Symbol() {}
-
 uint32_t Symbol::SymbolsAllocated = 0;
 
 // Symbol Kind.

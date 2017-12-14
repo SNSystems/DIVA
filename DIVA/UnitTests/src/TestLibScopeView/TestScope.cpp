@@ -220,7 +220,7 @@ TEST(Scope, getAsYAML_Class) {
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Public);
 
-  Class.addObject(TyImport);
+  Class.addChild(TyImport);
 
   std::string Expected("object: \"Class\"\n"
                        "name: \"TestClass\"\n"
@@ -273,8 +273,8 @@ TEST(Scope, getAsYAML_multiInheritance) {
   TyImportB->setType(&ParentClassB);
   TyImportB->setInheritanceAccess(AccessSpecifier::Protected);
 
-  Class.addObject(TyImportA);
-  Class.addObject(TyImportB);
+  Class.addChild(TyImportA);
+  Class.addChild(TyImportB);
 
   EXPECT_EQ(Class.getAsYAML(), "object: \"Class\"\n"
                                "name: \"TestClass\"\n"
@@ -312,7 +312,7 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
   TyImport->setType(&ParentStruct);
   TyImport->setInheritanceAccess(AccessSpecifier::Unspecified);
 
-  Class.addObject(TyImport);
+  Class.addChild(TyImport);
 
   EXPECT_EQ(Class.getAsYAML(), "object: \"Class\"\n"
                                "name: \"TestClass\"\n"
@@ -411,12 +411,12 @@ TEST(Scope, getAsYAML_Enumeration) {
   Monday->setIsEnumerator();
   Monday->setName("monday");
   Monday->setValue("10");
-  Enum.addObject(Monday);
+  Enum.addChild(Monday);
   auto *Tuesday = new TypeEnumerator;
   Tuesday->setIsEnumerator();
   Tuesday->setName("tuesday");
   Tuesday->setValue("20");
-  Enum.addObject(Tuesday);
+  Enum.addChild(Tuesday);
   ExpectedYAML += "\n  enumerators:"
                   "\n    - enumerator: \"monday\""
                   "\n      value: 10"
@@ -831,7 +831,7 @@ TEST(Scope, getAsYAML_Struct) {
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Private);
 
-  Struct.addObject(TyImport);
+  Struct.addChild(TyImport);
 
   std::string Expected("object: \"Struct\"\n"
                        "name: \"TestStruct\"\n"
@@ -877,7 +877,7 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
   TyImport->setType(&ParentClass);
   TyImport->setInheritanceAccess(AccessSpecifier::Unspecified);
 
-  Struct.addObject(TyImport);
+  Struct.addChild(TyImport);
 
   EXPECT_EQ(Struct.getAsYAML(), "object: \"Struct\"\n"
                                 "name: \"TestStruct\"\n"
@@ -932,7 +932,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   Ty.setName("Ty");
   TempType->setType(&Ty);
   TempType->setIsTemplateType();
-  Pack.addObject(TempType);
+  Pack.addChild(TempType);
 
   Expected.append("\n    - \"Ty\"");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
@@ -940,7 +940,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   auto *TempValue = new TypeParam;
   TempValue->setIsTemplateValue();
   TempValue->setValue("101");
-  Pack.addObject(TempValue);
+  Pack.addChild(TempValue);
 
   Expected.append("\n    - 101");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
@@ -948,7 +948,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   auto *TempTemp = new TypeParam;
   TempTemp->setIsTemplateTemplate();
   TempTemp->setValue("vector");
-  Pack.addObject(TempTemp);
+  Pack.addChild(TempTemp);
 
   Expected.append("\n    - \"vector\"");
   EXPECT_EQ(Pack.getAsYAML(), Expected);

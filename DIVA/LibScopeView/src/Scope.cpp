@@ -36,6 +36,7 @@
 #include "Type.h"
 
 #include <algorithm>
+#include <cassert>
 #include <sstream>
 
 using namespace LibScopeView;
@@ -45,14 +46,10 @@ Scope::Scope() : Element() {
 }
 
 Scope::~Scope() {
-  for (Type *Ty : TheTypes)
-    delete (Ty);
-  for (Symbol *Sym : TheSymbols)
-    delete (Sym);
-  for (Scope *Scp : TheScopes)
-    delete (Scp);
+  for (Object *Child : Children)
+    delete Child;
   for (Line *Ln : TheLines)
-    delete (Ln);
+    delete Ln;
 }
 
 uint32_t Scope::ScopesAllocated = 0;
@@ -112,40 +109,17 @@ const char *Scope::getKindAsString() const {
   return Kind;
 }
 
-void Scope::addObject(Line *Ln) {
-  if (getCanHaveLines()) {
-    // Add it to parent.
+void Scope::addChild(Object *Obj) {
+  // Do not add the line records to the children, as they represent the
+  // logical view for the text section. Preserve the original sequence.
+  if (auto *Ln = dynamic_cast<Line *>(Obj)) {
     TheLines.push_back(Ln);
     Ln->setParent(this);
-
-    // Do not add the line records to the children, as they represent the
-    // logical view for the text section. Preserve the original sequence.
-    // m_children->push_back(line);
-  } else {
-    throw std::logic_error("Cannot set line records on a scope that's not a "
-                           "function or module.\n");
+    return;
   }
-}
 
-void Scope::addObject(Scope *Scp) {
-  // Add it to parent.
-  TheScopes.push_back(Scp);
-  Children.push_back(Scp);
-  Scp->setParent(this);
-}
-
-void Scope::addObject(Symbol *Sym) {
-  // Add it to parent.
-  TheSymbols.push_back(Sym);
-  Children.push_back(Sym);
-  Sym->setParent(this);
-}
-
-void Scope::addObject(Type *Ty) {
-  // Add it to parent.
-  TheTypes.push_back(Ty);
-  Children.push_back(Ty);
-  Ty->setParent(this);
+  Children.push_back(Obj);
+  Obj->setParent(this);
 }
 
 void Scope::getQualifiedName(std::string &qualified_name) const {
@@ -172,26 +146,11 @@ void Scope::sortScopes(const SortingKey &SortKey) {
 }
 
 void Scope::sortScopes(SortFunction SortFunc) {
-  // Sort the contained objects, using the associated line.
-  std::sort(TheTypes.begin(), TheTypes.end(), SortFunc);
-  std::sort(TheSymbols.begin(), TheSymbols.end(), SortFunc);
-  std::sort(TheScopes.begin(), TheScopes.end(), SortFunc);
-
-  // Sort the contained objects, using the associated line.
   std::sort(Children.begin(), Children.end(), SortFunc);
 
-  // Scopes.
-  for (Scope *Scp : TheScopes)
-    Scp->sortScopes(SortFunc);
-}
-
-void Scope::sortCompileUnits(const SortingKey &SortKey) {
-  // Sort the contained objects, using the sort criteria.
-  SortFunction SortFunc = getSortFunction(SortKey);
-  if (SortFunc) {
-    std::sort(TheScopes.begin(), TheScopes.end(), SortFunc);
-    std::sort(Children.begin(), Children.end(), SortFunc);
-  }
+  for (Object *Obj : Children)
+    if (auto *Scp = dynamic_cast<Scope *>(Obj))
+      Scp->sortScopes(SortFunc);
 }
 
 const char *Scope::resolveName() {
@@ -233,8 +192,6 @@ std::string Scope::getAsYAML() const {
 
 ScopeAggregate::ScopeAggregate() : Scope() { Reference = nullptr; }
 
-ScopeAggregate::~ScopeAggregate() {}
-
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   const char *Name = getName();
@@ -250,9 +207,10 @@ std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
     Result += formatAttributeText("Template");
   }
 
-  for (auto Ty : TheTypes)
-    if (Ty->getIsInheritance())
-      Result.append("\n").append(Ty->getAsText(Settings));
+  for (const Object *Obj : getChildren())
+    if (auto *Ty = dynamic_cast<const Type *>(Obj))
+      if (Ty->getIsInheritance())
+        Result.append("\n").append(Ty->getAsText(Settings));
 
   return Result;
 }
@@ -272,10 +230,12 @@ std::string ScopeAggregate::getAsYAML() const {
   Result << "\n  inherits_from:";
 
   bool hasInheritance = false;
-  for (auto Ty : TheTypes) {
-    if (Ty->getIsInheritance()) {
-      hasInheritance = true;
-      Result << "\n" << Ty->getAsYAML();
+  for (const Object *Obj : getChildren()) {
+    if (auto *Ty = dynamic_cast<const Type *>(Obj)) {
+      if (Ty->getIsInheritance()) {
+        hasInheritance = true;
+        Result << "\n" << Ty->getAsYAML();
+      }
     }
   }
 
@@ -284,10 +244,6 @@ std::string ScopeAggregate::getAsYAML() const {
 
   return Result.str();
 }
-
-ScopeAlias::ScopeAlias() : Scope() {}
-
-ScopeAlias::~ScopeAlias() {}
 
 std::string ScopeAlias::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
@@ -301,20 +257,12 @@ std::string ScopeAlias::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-ScopeArray::ScopeArray() : Scope() {}
-
-ScopeArray::~ScopeArray() {}
-
 std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "} "
          << getTypeDieOffsetAsString(Settings) << '"' << getName() << '"';
   return Result.str();
 }
-
-ScopeCompileUnit::ScopeCompileUnit() : Scope() {}
-
-ScopeCompileUnit::~ScopeCompileUnit() {}
 
 void ScopeCompileUnit::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);
@@ -332,10 +280,6 @@ std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
 std::string ScopeCompileUnit::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
-
-ScopeEnumeration::ScopeEnumeration() : Scope(), IsClass(false) {}
-
-ScopeEnumeration::~ScopeEnumeration() {}
 
 std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
@@ -388,11 +332,8 @@ std::string ScopeEnumeration::getAsYAML() const {
 }
 
 ScopeFunction::ScopeFunction()
-    : Scope(), IsStatic(false), DeclaredInline(false), IsDeclaration(false) {
-  Reference = nullptr;
-}
-
-ScopeFunction::~ScopeFunction() {}
+    : Reference(nullptr), IsStatic(false), DeclaredInline(false),
+      IsDeclaration(false) {}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
@@ -483,16 +424,7 @@ std::string ScopeFunction::getAsYAML() const {
   return YAML.str();
 }
 
-ScopeFunctionInlined::ScopeFunctionInlined()
-    : ScopeFunction(), CallLineNumber(0) {
-  Discriminator = 0;
-}
-
 ScopeFunctionInlined::~ScopeFunctionInlined() {}
-
-ScopeNamespace::ScopeNamespace() : Scope() { Reference = nullptr; }
-
-ScopeNamespace::~ScopeNamespace() {}
 
 std::string ScopeNamespace::getAsText(const PrintSettings &) const {
   std::stringstream Result;
@@ -507,10 +439,6 @@ std::string ScopeNamespace::getAsText(const PrintSettings &) const {
 std::string ScopeNamespace::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
-
-ScopeTemplatePack::ScopeTemplatePack() : Scope() {}
-
-ScopeTemplatePack::~ScopeTemplatePack() {}
 
 namespace {
 bool isTemplate(const Object *Obj) {
@@ -540,7 +468,7 @@ std::string ScopeTemplatePack::getAsYAML() const {
   std::stringstream YAML;
   YAML << getCommonYAML() << "\nattributes:\n  types:";
 
-  if (getChildrenCount() == 0 ||
+  if (getChildren().size() == 0 ||
       std::none_of(getChildren().cbegin(), getChildren().cend(), isTemplate)) {
     YAML << " []";
     return YAML.str();
@@ -553,10 +481,6 @@ std::string ScopeTemplatePack::getAsYAML() const {
 
   return YAML.str();
 }
-
-ScopeRoot::ScopeRoot() : Scope() {}
-
-ScopeRoot::~ScopeRoot() {}
 
 void ScopeRoot::setName(const char *Name) {
   std::string Path = unifyFilePath(Name);

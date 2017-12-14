@@ -35,11 +35,9 @@
 
 using namespace LibScopeView;
 
-Line::Line() : Element(), Discriminator(0) {
+Line::Line() : Discriminator(0) {
   setIsLine();
 }
-
-Line::~Line() {}
 
 uint32_t Line::LinesAllocated = 0;
 

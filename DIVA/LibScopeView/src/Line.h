@@ -40,10 +40,6 @@ namespace LibScopeView {
 class Line : public Element {
 public:
   Line();
-  virtual ~Line() override;
-
-  Line &operator=(const Line &) = delete;
-  Line(const Line &) = delete;
 
 private:
   // Line Kind.
@@ -56,7 +52,6 @@ private:
   static const char *KindPrologueEnd;
   static const char *KindUndefined;
 
-private:
   // Flags specifying various properties of the line.
   enum LineAttributes {
     IsLineRecord,
@@ -70,7 +65,6 @@ private:
   };
   std::bitset<LineAttributesSize> LineAttributesFlags;
 
-private:
   // Discriminator value (DW_LNE_set_discriminator). The DWARF standard
   // defines the discriminator as an unsigned LEB128 integer. In our case,
   // unless is required, we will use an unsigned half integer.
@@ -80,7 +74,6 @@ public:
   // Gets the line kind as a string (eg, "LINE").
   const char *getKindAsString() const override;
 
-public:
   /// \brief Flags associated with the line.
   bool getIsLineRecord() const { return LineAttributesFlags[IsLineRecord]; }
   void setIsLineRecord() { LineAttributesFlags.set(IsLineRecord); }
@@ -117,7 +110,6 @@ public:
   bool getIsPrologueEnd() const { return LineAttributesFlags[IsPrologueEnd]; }
   void setIsPrologueEnd() { LineAttributesFlags.set(IsPrologueEnd); }
 
-public:
   /// \brief Line address.
   Dwarf_Addr getAddress() const { return getDieOffset(); }
   void setAddress(Dwarf_Addr const Address) { setDieOffset(Address); }
@@ -129,7 +121,6 @@ public:
     setHasDiscriminator();
   }
 
-public:
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.

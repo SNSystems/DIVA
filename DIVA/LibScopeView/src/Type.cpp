@@ -42,8 +42,6 @@ Type::Type() : ByteSize(0) {
   setIsType();
 }
 
-Type::~Type() {}
-
 uint32_t Type::TypesAllocated = 0;
 
 // Type Kind.
@@ -172,10 +170,6 @@ unsigned Type::getByteSize() const { return ByteSize; }
 
 void Type::setByteSize(unsigned Size) { ByteSize = Size; }
 
-TypeDefinition::TypeDefinition() : Type() {}
-
-TypeDefinition::~TypeDefinition() {}
-
 Object *TypeDefinition::getUnderlyingType() {
   Object *BaseType = nullptr;
   Type *Base = this;
@@ -217,10 +211,6 @@ std::string TypeDefinition::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-TypeEnumerator::TypeEnumerator() : Type() { ValueIndex = 0; }
-
-TypeEnumerator::~TypeEnumerator() {}
-
 const char *TypeEnumerator::getValue() const {
   return StringPool::getStringValue(ValueIndex);
 }
@@ -247,11 +237,6 @@ std::string TypeEnumerator::getAsYAML() const {
   // Printing enumerators is handled in ScopeEnumeration.
   return "";
 }
-
-TypeImport::TypeImport()
-    : Type(), InheritanceAccess(AccessSpecifier::Unspecified) {}
-
-TypeImport::~TypeImport() {}
 
 AccessSpecifier TypeImport::getInheritanceAccess() const {
   assert(getIsInheritance() &&
@@ -430,10 +415,6 @@ std::string TypeImport::getUsingAsYAML() const {
   return Result.str();
 }
 
-TypeParam::TypeParam() : Type() { ValueIndex = 0; }
-
-TypeParam::~TypeParam() {}
-
 const char *TypeParam::getValue() const {
   return StringPool::getStringValue(ValueIndex);
 }
@@ -498,7 +479,5 @@ std::string TypeParam::getAsYAML() const {
 
   return YAML.str();
 }
-
-TypeSubrange::TypeSubrange() : Type() {}
 
 TypeSubrange::~TypeSubrange() {}
