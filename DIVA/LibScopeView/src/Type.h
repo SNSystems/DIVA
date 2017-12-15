@@ -274,13 +274,13 @@ private:
 /// \brief Class to represent a DWARF Template parameter holder.
 ///
 /// Parameters can be values, types or templates.
-class TypeParam : public Type {
+class TypeTemplateParam : public Type {
 public:
-  TypeParam() : Type(SV_TypeParam), ValueIndex(0) {}
+  TypeTemplateParam() : Type(SV_TypeTemplateParam), ValueIndex(0) {}
 
   /// \brief Return true if Obj is an insance of TypeParam.
   static bool classof(const Object *Obj) {
-    return Obj->getKind() == SV_TypeParam;
+    return Obj->getKind() == SV_TypeTemplateParam;
   }
 
 private:

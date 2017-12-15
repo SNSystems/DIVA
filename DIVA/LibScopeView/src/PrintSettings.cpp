@@ -139,7 +139,7 @@ bool PrintSettings::printObject(const Object &Obj) const {
       return ShowClass || ShowStruct;
     return ShowUsing;
   }
-  case Object::SV_TypeParam:
+  case Object::SV_TypeTemplateParam:
     return ShowTemplate;
   case Object::SV_ScopeArray:
   case Object::SV_TypeSubrange:

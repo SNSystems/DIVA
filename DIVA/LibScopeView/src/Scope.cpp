@@ -393,7 +393,7 @@ std::string ScopeTemplatePack::getAsText(const PrintSettings &Settings) const {
   Result += "\"";
 
   for (const auto *Child : getChildren()) {
-    if (isa<TypeParam>(*Child))
+    if (isa<TypeTemplateParam>(*Child))
       Result.append("\n    ").append(Child->getAsText(Settings));
   }
 
@@ -407,13 +407,13 @@ std::string ScopeTemplatePack::getAsYAML() const {
   if (getChildren().size() == 0 ||
       std::none_of(
           getChildren().cbegin(), getChildren().cend(),
-          [](const Object *Child) { return isa<TypeParam>(*Child); })) {
+          [](const Object *Child) { return isa<TypeTemplateParam>(*Child); })) {
     YAML << " []";
     return YAML.str();
   }
 
   for (const auto *Child : getChildren()) {
-    if (isa<TypeParam>(*Child))
+    if (isa<TypeTemplateParam>(*Child))
       YAML << "\n    - " << Child->getAsYAML();
   }
 

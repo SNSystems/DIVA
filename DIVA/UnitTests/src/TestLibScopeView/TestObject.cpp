@@ -296,7 +296,7 @@ TEST(Object, getKind) {
   CHECK_GET_KIND(TypeDefinition, Object::SV_TypeDefinition);
   CHECK_GET_KIND(TypeEnumerator, Object::SV_TypeEnumerator);
   CHECK_GET_KIND(TypeImport, Object::SV_TypeImport);
-  CHECK_GET_KIND(TypeParam, Object::SV_TypeParam);
+  CHECK_GET_KIND(TypeTemplateParam, Object::SV_TypeTemplateParam);
   CHECK_GET_KIND(TypeSubrange, Object::SV_TypeSubrange);
 };
 
@@ -319,7 +319,7 @@ TEST(Object, classof) {
   TypeDefinition TestTypeDefinition;
   TypeEnumerator TestTypeEnumerator;
   TypeImport TestTypeImport;
-  TypeParam TestTypeParam;
+  TypeTemplateParam TestTypeParam;
   TypeSubrange TestTypeSubrange;
 
   // Create collections of objects for convenience.
@@ -372,7 +372,7 @@ TEST(Object, classof) {
     EXPECT_EQ(TypeDefinition::classof(Obj), Obj == &TestTypeDefinition);
     EXPECT_EQ(TypeEnumerator::classof(Obj), Obj == &TestTypeEnumerator);
     EXPECT_EQ(TypeImport::classof(Obj), Obj == &TestTypeImport);
-    EXPECT_EQ(TypeParam::classof(Obj), Obj == &TestTypeParam);
+    EXPECT_EQ(TypeTemplateParam::classof(Obj), Obj == &TestTypeParam);
     EXPECT_EQ(TypeSubrange::classof(Obj), Obj == &TestTypeSubrange);
   }
 };

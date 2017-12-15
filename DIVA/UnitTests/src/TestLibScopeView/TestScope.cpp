@@ -880,7 +880,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
                        "  types:");
   EXPECT_EQ(Pack.getAsYAML(), Expected + std::string(" []"));
 
-  auto *TempType = new TypeParam;
+  auto *TempType = new TypeTemplateParam;
   Type Ty;
   Ty.setName("Ty");
   TempType->setType(&Ty);
@@ -890,7 +890,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   Expected.append("\n    - \"Ty\"");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
 
-  auto *TempValue = new TypeParam;
+  auto *TempValue = new TypeTemplateParam;
   TempValue->setIsTemplateValue();
   TempValue->setValue("101");
   Pack.addChild(TempValue);
@@ -898,7 +898,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   Expected.append("\n    - 101");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
 
-  auto *TempTemp = new TypeParam;
+  auto *TempTemp = new TypeTemplateParam;
   TempTemp->setIsTemplateTemplate();
   TempTemp->setValue("vector");
   Pack.addChild(TempTemp);

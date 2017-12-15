@@ -254,17 +254,17 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
   case DW_TAG_subrange_type:
     return new LibScopeView::TypeSubrange;
   case DW_TAG_template_value_parameter: {
-    auto Obj = new LibScopeView::TypeParam;
+    auto Obj = new LibScopeView::TypeTemplateParam;
     Obj->setIsTemplateValue();
     return Obj;
   }
   case DW_TAG_template_type_parameter: {
-    auto Obj = new LibScopeView::TypeParam;
+    auto Obj = new LibScopeView::TypeTemplateParam;
     Obj->setIsTemplateType();
     return Obj;
   }
   case DW_TAG_GNU_template_template_parameter: {
-    auto Obj = new LibScopeView::TypeParam;
+    auto Obj = new LibScopeView::TypeTemplateParam;
     Obj->setIsTemplateTemplate();
     return Obj;
   }
@@ -450,7 +450,7 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
   Ty.resolveQualifiedName();
 
   // Parents of template parameters are templates.
-  if (isa<LibScopeView::TypeParam>(Ty) &&
+  if (isa<LibScopeView::TypeTemplateParam>(Ty) &&
       isa<LibScopeView::Scope>(*Ty.getParent()))
     if (auto ScpParent = dyn_cast<LibScopeView::Scope>(Ty.getParent()))
       ScpParent->setIsTemplate();

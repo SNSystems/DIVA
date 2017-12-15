@@ -173,9 +173,10 @@ TEST(PrintSettings, PrintObject_Type) {
   } while (false)
 
   CHECK_TYPE_PRINT_OPTION(Type, setIsBaseType, ShowPrimitiveType);
-  CHECK_TYPE_PRINT_OPTION(TypeParam, setIsTemplateTemplate, ShowTemplate);
-  CHECK_TYPE_PRINT_OPTION(TypeParam, setIsTemplateType, ShowTemplate);
-  CHECK_TYPE_PRINT_OPTION(TypeParam, setIsTemplateValue, ShowTemplate);
+  CHECK_TYPE_PRINT_OPTION(TypeTemplateParam, setIsTemplateTemplate,
+                          ShowTemplate);
+  CHECK_TYPE_PRINT_OPTION(TypeTemplateParam, setIsTemplateType, ShowTemplate);
+  CHECK_TYPE_PRINT_OPTION(TypeTemplateParam, setIsTemplateValue, ShowTemplate);
   CHECK_TY_PRINT_OPTION(TypeDefinition, ShowAlias);
   CHECK_TYPE_PRINT_OPTION(TypeImport, setIsInheritance, ShowClass);
   CHECK_TYPE_PRINT_OPTION(TypeImport, setIsInheritance, ShowStruct);

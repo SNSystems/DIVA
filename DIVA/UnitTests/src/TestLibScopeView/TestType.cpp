@@ -98,7 +98,7 @@ TEST(Type, getAsText_Param) {
   Ty.setName("wsx");
 
   // Template type.
-  TypeParam TyParam;
+  TypeTemplateParam TyParam;
   TyParam.setIncludeInPrint();
   TyParam.setName("qaz");
   TyParam.setType(&Ty);
@@ -117,7 +117,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"base::qaz\" <- \"base::wsx\"");
 
   // Template value.
-  TypeParam TemplateValue;
+  TypeTemplateParam TemplateValue;
   TemplateValue.setIsTemplateValue();
   TemplateValue.setName("TVal");
   TemplateValue.setValue("101");
@@ -125,7 +125,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"TVal\" <- 101");
 
   // Template template.
-  TypeParam TemplateTemplate;
+  TypeTemplateParam TemplateTemplate;
   TemplateTemplate.setIsTemplateTemplate();
   TemplateTemplate.setName("TTemp");
   TemplateTemplate.setValue("vector");
@@ -143,7 +143,7 @@ TEST(Type, getAsYAML_Param) {
   Ty.setName("Ty");
 
   // Template type.
-  TypeParam TempType;
+  TypeTemplateParam TempType;
   TempType.setName("TTy");
   TempType.setType(&Ty);
   TempType.setIsTemplateType();
@@ -166,7 +166,7 @@ TEST(Type, getAsYAML_Param) {
                                   "    - \"Ty\"");
 
   // Template value.
-  TypeParam TempValue;
+  TypeTemplateParam TempValue;
   TempValue.setIsTemplateValue();
   TempValue.setName("TVal");
   TempValue.setValue("101");
@@ -190,7 +190,7 @@ TEST(Type, getAsYAML_Param) {
                                    "    - 101");
 
   // Template template.
-  TypeParam TempTemp;
+  TypeTemplateParam TempTemp;
   TempTemp.setIsTemplateTemplate();
   TempTemp.setName("TTemp");
   TempTemp.setValue("vector");

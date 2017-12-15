@@ -45,7 +45,7 @@ uint32_t Type::TypesAllocated = 0;
 const char *Type::resolveName() { return getName(); }
 
 bool Type::setFullName(const PrintSettings &Settings) {
-  if (isa<TypeParam>(*this))
+  if (isa<TypeTemplateParam>(*this))
     return true;
 
   const char *BaseText = nullptr;
@@ -313,22 +313,22 @@ std::string TypeImport::getUsingAsYAML() const {
   return Result.str();
 }
 
-const char *TypeParam::getValue() const {
+const char *TypeTemplateParam::getValue() const {
   return StringPool::getStringValue(ValueIndex);
 }
 
-void TypeParam::setValue(const char *value) {
+void TypeTemplateParam::setValue(const char *value) {
   ValueIndex = StringPool::getStringIndex(value);
 }
 
-size_t TypeParam::getValueIndex() const { return ValueIndex; }
+size_t TypeTemplateParam::getValueIndex() const { return ValueIndex; }
 
-bool TypeParam::getIsPrintedAsObject() const {
+bool TypeTemplateParam::getIsPrintedAsObject() const {
   // Template parameters within template packs are printed by the pack.
   return !(getParent() && isa<ScopeTemplatePack>(*getParent()));
 }
 
-std::string TypeParam::getAsText(const PrintSettings &Settings) const {
+std::string TypeTemplateParam::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   // Template packs print differently.
   const Scope *Parent = getParent();
@@ -359,7 +359,7 @@ std::string TypeParam::getAsText(const PrintSettings &Settings) const {
   return Result;
 }
 
-std::string TypeParam::getAsYAML() const {
+std::string TypeTemplateParam::getAsYAML() const {
   std::stringstream YAML;
 
   // Template parameters within template packs are printed by the pack.

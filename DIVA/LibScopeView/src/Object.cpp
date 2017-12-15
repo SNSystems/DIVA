@@ -157,7 +157,7 @@ const char *Object::getKindAsString() const {
     return "Enumerator";
   case SV_TypeImport:
     return "Using";
-  case SV_TypeParam:
+  case SV_TypeTemplateParam:
     return "TemplateParameter";
   case SV_TypeSubrange:
     return "Subrange";
@@ -404,7 +404,7 @@ std::string Object::getCommonYAML() const {
   YAML << "type: ";
 
   // Template's types are printed in attributes.
-  if (getType() && !(isa<TypeParam>(*this))) {
+  if (getType() && !(isa<TypeTemplateParam>(*this))) {
     std::string TypeName;
     if (getType()->getHasQualifiedName())
       TypeName += getType()->getQualifiedName();

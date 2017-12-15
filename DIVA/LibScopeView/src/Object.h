@@ -114,7 +114,7 @@ public:
     SV_TypeDefinition,
     SV_TypeEnumerator,
     SV_TypeImport,
-    SV_TypeParam,
+    SV_TypeTemplateParam,
     SV_TypeSubrange,
   };
 

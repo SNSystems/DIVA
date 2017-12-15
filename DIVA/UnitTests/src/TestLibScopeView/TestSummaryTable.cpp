@@ -118,7 +118,7 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
     break;
   }
   case TemplateParameter: {
-    auto *Ty = new TypeParam;
+    auto *Ty = new TypeTemplateParam;
     Ty->setIsTemplateType();
     Root.addChild(Ty);
     break;
