@@ -64,21 +64,21 @@ private:
     AlreadyResolved.insert(Obj);
 
     // Resolve type names.
-    if (auto Ty = dynamic_cast<Type *>(Obj)) {
+    if (auto Ty = dyn_cast<Type>(Obj)) {
       resolveTypeName(Ty);
       return;
     }
 
-    if (auto ObjScope = dynamic_cast<Scope *>(Obj)) {
+    if (auto ObjScope = dyn_cast<Scope>(Obj)) {
       // Resolve function pointer names.
       if (ObjScope->getIsSubroutineType()) {
-        resolveFunctionPointerName(dynamic_cast<ScopeFunction *>(Obj));
+        resolveFunctionPointerName(dyn_cast<ScopeFunction>(Obj));
         return;
       }
 
       // Resolve array names.
-      if (ObjScope->getIsArrayType()) {
-        resolveArrayName(dynamic_cast<ScopeArray *>(Obj));
+      if (isa<ScopeArray>(*ObjScope)) {
+        resolveArrayName(dyn_cast<ScopeArray>(Obj));
         return;
       }
     }
@@ -95,7 +95,7 @@ private:
     // Add the parameters.
     bool First = true;
     for (const Object *Child : Func->getChildren()) {
-      if (auto *Sym = dynamic_cast<const Symbol *>(Child)) {
+      if (auto *Sym = dyn_cast<const Symbol>(Child)) {
         if (Sym->getIsParameter()) {
           // Make sure the parameters are resolved.
           if (Sym->getType())
@@ -133,8 +133,8 @@ private:
     ResolvedName += " ";
 
     for (const Object *Child : Array->getChildren())
-      if (auto *Ty = dynamic_cast<const Type *>(Child))
-        if (Ty->getIsSubrangeType())
+      if (auto *Ty = dyn_cast<const Type>(Child))
+        if (isa<TypeSubrange>(*Ty))
           ResolvedName += Ty->getName();
     Array->setName(ResolvedName.c_str());
   }
@@ -153,9 +153,9 @@ private:
 
   // Get an Object's referenced Object, handling any type specifics.
   static Object *getObjectReference(Object *Obj) {
-    if (auto Scp = dynamic_cast<Scope *>(Obj))
+    if (auto Scp = dyn_cast<Scope>(Obj))
       return Scp->getReference();
-    if (auto Sym = dynamic_cast<Symbol *>(Obj))
+    if (auto Sym = dyn_cast<Symbol>(Obj))
       return Sym->getReference();
     return nullptr;
   }
@@ -177,18 +177,18 @@ private:
 
     // Set type.
     if (Reference->getType()) {
-      dynamic_cast<Element *>(Obj)->setType(Reference->getType());
+      dyn_cast<Element>(Obj)->setType(Reference->getType());
       Obj->setHasType();
     }
 
     // Cover the static function case that initScopeFromAttrs can't reach.
-    auto ObjFunc = dynamic_cast<ScopeFunction *>(Obj);
-    auto RefFunc = dynamic_cast<ScopeFunction *>(Reference);
+    auto ObjFunc = dyn_cast<ScopeFunction>(Obj);
+    auto RefFunc = dyn_cast<ScopeFunction>(Reference);
     if (ObjFunc && RefFunc && RefFunc->getIsStatic())
       ObjFunc->setIsStatic();
 
     // Set qualified name from reference.
-    if (Obj->getIsSymbol() && Reference->getIsSymbol())
+    if (isa<Symbol>(*Obj) && isa<Symbol>(*Reference))
       Obj->resolveQualifiedName(Reference->getParent());
   }
 };

@@ -44,8 +44,10 @@ class FakeObject : public Scope {
 public:
   FakeObject(std::string Name, uint64_t Line, size_t FileIndex,
              std::string FileName)
-      : FakeName(Name), FakeFileIndex(FileIndex), FakeFileName(FileName) {
+      : Scope(SV_Scope), FakeName(Name), FakeFileIndex(FileIndex),
+        FakeFileName(FileName) {
     setLineNumber(Line);
+    setIsBlock(); // For PrintSettings::printObject.
   }
 
   const char *getName() const override { return FakeName.c_str(); }
@@ -75,7 +77,6 @@ TEST(ScopeTextPrinter, PrintNoChildren) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   Root.addChild(new FakeObject("Top", 11, 1, "foo.cpp"));
 
   std::stringstream Output;
@@ -94,7 +95,6 @@ TEST(ScopeTextPrinter, Print) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 2, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 2, "foo.cpp");
@@ -133,7 +133,6 @@ TEST(ScopeTextPrinter, SkipObjectsWithNoText) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 2, 1, "foo.cpp");
   auto *Child2NoText = new FakeNoTextObject;
@@ -163,9 +162,8 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnSettings) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
-  Top->setIsBlock();
+  Top->setIsTemplate();
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
   Root.addChild(Top);
@@ -174,7 +172,7 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnSettings) {
 
   std::stringstream Output;
 
-  Settings.ShowBlock = true;
+  Settings.ShowTemplate = true;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "{InputFile} \"In.o\"\n\n"
                           "{Source} \"foo.cpp\"\n"
@@ -186,7 +184,7 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnSettings) {
                           "          - Attr\n");
 
   Output.str("");
-  Settings.ShowBlock = false;
+  Settings.ShowTemplate = false;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
   EXPECT_EQ(Output.str(), "{InputFile} \"In.o\"\n\n"
                           "{Source} \"foo.cpp\"\n"
@@ -201,7 +199,6 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnFilters) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
@@ -271,7 +268,6 @@ TEST(ScopeTextPrinter, PrintZeroLine) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 0, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 1, 1, "foo.cpp");
   Root.addChild(Top);
@@ -304,7 +300,6 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
@@ -398,7 +393,6 @@ TEST(ScopeTextPrinter, PrintFlagAttributes) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");
@@ -447,7 +441,6 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
   auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
   auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");

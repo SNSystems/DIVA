@@ -30,8 +30,8 @@
 #include "FileUtilities.h"
 #include "Line.h"
 #include "PrintSettings.h"
-#include "StringPool.h"
 #include "Scope.h"
+#include "StringPool.h"
 #include "Symbol.h"
 #include "Type.h"
 #include "Utilities.h"
@@ -85,6 +85,88 @@ Object::Object(ObjectKind K) : Kind(K) {
   DieTag = 0;
 }
 
+const char *Object::getKindAsString() const {
+  switch (Kind) {
+  case SV_Line:
+    return "CodeLine";
+  case SV_Scope:
+    if (cast<Scope>(this)->getIsBlock())
+      return "Block";
+    break;
+  case SV_ScopeAggregate: {
+    auto *Agg = cast<ScopeAggregate>(this);
+    if (Agg->getIsClassType())
+      return "Class";
+    else if (Agg->getIsStructType())
+      return "Struct";
+    else if (Agg->getIsUnionType())
+      return "Union";
+  } break;
+  case SV_ScopeAlias:
+    return "Alias";
+  case SV_ScopeArray:
+    return "Array";
+  case SV_ScopeCompileUnit:
+    return "CompileUnit";
+  case SV_ScopeEnumeration:
+    return "Enum";
+  case SV_ScopeFunction:
+  case SV_ScopeFunctionInlined:
+    return "Function";
+  case SV_ScopeNamespace:
+    return "Namespace";
+  case SV_ScopeTemplatePack:
+    return "TemplateParameter";
+  case SV_ScopeRoot:
+    return "InputFile";
+  case SV_Symbol: {
+    auto *Sym = cast<Symbol>(this);
+    if (Sym->getIsMember())
+      return "Member";
+    else if (Sym->getIsParameter() || Sym->getIsUnspecifiedParameter())
+      return "Parameter";
+    else if (Sym->getIsVariable())
+      return "Variable";
+  } break;
+  case SV_Type: {
+    auto *Ty = cast<Type>(this);
+    if (Ty->getIsBaseType())
+      return "PrimitiveType";
+    else if (Ty->getIsConstType())
+      return "Const";
+    else if (Ty->getIsInheritance())
+      return "Inherits";
+    else if (Ty->getIsPointerMemberType())
+      return "PointerMember";
+    else if (Ty->getIsPointerType())
+      return "Pointer";
+    else if (Ty->getIsReferenceType())
+      return "Reference";
+    else if (Ty->getIsRestrictType())
+      return "Restrict";
+    else if (Ty->getIsRvalueReferenceType())
+      return "RvalueReference";
+    else if (Ty->getIsUnspecifiedType())
+      return "Unspecified";
+    else if (Ty->getIsVolatileType())
+      return "Volatile";
+  } break;
+  case SV_TypeDefinition:
+    return "Alias";
+  case SV_TypeEnumerator:
+    return "Enumerator";
+  case SV_TypeImport:
+    return "Using";
+  case SV_TypeParam:
+    return "TemplateParameter";
+  case SV_TypeSubrange:
+    return "Subrange";
+  }
+
+  assert(false && "Unreachable");
+  return "Undefined";
+}
+
 namespace {
 
 const char *OffsetAsString(Dwarf_Off Offset) {
@@ -126,11 +208,9 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
   // Get the qualified name, excluding the Compile Unit, Functions, and the
   // scope root.
   const Object *ObjParent = ExplicitParent;
-  while (ObjParent && !ObjParent->getIsCompileUnit() &&
-         !ExplicitParent->getIsFunction() &&
-         !(ObjParent->getIsScope() &&
-           static_cast<const Scope *>(ObjParent)->getIsRoot())) {
-
+  while (ObjParent && !isa<ScopeCompileUnit>(*ObjParent) &&
+         !isa<ScopeFunction>(*ExplicitParent) &&
+         !(isa<ScopeRoot>(*ObjParent))) {
     if (strlen(ObjParent->getName()) != 0) {
       QualifiedName.insert(0, "::");
       QualifiedName.insert(0, ObjParent->getName());
@@ -309,8 +389,7 @@ std::string Object::getCommonYAML() const {
   std::string Name;
   if (getHasQualifiedName())
     Name += getQualifiedName();
-  if (getIsSymbol() &&
-      static_cast<const Symbol *>(this)->getIsUnspecifiedParameter())
+  if (isa<Symbol>(*this) && cast<Symbol>(this)->getIsUnspecifiedParameter())
     Name += "...";
   else
     Name += getName();
@@ -323,16 +402,17 @@ std::string Object::getCommonYAML() const {
 
   // Type.
   YAML << "type: ";
-  if (getType() &&
-      // Template's types are printed in attributes.
-      !(getIsType() && static_cast<const Type *>(this)->getIsTemplateParam())) {
+
+  // Template's types are printed in attributes.
+  if (getType() && !(isa<TypeParam>(*this))) {
     std::string TypeName;
     if (getType()->getHasQualifiedName())
       TypeName += getType()->getQualifiedName();
     TypeName += getType()->getName();
     YAML << "\"" << TypeName << "\"\n";
-    // Functions must have types.
-  } else if (getIsScope() && static_cast<const Scope *>(this)->getIsFunction())
+  }
+  // Functions must have types.
+  else if (isa<ScopeFunction>(*this))
     YAML << "\"void\"\n";
   else
     YAML << "null\n";

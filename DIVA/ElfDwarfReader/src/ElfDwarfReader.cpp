@@ -42,6 +42,10 @@
 
 using namespace ElfDwarfReader;
 
+using LibScopeView::isa;
+using LibScopeView::cast;
+using LibScopeView::dyn_cast;
+
 namespace {
 
 // Create a mapping from DWARF file IDs to the file paths.
@@ -88,13 +92,13 @@ static void setSourceFile(LibScopeView::Object &Obj,
 // Set one Object to reference another, handling any type specifics.
 void addObjectReference(LibScopeView::Object *Obj,
                         LibScopeView::Object *Reference) {
-  if (auto Scp = dynamic_cast<LibScopeView::Scope *>(Obj)) {
+  if (auto Scp = dyn_cast<LibScopeView::Scope>(Obj)) {
     // Scope to Scope.
-    if (auto RefScp = dynamic_cast<LibScopeView::Scope *>(Reference))
+    if (auto RefScp = dyn_cast<LibScopeView::Scope>(Reference))
       Scp->setReference(RefScp);
-  } else if (auto Sym = dynamic_cast<LibScopeView::Symbol *>(Obj)) {
+  } else if (auto Sym = dyn_cast<LibScopeView::Symbol>(Obj)) {
     // Symbol to Symbol.
-    if (auto RefSym = dynamic_cast<LibScopeView::Symbol *>(Reference))
+    if (auto RefSym = dyn_cast<LibScopeView::Symbol>(Reference))
       Sym->setReference(RefSym);
   }
 }
@@ -115,7 +119,6 @@ void writeStringOrHex(std::ostream &Out, const std::string Str,
 std::unique_ptr<LibScopeView::ScopeRoot>
 DwarfReader::createScopes(const std::string &FileName) {
   auto Root = std::make_unique<LibScopeView::ScopeRoot>();
-  Root->setIsRoot();
   Root->setName(FileName.c_str());
 
   LibScopeView::FileDescriptor FD(FileName);
@@ -159,10 +162,7 @@ void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
 void DwarfReader::createObject(const DwarfDebugData &DebugData,
                                const DwarfDie &Die,
                                LibScopeView::Object &ParentObj) {
-  // For now do nothing if the parent is not a scope.
-  if (!ParentObj.getIsScope())
-    return;
-  auto &ParentScope = dynamic_cast<LibScopeView::Scope &>(ParentObj);
+  auto &ParentScope = cast<LibScopeView::Scope>(ParentObj);
 
   auto ObjOffset = Die.getGlobalOffset();
   auto ObjTag = Die.getTag();
@@ -209,11 +209,8 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
     Obj->setIsConstType();
     return Obj;
   }
-  case DW_TAG_enumerator: {
-    auto Obj = new LibScopeView::TypeEnumerator;
-    Obj->setIsEnumerator();
-    return Obj;
-  }
+  case DW_TAG_enumerator:
+    return new LibScopeView::TypeEnumerator;
   case DW_TAG_imported_declaration: {
     auto Obj = new LibScopeView::TypeImport;
     Obj->setIsImportedDeclaration();
@@ -254,11 +251,8 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
     Obj->setIsRvalueReferenceType();
     return Obj;
   }
-  case DW_TAG_subrange_type: {
-    auto Obj = new LibScopeView::TypeSubrange;
-    Obj->setIsSubrangeType();
-    return Obj;
-  }
+  case DW_TAG_subrange_type:
+    return new LibScopeView::TypeSubrange;
   case DW_TAG_template_value_parameter: {
     auto Obj = new LibScopeView::TypeParam;
     Obj->setIsTemplateValue();
@@ -274,11 +268,8 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
     Obj->setIsTemplateTemplate();
     return Obj;
   }
-  case DW_TAG_typedef: {
-    auto Obj = new LibScopeView::TypeDefinition;
-    Obj->setIsTypedef();
-    return Obj;
-  }
+  case DW_TAG_typedef:
+    return new LibScopeView::TypeDefinition;
   case DW_TAG_unspecified_type: {
     auto Obj = new LibScopeView::Type;
     Obj->setIsUnspecifiedType();
@@ -326,32 +317,16 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
     Obj->setIsTryBlock();
     return Obj;
   }
-  case DW_TAG_compile_unit: {
-    auto Obj = new LibScopeView::ScopeCompileUnit;
-    Obj->setIsCompileUnit();
-    return Obj;
-  }
-  case DW_TAG_inlined_subroutine: {
-    auto Obj = new LibScopeView::ScopeFunctionInlined;
-    Obj->setIsInlinedSubroutine();
-    return Obj;
-  }
-  case DW_TAG_namespace: {
-    auto Obj = new LibScopeView::ScopeNamespace;
-    Obj->setIsNamespace();
-    return Obj;
-  }
-  case DW_TAG_template_alias: {
-    auto Obj = new LibScopeView::ScopeAlias;
-    Obj->setIsTemplateAlias();
-    Obj->setIsTemplate();
-    return Obj;
-  }
-  case DW_TAG_array_type: {
-    auto Obj = new LibScopeView::ScopeArray;
-    Obj->setIsArrayType();
-    return Obj;
-  }
+  case DW_TAG_compile_unit:
+    return new LibScopeView::ScopeCompileUnit;
+  case DW_TAG_inlined_subroutine:
+    return new LibScopeView::ScopeFunctionInlined;
+  case DW_TAG_namespace:
+    return new LibScopeView::ScopeNamespace;
+  case DW_TAG_template_alias:
+    return new LibScopeView::ScopeAlias;
+  case DW_TAG_array_type:
+    return new LibScopeView::ScopeArray;
   case DW_TAG_entry_point: {
     auto Obj = new LibScopeView::ScopeFunction;
     Obj->setIsEntryPoint();
@@ -387,16 +362,10 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
     Obj->setIsUnionType();
     return Obj;
   }
-  case DW_TAG_enumeration_type: {
-    auto Obj = new LibScopeView::ScopeEnumeration;
-    Obj->setIsEnumerationType();
-    return Obj;
-  }
-  case DW_TAG_GNU_template_parameter_pack: {
-    auto Obj = new LibScopeView::ScopeTemplatePack;
-    Obj->setIsTemplatePack();
-    return Obj;
-  }
+  case DW_TAG_enumeration_type:
+    return new LibScopeView::ScopeEnumeration;
+  case DW_TAG_GNU_template_parameter_pack:
+    return new LibScopeView::ScopeTemplatePack;
   default:
     if (!UnknownDWTags.count(Tag)) {
       UnknownDWTags.insert(Tag);
@@ -426,11 +395,11 @@ void DwarfReader::initObjectFromAttrs(LibScopeView::Object &Obj,
   if (!DeclFileID.empty())
     setSourceFile(Obj, SourceFileMapping, DeclFileID.getUnsigned());
 
-  if (auto Scp = dynamic_cast<LibScopeView::Scope *>(&Obj))
+  if (auto Scp = dyn_cast<LibScopeView::Scope>(&Obj))
     initScopeFromAttrs(*Scp, Die);
-  else if (auto Ty = dynamic_cast<LibScopeView::Type *>(&Obj))
+  else if (auto Ty = dyn_cast<LibScopeView::Type>(&Obj))
     initTypeFromAttrs(*Ty, Die);
-  else if (auto Sym = dynamic_cast<LibScopeView::Symbol *>(&Obj))
+  else if (auto Sym = dyn_cast<LibScopeView::Symbol>(&Obj))
     initSymbolFromAttrs(*Sym, Die);
 }
 
@@ -439,21 +408,21 @@ void DwarfReader::initScopeFromAttrs(LibScopeView::Scope &Scp,
   Scp.resolveQualifiedName();
 
   // Parents of template packs are templates.
-  if (Scp.getIsTemplatePack())
-    if (auto ScpParent = dynamic_cast<LibScopeView::Scope *>(Scp.getParent()))
+  if (isa<LibScopeView::ScopeTemplatePack>(Scp))
+    if (auto ScpParent = dyn_cast<LibScopeView::Scope>(Scp.getParent()))
       ScpParent->setIsTemplate();
 
   // CU lines.
-  if (auto CU = dynamic_cast<LibScopeView::ScopeCompileUnit *>(&Scp))
+  if (auto CU = dyn_cast<LibScopeView::ScopeCompileUnit>(&Scp))
     createLines(Die, *CU);
   // Enum class.
   else if (auto ScpEnum =
-               dynamic_cast<LibScopeView::ScopeEnumeration *>(&Scp)) {
+               dyn_cast<LibScopeView::ScopeEnumeration>(&Scp)) {
     if (attrIsTrueFlag(Die, DW_AT_enum_class))
       ScpEnum->setIsClass();
   }
   // Functions.
-  else if (auto Func = dynamic_cast<LibScopeView::ScopeFunction *>(&Scp)) {
+  else if (auto Func = dyn_cast<LibScopeView::ScopeFunction>(&Scp)) {
     if (attrIsTrueFlag(Die, DW_AT_declaration))
       Func->setIsDeclaration();
 
@@ -481,8 +450,9 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
   Ty.resolveQualifiedName();
 
   // Parents of template parameters are templates.
-  if (Ty.getIsTemplateParam() && Ty.getParent()->getIsScope())
-    if (auto ScpParent = dynamic_cast<LibScopeView::Scope *>(Ty.getParent()))
+  if (isa<LibScopeView::TypeParam>(Ty) &&
+      isa<LibScopeView::Scope>(*Ty.getParent()))
+    if (auto ScpParent = dyn_cast<LibScopeView::Scope>(Ty.getParent()))
       ScpParent->setIsTemplate();
 
   // PrimitiveType byte size.
@@ -497,7 +467,7 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
     }
   }
   // Enum values and template values.
-  else if (Ty.getIsEnumerator() || Ty.getIsTemplateValue()) {
+  else if (isa<LibScopeView::TypeEnumerator>(Ty) || Ty.getIsTemplateValue()) {
     DwarfAttrValue Val(getAttrExpectingKinds(
         Die, DW_AT_const_value,
         {DwarfAttrValueKind::Unsigned, DwarfAttrValueKind::Signed}));
@@ -514,7 +484,7 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
       Ty.setValue(TemplateName.getString().c_str());
   }
   // Subranges.
-  else if (Ty.getIsSubrangeType()) {
+  else if (isa<LibScopeView::TypeSubrange>(Ty)) {
     std::stringstream SubrangeName;
     SubrangeName << "[";
 
@@ -549,8 +519,8 @@ void DwarfReader::initTypeFromAttrs(LibScopeView::Type &Ty,
   }
   // Inheritance.
   else if (Ty.getIsInheritance()) {
-    auto &Inheritance = dynamic_cast<LibScopeView::TypeImport &>(Ty);
-    Inheritance.setInheritanceAccess(getAccessSpecifier(Die));
+    auto *Inheritance = dyn_cast<LibScopeView::TypeImport>(&Ty);
+    Inheritance->setInheritanceAccess(getAccessSpecifier(Die));
   }
 }
 
@@ -568,7 +538,6 @@ void DwarfReader::createLines(const DwarfDie &CUDie,
     auto DwarfLine = LineTable[LineIndex];
     auto *Ln = new LibScopeView::Line;
 
-    Ln->setIsLineRecord();
     CUObj.addChild(Ln);
     Ln->setLineNumber(DwarfLine.LineNo);
     Ln->setAddress(DwarfLine.LineAddr);

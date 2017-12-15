@@ -35,51 +35,31 @@
 
 using namespace LibScopeView;
 
-Line::Line() : Element(SV_Line), Discriminator(0) {
-  setIsLine();
-}
+Line::Line() : Element(SV_Line), Discriminator(0) {}
 
 uint32_t Line::LinesAllocated = 0;
-
-// Line Kind.
-const char *Line::KindBasicBlock = "BasicBlock";
-const char *Line::KindDiscriminator = "Discriminator";
-const char *Line::KindEndSequence = "EndSequence";
-const char *Line::KindEpilogueBegin = "EpilogueBegin";
-const char *Line::KindLine = "CodeLine";
-const char *Line::KindNewStatement = "NewStatement";
-const char *Line::KindPrologueEnd = "PrologueEnd";
-const char *Line::KindUndefined = "Undefined";
-
-const char *Line::getKindAsString() const {
-  const char *Kind = KindUndefined;
-  if (getIsLineRecord()) {
-    Kind = KindLine;
-  }
-  return Kind;
-}
 
 std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
   if (Settings.ShowCodelineAttributes) {
     if (getIsNewStatement()) {
-      Result << '\n' << formatAttributeText(KindNewStatement);
+      Result << '\n' << formatAttributeText("NewStatement");
     }
     if (getIsPrologueEnd()) {
-      Result << '\n' << formatAttributeText(KindPrologueEnd);
+      Result << '\n' << formatAttributeText("PrologueEnd");
     }
     if (getIsLineEndSequence()) {
-      Result << '\n' << formatAttributeText(KindEndSequence);
+      Result << '\n' << formatAttributeText("EndSequence");
     }
     if (getIsNewBasicBlock()) {
-      Result << '\n' << formatAttributeText(KindBasicBlock);
+      Result << '\n' << formatAttributeText("BasicBlock");
     }
     if (getHasDiscriminator()) {
-      Result << '\n' << formatAttributeText(KindDiscriminator);
+      Result << '\n' << formatAttributeText("Discriminator");
     }
     if (getIsEpilogueBegin()) {
-      Result << '\n' << formatAttributeText(KindEpilogueBegin);
+      Result << '\n' << formatAttributeText("EpilogueBegin");
     }
   }
   return Result.str();
@@ -90,17 +70,17 @@ std::string Line::getAsYAML() const {
   std::stringstream Attrs;
   const std::string YAMLTrue(": true");
   const std::string YAMLFalse(": false");
-  Attrs << "\n  " << KindNewStatement
+  Attrs << "\n  NewStatement"
         << (getIsNewStatement() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  " << KindPrologueEnd
+  Attrs << "\n  PrologueEnd"
         << (getIsPrologueEnd() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  " << KindEndSequence
+  Attrs << "\n  EndSequence"
         << (getIsLineEndSequence() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  " << KindBasicBlock
+  Attrs << "\n  BasicBlock"
         << (getIsNewBasicBlock() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  " << KindDiscriminator
+  Attrs << "\n  Discriminator"
         << (getHasDiscriminator() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  " << KindEpilogueBegin
+  Attrs << "\n  EpilogueBegin"
         << (getIsEpilogueBegin() ? YAMLTrue : YAMLFalse);
 
   if (Attrs.str().empty())

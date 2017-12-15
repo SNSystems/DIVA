@@ -83,28 +83,18 @@ private:
 
   // Flags specifying various properties of the Scope.
   enum ScopeAttributes {
-    IsAggregate,
-    IsArrayType,
     IsBlock,
     IsCatchBlock,
     IsLexicalBlock,
     IsTryBlock,
-    IsCompileUnit,
-    IsFunction,
-    IsInlinedSubroutine,
     IsEntryPoint,
     IsSubprogram,
     IsSubroutineType,
     IsLabel,
-    IsNamespace,
-    IsRoot,
     IsTemplate,
-    IsTemplateAlias,
     IsClassType,
     IsStructureType,
     IsUnionType,
-    IsEnumerationType,
-    IsTemplatePack,
     HasDiscriminator,
     IsCombinedScope,
     ScopeAttributesSize
@@ -112,16 +102,7 @@ private:
   std::bitset<ScopeAttributesSize> ScopeAttributesFlags;
 
 public:
-  /// \brief Get the object kind as a string.
-  const char *getKindAsString() const override;
-
   // Flags associated with the scope.
-  bool getIsAggregate() const { return ScopeAttributesFlags[IsAggregate]; }
-  void setIsAggregate() { ScopeAttributesFlags.set(IsAggregate); }
-
-  bool getIsArrayType() const { return ScopeAttributesFlags[IsArrayType]; }
-  void setIsArrayType() { ScopeAttributesFlags.set(IsArrayType); }
-
   bool getIsBlock() const { return ScopeAttributesFlags[IsBlock]; }
   void setIsBlock() { ScopeAttributesFlags.set(IsBlock); }
 
@@ -145,90 +126,37 @@ public:
     setIsBlock();
   }
 
-  bool getIsCompileUnit() const override {
-    return ScopeAttributesFlags[IsCompileUnit];
-  }
-  void setIsCompileUnit() { ScopeAttributesFlags.set(IsCompileUnit); }
-
-  bool getIsInlinedSubroutine() const {
-    return ScopeAttributesFlags[IsInlinedSubroutine];
-  }
-  void setIsInlinedSubroutine() {
-    ScopeAttributesFlags.set(IsInlinedSubroutine);
-    setIsFunction();
-    setIsInlined();
-  }
-
   bool getIsEntryPoint() const { return ScopeAttributesFlags[IsEntryPoint]; }
-  void setIsEntryPoint() {
-    ScopeAttributesFlags.set(IsEntryPoint);
-    setIsFunction();
-  }
+  void setIsEntryPoint() { ScopeAttributesFlags.set(IsEntryPoint); }
 
   bool getIsSubprogram() const { return ScopeAttributesFlags[IsSubprogram]; }
-  void setIsSubprogram() {
-    ScopeAttributesFlags.set(IsSubprogram);
-    setIsFunction();
-  }
+  void setIsSubprogram() { ScopeAttributesFlags.set(IsSubprogram); }
 
   bool getIsSubroutineType() const {
     return ScopeAttributesFlags[IsSubroutineType];
   }
-  void setIsSubroutineType() {
-    ScopeAttributesFlags.set(IsSubroutineType);
-    setIsFunction();
-  }
+  void setIsSubroutineType() { ScopeAttributesFlags.set(IsSubroutineType); }
 
   bool getIsLabel() const { return ScopeAttributesFlags[IsLabel]; }
-  void setIsLabel() {
-    ScopeAttributesFlags.set(IsLabel);
-    setIsFunction();
-  }
-
-  bool getIsFunction() const { return ScopeAttributesFlags[IsFunction]; }
-  void setIsFunction() { ScopeAttributesFlags.set(IsFunction); }
-
-  bool getIsNamespace() const { return ScopeAttributesFlags[IsNamespace]; }
-  void setIsNamespace() { ScopeAttributesFlags.set(IsNamespace); }
-
-  bool getIsRoot() const { return ScopeAttributesFlags[IsRoot]; }
-  void setIsRoot() { ScopeAttributesFlags.set(IsRoot); }
+  void setIsLabel() { ScopeAttributesFlags.set(IsLabel); }
 
   bool getIsTemplate() const { return ScopeAttributesFlags[IsTemplate]; }
   void setIsTemplate() { ScopeAttributesFlags.set(IsTemplate); }
 
-  bool getIsTemplateAlias() const {
-    return ScopeAttributesFlags[IsTemplateAlias];
-  }
-  void setIsTemplateAlias() { ScopeAttributesFlags.set(IsTemplateAlias); }
-
   bool getIsClassType() const { return ScopeAttributesFlags[IsClassType]; }
   void setIsClassType() {
     ScopeAttributesFlags.set(IsClassType);
-    setIsAggregate();
   }
 
   bool getIsStructType() const { return ScopeAttributesFlags[IsStructureType]; }
   void setIsStructType() {
     ScopeAttributesFlags.set(IsStructureType);
-    setIsAggregate();
   }
 
   bool getIsUnionType() const { return ScopeAttributesFlags[IsUnionType]; }
   void setIsUnionType() {
     ScopeAttributesFlags.set(IsUnionType);
-    setIsAggregate();
   }
-
-  bool getIsEnumerationType() const {
-    return ScopeAttributesFlags[IsEnumerationType];
-  }
-  void setIsEnumerationType() { ScopeAttributesFlags.set(IsEnumerationType); }
-
-  bool getIsTemplatePack() const {
-    return ScopeAttributesFlags[IsTemplatePack];
-  }
-  void setIsTemplatePack() { ScopeAttributesFlags.set(IsTemplatePack); }
 
   // Has any reference (DW_AT_GNU_discriminator).
   bool getHasDiscriminator() const {
@@ -317,7 +245,7 @@ public:
 /// \brief Class to represent a DWARF Template alias object.
 class ScopeAlias : public Scope {
 public:
-  ScopeAlias() : Scope(SV_ScopeAlias) {}
+  ScopeAlias() : Scope(SV_ScopeAlias) { setIsTemplate(); }
 
   /// \brief Return true if Obj is an insance of ScopeAlias.
   static bool classof(const Object *Obj) {

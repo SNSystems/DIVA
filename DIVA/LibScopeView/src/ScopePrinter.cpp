@@ -64,7 +64,7 @@ void ScopePrinter::print(const ScopeRoot *Root, const std::string &OutputDir) {
   // Print each compile unit
   initBeforePrint(Root);
   for (const auto *CU : Root->getChildren()) {
-    if (CU->getIsCompileUnit()) {
+    if (isa<ScopeCompileUnit>(*CU)) {
       // Open an output file for each CU.
       std::string OutputPath(SplitOutputDir);
       OutputPath += flattenFilePath(CU->getName());

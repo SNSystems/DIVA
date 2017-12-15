@@ -215,7 +215,7 @@ const std::string &ScopeTextPrinter::getHeader() {
 void ScopeTextPrinter::printImpl(const Object *Obj,
                                  std::ostream &OutputStream) {
   // Don't print anything for the scope root, but do visit the children.
-  if (Obj->getIsScope() && static_cast<const Scope *>(Obj)->getIsRoot()) {
+  if (isa<ScopeRoot>(*Obj)) {
     printChildren(Obj);
     return;
   }

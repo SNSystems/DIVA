@@ -63,12 +63,9 @@ enum ObjectKind {
 
 void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
   switch (Kind) {
-  case Alias: {
-    auto *Scp = new Scope;
-    Scp->setIsTemplateAlias();
-    Root.addChild(Scp);
+  case Alias:
+    Root.addChild(new ScopeAlias);
     break;
-  }
   case Block: {
     auto *Scp = new Scope;
     Scp->setIsBlock();
@@ -76,47 +73,32 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
     break;
   }
   case Class: {
-    auto *Scp = new Scope;
+    auto *Scp = new ScopeAggregate;
     Scp->setIsClassType();
     Root.addChild(Scp);
     break;
   }
-  case CodeLine: {
-    auto *Ln = new Line;
-    Ln->setIsLineRecord();
-    Root.addChild(Ln);
+  case CodeLine:
+    Root.addChild(new Line);
     break;
-  }
-  case CompileUnit: {
-    auto *Scp = new Scope;
-    Scp->setIsCompileUnit();
-    Root.addChild(Scp);
+  case CompileUnit:
+    Root.addChild(new ScopeCompileUnit);
     break;
-  }
-  case Enum: {
-    auto *Scp = new Scope;
-    Scp->setIsEnumerationType();
-    Root.addChild(Scp);
+  case Enum:
+    Root.addChild(new ScopeEnumeration);
     break;
-  }
-  case Function: {
-    auto *Scp = new Scope;
-    Scp->setIsFunction();
-    Root.addChild(Scp);
+  case Function:
+    Root.addChild(new ScopeFunction);
     break;
-  }
   case Member: {
     auto *Sym = new Symbol;
     Sym->setIsMember();
     Root.addChild(Sym);
     break;
   }
-  case Namespace: {
-    auto *Scp = new Scope;
-    Scp->setIsNamespace();
-    Root.addChild(Scp);
+  case Namespace:
+    Root.addChild(new ScopeNamespace);
     break;
-  }
   case Parameter: {
     auto *Sym = new Symbol;
     Sym->setIsParameter();
@@ -130,30 +112,26 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
     break;
   }
   case Struct: {
-    auto *Scp = new Scope;
+    auto *Scp = new ScopeAggregate;
     Scp->setIsStructType();
     Root.addChild(Scp);
     break;
   }
   case TemplateParameter: {
-    auto *Ty = new Type;
-    Ty->setIsTemplateParam();
+    auto *Ty = new TypeParam;
     Ty->setIsTemplateType();
     Root.addChild(Ty);
     break;
   }
   case Union: {
-    auto *Scp = new Scope;
+    auto *Scp = new ScopeAggregate;
     Scp->setIsUnionType();
     Root.addChild(Scp);
     break;
   }
-  case Using: {
-    auto *Ty = new Type;
-    Ty->setIsImported();
-    Root.addChild(Ty);
+  case Using:
+    Root.addChild(new TypeImport);
     break;
-  }
   case Variable: {
     auto *Sym = new Symbol;
     Sym->setIsVariable();
@@ -168,7 +146,6 @@ void generateTestObject(ScopeRoot &Root, ObjectKind Kind) {
 
 TEST(SummaryTable, EmptySummaryTable) {
   ScopeRoot Root;
-  Root.setIsRoot();
 
   SummaryTable STab(Root, nullptr);
 
@@ -203,7 +180,6 @@ TEST(SummaryTable, EmptySummaryTable) {
 
 TEST(SummaryTable, OneIncrementSummaryTable) {
   ScopeRoot Root;
-  Root.setIsRoot();
 
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
@@ -241,7 +217,6 @@ TEST(SummaryTable, OneIncrementSummaryTable) {
 
 TEST(SummaryTable, MultipleIncrementsSummaryTable) {
   ScopeRoot Root;
-  Root.setIsRoot();
 
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));
@@ -288,7 +263,6 @@ TEST(SummaryTable, MultipleIncrementsSummaryTable) {
 
 TEST(SummaryTable, PrintSettingsSummaryTable) {
   ScopeRoot Root;
-  Root.setIsRoot();
 
   for (uint32_t Kind = 0; Kind != ObjectKindSize; ++Kind)
     generateTestObject(Root, ObjectKind(Kind));

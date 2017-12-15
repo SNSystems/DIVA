@@ -43,14 +43,10 @@ using namespace LibScopeView;
 namespace {
 
 // Object class where the properties can be set and getCommonYAML is public.
-class TestObject : public Object {
+class TestObject : public Scope {
 public:
-  TestObject() : Object(SV_Symbol), Type(nullptr) {}
+  TestObject() : Scope(SV_Scope), Type(nullptr) {}
 
-  const char *getKindAsString() const override {
-    static std::string Kind("ObjKind");
-    return Kind.c_str();
-  }
   const char *getName() const override { return Name.c_str(); }
   size_t getNameIndex() const override { return 0; }
   virtual void setNameIndex(size_t NameIndex) override {}
@@ -88,7 +84,8 @@ private:
 
 TEST(Object, getCommonYAML) {
   TestObject TO;
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  TO.setIsBlock(); // For getKindAsString.
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: null\n"
                                 "type: null\n"
                                 "source:\n"
@@ -99,7 +96,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setName("VarName");
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"VarName\"\n"
                                 "type: null\n"
                                 "source:\n"
@@ -110,7 +107,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setQualifiedName("Q::");
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: null\n"
                                 "source:\n"
@@ -123,7 +120,7 @@ TEST(Object, getCommonYAML) {
   Type Ty;
   Ty.setName("Ty");
   TO.setType(&Ty);
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Ty\"\n"
                                 "source:\n"
@@ -135,7 +132,7 @@ TEST(Object, getCommonYAML) {
 
   Ty.setQualifiedName("Class::");
   Ty.setHasQualifiedName();
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -146,7 +143,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setLineNumber(25);
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -157,7 +154,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setFileName("path/file.cpp");
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -168,7 +165,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setInvalidFileName();
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -179,7 +176,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setDieOffset(0x201);
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -190,7 +187,7 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   TO.setDieTag(DW_TAG_variable);
-  EXPECT_EQ(TO.getCommonYAML(), "object: \"ObjKind\"\n"
+  EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
@@ -204,23 +201,18 @@ TEST(Object, getCommonYAML) {
 TEST(Object, ResolveQualifiedName) {
   ScopeNamespace NS1;
   NS1.setName("NS1");
-  NS1.setIsNamespace();
 
   ScopeNamespace NS2;
   NS2.setName("NS2");
-  NS2.setIsNamespace();
 
   ScopeFunction Func;
   Func.setName("Function");
-  Func.setIsFunction();
 
   ScopeRoot Root;
   Root.setName("Root");
-  Root.setIsRoot();
 
   ScopeCompileUnit CU;
   CU.setName("CU");
-  CU.setIsCompileUnit();
 
   Scope Block;
   Block.setIsLexicalBlock();

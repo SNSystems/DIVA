@@ -45,13 +45,6 @@ public:
   }
 
 private:
-  // Symbol Kind.
-  static const char *KindMember;
-  static const char *KindParameter;
-  static const char *KindUndefined;
-  static const char *KindUnspecified;
-  static const char *KindVariable;
-
   // Flags specifying various properties of the Symbol.
   enum SymbolAttributes {
     IsMember,
@@ -63,9 +56,6 @@ private:
   std::bitset<SymbolAttributesSize> SymbolAttributesFlags;
 
 public:
-  /// \brief Gets the object kind as a string.
-  const char *getKindAsString() const override;
-
   bool getIsMember() const { return SymbolAttributesFlags[IsMember]; }
   void setIsMember() { SymbolAttributesFlags.set(IsMember); }
 
