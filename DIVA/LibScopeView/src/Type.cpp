@@ -42,8 +42,6 @@ Type::Type(ObjectKind K) : Element(K), ByteSize(0) {}
 
 uint32_t Type::TypesAllocated = 0;
 
-const char *Type::resolveName() { return getName(); }
-
 bool Type::setFullName(const PrintSettings &Settings) {
   if (isa<TypeTemplateParam>(*this))
     return true;
@@ -52,7 +50,7 @@ bool Type::setFullName(const PrintSettings &Settings) {
   Type *BaseType = nullptr;
   Scope *BaseScope = nullptr;
 
-  BaseText = getName();
+  BaseText = getName().c_str();
   // setFullName adds extra whitespace if you pass "" instead of nullptr.
   if (strlen(BaseText) == 0)
     BaseText = nullptr;
@@ -64,6 +62,14 @@ bool Type::setFullName(const PrintSettings &Settings) {
   }
 
   return setFullName(Settings, BaseType, BaseScope, nullptr, BaseText);
+}
+
+namespace {
+  std::string EmptyString;
+}
+
+const std::string &Type::getValue() const {
+  return EmptyString;
 }
 
 bool Type::getIsPrintedAsObject() const { return getIsBaseType(); }
@@ -126,15 +132,13 @@ std::string TypeDefinition::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-const char *TypeEnumerator::getValue() const {
-  return StringPool::getStringValue(ValueIndex);
+const std::string &TypeEnumerator::getValue() const {
+  return ValueRef ? *ValueRef : EmptyString;
 }
 
-void TypeEnumerator::setValue(const char *value) {
-  ValueIndex = StringPool::getStringIndex(value);
+void TypeEnumerator::setValue(const std::string &Value) {
+  ValueRef = getGlobalStringPool().get(Value);
 }
-
-size_t TypeEnumerator::getValueIndex() const { return ValueIndex; }
 
 std::string TypeEnumerator::getAsText(const PrintSettings &Settings) const {
   std::string ObjectAsText;
@@ -168,12 +172,13 @@ bool TypeImport::getIsPrintedAsObject() const { return !getIsInheritance(); }
 
 std::string TypeImport::getAsText(const PrintSettings &Settings) const {
   if (getIsInheritance())
-    return getInheritanceAsText();
+    return getInheritanceAsText(Settings);
   else
     return getUsingAsText(Settings);
 }
 
-std::string TypeImport::getInheritanceAsText() const {
+std::string
+TypeImport::getInheritanceAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   switch (getInheritanceAccess()) {
   case AccessSpecifier::Private:
@@ -193,7 +198,7 @@ std::string TypeImport::getInheritanceAsText() const {
       Result << "public";
     break;
   }
-  Result << " \"" << getTypeName() << '"';
+  Result << " \"" << getTypeAsString(Settings) << '"';
   return formatAttributeText(Result.str());
 }
 
@@ -236,13 +241,14 @@ std::string TypeImport::getAsYAML() const {
   return getUsingAsYAML();
 }
 
-std::string TypeImport::getInheritanceAsYAML() const {
+std::string
+TypeImport::getInheritanceAsYAML() const {
   std::stringstream Result;
   if (!getIsInheritance())
     return Result.str();
 
-  Result << "    - parent: \"" << getTypeName() << "\"\n"
-         << "      access_specifier: ";
+  Result << "    - parent: \"" << (getType() ? getType()->getName() : "")
+         << "\"\n      access_specifier: ";
 
   switch (getInheritanceAccess()) {
   case AccessSpecifier::Private:
@@ -313,15 +319,13 @@ std::string TypeImport::getUsingAsYAML() const {
   return Result.str();
 }
 
-const char *TypeTemplateParam::getValue() const {
-  return StringPool::getStringValue(ValueIndex);
+const std::string &TypeTemplateParam::getValue() const {
+  return ValueRef ? *ValueRef : EmptyString;
 }
 
-void TypeTemplateParam::setValue(const char *value) {
-  ValueIndex = StringPool::getStringIndex(value);
+void TypeTemplateParam::setValue(const std::string &Value) {
+  ValueRef = getGlobalStringPool().get(Value);
 }
-
-size_t TypeTemplateParam::getValueIndex() const { return ValueIndex; }
 
 bool TypeTemplateParam::getIsPrintedAsObject() const {
   // Template parameters within template packs are printed by the pack.
@@ -347,7 +351,7 @@ std::string TypeTemplateParam::getAsText(const PrintSettings &Settings) const {
   if (getIsTemplateType()) {
     Result += "\"";
     Result += getTypeQualifiedName();
-    Result += getTypeName();
+    Result += getTypeAsString(Settings);
     Result += "\"";
   } else if (getIsTemplateValue()) {
     Result += getValue();
@@ -367,7 +371,8 @@ std::string TypeTemplateParam::getAsYAML() const {
     YAML << getCommonYAML() << "\nattributes:\n  types:\n    - ";
 
   if (getIsTemplateType())
-    YAML << "\"" << getTypeQualifiedName() << getTypeName() << "\"";
+    YAML << "\"" << getTypeQualifiedName()
+         << (getType() ? getType()->getName() : "") << "\"";
   else if (getIsTemplateValue())
     YAML << getValue();
   else {

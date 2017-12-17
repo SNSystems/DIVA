@@ -94,8 +94,6 @@ TEST(DivaOptions, Defaults) {
   EXPECT_FALSE(DOpt.ShowPerformanceTime);
   EXPECT_FALSE(DOpt.ShowPerformanceMemory);
   EXPECT_FALSE(DOpt.ShowScopeAllocation);
-  EXPECT_FALSE(DOpt.ShowStringPoolInfo);
-  EXPECT_FALSE(DOpt.DumpStringPool);
 }
 
 TEST(DivaOptions, InputFiles) {
@@ -345,8 +343,6 @@ TEST(DivaOptions, FlagArguments) {
   CHECK_FLAG("performance-time", ShowPerformanceTime);
   CHECK_FLAG("performance-memory", ShowPerformanceMemory);
   CHECK_FLAG("scope-allocation", ShowScopeAllocation);
-  CHECK_FLAG("info-string-pool", ShowStringPoolInfo);
-  CHECK_FLAG("dump-string-pool", DumpStringPool);
 
   EXPECT_EQ(Output.str(), "");
 }

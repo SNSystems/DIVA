@@ -42,27 +42,19 @@ namespace {
 
 class FakeObject : public Scope {
 public:
-  FakeObject(std::string Name, uint64_t Line, size_t FileIndex,
-             std::string FileName)
-      : Scope(SV_Scope), FakeName(Name), FakeFileIndex(FileIndex),
-        FakeFileName(FileName) {
+  FakeObject(std::string Name, uint64_t Line, std::string FileName)
+      : Scope(SV_Scope), FakeName(Name) {
+    setFileName(FileName);
     setLineNumber(Line);
     setIsBlock(); // For PrintSettings::printObject.
   }
 
-  const char *getName() const override { return FakeName.c_str(); }
+  const std::string &getName() const override { return FakeName; }
   std::string getAsText(const PrintSettings &Settings) const override {
     return std::string("{Fake} ") + FakeName + std::string("\n  - Attr");
   }
-  size_t getFileNameIndex() const override { return FakeFileIndex; }
-  std::string getFileName(bool format_options) const override {
-    assert(format_options && "Text printer should always format file name");
-    return FakeFileName;
-  }
 
   std::string FakeName;
-  size_t FakeFileIndex;
-  std::string FakeFileName;
 };
 
 class FakeNoTextObject : public Scope {
@@ -77,7 +69,7 @@ TEST(ScopeTextPrinter, PrintNoChildren) {
   Settings.showAll();
 
   ScopeRoot Root;
-  Root.addChild(new FakeObject("Top", 11, 1, "foo.cpp"));
+  Root.addChild(new FakeObject("Top", 11, "foo.cpp"));
 
   std::stringstream Output;
   ScopeTextPrinter(Settings, "In.o").print(&Root, Output);
@@ -95,11 +87,11 @@ TEST(ScopeTextPrinter, Print) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 111, 2, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 1122, 2, "foo.cpp");
-  auto *Child3 = new FakeObject("Child3", 2, 3, "bar.cpp");
-  auto *Child4 = new FakeObject("Child4", 4, 3, "bar.cpp");
+  auto *Top = new FakeObject("Top", 11, "a/foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "b/foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 1122, "b/foo.cpp");
+  auto *Child3 = new FakeObject("Child3", 2, "bar.cpp");
+  auto *Child4 = new FakeObject("Child4", 4, "bar.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2);
@@ -133,11 +125,11 @@ TEST(ScopeTextPrinter, SkipObjectsWithNoText) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 2, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 1, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 2, "foo.cpp");
   auto *Child2NoText = new FakeNoTextObject;
-  auto *Child3 = new FakeObject("Child3", 3, 1, "foo.cpp");
-  auto *Child4 = new FakeObject("Child4", 4, 1, "foo.cpp");
+  auto *Child3 = new FakeObject("Child3", 3, "foo.cpp");
+  auto *Child4 = new FakeObject("Child4", 4, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2NoText);
@@ -162,10 +154,10 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnSettings) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 11, "foo.cpp");
   Top->setIsTemplate();
-  auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 1122, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2);
@@ -199,11 +191,11 @@ TEST(ScopeTextPrinter, SkipObjectsDependingOnFilters) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
-  auto *Child3 = new FakeObject("Child3", 1, 1, "foo.cpp");
-  auto *Child4 = new FakeObject("Child4", 2, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 11, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 1122, "foo.cpp");
+  auto *Child3 = new FakeObject("Child3", 1, "foo.cpp");
+  auto *Child4 = new FakeObject("Child4", 2, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2);
@@ -268,8 +260,8 @@ TEST(ScopeTextPrinter, PrintZeroLine) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 0, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 1, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 0, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 1, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
 
@@ -300,9 +292,9 @@ TEST(ScopeTextPrinter, PrintDWARFAttributes) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 11, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 1122, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 11, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 1122, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2);
@@ -393,10 +385,10 @@ TEST(ScopeTextPrinter, PrintFlagAttributes) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");
-  auto *Child3 = new FakeObject("Child3", 333, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 1, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 222, "foo.cpp");
+  auto *Child3 = new FakeObject("Child3", 333, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Top->addChild(Child2);
@@ -441,9 +433,9 @@ TEST(ScopeTextPrinter, PrintNoIndent) {
   Settings.showAll();
 
   ScopeRoot Root;
-  auto *Top = new FakeObject("Top", 1, 1, "foo.cpp");
-  auto *Child1 = new FakeObject("Child1", 111, 1, "foo.cpp");
-  auto *Child2 = new FakeObject("Child2", 222, 1, "foo.cpp");
+  auto *Top = new FakeObject("Top", 1, "foo.cpp");
+  auto *Child1 = new FakeObject("Child1", 111, "foo.cpp");
+  auto *Child2 = new FakeObject("Child2", 222, "foo.cpp");
   Root.addChild(Top);
   Top->addChild(Child1);
   Child1->addChild(Child2);

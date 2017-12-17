@@ -157,10 +157,6 @@ public:
   void setIncludeInPrint() { TypeAttributesFlags.set(IncludeInPrint); }
 
 public:
-  /// \brief Follow the chain of references given by DW_AT_abstract_origin
-  /// and/or DW_AT_specification and update the symbol name.
-  const char *resolveName();
-
   // Wrap SetFullName (Used by ElfReader) in a simpler call.
   using Object::setFullName;
   bool setFullName(const PrintSettings &Settings);
@@ -168,9 +164,8 @@ public:
   // Functions to be implemented by derived classes.
 
   /// \brief Process the values for a DW_TAG_enumerator.
-  virtual const char *getValue() const { return nullptr; }
-  virtual void setValue(const char * /*Value*/) {}
-  virtual size_t getValueIndex() const { return 0; }
+  virtual const std::string &getValue() const;
+  virtual void setValue(const std::string & /*Value*/) {}
 
   bool getIsPrintedAsObject() const override;
   /// \brief Returns a text representation of this DIVA Object.
@@ -213,7 +208,7 @@ public:
 /// \brief Class to represent a DW_TAG_enumerator
 class TypeEnumerator : public Type {
 public:
-  TypeEnumerator() : Type(SV_TypeEnumerator), ValueIndex(0) {}
+  TypeEnumerator() : Type(SV_TypeEnumerator), ValueRef(nullptr) {}
 
   /// Return true if Obj is an instance of TypeEnumerator.
   static bool classof(const Object *Obj) {
@@ -221,13 +216,12 @@ public:
   }
 
 private:
-  size_t ValueIndex; // Enumerator value.
+  StringPoolRef ValueRef; // Enumerator value.
 
 public:
   /// \brief Process the values for a DW_TAG_enumerator.
-  const char *getValue() const override;
-  void setValue(const char *Value) override;
-  size_t getValueIndex() const override;
+  const std::string &getValue() const override;
+  void setValue(const std::string &Value) override;
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.
@@ -264,7 +258,7 @@ public:
   std::string getAsYAML() const override;
 
 private:
-  virtual std::string getInheritanceAsText() const;
+  virtual std::string getInheritanceAsText(const PrintSettings &Settings) const;
   virtual std::string getUsingAsText(const PrintSettings &Settings) const;
   // Gets a YAML representation of DIVA Object as an Inheritance attribute.
   virtual std::string getInheritanceAsYAML() const;
@@ -276,7 +270,7 @@ private:
 /// Parameters can be values, types or templates.
 class TypeTemplateParam : public Type {
 public:
-  TypeTemplateParam() : Type(SV_TypeTemplateParam), ValueIndex(0) {}
+  TypeTemplateParam() : Type(SV_TypeTemplateParam), ValueRef(nullptr) {}
 
   /// \brief Return true if Obj is an instance of TypeParam.
   static bool classof(const Object *Obj) {
@@ -284,13 +278,12 @@ public:
   }
 
 private:
-  size_t ValueIndex; // Value in case of value or template parameters.
+  StringPoolRef ValueRef; // Value in case of value or template parameters.
 
 public:
   /// \brief Template parameter value
-  const char *getValue() const override;
-  void setValue(const char *Value) override;
-  size_t getValueIndex() const override;
+  const std::string &getValue() const override;
+  void setValue(const std::string &Value) override;
 
   bool getIsPrintedAsObject() const override;
 

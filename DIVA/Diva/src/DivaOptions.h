@@ -62,8 +62,6 @@ public:
   bool ShowPerformanceTime = false;
   bool ShowPerformanceMemory = false;
   bool ShowScopeAllocation = false;
-  bool ShowStringPoolInfo = false;
-  bool DumpStringPool = false;
 
 private:
   void parseArgs(const std::vector<std::string> &CMDArgs, std::ostream &HelpOut,

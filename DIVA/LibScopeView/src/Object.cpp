@@ -169,6 +169,8 @@ const char *Object::getKindAsString() const {
 
 namespace {
 
+std::string EmptyString;
+
 const char *OffsetAsString(Dwarf_Off Offset) {
   // [0x00000000]
   const unsigned MaxLineSize = 16;
@@ -199,7 +201,14 @@ Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
 }
 
 const char *Object::getTypeAsString(const PrintSettings &Settings) const {
-  return getHasType() ? (getTypeName()) : (Settings.ShowVoid ? "void" : "");
+  return getHasType() ? (getType()->getName().c_str())
+                      : (Settings.ShowVoid ? "void" : "");
+}
+
+const std::string &Object::getTypeQualifiedName() const {
+  if (!getType())
+    return EmptyString;
+  return getType()->getQualifiedName();
 }
 
 void Object::resolveQualifiedName(const Scope *ExplicitParent) {
@@ -209,11 +218,12 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
   // scope root.
   const Object *ObjParent = ExplicitParent;
   while (ObjParent && !isa<ScopeCompileUnit>(*ObjParent) &&
-         !isa<ScopeFunction>(*ExplicitParent) &&
-         !(isa<ScopeRoot>(*ObjParent))) {
-    if (strlen(ObjParent->getName()) != 0) {
+         !isa<ScopeFunction>(*ExplicitParent) && !isa<ScopeRoot>(*ObjParent)) {
+
+    const std::string &ParentName = ObjParent->getName();
+    if (!ParentName.empty()) {
       QualifiedName.insert(0, "::");
-      QualifiedName.insert(0, ObjParent->getName());
+      QualifiedName.insert(0, ParentName);
     }
     ObjParent = ObjParent->getParent();
   }
@@ -232,10 +242,10 @@ bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
   // such as '()' or 'class'; for that case do not add the pattern.
   const char *ParentTypename = nullptr;
   if (BaseType) {
-    ParentTypename = BaseType->getName();
+    ParentTypename = BaseType->getName().c_str();
   } else {
     if (BaseScope) {
-      ParentTypename = BaseScope->getName();
+      ParentTypename = BaseScope->getName().c_str();
     }
   }
 
@@ -322,7 +332,7 @@ bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
   // Overwrite if no given value.
   if (!BaseText) {
     if (GetBaseTypename) {
-      BaseText = getName();
+      BaseText = getName().c_str();
     }
   }
 
@@ -448,59 +458,34 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 // Class to represent the basic data for an object.
 //===----------------------------------------------------------------------===//
-Element::Element(ObjectKind K) : Object(K) {
-  NameIndex = 0;
-  QualifiedIndex = 0;
-  FilenameIndex = 0;
-  TheType = nullptr;
+
+Element::Element(ObjectKind K)
+    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FileNameRef(nullptr),
+      TheType(nullptr) {}
+
+const std::string &Element::getName() const {
+  return NameRef ? *NameRef : EmptyString;
 }
 
-void Element::setName(const char *name) {
-  NameIndex = StringPool::getStringIndex(name);
+void Element::setName(const std::string &Name) {
+  NameRef = getGlobalStringPool().get(Name);
 }
 
-const char *Element::getName() const {
-  return StringPool::getStringValue(NameIndex);
+const std::string &Element::getQualifiedName() const {
+  return QualifiedRef ? *QualifiedRef : EmptyString;
 }
 
-void Element::setNameIndex(size_t name_index) { NameIndex = name_index; }
-
-size_t Element::getNameIndex() const { return NameIndex; }
-
-void Element::setQualifiedName(const char *QualName) {
-  QualifiedIndex = StringPool::getStringIndex(QualName);
-}
-
-const char *Element::getQualifiedName() const {
-  return StringPool::getStringValue(QualifiedIndex);
-}
-
-const char *Element::getTypeName() const {
-  return getType() ? getType()->getName() : "";
+void Element::setQualifiedName(const std::string &QualName) {
+  QualifiedRef = getGlobalStringPool().get(QualName);
 }
 
 std::string Element::getFileName(bool NameOnly) const {
-  // If 'format_options', then we use the format command line options, to
-  // return the full pathname or just the filename. The string stored in
-  // the string pool, is the full pathname.
-  std::string FName = StringPool::getStringValue(getFileNameIndex());
+  std::string FName(FileNameRef ? *FileNameRef : "");
   if (NameOnly)
     FName = LibScopeView::getFileName(FName);
   return FName;
 }
 
-void Element::setFileName(const char *FileName) {
-  FilenameIndex = StringPool::getStringIndex(unifyFilePath(FileName));
-}
-
-size_t Element::getFileNameIndex() const { return FilenameIndex; }
-
-void Element::setFileNameIndex(size_t FNameIndex) {
-  FilenameIndex = FNameIndex;
-}
-
-const char *Element::getTypeQualifiedName() const {
-  if (!getType())
-    return "";
-  return getType()->getQualifiedName();
+void Element::setFileName(const std::string &FileName) {
+  FileNameRef = getGlobalStringPool().get(FileName);
 }

@@ -52,19 +52,6 @@ void Symbol::setAccessSpecifier(AccessSpecifier Access) {
   TheAccessSpecifier = Access;
 }
 
-const char *Symbol::resolveName() {
-  // If the symbol has a DW_AT_specification or DW_AT_abstract_origin,
-  // follow the chain to resolve the name from those references.
-  if (getHasReference()) {
-    Symbol *Specification = getReference();
-    if (isUnnamed()) {
-      setName(Specification->resolveName());
-    }
-  }
-
-  return getName();
-}
-
 std::string Symbol::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << "{" << getKindAsString() << "}";
@@ -97,15 +84,13 @@ std::string Symbol::getAsText(const PrintSettings &Settings) const {
   if (getIsUnspecifiedParameter()) {
     Result << " \"...\"";
   } else {
-    if (getNameIndex() != 0) {
-      Result << " \"";
-      if (getHasQualifiedName())
-        Result << getQualifiedName();
-      Result << getName() << "\"";
-    }
+    Result << " \"";
+    if (getHasQualifiedName())
+      Result << getQualifiedName();
+    Result << getName() << "\"";
 
-    const Scope *parent = getParent();
-    if (parent && isa<Scope>(*parent) && parent->getIsTemplate())
+    const Scope *Parent = getParent();
+    if (Parent && isa<Scope>(*Parent) && Parent->getIsTemplate())
       Result << " <- ";
     else
       Result << " -> ";

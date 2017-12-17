@@ -41,6 +41,7 @@ create_target(EXE UnitTests
         "src/TestLibScopeView/TestScopeTextPrinter.cpp"
         "src/TestLibScopeView/TestScopeVisitor.cpp"
         "src/TestLibScopeView/TestScopeYAMLPrinter.cpp"
+        "src/TestLibScopeView/TestStringPool.cpp"
         "src/TestLibScopeView/TestSummaryTable.cpp"
         "src/TestLibScopeView/TestSymbol.cpp"
         "src/TestLibScopeView/TestType.cpp"

@@ -83,12 +83,6 @@ private:
   AccessSpecifier TheAccessSpecifier;
   bool IsStatic;
 
-public:
-  /// \brief Follow the chain of references given by DW_AT_abstract_origin
-  /// and/or DW_AT_specification and update the symbol name.
-  const char *resolveName();
-
-private:
   // Reference to DW_AT_specification, DW_AT_abstract_origin attribute.
   Symbol *Reference;
 

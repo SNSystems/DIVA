@@ -47,25 +47,25 @@ class TestObject : public Scope {
 public:
   TestObject() : Scope(SV_Scope), Type(nullptr) {}
 
-  const char *getName() const override { return Name.c_str(); }
-  size_t getNameIndex() const override { return 0; }
-  virtual void setNameIndex(size_t NameIndex) override {}
-  void setName(const char *name) override { Name = name; }
-  const char *getQualifiedName() const override { return QName.c_str(); }
-  void setQualifiedName(const char *name) override {
+  const std::string &getName() const override { return Name; }
+  void setName(const std::string &N) override { Name = N; }
+  StringPoolRef getNamePoolRef() const override { return nullptr; }
+  virtual void setName(StringPoolRef) override {}
+
+  const std::string &getQualifiedName() const override { return QName; }
+  void setQualifiedName(const std::string &QualName) override {
     setHasQualifiedName();
-    QName = name;
+    QName = QualName;
   }
-  const char *getTypeName() const override { return ""; }
-  std::string getFileName(bool format_options) const override {
-    return FileName.c_str();
+
+  std::string getFileName(bool) const override {
+    return FileName;
   }
-  void setFileName(const char *fileName) override { FileName = fileName; }
-  size_t getFileNameIndex() const override { return 0; }
-  virtual void setFileNameIndex(size_t FilenameIndex) override{};
+  void setFileName(const std::string &FN) override { FileName = FN; }
+  StringPoolRef getFileNamePoolRef() const override { return nullptr; }
+  virtual void setFileName(StringPoolRef) override {};
+
   Object *getType() const override { return Type; }
-  const char *getTypeQualifiedName() const override { return nullptr; }
-  bool isNamed() const override { return false; }
   void setType(Object *object) override { Type = object; }
 
   std::string getAsText(const PrintSettings &) const override { return ""; };
@@ -222,7 +222,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS1);
     EXPECT_TRUE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "NS1::");
+    EXPECT_EQ(Sym.getQualifiedName(), "NS1::");
   }
 
   // Multiple parents.
@@ -231,7 +231,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
     EXPECT_TRUE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "NS1::NS2::");
+    EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
   // Function parent.
@@ -240,7 +240,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&Func);
     EXPECT_FALSE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "");
+    EXPECT_EQ(Sym.getQualifiedName(), "");
   }
 
   // Stop at ScopeRoot.
@@ -249,7 +249,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
     EXPECT_TRUE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "NS1::NS2::");
+    EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
   // Stop at CU.
@@ -258,7 +258,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
     EXPECT_TRUE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "NS1::NS2::");
+    EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
   // Parent with no name.
@@ -268,7 +268,7 @@ TEST(Object, ResolveQualifiedName) {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
     EXPECT_TRUE(Sym.getHasQualifiedName());
-    EXPECT_STREQ(Sym.getQualifiedName(), "NS1::NS2::");
+    EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 }
 

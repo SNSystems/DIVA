@@ -14,7 +14,7 @@ expected_txt = """\
 10    {Function} "sum<void>" -> "int"
           - No declaration
           - Template
-        {TemplateParameter} "" <- ""
+        {TemplateParameter} "" <- "void"
 13    {Function} "sum<>" -> "int"
           - No declaration
           - Template

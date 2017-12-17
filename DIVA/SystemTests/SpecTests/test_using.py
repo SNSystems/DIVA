@@ -10,7 +10,7 @@ expected_txt = """\
  6      {Alias} "INT" -> "int"
  7      {Function} "A::foo" -> "void"
             - Is declaration
-          {Parameter} -> "A *"
+          {Parameter} "" -> "A *"
  7    {Function} "foo" -> "void"
           - Declaration @ using.cpp,7
         {Parameter} "this" -> "const A *"

@@ -258,9 +258,9 @@ void ScopeTextPrinter::printImpl(const Object *Obj,
 void ScopeTextPrinter::printObjectText(const Object *Obj,
                                        std::ostream &OutputStream) {
   // Print file names.
-  size_t FileNameIndex = Obj->getFileNameIndex();
-  if (FileNameIndex && CurrentFileIndex != FileNameIndex) {
-    CurrentFileIndex = FileNameIndex;
+  StringPoolRef FileNameRef = Obj->getFileNamePoolRef();
+  if (FileNameRef && CurrentFileRef != FileNameRef) {
+    CurrentFileRef = FileNameRef;
     std::string FileName = Obj->getFileName(/*format_options*/ true);
     FileName = FileName.empty() ? "?" : FileName;
     OutputStream << '\n'

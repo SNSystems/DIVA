@@ -436,7 +436,6 @@ TEST(Scope, getAsText_Function) {
   ScopeNamespace NS;
   NS.setName("TestNamespace");
   ScpFunc.setParent(&NS);
-  ScpFunc.resolveName();
   EXPECT_EQ(ScpFunc.getAsText(Settings),
             "{Function} \"TestNamespace::qaz\" -> \"wsx\"\n"
             "    - No declaration");
@@ -444,7 +443,6 @@ TEST(Scope, getAsText_Function) {
   ScopeNamespace NS2;
   NS2.setName("BaseNamespace");
   NS.setParent(&NS2);
-  ScpFunc.resolveName();
   EXPECT_EQ(ScpFunc.getAsText(Settings),
             "{Function} \"BaseNamespace::TestNamespace::qaz\" -> \"wsx\"\n"
             "    - No declaration");

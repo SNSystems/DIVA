@@ -100,7 +100,7 @@ private:
           // Make sure the parameters are resolved.
           if (Sym->getType())
             resolve(Sym->getType());
-          ResolvedName << (First ? "" : ",") << Sym->getTypeName();
+          ResolvedName << (First ? "" : ",") << Sym->getTypeAsString(Settings);
           First = false;
         }
       }
@@ -128,8 +128,7 @@ private:
     if (ArrayType)
       resolve(ArrayType);
 
-    std::string ResolvedName(
-        ArrayType && ArrayType->getName() ? ArrayType->getName() : "?");
+    std::string ResolvedName(ArrayType ? ArrayType->getName() : "?");
     ResolvedName += " ";
 
     for (const Object *Child : Array->getChildren())
@@ -169,9 +168,9 @@ private:
     resolveReference(Reference);
 
     // Set common attribute values.
-    Obj->setNameIndex(Reference->getNameIndex());
+    Obj->setName(Reference->getNamePoolRef());
     Obj->setLineNumber(Reference->getLineNumber());
-    Obj->setFileNameIndex(Reference->getFileNameIndex());
+    Obj->setFileName(Reference->getFileNamePoolRef());
     if (Reference->getInvalidFileName())
       Obj->setInvalidFileName();
 

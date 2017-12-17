@@ -84,7 +84,6 @@ static void setSourceFile(LibScopeView::Object &Obj,
   if (ID < Mapping.size()) {
     Obj.setFileName(Mapping[static_cast<size_t>(ID)].c_str());
   } else {
-    Obj.setFileNameIndex(static_cast<size_t>(ID));
     Obj.setInvalidFileName();
   }
 }

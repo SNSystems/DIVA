@@ -43,6 +43,8 @@
 #pragma clang diagnostic pop
 #endif
 
+#include "StringPool.h"
+
 #include <bitset>
 #include <cassert>
 #include <cstdint>
@@ -201,34 +203,20 @@ public:
   void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
 
   /// \brief The Object's name.
-  virtual const char *getName() const = 0;
-  virtual void setName(const char *Name) = 0;
-
-  /// \brief StringPool index of the Object's name.
-  virtual size_t getNameIndex() const = 0;
-  virtual void setNameIndex(size_t NameIndex) = 0;
+  virtual const std::string &getName() const = 0;
+  virtual StringPoolRef getNamePoolRef() const = 0;
+  virtual void setName(const std::string &Name) = 0;
+  virtual void setName(StringPoolRef Name) = 0;
 
   /// \brief The Object's qualified name.
-  virtual const char *getQualifiedName() const = 0;
-  virtual void setQualifiedName(const char *Name) = 0;
-
-  /// \brief The Object's type name (if any).
-  virtual const char *getTypeName() const = 0;
+  virtual const std::string &getQualifiedName() const = 0;
+  virtual void setQualifiedName(const std::string &Name) = 0;
 
   /// \brief The Object's filename.
-  virtual std::string getFileName(bool FormatOptions) const = 0;
-  virtual void setFileName(const char *FileName) = 0;
-
-  /// \brief StringPool index of the Object's filename.
-  virtual size_t getFileNameIndex() const = 0;
-  virtual void setFileNameIndex(size_t FilenameIndex) = 0;
-
-  /// \brief The Object's type qualified name.
-  virtual const char *getTypeQualifiedName() const = 0;
-
-  /// \brief If the Object has a name.
-  virtual bool isNamed() const = 0;
-  virtual bool isUnnamed() const { return !isNamed(); }
+  virtual std::string getFileName(bool NameOnly) const = 0;
+  virtual StringPoolRef getFileNamePoolRef() const = 0;
+  virtual void setFileName(const std::string &FileName) = 0;
+  virtual void setFileName(StringPoolRef FileName) = 0;
 
   bool isLined() const { return LineNumber != 0; }
   bool isUnlined() const { return !isLined(); }
@@ -257,6 +245,8 @@ public:
   const char *getDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeAsString(const PrintSettings &Settings) const;
+
+  const std::string &getTypeQualifiedName() const;
 
   virtual Object *getType() const = 0;
   virtual void setType(Object *Obj) = 0;
@@ -290,42 +280,29 @@ public:
 
 private:
   // The name, type name, qualified name and filename in String Pool.
-  size_t NameIndex;
-  size_t QualifiedIndex;
-  size_t FilenameIndex;
+  StringPoolRef NameRef;
+  StringPoolRef QualifiedRef;
+  StringPoolRef FileNameRef;
 
   // Type of this object.
   Object *TheType;
 
 public:
-  bool isNamed() const override { return NameIndex != 0; }
-  bool isUnnamed() const override { return !isNamed(); }
-
   /// \brief The Object's name.
-  const char *getName() const override;
-  void setName(const char *Name) override;
-
-  /// \brief The StringPool index of the Object's name.
-  size_t getNameIndex() const override;
-  void setNameIndex(size_t NameIndex) override;
+  const std::string &getName() const override;
+  StringPoolRef getNamePoolRef() const override { return NameRef; }
+  void setName(const std::string &Name) override;
+  void setName(StringPoolRef Name) override { NameRef = Name; }
 
   /// \brief The Object's qualified name.
-  const char *getQualifiedName() const override;
-  void setQualifiedName(const char *Name) override;
-
-  /// \brief The Object's type name (if any).
-  const char *getTypeName() const override;
+  const std::string &getQualifiedName() const override;
+  void setQualifiedName(const std::string &Name) override;
 
   /// \brief The Object's filename.
   std::string getFileName(bool NameOnly) const override;
-  void setFileName(const char *FileName) override;
-
-  /// \brief The StringPool index of the Object's filename.
-  size_t getFileNameIndex() const override;
-  void setFileNameIndex(size_t FilenameIndex) override;
-
-  /// \brief The Object's type qualified name.
-  const char *getTypeQualifiedName() const override;
+  StringPoolRef getFileNamePoolRef() const override { return FileNameRef; }
+  void setFileName(const std::string &FileName) override;
+  void setFileName(StringPoolRef FileName) override { FileNameRef = FileName; }
 
   void setType(Object *Obj) override {
     setHasType();
