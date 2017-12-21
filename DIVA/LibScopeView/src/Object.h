@@ -121,7 +121,7 @@ public:
   /// \brief Get the kind of the Object.
   ObjectKind getKind() const { return Kind; }
 
-  /// \brief Return true if Obj is an insance of Object.
+  /// \brief Return true if Obj is an instance of Object.
   static bool classof(const Object *) { return true; }
 
   Object(ObjectKind K);
@@ -285,7 +285,7 @@ class Element : public Object {
 public:
   Element(ObjectKind K);
 
-  /// Return true if Obj is an insance of Element.
+  /// Return true if Obj is an instance of Element.
   static bool classof(const Object *) { return true; }
 
 private:

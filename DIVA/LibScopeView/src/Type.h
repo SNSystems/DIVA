@@ -38,7 +38,7 @@ class Type : public Element {
 public:
   Type() : Type(SV_Type) {}
 
-  /// \brief Return true if Obj is an insance of Type.
+  /// \brief Return true if Obj is an instance of Type.
   static bool classof(const Object *Obj) {
     return SV_Type <= Obj->getKind() && Obj->getKind() <= SV_TypeSubrange;
   }
@@ -198,7 +198,7 @@ class TypeDefinition : public Type {
 public:
   TypeDefinition() : Type(SV_TypeDefinition) {}
 
-  /// \brief Return true if Obj is an insance of TypeDefinition.
+  /// \brief Return true if Obj is an instance of TypeDefinition.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_TypeDefinition;
   }
@@ -215,7 +215,7 @@ class TypeEnumerator : public Type {
 public:
   TypeEnumerator() : Type(SV_TypeEnumerator), ValueIndex(0) {}
 
-  /// Return true if Obj is an insance of TypeEnumerator.
+  /// Return true if Obj is an instance of TypeEnumerator.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_TypeEnumerator;
   }
@@ -243,7 +243,7 @@ public:
   TypeImport()
       : Type(SV_TypeImport), InheritanceAccess(AccessSpecifier::Unspecified) {}
 
-  /// \brief Return true if Obj is an insance of TypeImport.
+  /// \brief Return true if Obj is an instance of TypeImport.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_TypeImport;
   }
@@ -278,7 +278,7 @@ class TypeTemplateParam : public Type {
 public:
   TypeTemplateParam() : Type(SV_TypeTemplateParam), ValueIndex(0) {}
 
-  /// \brief Return true if Obj is an insance of TypeParam.
+  /// \brief Return true if Obj is an instance of TypeParam.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_TypeTemplateParam;
   }
@@ -306,7 +306,7 @@ public:
   TypeSubrange() : Type(SV_TypeSubrange) {}
   ~TypeSubrange();
 
-  /// Return true if Obj is an insance of TypeSubrange.
+  /// Return true if Obj is an instance of TypeSubrange.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_TypeSubrange;
   }

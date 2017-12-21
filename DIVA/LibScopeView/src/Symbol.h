@@ -39,7 +39,7 @@ class Symbol : public Element {
 public:
   Symbol();
 
-  /// \brief Return true if Obj is an insance of Symbol.
+  /// \brief Return true if Obj is an instance of Symbol.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_Symbol;
   }

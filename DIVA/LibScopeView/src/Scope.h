@@ -48,7 +48,7 @@ public:
   Scope() : Scope(SV_Scope) {}
   ~Scope() override;
 
-  /// \brief Return true if Obj is an insance of Scope.
+  /// \brief Return true if Obj is an instance of Scope.
   static bool classof(const Object *Obj) {
     return Obj->getKind() >= SV_Scope && Obj->getKind() <= SV_ScopeRoot;
   }
@@ -220,7 +220,7 @@ public:
   ScopeAggregate();
   ~ScopeAggregate() override = default;
 
-  /// \brief Return true if Obj is an insance of ScopeAggregate.
+  /// \brief Return true if Obj is an instance of ScopeAggregate.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeAggregate;
   }
@@ -247,7 +247,7 @@ class ScopeAlias : public Scope {
 public:
   ScopeAlias() : Scope(SV_ScopeAlias) { setIsTemplate(); }
 
-  /// \brief Return true if Obj is an insance of ScopeAlias.
+  /// \brief Return true if Obj is an instance of ScopeAlias.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeAlias;
   }
@@ -263,7 +263,7 @@ class ScopeArray : public Scope {
 public:
   ScopeArray() : Scope(SV_ScopeArray) {}
 
-  /// \brief Return true if Obj is an insance of ScopeArray.
+  /// \brief Return true if Obj is an instance of ScopeArray.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeArray;
   }
@@ -278,7 +278,7 @@ class ScopeCompileUnit : public Scope {
 public:
   ScopeCompileUnit() : Scope(SV_ScopeCompileUnit) {}
 
-  /// \brief Return true if Obj is an insance of ScopeCompileUnit.
+  /// \brief Return true if Obj is an instance of ScopeCompileUnit.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeCompileUnit;
   }
@@ -298,7 +298,7 @@ class ScopeEnumeration : public Scope {
 public:
   ScopeEnumeration() : Scope(SV_ScopeEnumeration), IsClass(false) {}
 
-  /// \brief Return true if Obj is an insance of ScopeEnumeration.
+  /// \brief Return true if Obj is an instance of ScopeEnumeration.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeEnumeration;
   }
@@ -320,7 +320,7 @@ class ScopeFunction : public Scope {
 public:
   ScopeFunction() : ScopeFunction(SV_ScopeFunction) {}
 
-  /// \brief Return true if Obj is an insance of ScopeFunction.
+  /// \brief Return true if Obj is an instance of ScopeFunction.
   static bool classof(const Object *Obj) {
     return Obj->getKind() >= SV_ScopeFunction &&
            Obj->getKind() <= SV_ScopeFunctionInlined;
@@ -369,7 +369,7 @@ public:
         CallLineNumber(0) {}
   ~ScopeFunctionInlined() override;
 
-  /// \brief Return true if Obj is an insance of ScopeFunctionInlined.
+  /// \brief Return true if Obj is an instance of ScopeFunctionInlined.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeFunctionInlined;
   }
@@ -401,7 +401,7 @@ class ScopeNamespace : public Scope {
 public:
   ScopeNamespace() : Scope(SV_ScopeNamespace), Reference(nullptr) {}
 
-  /// \brief Return true if Obj is an insance of ScopeNamespace.
+  /// \brief Return true if Obj is an instance of ScopeNamespace.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeNamespace;
   }
@@ -431,7 +431,7 @@ class ScopeTemplatePack : public Scope {
 public:
   ScopeTemplatePack() : Scope(SV_ScopeTemplatePack) {}
 
-  /// \brief Return true if Obj is an insance of ScopeTemplatePack.
+  /// \brief Return true if Obj is an instance of ScopeTemplatePack.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeTemplatePack;
   }
@@ -447,7 +447,7 @@ class ScopeRoot : public Scope {
 public:
   ScopeRoot() : Scope(SV_ScopeRoot) {}
 
-  /// \brief ChunkAllocatorT of ScopeRoot.
+  /// \brief Return true if Obj is an instance of ScopeRoot.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeRoot;
   }
