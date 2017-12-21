@@ -160,7 +160,6 @@ TEST(Symbol, getAsText_Parameter) {
 
   // Templates have the indicator reversed '<-'.
   Scope Scp;
-  Scp.setIsScope();
   Scp.setIsTemplate();
   Sym.setParent(&Scp);
   EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" <- \"wsx\"");

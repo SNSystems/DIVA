@@ -6,7 +6,7 @@ expected = """\
   3    {Using} namespace "std"
 
 {Source} "debug.h"
- 56      {Using} namespace "__debug"
+ 56      {Using} namespace "std::__debug"
 """
 
 

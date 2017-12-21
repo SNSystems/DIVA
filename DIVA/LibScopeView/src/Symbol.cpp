@@ -37,32 +37,10 @@
 using namespace LibScopeView;
 
 Symbol::Symbol()
-    : Element(), TheAccessSpecifier(AccessSpecifier::Unspecified),
-      IsStatic(false), Reference(nullptr) {
-  setIsSymbol();
-}
+    : Element(SV_Symbol), TheAccessSpecifier(AccessSpecifier::Unspecified),
+      IsStatic(false), Reference(nullptr) {}
 
 uint32_t Symbol::SymbolsAllocated = 0;
-
-// Symbol Kind.
-const char *Symbol::KindMember = "Member";
-const char *Symbol::KindParameter = "Parameter";
-const char *Symbol::KindUndefined = "Undefined";
-const char *Symbol::KindUnspecified = "Parameter";
-const char *Symbol::KindVariable = "Variable";
-
-const char *Symbol::getKindAsString() const {
-  const char *Kind = KindUndefined;
-  if (getIsMember())
-    Kind = KindMember;
-  else if (getIsParameter())
-    Kind = KindParameter;
-  else if (getIsUnspecifiedParameter())
-    Kind = KindUnspecified;
-  else if (getIsVariable())
-    Kind = KindVariable;
-  return Kind;
-}
 
 AccessSpecifier Symbol::getAccessSpecifier() const {
   assert(getIsMember() && "getAccessSpecifier only valid for members");
@@ -89,11 +67,10 @@ const char *Symbol::resolveName() {
 
 std::string Symbol::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
-  const Symbol *Sym = getIsInlined() ? Reference : this;
-  Result << "{" << Sym->getKindAsString() << "}";
+  Result << "{" << getKindAsString() << "}";
 
   // Access specifier.
-  if (Sym->getIsMember()) {
+  if (getIsMember()) {
     switch (getAccessSpecifier()) {
     case AccessSpecifier::Private:
       Result << " private";
@@ -114,27 +91,26 @@ std::string Symbol::getAsText(const PrintSettings &Settings) const {
     }
   }
 
-  if (Sym->getIsStatic())
+  if (getIsStatic())
     Result << " static";
 
-  if (Sym->getIsUnspecifiedParameter()) {
+  if (getIsUnspecifiedParameter()) {
     Result << " \"...\"";
   } else {
-    if (Sym->getNameIndex() != 0) {
+    if (getNameIndex() != 0) {
       Result << " \"";
-      if (Sym->getHasQualifiedName())
-        Result << Sym->getQualifiedName();
+      if (getHasQualifiedName())
+        Result << getQualifiedName();
       Result << getName() << "\"";
     }
 
-    const Scope *parent = Sym->getParent();
-    if (parent && parent->getIsScope() && parent->getIsTemplate())
+    const Scope *parent = getParent();
+    if (parent && isa<Scope>(*parent) && parent->getIsTemplate())
       Result << " <- ";
     else
       Result << " -> ";
-    Result << Sym->getTypeDieOffsetAsString(Settings) << "\""
-           << Sym->getTypeQualifiedName() << Sym->getTypeAsString(Settings)
-           << "\"";
+    Result << getTypeDieOffsetAsString(Settings) << "\""
+           << getTypeQualifiedName() << getTypeAsString(Settings) << "\"";
   }
 
   return Result.str();
@@ -143,10 +119,9 @@ std::string Symbol::getAsText(const PrintSettings &Settings) const {
 std::string Symbol::getAsYAML() const {
   std::stringstream YAML;
   std::stringstream Attrs;
-  const Symbol *Sym = getIsInlined() ? Reference : this;
 
   // Access specifier.
-  if (Sym->getIsMember()) {
+  if (getIsMember()) {
     Attrs << "\n  access_specifier: \"";
     switch (getAccessSpecifier()) {
     case AccessSpecifier::Private:

@@ -36,7 +36,15 @@ namespace LibScopeView {
 /// \brief Class to represent a DWARF Type object.
 class Type : public Element {
 public:
-  Type();
+  Type() : Type(SV_Type) {}
+
+  /// \brief Return true if Obj is an instance of Type.
+  static bool classof(const Object *Obj) {
+    return SV_Type <= Obj->getKind() && Obj->getKind() <= SV_TypeSubrange;
+  }
+
+protected:
+  Type(ObjectKind K);
 
 private:
   // Type Kind.
@@ -65,7 +73,6 @@ private:
   enum TypeAttributes {
     IsBaseType,
     IsConstType,
-    IsImported,
     IsImportedModule,
     IsImportedDeclaration,
     IsInheritance,
@@ -74,45 +81,32 @@ private:
     IsReferenceType,
     IsRvalueReferenceType,
     IsRestrictType,
-    IsTemplateParam,
     IsTemplateTypeParam,
     IsTemplateValueParam,
     IsTemplateTemplateParam,
-    IsTypedef,
     IsUnspecifiedType,
     IsVolatileType,
-    IsEnumerator,
-    IsSubrangeType,
     IncludeInPrint,
     TypeAttributesSize
   };
   std::bitset<TypeAttributesSize> TypeAttributesFlags;
 
 public:
-  /// \brief Gets the Type kind as a string (eg, "ARRAY").
-  const char *getKindAsString() const override;
-
   bool getIsBaseType() const { return TypeAttributesFlags[IsBaseType]; }
   void setIsBaseType() { TypeAttributesFlags.set(IsBaseType); }
   bool getIsConstType() const { return TypeAttributesFlags[IsConstType]; }
   void setIsConstType() { TypeAttributesFlags.set(IsConstType); }
-  bool getIsImported() const { return TypeAttributesFlags[IsImported]; }
-  void setIsImported() { TypeAttributesFlags.set(IsImported); }
   bool getIsImportedDeclaration() const {
     return TypeAttributesFlags[IsImportedDeclaration];
   }
   void setIsImportedDeclaration() {
     TypeAttributesFlags.set(IsImportedDeclaration);
-    setIsImported();
   }
 
   bool getIsImportedModule() const {
     return TypeAttributesFlags[IsImportedModule];
   }
-  void setIsImportedModule() {
-    TypeAttributesFlags.set(IsImportedModule);
-    setIsImported();
-  }
+  void setIsImportedModule() { TypeAttributesFlags.set(IsImportedModule); }
 
   bool getIsInheritance() const { return TypeAttributesFlags[IsInheritance]; }
   void setIsInheritance() { TypeAttributesFlags.set(IsInheritance); }
@@ -136,46 +130,29 @@ public:
   void setIsRvalueReferenceType() {
     TypeAttributesFlags.set(IsRvalueReferenceType);
   }
-  bool getIsTemplateParam() const {
-    return TypeAttributesFlags[IsTemplateParam];
-  }
-  void setIsTemplateParam() { TypeAttributesFlags.set(IsTemplateParam); }
   bool getIsTemplateType() const {
     return TypeAttributesFlags[IsTemplateTypeParam];
   }
-  void setIsTemplateType() {
-    TypeAttributesFlags.set(IsTemplateTypeParam);
-    setIsTemplateParam();
-  }
+  void setIsTemplateType() { TypeAttributesFlags.set(IsTemplateTypeParam); }
 
   bool getIsTemplateValue() const {
     return TypeAttributesFlags[IsTemplateValueParam];
   }
-  void setIsTemplateValue() {
-    TypeAttributesFlags.set(IsTemplateValueParam);
-    setIsTemplateParam();
-  }
+  void setIsTemplateValue() { TypeAttributesFlags.set(IsTemplateValueParam); }
 
   bool getIsTemplateTemplate() const {
     return TypeAttributesFlags[IsTemplateTemplateParam];
   }
   void setIsTemplateTemplate() {
     TypeAttributesFlags.set(IsTemplateTemplateParam);
-    setIsTemplateParam();
   }
 
-  bool getIsTypedef() const { return TypeAttributesFlags[IsTypedef]; }
-  void setIsTypedef() { TypeAttributesFlags.set(IsTypedef); }
   bool getIsUnspecifiedType() const {
     return TypeAttributesFlags[IsUnspecifiedType];
   }
   void setIsUnspecifiedType() { TypeAttributesFlags.set(IsUnspecifiedType); }
   bool getIsVolatileType() const { return TypeAttributesFlags[IsVolatileType]; }
   void setIsVolatileType() { TypeAttributesFlags.set(IsVolatileType); }
-  bool getIsEnumerator() const { return TypeAttributesFlags[IsEnumerator]; }
-  void setIsEnumerator() { TypeAttributesFlags.set(IsEnumerator); }
-  bool getIsSubrangeType() const { return TypeAttributesFlags[IsSubrangeType]; }
-  void setIsSubrangeType() { TypeAttributesFlags.set(IsSubrangeType); }
   bool getIncludeInPrint() const { return TypeAttributesFlags[IncludeInPrint]; }
   void setIncludeInPrint() { TypeAttributesFlags.set(IncludeInPrint); }
 
@@ -190,9 +167,6 @@ public:
 
   // Functions to be implemented by derived classes.
 
-  /// \brief Return the underlying type for a typedef.
-  virtual Object *getUnderlyingType() { return nullptr; }
-  virtual void setUnderlyingType(Object * /*Obj*/) {}
   /// \brief Process the values for a DW_TAG_enumerator.
   virtual const char *getValue() const { return nullptr; }
   virtual void setValue(const char * /*Value*/) {}
@@ -222,11 +196,12 @@ public:
 /// \brief Class to represent DW_TAG_typedef_type
 class TypeDefinition : public Type {
 public:
-  /// \brief Get the underlying type for a typedef.
-  Object *getUnderlyingType() override;
+  TypeDefinition() : Type(SV_TypeDefinition) {}
 
-  /// \brief Set the underlying type for a typedef.
-  void setUnderlyingType(Object *Obj) override;
+  /// \brief Return true if Obj is an instance of TypeDefinition.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeDefinition;
+  }
 
   bool getIsPrintedAsObject() const override { return true; }
   /// \brief Returns a text representation of this DIVA Object.
@@ -238,7 +213,12 @@ public:
 /// \brief Class to represent a DW_TAG_enumerator
 class TypeEnumerator : public Type {
 public:
-  TypeEnumerator() : ValueIndex(0) {}
+  TypeEnumerator() : Type(SV_TypeEnumerator), ValueIndex(0) {}
+
+  /// Return true if Obj is an instance of TypeEnumerator.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeEnumerator;
+  }
 
 private:
   size_t ValueIndex; // Enumerator value.
@@ -260,7 +240,13 @@ public:
 /// DW_TAG_imported_declaration
 class TypeImport : public Type {
 public:
-  TypeImport() : InheritanceAccess(AccessSpecifier::Unspecified) {}
+  TypeImport()
+      : Type(SV_TypeImport), InheritanceAccess(AccessSpecifier::Unspecified) {}
+
+  /// \brief Return true if Obj is an instance of TypeImport.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeImport;
+  }
 
   /// \brief Access specifier, only valid for inheritance.
   AccessSpecifier getInheritanceAccess() const;
@@ -288,9 +274,14 @@ private:
 /// \brief Class to represent a DWARF Template parameter holder.
 ///
 /// Parameters can be values, types or templates.
-class TypeParam : public Type {
+class TypeTemplateParam : public Type {
 public:
-  TypeParam() : ValueIndex(0) {}
+  TypeTemplateParam() : Type(SV_TypeTemplateParam), ValueIndex(0) {}
+
+  /// \brief Return true if Obj is an instance of TypeParam.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeTemplateParam;
+  }
 
 private:
   size_t ValueIndex; // Value in case of value or template parameters.
@@ -312,7 +303,13 @@ public:
 /// \brief Class to represent a DW_TAG_subrange_type
 class TypeSubrange : public Type {
 public:
+  TypeSubrange() : Type(SV_TypeSubrange) {}
   ~TypeSubrange();
+
+  /// Return true if Obj is an instance of TypeSubrange.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_TypeSubrange;
+  }
 };
 
 } // namespace LibScopeView

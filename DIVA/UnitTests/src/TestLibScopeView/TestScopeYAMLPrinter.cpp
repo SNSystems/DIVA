@@ -58,7 +58,6 @@ public:
 
 TEST(ScopeYAMLPrinter, PrintNoChildren) {
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   Root.addChild(Top);
 
@@ -77,7 +76,6 @@ TEST(ScopeYAMLPrinter, PrintNoChildren) {
 
 TEST(ScopeYAMLPrinter, Print) {
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   auto *Child1 = new FakeObject("Child1");
   auto *Child2 = new FakeObject("Child2");
@@ -116,7 +114,6 @@ TEST(ScopeYAMLPrinter, Print) {
 
 TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   auto *Child1 = new FakeObject("Child1");
   auto *Child2NoYAML = new FakeNoYAMLObject;
@@ -146,7 +143,6 @@ TEST(ScopeYAMLPrinter, SkipObjectsWithNoYAML) {
 
 TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   auto *Child2NoYAML = new FakeNoYAMLObject;
   Root.addChild(Top);
@@ -167,7 +163,6 @@ TEST(ScopeYAMLPrinter, PrintAllObjectWithNoYAML) {
 
 TEST(ScopeYAMLPrinter, AddEscapeCharacterToBackSlash) {
   ScopeRoot Root;
-  Root.setIsRoot();
   auto *Top = new FakeObject("Top");
   auto *Child1 = new FakeObject("Child1");
   auto *Child2NoYAML = new FakeNoYAMLObject;

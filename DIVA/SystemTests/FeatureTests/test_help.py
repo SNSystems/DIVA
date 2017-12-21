@@ -106,7 +106,6 @@ To disable an option, insert 'no-' after the '--'.
       --show-only-globals      Print only "global" objects
       --show-only-locals       Print only "local" objects
       --show-qualified         Print "qualified name" attributes*
-      --show-underlying        Print underlying type attributes
       --show-void              Print "void" type attributes (default on)
       --show-zero              Print zero line number attributes
 """),

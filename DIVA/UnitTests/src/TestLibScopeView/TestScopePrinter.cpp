@@ -96,7 +96,6 @@ TEST(ScopePrinter, SplitPrint) {
 
   auto *CU1 = new ScopeCompileUnit;
   Root.addChild(CU1);
-  CU1->setIsCompileUnit();
   CU1->setName("test/cu/1");
   Scope *Child1 = new Scope;
   Scope *Child2 = new Scope;
@@ -107,7 +106,6 @@ TEST(ScopePrinter, SplitPrint) {
 
   auto *CU2 = new ScopeCompileUnit;
   Root.addChild(CU2);
-  CU2->setIsCompileUnit();
   CU2->setName("test.cu.2");
   Scope *Child3 = new Scope;
   Scope *Child4 = new Scope;

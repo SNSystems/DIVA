@@ -41,9 +41,7 @@
 
 using namespace LibScopeView;
 
-Scope::Scope() : Element() {
-  setIsScope();
-}
+Scope::Scope(ObjectKind K) : Element(K) {}
 
 Scope::~Scope() {
   for (Object *Child : Children)
@@ -54,65 +52,10 @@ Scope::~Scope() {
 
 uint32_t Scope::ScopesAllocated = 0;
 
-// Scope Kind.
-const char *Scope::KindAggregate = "Aggregate";
-const char *Scope::KindArray = "Array";
-const char *Scope::KindBlock = "Block";
-const char *Scope::KindCatchBlock = "CatchBlock";
-const char *Scope::KindClass = "Class";
-const char *Scope::KindCompileUnit = "CompileUnit";
-const char *Scope::KindEntryPoint = "EntryPoint";
-const char *Scope::KindEnumeration = "Enum";
-const char *Scope::KindFile = "InputFile";
-const char *Scope::KindFunction = "Function";
-const char *Scope::KindFunctionType = "FunctionType";
-const char *Scope::KindInlinedFunction = "Function";
-const char *Scope::KindLabel = "Label";
-const char *Scope::KindLexicalBlock = "LexicalBlock";
-const char *Scope::KindNamespace = "Namespace";
-const char *Scope::KindStruct = "Struct";
-const char *Scope::KindTemplate = "Template";
-const char *Scope::KindTemplateAlias = "Alias";
-const char *Scope::KindTemplatePack = "TemplateParameter";
-const char *Scope::KindTryBlock = "TryBlock";
-const char *Scope::KindUndefined = "Undefined";
-const char *Scope::KindUnion = "Union";
-
-const char *Scope::getKindAsString() const {
-  const char *Kind = KindUndefined;
-  if (getIsArrayType())
-    Kind = KindArray;
-  else if (getIsBlock())
-    Kind = KindBlock;
-  else if (getIsCompileUnit())
-    Kind = KindCompileUnit;
-  else if (getIsEnumerationType())
-    Kind = KindEnumeration;
-  else if (getIsInlinedSubroutine())
-    Kind = KindInlinedFunction;
-  else if (getIsNamespace())
-    Kind = KindNamespace;
-  else if (getIsTemplatePack())
-    Kind = KindTemplatePack;
-  else if (getIsRoot())
-    Kind = KindFile;
-  else if (getIsTemplateAlias())
-    Kind = KindTemplateAlias;
-  else if (getIsClassType())
-    Kind = KindClass;
-  else if (getIsFunction())
-    Kind = KindFunction;
-  else if (getIsStructType())
-    Kind = KindStruct;
-  else if (getIsUnionType())
-    Kind = KindUnion;
-  return Kind;
-}
-
 void Scope::addChild(Object *Obj) {
   // Do not add the line records to the children, as they represent the
   // logical view for the text section. Preserve the original sequence.
-  if (auto *Ln = dynamic_cast<Line *>(Obj)) {
+  if (auto *Ln = dyn_cast<Line>(Obj)) {
     TheLines.push_back(Ln);
     Ln->setParent(this);
     return;
@@ -123,9 +66,8 @@ void Scope::addChild(Object *Obj) {
 }
 
 void Scope::getQualifiedName(std::string &qualified_name) const {
-  if (getIsRoot() || getIsCompileUnit()) {
+  if (isa<ScopeRoot>(*this) || isa<ScopeCompileUnit>(*this))
     return;
-  }
 
   Scope *ScpParent = getParent();
   if (ScpParent) {
@@ -149,7 +91,7 @@ void Scope::sortScopes(SortFunction SortFunc) {
   std::sort(Children.begin(), Children.end(), SortFunc);
 
   for (Object *Obj : Children)
-    if (auto *Scp = dynamic_cast<Scope *>(Obj))
+    if (auto *Scp = dyn_cast<Scope>(Obj))
       Scp->sortScopes(SortFunc);
 }
 
@@ -190,7 +132,9 @@ std::string Scope::getAsYAML() const {
   return "";
 }
 
-ScopeAggregate::ScopeAggregate() : Scope() { Reference = nullptr; }
+ScopeAggregate::ScopeAggregate() : Scope(SV_ScopeAggregate) {
+  Reference = nullptr;
+}
 
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
@@ -208,7 +152,7 @@ std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   }
 
   for (const Object *Obj : getChildren())
-    if (auto *Ty = dynamic_cast<const Type *>(Obj))
+    if (auto *Ty = dyn_cast<const Type>(Obj))
       if (Ty->getIsInheritance())
         Result.append("\n").append(Ty->getAsText(Settings));
 
@@ -231,7 +175,7 @@ std::string ScopeAggregate::getAsYAML() const {
 
   bool hasInheritance = false;
   for (const Object *Obj : getChildren()) {
-    if (auto *Ty = dynamic_cast<const Type *>(Obj)) {
+    if (auto *Ty = dyn_cast<const Type>(Obj)) {
       if (Ty->getIsInheritance()) {
         hasInheritance = true;
         Result << "\n" << Ty->getAsYAML();
@@ -296,8 +240,7 @@ std::string ScopeEnumeration::getAsText(const PrintSettings &Settings) const {
     ObjectAsText.append(" -> \"").append(getType()->getName()).append("\"");
 
   for (auto *Child : getChildren()) {
-    if (!(Child->getIsType() &&
-          static_cast<const Type *>(Child)->getIsEnumerator()))
+    if (!isa<TypeEnumerator>(*Child))
       // TODO: Raise a warning here?
       continue;
     ObjectAsText.append("\n").append(Child->getAsText(Settings));
@@ -314,11 +257,10 @@ std::string ScopeEnumeration::getAsYAML() const {
 
   std::stringstream Enumerators;
   for (auto *Child : getChildren()) {
-    if (!(Child->getIsType() &&
-          static_cast<const Type *>(Child)->getIsEnumerator()))
+    if (!isa<TypeEnumerator>(*Child))
       // TODO: Raise a warning here?
       continue;
-    auto *ChildEnumerator = static_cast<TypeEnumerator *>(Child);
+    auto *ChildEnumerator = cast<TypeEnumerator>(Child);
     Enumerators << "\n    - enumerator: \"" << ChildEnumerator->getName()
                 << "\"\n      value: " << ChildEnumerator->getValue();
   }
@@ -331,8 +273,8 @@ std::string ScopeEnumeration::getAsYAML() const {
   return YAML.str();
 }
 
-ScopeFunction::ScopeFunction()
-    : Reference(nullptr), IsStatic(false), DeclaredInline(false),
+ScopeFunction::ScopeFunction(ObjectKind K)
+    : Scope(K), Reference(nullptr), IsStatic(false), DeclaredInline(false),
       IsDeclaration(false) {}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
@@ -359,13 +301,13 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   Result += "\"";
 
   // Attributes.
-  if (Reference && Reference->getIsFunction()) {
+  if (Reference && isa<ScopeFunction>(*Reference)) {
     Result += '\n';
     Result += formatAttributeText("Declaration @ ");
     // Cast to element as Scope has a different overload (not override) of
     // getFileName that returns nothing.
     if (!Reference->getInvalidFileName())
-      Result += static_cast<LibScopeView::Element *>(Reference)->getFileName(
+      Result += cast<LibScopeView::Element>(Reference)->getFileName(
           /*format_options*/ true);
     else
       Result += '?';
@@ -382,7 +324,7 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
     Result += '\n';
     Result += formatAttributeText("Template");
   }
-  if (getIsInlined()) {
+  if (isa<ScopeFunctionInlined>(*this)) {
     Result += '\n';
     Result += formatAttributeText("Inlined");
   }
@@ -400,13 +342,13 @@ std::string ScopeFunction::getAsYAML() const {
 
   // Attributes.
   YAML << "  declaration:\n";
-  if (Reference && Reference->getIsFunction()) {
+  if (Reference && isa<ScopeFunction>(*Reference)) {
     // Cast to element as Scope has a different overload (not override) of
     // getFileName that returns nothing.
     YAML << "    file: ";
     if (!Reference->getInvalidFileName())
       YAML << "\""
-           << static_cast<LibScopeView::Element *>(Reference)->getFileName(
+           << cast<LibScopeView::Element>(Reference)->getFileName(
                   /*format_options*/ true)
            << "\"";
     else
@@ -418,7 +360,8 @@ std::string ScopeFunction::getAsYAML() const {
   YAML << "  is_template: " << (getIsTemplate() ? "true" : "false") << "\n"
        << "  static: " << (getIsStatic() ? "true" : "false") << "\n"
        << "  inline: " << (getIsDeclaredInline() ? "true" : "false") << "\n"
-       << "  is_inlined: " << (getIsInlined() ? "true" : "false") << "\n"
+       << "  is_inlined: "
+       << (isa<ScopeFunctionInlined>(*this) ? "true" : "false") << "\n"
        << "  is_declaration: " << (getIsDeclaration() ? "true" : "false");
 
   return YAML.str();
@@ -440,13 +383,6 @@ std::string ScopeNamespace::getAsYAML() const {
   return getCommonYAML() + std::string("\nattributes: {}");
 }
 
-namespace {
-bool isTemplate(const Object *Obj) {
-  return Obj->getIsType() &&
-         static_cast<const Type *>(Obj)->getIsTemplateParam();
-};
-} // end anonymous namespace.
-
 std::string ScopeTemplatePack::getAsText(const PrintSettings &Settings) const {
   std::string Result;
   Result += "{";
@@ -457,7 +393,7 @@ std::string ScopeTemplatePack::getAsText(const PrintSettings &Settings) const {
   Result += "\"";
 
   for (const auto *Child : getChildren()) {
-    if (isTemplate(Child))
+    if (isa<TypeTemplateParam>(*Child))
       Result.append("\n    ").append(Child->getAsText(Settings));
   }
 
@@ -469,13 +405,15 @@ std::string ScopeTemplatePack::getAsYAML() const {
   YAML << getCommonYAML() << "\nattributes:\n  types:";
 
   if (getChildren().size() == 0 ||
-      std::none_of(getChildren().cbegin(), getChildren().cend(), isTemplate)) {
+      std::none_of(
+          getChildren().cbegin(), getChildren().cend(),
+          [](const Object *Child) { return isa<TypeTemplateParam>(*Child); })) {
     YAML << " []";
     return YAML.str();
   }
 
   for (const auto *Child : getChildren()) {
-    if (isTemplate(Child))
+    if (isa<TypeTemplateParam>(*Child))
       YAML << "\n    - " << Child->getAsYAML();
   }
 

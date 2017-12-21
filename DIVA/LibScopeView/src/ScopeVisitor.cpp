@@ -52,16 +52,14 @@ void ScopeVisitor::visitChildren(Object *Obj) {
   if (!Obj)
     return; // Handle gracefully in release.
 
-  // Only scopes have children.
-  if (!Obj->getIsScope())
-    return;
   // Traverse.
-  auto Scp = static_cast<Scope *>(Obj);
-  for (Object *Child : Scp->getChildren()) {
-    visit(Child);
-  }
-  for (Object *Ln : Scp->getLines()) {
-    visit(Ln);
+  if (auto *Scp = dyn_cast<Scope>(Obj)) {
+    for (Object *Child : Scp->getChildren()) {
+      visit(Child);
+    }
+    for (Object *Ln : Scp->getLines()) {
+      visit(Ln);
+    }
   }
 }
 

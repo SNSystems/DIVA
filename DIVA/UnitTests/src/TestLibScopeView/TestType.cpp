@@ -98,8 +98,7 @@ TEST(Type, getAsText_Param) {
   Ty.setName("wsx");
 
   // Template type.
-  TypeParam TyParam;
-  TyParam.setIsType();
+  TypeTemplateParam TyParam;
   TyParam.setIncludeInPrint();
   TyParam.setName("qaz");
   TyParam.setType(&Ty);
@@ -118,7 +117,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"base::qaz\" <- \"base::wsx\"");
 
   // Template value.
-  TypeParam TemplateValue;
+  TypeTemplateParam TemplateValue;
   TemplateValue.setIsTemplateValue();
   TemplateValue.setName("TVal");
   TemplateValue.setValue("101");
@@ -126,7 +125,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"TVal\" <- 101");
 
   // Template template.
-  TypeParam TemplateTemplate;
+  TypeTemplateParam TemplateTemplate;
   TemplateTemplate.setIsTemplateTemplate();
   TemplateTemplate.setName("TTemp");
   TemplateTemplate.setValue("vector");
@@ -134,9 +133,7 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"TTemp\" <- \"vector\"");
 
   // Template packs print differently.
-  Scope ScpTP;
-  ScpTP.setIsScope();
-  ScpTP.setIsTemplatePack();
+  ScopeTemplatePack ScpTP;
   TyParam.setParent(&ScpTP);
   EXPECT_EQ(TyParam.getAsText(Settings), "<- \"base::wsx\"");
 }
@@ -146,7 +143,7 @@ TEST(Type, getAsYAML_Param) {
   Ty.setName("Ty");
 
   // Template type.
-  TypeParam TempType;
+  TypeTemplateParam TempType;
   TempType.setName("TTy");
   TempType.setType(&Ty);
   TempType.setIsTemplateType();
@@ -169,7 +166,7 @@ TEST(Type, getAsYAML_Param) {
                                   "    - \"Ty\"");
 
   // Template value.
-  TypeParam TempValue;
+  TypeTemplateParam TempValue;
   TempValue.setIsTemplateValue();
   TempValue.setName("TVal");
   TempValue.setValue("101");
@@ -193,7 +190,7 @@ TEST(Type, getAsYAML_Param) {
                                    "    - 101");
 
   // Template template.
-  TypeParam TempTemp;
+  TypeTemplateParam TempTemp;
   TempTemp.setIsTemplateTemplate();
   TempTemp.setName("TTemp");
   TempTemp.setValue("vector");
@@ -217,8 +214,7 @@ TEST(Type, getAsYAML_Param) {
                                   "    - \"vector\"");
 
   // Template parameters in template packs are printed by the template pack.
-  Scope Pack;
-  Pack.setIsTemplatePack();
+  ScopeTemplatePack Pack;
   TempType.setParent(&Pack);
   TempValue.setParent(&Pack);
   TempTemp.setParent(&Pack);
@@ -279,7 +275,6 @@ TEST(Type, getAsText_Typedef) {
 
   TypeDefinition TyDef;
   ASSERT_TRUE(TyDef.getIsPrintedAsObject());
-  TyDef.setIsTypedef();
   TyDef.setIncludeInPrint();
 
   EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"\" -> \"\"");
@@ -288,7 +283,6 @@ TEST(Type, getAsText_Typedef) {
   EXPECT_EQ(TyDef.getAsText(Settings), "{Alias} \"qaz\" -> \"\"");
 
   TypeDefinition TyDef2;
-  TyDef2.setIsTypedef();
   TyDef2.setIncludeInPrint();
   TyDef2.setName("wsx");
   TyDef.setType(&TyDef2);
@@ -297,7 +291,6 @@ TEST(Type, getAsText_Typedef) {
 
 TEST(Type, getAsYAML_Typedef) {
   TypeDefinition TD;
-  TD.setIsTypedef();
   TD.setDieOffset(0x84);
   TD.setDieTag(DW_TAG_typedef);
   TD.setLineNumber(10);
@@ -322,13 +315,12 @@ TEST(Type, getAsYAML_Typedef) {
 TEST(Type, getAsText_Using) {
   PrintSettings Settings;
 
-  Scope CU;
-  CU.setIsCompileUnit();
+  ScopeCompileUnit CU;
   CU.setName("I should never be seen!");
 
   TypeImport UsingNamespace;
   UsingNamespace.setIsImportedModule();
-  Scope NS;
+  ScopeNamespace NS;
   NS.setName("test_name");
   NS.setParent(&CU);
   UsingNamespace.setType(&NS);
@@ -379,8 +371,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingFunction;
   UsingFunction.setIsImportedDeclaration();
-  Scope Func;
-  Func.setIsFunction();
+  ScopeFunction Func;
   Func.setName("test_function");
   Func.setParent(&CU);
   UsingFunction.setType(&Func);
@@ -393,7 +384,7 @@ TEST(Type, getAsText_Using) {
 
   TypeImport UsingStruct;
   UsingStruct.setIsImportedDeclaration();
-  Scope ScpStruct;
+  ScopeAggregate ScpStruct;
   ScpStruct.setIsStructType();
   ScpStruct.setName("test_struct");
   ScpStruct.setParent(&CU);
@@ -413,8 +404,7 @@ TEST(Type, getAsText_Using) {
 }
 
 TEST(Type, getAsYAML_Using) {
-  Scope CU;
-  CU.setIsCompileUnit();
+  ScopeCompileUnit CU;
   CU.setName("I should never be seen!");
 
   TypeImport UsingNamespace;
@@ -556,8 +546,7 @@ TEST(Type, getAsYAML_Using) {
   UsingFunction.setFileName("test_file.cpp");
   UsingFunction.setDieTag(DW_TAG_imported_declaration);
   UsingFunction.setDieOffset(0xdeadb33f);
-  Scope Function;
-  Function.setIsFunction();
+  ScopeFunction Function;
   Function.setName("test_function");
   Function.setParent(&CU);
   UsingFunction.setType(&Function);
@@ -594,7 +583,7 @@ TEST(Type, getAsYAML_Using) {
   UsingStruct.setFileName("test_file.cpp");
   UsingStruct.setDieTag(DW_TAG_imported_declaration);
   UsingStruct.setDieOffset(0xdeadb33f);
-  Scope StructType;
+  ScopeAggregate StructType;
   StructType.setIsStructType();
   StructType.setName("test_struct");
   StructType.setParent(&CU);

@@ -88,7 +88,6 @@ TEST(DivaOptions, Defaults) {
   EXPECT_FALSE(PSet.ShowOnlyGlobals);
   EXPECT_FALSE(PSet.ShowOnlyLocals);
   EXPECT_FALSE(PSet.ShowQualified);
-  EXPECT_FALSE(PSet.ShowUnderlying);
   EXPECT_TRUE(PSet.ShowVoid);
   EXPECT_FALSE(PSet.ShowZeroLine);
 
@@ -340,7 +339,6 @@ TEST(DivaOptions, FlagArguments) {
   CHECK_FLAG("show-only-globals", PrintingSettings.ShowOnlyGlobals);
   CHECK_FLAG("show-only-locals", PrintingSettings.ShowOnlyLocals);
   CHECK_FLAG("show-qualified", PrintingSettings.ShowQualified);
-  CHECK_FLAG("show-underlying", PrintingSettings.ShowUnderlying);
   CHECK_FLAG("show-void", PrintingSettings.ShowVoid);
   CHECK_FLAG("show-zero", PrintingSettings.ShowZeroLine);
 

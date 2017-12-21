@@ -41,20 +41,12 @@ class Line : public Element {
 public:
   Line();
 
-private:
-  // Line Kind.
-  static const char *KindDiscriminator;
-  static const char *KindBasicBlock;
-  static const char *KindEndSequence;
-  static const char *KindEpilogueBegin;
-  static const char *KindLine;
-  static const char *KindNewStatement;
-  static const char *KindPrologueEnd;
-  static const char *KindUndefined;
+  /// \brief Return true if Obj is an instance of Line.
+  static bool classof(const Object *Obj) { return Obj->getKind() == SV_Line; }
 
+private:
   // Flags specifying various properties of the line.
   enum LineAttributes {
-    IsLineRecord,
     HasDiscriminator,
     IsLineEndSequence,
     IsNewBasicBlock,
@@ -71,13 +63,6 @@ private:
   Dwarf_Half Discriminator;
 
 public:
-  // Gets the line kind as a string (eg, "LINE").
-  const char *getKindAsString() const override;
-
-  /// \brief Flags associated with the line.
-  bool getIsLineRecord() const { return LineAttributesFlags[IsLineRecord]; }
-  void setIsLineRecord() { LineAttributesFlags.set(IsLineRecord); }
-
   /// \brief Has any discriminator.
   bool getHasDiscriminator() const {
     return LineAttributesFlags[HasDiscriminator];

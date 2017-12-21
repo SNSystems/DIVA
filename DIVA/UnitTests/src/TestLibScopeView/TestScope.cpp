@@ -41,7 +41,6 @@ TEST(Scope, getAsText_Alias) {
   PrintSettings Settings;
 
   ScopeAlias Alias;
-  Alias.setIsTemplateAlias();
   EXPECT_EQ(Alias.getAsText(Settings), "{Alias} \"\" -> \"void\"");
 
   Settings.ShowVoid = false;
@@ -66,7 +65,6 @@ TEST(Scope, getAsText_Alias) {
 
 TEST(Scope, getAsYAML_Alias) {
   ScopeAlias Alias;
-  Alias.setIsTemplateAlias();
   Alias.setName("test<int>");
   Alias.setLineNumber(18);
   Alias.setFileName("test.cpp");
@@ -103,7 +101,6 @@ TEST(Scope, getAsYAML_Alias) {
 
 TEST(Scope, getAsText_Array) {
   ScopeArray Array;
-  Array.setIsArrayType();
   Array.setName("int 5,10");
   EXPECT_EQ(Array.getAsText(PrintSettings()), "{Array} \"int 5,10\"");
 }
@@ -192,7 +189,6 @@ TEST(Scope, getAsText_Class) {
   PrintSettings Settings;
 
   ScopeAggregate Class;
-  Class.setIsAggregate();
   Class.setIsClassType();
   Class.setName("TestClass");
   EXPECT_EQ(Class.getAsText(Settings), "{Class} \"TestClass\"");
@@ -204,7 +200,6 @@ TEST(Scope, getAsText_Class) {
 
 TEST(Scope, getAsYAML_Class) {
   ScopeAggregate Class;
-  Class.setIsAggregate();
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
@@ -249,7 +244,6 @@ TEST(Scope, getAsYAML_Class) {
 
 TEST(Scope, getAsYAML_multiInheritance) {
   ScopeAggregate Class;
-  Class.setIsAggregate();
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
@@ -296,7 +290,6 @@ TEST(Scope, getAsYAML_multiInheritance) {
 
 TEST(Scope, getAsYAML_Unspecified_Class) {
   ScopeAggregate Class;
-  Class.setIsAggregate();
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
@@ -332,7 +325,6 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
 
 TEST(Scope, getAsText_CompileUnit) {
   ScopeCompileUnit compileUnit;
-  compileUnit.setIsCompileUnit();
   EXPECT_EQ(compileUnit.getAsText(PrintSettings()), "{CompileUnit} \"\"");
 
   compileUnit.setName("c:/fakedir/fakefile.cpp");
@@ -343,7 +335,6 @@ TEST(Scope, getAsText_CompileUnit) {
 
 TEST(Scope, getAsYAML_CompileUnit) {
   ScopeCompileUnit CompileUnit;
-  CompileUnit.setIsCompileUnit();
   CompileUnit.setName("c:/fakedir/fakefile.cpp");
   CompileUnit.setDieOffset(0xbeef);
   CompileUnit.setDieTag(DW_TAG_compile_unit);
@@ -361,7 +352,6 @@ TEST(Scope, getAsYAML_CompileUnit) {
 
 TEST(Scope, getAsText_Enumeration) {
   ScopeEnumeration ScpEnumeration;
-  ScpEnumeration.setIsEnumerationType();
   EXPECT_EQ(ScpEnumeration.getAsText(PrintSettings()), "{Enum} \"\"");
 
   ScpEnumeration.setName("days");
@@ -380,7 +370,6 @@ TEST(Scope, getAsText_Enumeration) {
 
 TEST(Scope, getAsYAML_Enumeration) {
   ScopeEnumeration Enum;
-  Enum.setIsEnumerationType();
   Enum.setName("days");
   Enum.setLineNumber(42);
   Enum.setFileName("enum.cpp");
@@ -408,12 +397,10 @@ TEST(Scope, getAsYAML_Enumeration) {
   EXPECT_EQ(Enum.getAsYAML(), ExpectedYAML + "\n  enumerators: []");
 
   auto *Monday = new TypeEnumerator;
-  Monday->setIsEnumerator();
   Monday->setName("monday");
   Monday->setValue("10");
   Enum.addChild(Monday);
   auto *Tuesday = new TypeEnumerator;
-  Tuesday->setIsEnumerator();
   Tuesday->setName("tuesday");
   Tuesday->setValue("20");
   Enum.addChild(Tuesday);
@@ -429,9 +416,6 @@ TEST(Scope, getAsText_Function) {
   PrintSettings Settings;
 
   ScopeFunction ScpFunc;
-  ScpFunc.setIsScope();
-  ScpFunc.setIsFunction();
-
   EXPECT_EQ(ScpFunc.getAsText(Settings), "{Function} \"\" -> \"void\"\n"
                                          "    - No declaration");
 
@@ -450,7 +434,6 @@ TEST(Scope, getAsText_Function) {
                                          "    - No declaration");
 
   ScopeNamespace NS;
-  NS.setIsNamespace();
   NS.setName("TestNamespace");
   ScpFunc.setParent(&NS);
   ScpFunc.resolveName();
@@ -459,7 +442,6 @@ TEST(Scope, getAsText_Function) {
             "    - No declaration");
 
   ScopeNamespace NS2;
-  NS2.setIsNamespace();
   NS2.setName("BaseNamespace");
   NS.setParent(&NS2);
   ScpFunc.resolveName();
@@ -468,16 +450,12 @@ TEST(Scope, getAsText_Function) {
             "    - No declaration");
 
   ScopeFunction StaticFunc;
-  StaticFunc.setIsScope();
-  StaticFunc.setIsFunction();
   StaticFunc.setName("sf");
   StaticFunc.setIsStatic();
   EXPECT_EQ(StaticFunc.getAsText(Settings), "{Function} static \"sf\" -> \"\"\n"
                                             "    - No declaration");
 
   ScopeFunction DecInlineFunc;
-  DecInlineFunc.setIsScope();
-  DecInlineFunc.setIsFunction();
   DecInlineFunc.setName("dif");
   DecInlineFunc.setIsDeclaredInline();
   EXPECT_EQ(DecInlineFunc.getAsText(Settings),
@@ -485,8 +463,6 @@ TEST(Scope, getAsText_Function) {
             "    - No declaration");
 
   ScopeFunction ScpQualFunc;
-  ScpQualFunc.setIsScope();
-  ScpQualFunc.setIsFunction();
   ScpQualFunc.setName("qaz");
   ScpQualFunc.setType(&RetType);
   EXPECT_EQ(ScpQualFunc.getAsText(Settings), "{Function} \"qaz\" -> \"wsx\"\n"
@@ -506,17 +482,14 @@ TEST(Scope, getAsText_Function_Attributes) {
   // Test attributes.
   std::string Expected("{Function} \"\" -> \"\"");
   ScopeFunction Func;
-  Func.setIsFunction();
 
   ScopeFunction DeclFunc;
-  DeclFunc.setIsFunction();
   Expected.append("\n    - ");
   EXPECT_EQ(DeclFunc.getAsText(Settings), Expected + "No declaration");
 
   DeclFunc.setIsDeclaration();
   EXPECT_EQ(DeclFunc.getAsText(Settings), Expected + "Is declaration");
 
-  DeclFunc.setIsFunction();
   DeclFunc.setFileName("test/file.h");
   DeclFunc.setLineNumber(24);
   Func.setReference(&DeclFunc);
@@ -529,10 +502,6 @@ TEST(Scope, getAsText_Function_Attributes) {
 
   Func.setIsTemplate();
   Expected.append("\n    - ").append("Template");
-  EXPECT_EQ(Func.getAsText(Settings), Expected);
-
-  Func.setIsInlined();
-  Expected.append("\n    - ").append("Inlined");
   EXPECT_EQ(Func.getAsText(Settings), Expected);
 
   Func.setIsDeclaration();
@@ -551,7 +520,6 @@ TEST(Scope, getAsText_Function_Attributes) {
 
   // ScopeFunctionInlined.
   ScopeFunctionInlined inlined;
-  inlined.setIsInlinedSubroutine();
   inlined.setName("Foo");
   EXPECT_EQ(inlined.getAsText(Settings), "{Function} \"Foo\" -> \"\"\n"
                                          "    - No declaration\n"
@@ -560,8 +528,6 @@ TEST(Scope, getAsText_Function_Attributes) {
 
 TEST(Scope, getAsYAML_Function) {
   ScopeFunction Func;
-  Func.setIsScope();
-  Func.setIsFunction();
   Func.setName("Foo");
   Func.setLineNumber(17);
   Func.setFileName("foo.cpp");
@@ -611,8 +577,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_inlined: false\n"
                               "  is_declaration: false");
 
-  // Declaration for inlined function.
-  Func.setIsInlined();
+  // Declared inline function.
   Func.setIsDeclaredInline();
   EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
                               "name: \"Foo\"\n"
@@ -630,7 +595,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_template: false\n"
                               "  static: false\n"
                               "  inline: true\n"
-                              "  is_inlined: true\n"
+                              "  is_inlined: false\n"
                               "  is_declaration: false");
 
   // Declaration for Static function.
@@ -652,7 +617,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_template: false\n"
                               "  static: true\n"
                               "  inline: true\n"
-                              "  is_inlined: true\n"
+                              "  is_inlined: false\n"
                               "  is_declaration: true");
 
   // Template function.
@@ -673,13 +638,11 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_template: true\n"
                               "  static: true\n"
                               "  inline: true\n"
-                              "  is_inlined: true\n"
+                              "  is_inlined: false\n"
                               "  is_declaration: true");
 
   // Function to be used as Reference.
   ScopeFunction Reference;
-  Reference.setIsScope();
-  Reference.setIsFunction();
   Reference.setName("Ref");
   Reference.setLineNumber(620);
   Reference.setFileName("ref.cpp");
@@ -703,7 +666,7 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_template: true\n"
                               "  static: true\n"
                               "  inline: true\n"
-                              "  is_inlined: true\n"
+                              "  is_inlined: false\n"
                               "  is_declaration: true");
 
   // Invalid Reference to function.
@@ -725,12 +688,11 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_template: true\n"
                               "  static: true\n"
                               "  inline: true\n"
-                              "  is_inlined: true\n"
+                              "  is_inlined: false\n"
                               "  is_declaration: true");
 
   // ScopeFunctionInlined.
   ScopeFunctionInlined Inlined;
-  Inlined.setIsInlinedSubroutine();
   Inlined.setName("Foo");
   Inlined.setDieOffset(0x100);
   Inlined.setDieTag(DW_TAG_inlined_subroutine);
@@ -757,7 +719,6 @@ TEST(Scope, getAsYAML_Function) {
 
 TEST(Scope, getAsText_Namespace) {
   ScopeNamespace NS;
-  NS.setIsNamespace();
   EXPECT_EQ(NS.getAsText(PrintSettings()), "{Namespace}");
 
   NS.setName("TestNamespace");
@@ -772,7 +733,6 @@ TEST(Scope, getAsText_Namespace) {
 
 TEST(Scope, getAsYAML_Namespace) {
   ScopeNamespace NS;
-  NS.setIsNamespace();
   NS.setName("TestNamespace");
   NS.setLineNumber(17);
   NS.setFileName("test.cpp");
@@ -792,7 +752,6 @@ TEST(Scope, getAsYAML_Namespace) {
 
 TEST(Scope, getAsText_Root) {
   ScopeRoot Root;
-  Root.setIsRoot();
   EXPECT_EQ(Root.getAsText(PrintSettings()), "{InputFile} \"\"");
 
   Root.setName("test/file.o");
@@ -803,7 +762,6 @@ TEST(Scope, getAsText_Struct) {
   PrintSettings Settings;
 
   ScopeAggregate Struct;
-  Struct.setIsAggregate();
   Struct.setIsStructType();
   Struct.setName("TestStruct");
   EXPECT_EQ(Struct.getAsText(Settings), "{Struct} \"TestStruct\"");
@@ -815,7 +773,6 @@ TEST(Scope, getAsText_Struct) {
 
 TEST(Scope, getAsYAML_Struct) {
   ScopeAggregate Struct;
-  Struct.setIsAggregate();
   Struct.setIsStructType();
   Struct.setName("TestStruct");
   Struct.setLineNumber(5);
@@ -860,7 +817,6 @@ TEST(Scope, getAsYAML_Struct) {
 
 TEST(Scope, getAsYAML_Unspecified_Struct) {
   ScopeAggregate Struct;
-  Struct.setIsAggregate();
   Struct.setIsStructType();
   Struct.setName("TestStruct");
   Struct.setLineNumber(5);
@@ -897,8 +853,6 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
 
 TEST(Scope, getAsText_TemplatePack) {
   ScopeTemplatePack ScpTP;
-  ScpTP.setIsScope();
-  ScpTP.setIsTemplatePack();
   EXPECT_EQ(ScpTP.getAsText(PrintSettings()), "{TemplateParameter} \"\"");
 
   ScpTP.setName("qaz");
@@ -907,7 +861,6 @@ TEST(Scope, getAsText_TemplatePack) {
 
 TEST(Scope, getAsYAML_TemplatePack) {
   ScopeTemplatePack Pack;
-  Pack.setIsTemplatePack();
   Pack.setName("TPack");
   Pack.setLineNumber(11);
   Pack.setFileName("test.cpp");
@@ -927,7 +880,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
                        "  types:");
   EXPECT_EQ(Pack.getAsYAML(), Expected + std::string(" []"));
 
-  auto *TempType = new TypeParam;
+  auto *TempType = new TypeTemplateParam;
   Type Ty;
   Ty.setName("Ty");
   TempType->setType(&Ty);
@@ -937,7 +890,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   Expected.append("\n    - \"Ty\"");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
 
-  auto *TempValue = new TypeParam;
+  auto *TempValue = new TypeTemplateParam;
   TempValue->setIsTemplateValue();
   TempValue->setValue("101");
   Pack.addChild(TempValue);
@@ -945,7 +898,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   Expected.append("\n    - 101");
   EXPECT_EQ(Pack.getAsYAML(), Expected);
 
-  auto *TempTemp = new TypeParam;
+  auto *TempTemp = new TypeTemplateParam;
   TempTemp->setIsTemplateTemplate();
   TempTemp->setValue("vector");
   Pack.addChild(TempTemp);
@@ -958,7 +911,6 @@ TEST(Scope, getAsText_Union) {
   PrintSettings Settings;
 
   ScopeAggregate Union;
-  Union.setIsAggregate();
   Union.setIsUnionType();
   Union.setName("TestUnion");
   EXPECT_EQ(Union.getAsText(Settings), "{Union} \"TestUnion\"");
@@ -970,7 +922,6 @@ TEST(Scope, getAsText_Union) {
 
 TEST(Scope, getAsYAML_Union) {
   ScopeAggregate Union;
-  Union.setIsAggregate();
   Union.setIsUnionType();
   Union.setName("TestUnion");
   Union.setLineNumber(5);

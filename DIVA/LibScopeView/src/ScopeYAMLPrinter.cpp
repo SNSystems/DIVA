@@ -74,7 +74,7 @@ const std::string &ScopeYAMLPrinter::getHeader() { return YAMLHeader; }
 void ScopeYAMLPrinter::printImpl(const Object *Obj,
                                  std::ostream &OutputStream) {
   // Don't print anything for the scope root, but do visit the children.
-  if (Obj->getIsScope() && static_cast<const Scope *>(Obj)->getIsRoot()) {
+  if (isa<ScopeRoot>(*Obj)) {
     printChildren(Obj);
     return;
   }
@@ -103,8 +103,7 @@ void ScopeYAMLPrinter::printImpl(const Object *Obj,
   // Print children.
   OutputStream << Indent << "  "
                << "children:";
-  if (Obj->getIsScope()) {
-    auto const *Scp = static_cast<const Scope *>(Obj);
+  if (auto *Scp = dyn_cast<Scope>(Obj)) {
     const auto &Children = Scp->getChildren();
     if (std::none_of(Children.cbegin(), Children.cend(), [](Object *Child) {
           return Child->getIsPrintedAsObject();

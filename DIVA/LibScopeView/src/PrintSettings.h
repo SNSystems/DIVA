@@ -101,7 +101,6 @@ public:
   bool ShowOnlyGlobals = false;
   bool ShowOnlyLocals = false;
   bool ShowQualified = false;
-  bool ShowUnderlying = false;
   bool ShowVoid = true;
   bool ShowZeroLine = false;
 

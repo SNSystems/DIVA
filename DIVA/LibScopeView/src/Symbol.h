@@ -39,14 +39,12 @@ class Symbol : public Element {
 public:
   Symbol();
 
-private:
-  // Symbol Kind.
-  static const char *KindMember;
-  static const char *KindParameter;
-  static const char *KindUndefined;
-  static const char *KindUnspecified;
-  static const char *KindVariable;
+  /// \brief Return true if Obj is an instance of Symbol.
+  static bool classof(const Object *Obj) {
+    return Obj->getKind() == SV_Symbol;
+  }
 
+private:
   // Flags specifying various properties of the Symbol.
   enum SymbolAttributes {
     IsMember,
@@ -58,9 +56,6 @@ private:
   std::bitset<SymbolAttributesSize> SymbolAttributesFlags;
 
 public:
-  /// \brief Gets the object kind as a string.
-  const char *getKindAsString() const override;
-
   bool getIsMember() const { return SymbolAttributesFlags[IsMember]; }
   void setIsMember() { SymbolAttributesFlags.set(IsMember); }
 

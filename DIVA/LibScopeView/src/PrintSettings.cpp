@@ -74,66 +74,79 @@ void PrintSettings::setMoreShowOptions(bool SetTo) {
 }
 
 bool PrintSettings::printObject(const Object &Obj) const {
-  if (Obj.getIsLine())
-    return ShowCodeline;
-
   if ((ShowOnlyGlobals && !Obj.getIsGlobalReference()) ||
       (ShowOnlyLocals && Obj.getIsGlobalReference()))
     return false;
 
-  if (auto Scp = dynamic_cast<const Scope *>(&Obj)) {
-    if (Scp->getIsTemplateAlias())
-      return ShowAlias;
-    if (Scp->getIsBlock())
-      return ShowBlock;
-    if (Scp->getIsTemplate() || Scp->getIsTemplatePack())
+  if (auto Scp = dyn_cast<Scope>(&Obj)) {
+    if (Scp->getIsTemplate())
       return ShowTemplate;
-    if (Scp->getIsClassType())
-      return ShowClass;
-    if (Scp->getIsEnumerationType())
-      return ShowEnum;
-    if (Scp->getIsFunction())
-      return ShowFunction;
-    if (Scp->getIsNamespace())
-      return ShowNamespace;
-    if (Scp->getIsStructType())
-      return ShowStruct;
-    if (Scp->getIsUnionType())
-      return ShowUnion;
-    if (Scp->getIsArrayType())
-      return false;
-    return true;
   }
 
-  if (auto Sym = dynamic_cast<const Symbol *>(&Obj)) {
-    if (Sym->getIsMember())
+  switch (Obj.getKind()) {
+  case Object::SV_Line:
+    return ShowCodeline;
+  case Object::SV_Scope:
+    if (cast<Scope>(Obj).getIsBlock())
+      return ShowBlock;
+    break;
+  case Object::SV_ScopeAggregate: {
+    auto &Agg = cast<ScopeAggregate>(Obj);
+    if (Agg.getIsClassType())
+      return ShowClass;
+    if (Agg.getIsStructType())
+      return ShowStruct;
+    if (Agg.getIsUnionType())
+      return ShowUnion;
+  } break;
+  case Object::SV_ScopeAlias:
+    return ShowAlias;
+  case Object::SV_ScopeEnumeration:
+    return ShowEnum;
+  case Object::SV_ScopeFunction:
+  case Object::SV_ScopeFunctionInlined:
+    return ShowFunction;
+  case Object::SV_ScopeNamespace:
+    return ShowNamespace;
+  case Object::SV_ScopeTemplatePack:
+    return ShowTemplate;
+  case Object::SV_ScopeCompileUnit:
+  case Object::SV_ScopeRoot:
+    return true;
+  case Object::SV_Symbol: {
+    auto &Sym = cast<Symbol>(Obj);
+    if (Sym.getIsMember())
       return ShowMember;
-    else if (Sym->getIsParameter())
+    else if (Sym.getIsParameter())
       return ShowParameter;
-    else if (Sym->getIsVariable())
+    else if (Sym.getIsVariable())
       return ShowVariable;
     return true;
   }
-
-  if (auto Ty = dynamic_cast<const Type *>(&Obj)) {
-    if (Ty->getIsSubrangeType())
-      return false;
-    if (Ty->getIsBaseType())
+  case Object::SV_Type: {
+    auto &Ty = cast<Type>(Obj);
+    if (Ty.getIsBaseType())
       return ShowPrimitiveType;
-    else if (Ty->getIsTemplateParam())
-      return ShowTemplate;
-    else if (Ty->getIsTypedef())
-      return ShowAlias;
-    else if (Ty->getIsInheritance())
+    return false;
+  }
+  case Object::SV_TypeDefinition:
+    return ShowAlias;
+  case Object::SV_TypeEnumerator:
+    return ShowEnum;
+  case Object::SV_TypeImport: {
+    auto &Import = cast<TypeImport>(Obj);
+    if (Import.getIsInheritance())
       return ShowClass || ShowStruct;
-    else if (Ty->getIsImported())
-      return ShowUsing;
-    else if (Ty->getIsEnumerator())
-      return ShowEnum;
+    return ShowUsing;
+  }
+  case Object::SV_TypeTemplateParam:
+    return ShowTemplate;
+  case Object::SV_ScopeArray:
+  case Object::SV_TypeSubrange:
     return false;
   }
 
-  assert(false && "Not a Line, Scope, Symbol or Type");
+  assert(false && "Unreachable");
   return false;
 }
 

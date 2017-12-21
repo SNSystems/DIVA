@@ -36,13 +36,11 @@ using namespace LibScopeView;
 
 TEST(Line, getAsText_Line) {
   Line Ln;
-  Ln.setIsLineRecord();
   EXPECT_EQ(Ln.getAsText(PrintSettings()), "{CodeLine}");
 }
 
 TEST(Line, getAsYAML_Line) {
   Line Ln;
-  Ln.setIsLineRecord();
   Ln.setLineNumber(52);
   Ln.setFileName("test.cpp");
   Ln.setDieOffset(0x5555);
@@ -70,7 +68,6 @@ TEST(Line, getAsText_Line_Attributes) {
   Settings.ShowCodelineAttributes = true;
 
   Line Ln;
-  Ln.setIsLineRecord();
 
   Ln.setIsNewStatement();
   std::string Expected("{CodeLine}\n    - NewStatement");
@@ -99,7 +96,6 @@ TEST(Line, getAsText_Line_Attributes) {
 
 TEST(Line, getAsYAML_Line_Attributes) {
   Line Ln;
-  Ln.setIsLineRecord();
   Ln.setLineNumber(52);
   Ln.setFileName("test.cpp");
   Ln.setDieOffset(0x5555);

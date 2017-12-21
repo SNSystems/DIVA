@@ -44,14 +44,41 @@
 #endif
 
 #include <bitset>
+#include <cassert>
 #include <cstdint>
 
 namespace LibScopeView {
 
+class Object;
 class PrintSettings;
 class Scope;
 class Type;
 
+/// \brief Return true if Obj is an instance of T or its subclasses.
+template <class T> bool isa(const Object &Obj) { return T::classof(&Obj); }
+
+/// \brief Cast Obj to T. Obj must be instance of T or its subclasses.
+template <class T> T *cast(Object *Obj) {
+  assert(isa<T>(*Obj) && "Tried to cast Object instance to invalid type");
+  return static_cast<T *>(Obj);
+}
+template <class T> const T *cast(const Object *Obj) {
+  return cast<T>(const_cast<Object *>(Obj));
+}
+template <class T> const T &cast(const Object &Obj) {
+  return *cast<T>(const_cast<Object *>(&Obj));
+}
+template <class T> T &cast(Object &Obj) { return *cast<T>(&Obj); }
+
+/// \brief Cast Obj to T or return nullptr if it is not an instance of T.
+template <class T> T *dyn_cast(Object *Obj) {
+  return isa<T>(*Obj) ? static_cast<T *>(Obj) : nullptr;
+}
+template <class T> const T *dyn_cast(const Object *Obj) {
+  return dyn_cast<T>(const_cast<Object *>(Obj));
+}
+
+/// \brief Print sizes and counts of allocated Objects.
 void printAllocationInfo(std::ostream &Out);
 
 /// \brief Enum to represent C++ access specifiers.
@@ -60,7 +87,44 @@ enum class AccessSpecifier { Unspecified, Private, Protected, Public };
 /// \brief Class to represent the basic information for a DIVA object.
 class Object {
 public:
-  Object();
+  /// \brief Kind of Object.
+  ///
+  /// This enum is used to implement custom RTTI and is based on the LLVM style
+  /// described here: http://llvm.org/docs/HowToSetUpLLVMStyleRTTI.html
+  ///
+  /// The enum is ordered as a preorder traversal of the class hierarchy tree to
+  /// make checking classes more efficient. When modifying the list you need to
+  /// be careful to check any effect you might have on the subclasses static
+  /// 'classof' methods.
+  enum ObjectKind {
+    SV_Line,
+    SV_Scope,
+    SV_ScopeAggregate,
+    SV_ScopeAlias,
+    SV_ScopeArray,
+    SV_ScopeCompileUnit,
+    SV_ScopeEnumeration,
+    SV_ScopeFunction,
+    SV_ScopeFunctionInlined,
+    SV_ScopeNamespace,
+    SV_ScopeTemplatePack,
+    SV_ScopeRoot,
+    SV_Symbol,
+    SV_Type,
+    SV_TypeDefinition,
+    SV_TypeEnumerator,
+    SV_TypeImport,
+    SV_TypeTemplateParam,
+    SV_TypeSubrange,
+  };
+
+  /// \brief Get the kind of the Object.
+  ObjectKind getKind() const { return Kind; }
+
+  /// \brief Return true if Obj is an instance of Object.
+  static bool classof(const Object *) { return true; }
+
+  Object(ObjectKind K);
   virtual ~Object();
 
   Object(const Object &) = delete;
@@ -70,15 +134,12 @@ public:
   Object &operator=(const Object &&) = delete;
 
 private:
+  const ObjectKind Kind;
+
   // Flags specifying various properties of the Object.
   enum ObjectAttributes {
-    IsLine,
-    IsScope,
-    IsSymbol,
-    IsType,
     HasType,
     IsGlobalReference,
-    IsInlined,
     InvalidFilename,
     HasReference,
     HasQualifiedName,
@@ -89,23 +150,7 @@ private:
 
 public:
   /// \brief Get the object kind as a string.
-  virtual const char *getKindAsString() const = 0;
-
-  /// \brief The Object is a line.
-  bool getIsLine() const { return ObjectAttributesFlags[IsLine]; }
-  void setIsLine() { ObjectAttributesFlags.set(IsLine); }
-
-  /// \brief The Object is a scope.
-  bool getIsScope() const { return ObjectAttributesFlags[IsScope]; }
-  void setIsScope() { ObjectAttributesFlags.set(IsScope); }
-
-  /// \brief The Object is a symbol.
-  bool getIsSymbol() const { return ObjectAttributesFlags[IsSymbol]; }
-  void setIsSymbol() { ObjectAttributesFlags.set(IsSymbol); }
-
-  /// \brief The Object is a type.
-  bool getIsType() const { return ObjectAttributesFlags[IsType]; }
-  void setIsType() { ObjectAttributesFlags.set(IsType); }
+  const char *getKindAsString() const;
 
   /// \brief The Object has a type.
   bool getHasType() const { return ObjectAttributesFlags[HasType]; }
@@ -116,10 +161,6 @@ public:
     return ObjectAttributesFlags[IsGlobalReference];
   }
   void setIsGlobalReference() { ObjectAttributesFlags.set(IsGlobalReference); }
-
-  /// \brief The Object has been inlined.
-  bool getIsInlined() const { return ObjectAttributesFlags[IsInlined]; }
-  void setIsInlined() { ObjectAttributesFlags.set(IsInlined); }
 
   /// \brief The filename associated with the object is valid.
   bool getInvalidFileName() const {
@@ -212,17 +253,10 @@ public:
   Scope *getParent() const { return Parent; }
   void setParent(Scope *ObjParent) { Parent = ObjParent; }
 
-  /// \brief If the Object is a Compile Unit.
-  virtual bool getIsCompileUnit() const { return false; }
-
   // Get some attributes as string.
   const char *getDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
   const char *getTypeAsString(const PrintSettings &Settings) const;
-
-  // The object class type can point to a Type or Scope.
-  virtual bool getIsKindType() const { return false; }
-  virtual bool getIsKindScope() const { return false; }
 
   virtual Object *getType() const = 0;
   virtual void setType(Object *Obj) = 0;
@@ -249,7 +283,10 @@ protected:
 /// \brief Class to represent the basic data for an object.
 class Element : public Object {
 public:
-  Element();
+  Element(ObjectKind K);
+
+  /// Return true if Obj is an instance of Element.
+  static bool classof(const Object *) { return true; }
 
 private:
   // The name, type name, qualified name and filename in String Pool.
@@ -263,11 +300,6 @@ private:
 public:
   bool isNamed() const override { return NameIndex != 0; }
   bool isUnnamed() const override { return !isNamed(); }
-
-  // The object class type can point to a Type or Scope.
-  bool getIsKindType() const override {
-    return TheType && TheType->getIsType();
-  }
 
   /// \brief The Object's name.
   const char *getName() const override;
