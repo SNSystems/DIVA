@@ -212,11 +212,11 @@ public:
   virtual const std::string &getQualifiedName() const = 0;
   virtual void setQualifiedName(const std::string &Name) = 0;
 
-  /// \brief The Object's filename.
-  virtual std::string getFileName(bool NameOnly) const = 0;
-  virtual StringPoolRef getFileNamePoolRef() const = 0;
-  virtual void setFileName(const std::string &FileName) = 0;
-  virtual void setFileName(StringPoolRef FileName) = 0;
+  /// \brief The Object's file path.
+  virtual const std::string &getFilePath() const = 0;
+  virtual StringPoolRef getFilePathPoolRef() const = 0;
+  virtual void setFilePath(const std::string &FilePath) = 0;
+  virtual void setFilePath(StringPoolRef FilePath) = 0;
 
   bool isLined() const { return LineNumber != 0; }
   bool isUnlined() const { return !isLined(); }
@@ -282,7 +282,7 @@ private:
   // The name, type name, qualified name and filename in String Pool.
   StringPoolRef NameRef;
   StringPoolRef QualifiedRef;
-  StringPoolRef FileNameRef;
+  StringPoolRef FilePathRef;
 
   // Type of this object.
   Object *TheType;
@@ -298,11 +298,11 @@ public:
   const std::string &getQualifiedName() const override;
   void setQualifiedName(const std::string &Name) override;
 
-  /// \brief The Object's filename.
-  std::string getFileName(bool NameOnly) const override;
-  StringPoolRef getFileNamePoolRef() const override { return FileNameRef; }
-  void setFileName(const std::string &FileName) override;
-  void setFileName(StringPoolRef FileName) override { FileNameRef = FileName; }
+  /// \brief The Object's file path.
+  const std::string &getFilePath() const override;
+  StringPoolRef getFilePathPoolRef() const override { return FilePathRef; }
+  void setFilePath(const std::string &FilePath) override;
+  void setFilePath(StringPoolRef FilePath) override { FilePathRef = FilePath; }
 
   void setType(Object *Obj) override {
     setHasType();

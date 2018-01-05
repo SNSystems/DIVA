@@ -27,6 +27,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "Type.h"
+#include "FileUtilities.h"
 #include "PrintSettings.h"
 #include "Scope.h"
 #include "StringPool.h"
@@ -306,7 +307,7 @@ std::string TypeImport::getUsingAsYAML() const {
          << "\ntype: null"
          << "\nsource:"
          << "\n  line: " << getLineNumber() << "\n  file: \""
-         << getFileName(true) << "\""
+         << getFileName(getFilePath()) << "\""
          << "\ndwarf:"
          << "\n  offset: 0x" << std::hex << getDieOffset();
   const char *TagName;

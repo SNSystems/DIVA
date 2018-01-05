@@ -170,7 +170,7 @@ private:
     // Set common attribute values.
     Obj->setName(Reference->getNamePoolRef());
     Obj->setLineNumber(Reference->getLineNumber());
-    Obj->setFileName(Reference->getFileNamePoolRef());
+    Obj->setFilePath(Reference->getFilePathPoolRef());
     if (Reference->getInvalidFileName())
       Obj->setInvalidFileName();
 

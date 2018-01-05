@@ -121,10 +121,6 @@ AssertionResult checkChildCount(const LibScopeView::Scope *Parent,
   return ::testing::AssertionSuccess();
 }
 
-std::string getSourceFileName(LibScopeView::Element *E, bool Format = true) {
-  return E->getFileName(Format);
-}
-
 // Test fixture providing helpers to load a Scope tree using the DwarfReader.
 class TestElfDwarfReader : public ::testing::Test {
 public:
@@ -234,21 +230,21 @@ TEST_F(TestElfDwarfReader, ReadCompileUnits) {
   EXPECT_EQ(CU1->getDieTag(), DW_TAG_compile_unit);
   EXPECT_EQ(CU1->getName(), "structure1.cpp");
   EXPECT_EQ(CU1->getLineNumber(), 0U);
-  EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU1)->getFileName(false), "");
+  EXPECT_EQ(CU1->getFilePath(), "");
 
   EXPECT_TRUE(isa<LibScopeView::ScopeCompileUnit>(*CU2));
   EXPECT_EQ(CU2->getDieOffset(), 0x56U);
   EXPECT_EQ(CU2->getDieTag(), DW_TAG_compile_unit);
   EXPECT_EQ(CU2->getName(), "structure2.cpp");
   EXPECT_EQ(CU2->getLineNumber(), 0U);
-  EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU2)->getFileName(false), "");
+  EXPECT_EQ(CU2->getFilePath(), "");
 
   EXPECT_TRUE(isa<LibScopeView::ScopeCompileUnit>(*CU3));
   EXPECT_EQ(CU3->getDieOffset(), 0x0a9U);
   EXPECT_EQ(CU3->getDieTag(), DW_TAG_compile_unit);
   EXPECT_EQ(CU3->getName(), "structure3.cpp");
   EXPECT_EQ(CU3->getLineNumber(), 0U);
-  EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU3)->getFileName(false), "");
+  EXPECT_EQ(CU3->getFilePath(), "");
 }
 
 TEST_F(TestElfDwarfReader, ReadAggregate) {
@@ -262,7 +258,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Class->getDieOffset(), 0x0033U);
   EXPECT_EQ(Class->getDieTag(), DW_TAG_class_type);
   EXPECT_EQ(Class->getLineNumber(), 1U);
-  EXPECT_EQ(getSourceFileName(Class), "aggregate.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Class->getFilePath()), "aggregate.cpp");
   EXPECT_EQ(Class->getName(), "A");
 
   // DW_TAG_struct_type
@@ -271,7 +267,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Struct->getDieOffset(), 0x0095U);
   EXPECT_EQ(Struct->getDieTag(), DW_TAG_structure_type);
   EXPECT_EQ(Struct->getLineNumber(), 9U);
-  EXPECT_EQ(getSourceFileName(Struct), "aggregate.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Struct->getFilePath()), "aggregate.cpp");
   EXPECT_EQ(Struct->getName(), "C");
 
   // DW_TAG_union_type
@@ -280,7 +276,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Union->getDieOffset(), 0x00bfU);
   EXPECT_EQ(Union->getDieTag(), DW_TAG_union_type);
   EXPECT_EQ(Union->getLineNumber(), 13U);
-  EXPECT_EQ(getSourceFileName(Union), "aggregate.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Union->getFilePath()), "aggregate.cpp");
   EXPECT_EQ(Union->getName(), "D");
 
   // DW_TAG_inheritance
@@ -389,7 +385,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum1->getDieOffset(), 0x0033U);
   EXPECT_EQ(Enum1->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum1->getLineNumber(), 1U);
-  EXPECT_EQ(getSourceFileName(Enum1), "enum.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Enum1->getFilePath()), "enum.cpp");
   EXPECT_EQ(Enum1->getName(), "E1");
   EXPECT_EQ(Enum1->getType(), nullptr);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum1)->getIsClass(),
@@ -418,7 +414,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum2->getDieOffset(), 0x0063U);
   EXPECT_EQ(Enum2->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum2->getLineNumber(), 7U);
-  EXPECT_EQ(getSourceFileName(Enum2), "enum.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Enum2->getFilePath()), "enum.cpp");
   EXPECT_EQ(Enum2->getName(), "E2");
   EXPECT_EQ(Enum2->getType(), ShortType);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum2)->getIsClass(),
@@ -447,7 +443,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum3->getDieOffset(), 0x009eU);
   EXPECT_EQ(Enum3->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum3->getLineNumber(), 13U);
-  EXPECT_EQ(getSourceFileName(Enum3), "enum.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Enum3->getFilePath()), "enum.cpp");
   EXPECT_EQ(Enum3->getName(), "E3");
   EXPECT_EQ(Enum3->getType(), IntType);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum3)->getIsClass(),
@@ -485,7 +481,8 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(getNthScopeIn(CU, 0)->getDieOffset(), 0x002aU);
   EXPECT_EQ(getNthScopeIn(CU, 0)->getDieTag(), DW_TAG_subprogram);
   EXPECT_EQ(getNthScopeIn(CU, 0)->getLineNumber(), 1U);
-  EXPECT_EQ(getSourceFileName(getNthScopeIn(CU, 0)), "function.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(getNthScopeIn(CU, 0)->getFilePath()),
+            "function.cpp");
   EXPECT_EQ(getNthScopeIn(CU, 0)->getName(), "func1");
   EXPECT_EQ(getNthScopeIn(CU, 0)->getType(), IntType);
 
@@ -528,7 +525,7 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(Defin->getName(), Decl->getName());
   EXPECT_EQ(Defin->getType(), Decl->getType());
   EXPECT_EQ(Defin->getLineNumber(), Decl->getLineNumber());
-  EXPECT_EQ(Defin->getFileNamePoolRef(), Decl->getFileNamePoolRef());
+  EXPECT_EQ(Defin->getFilePathPoolRef(), Decl->getFilePathPoolRef());
 
   // Static and inlined
   CU = nullptr;
@@ -575,7 +572,8 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(InlinedSub->getDieOffset(), 0x0112U);
   EXPECT_EQ(InlinedSub->getDieTag(), DW_TAG_inlined_subroutine);
   EXPECT_EQ(InlinedSub->getLineNumber(), 5U);
-  EXPECT_EQ(getSourceFileName(InlinedSub), "function_static_inline.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(InlinedSub->getFilePath()),
+            "function_static_inline.cpp");
   EXPECT_EQ(InlinedSub->getName(), "func2");
   EXPECT_EQ(InlinedSub->getType()->getName(), "int");
 }
@@ -617,7 +615,8 @@ TEST_F(TestElfDwarfReader, ReadImport) {
   EXPECT_TRUE(getNthTypeIn(CU, 1)->getIsImportedModule());
   EXPECT_EQ(getNthTypeIn(CU, 1)->getDieOffset(), 0x007aU);
   EXPECT_EQ(getNthTypeIn(CU, 1)->getLineNumber(), 14U);
-  EXPECT_EQ(getSourceFileName(getNthTypeIn(CU, 1)), "import.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(getNthTypeIn(CU, 1)->getFilePath()),
+            "import.cpp");
   EXPECT_EQ(getNthTypeIn(CU, 1)->getDieTag(), DW_TAG_imported_module);
   // Check the imported namespace.
   ASSERT_NE(getNthTypeIn(CU, 1)->getType(), nullptr);
@@ -633,7 +632,8 @@ TEST_F(TestElfDwarfReader, ReadImport) {
   EXPECT_EQ(getNthTypeIn(Struct, 0)->getDieOffset(), 0x0054U);
   // The using statement is on line 7, but the DWARF says line 6.
   EXPECT_EQ(getNthTypeIn(Struct, 0)->getLineNumber(), 6U);
-  EXPECT_EQ(getSourceFileName(getNthTypeIn(Struct, 0)), "import.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(getNthTypeIn(Struct, 0)->getFilePath()),
+            "import.cpp");
   EXPECT_EQ(getNthTypeIn(Struct, 0)->getDieTag(), DW_TAG_imported_declaration);
   // Check the imported member.
   ASSERT_NE(getNthTypeIn(Struct, 0)->getType(), nullptr);
@@ -697,7 +697,7 @@ TEST_F(TestElfDwarfReader, ReadLabel) {
   EXPECT_EQ(Label->getDieOffset(), 0x004eU);
   EXPECT_EQ(Label->getDieTag(), DW_TAG_label);
   EXPECT_EQ(Label->getLineNumber(), 3U);
-  EXPECT_EQ(getSourceFileName(Label), "label.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Label->getFilePath()), "label.cpp");
   EXPECT_EQ(Label->getName(), "loophead");
 }
 
@@ -711,7 +711,7 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_EQ(Ln->getLineNumber(), 1U);
   EXPECT_EQ(Ln->getAddress(), 0x00000000U);
   EXPECT_EQ(Ln->getDieOffset(), 0x00000000U);
-  EXPECT_EQ(getSourceFileName(Ln), "lines.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());
   EXPECT_FALSE(Ln->getIsLineEndSequence());
@@ -723,7 +723,7 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_EQ(Ln->getLineNumber(), 13U);
   EXPECT_EQ(Ln->getAddress(), 0x00000032U);
   EXPECT_EQ(Ln->getDieOffset(), 0x00000032U);
-  EXPECT_EQ(getSourceFileName(Ln), "lines.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());
   EXPECT_TRUE(Ln->getIsLineEndSequence());
@@ -741,7 +741,8 @@ TEST_F(TestElfDwarfReader, ReadNamespace) {
   EXPECT_EQ(getNthScopeIn(CU, 2)->getDieOffset(), 0x0062U);
   EXPECT_EQ(getNthScopeIn(CU, 2)->getDieTag(), DW_TAG_namespace);
   EXPECT_EQ(getNthScopeIn(CU, 2)->getLineNumber(), 10U);
-  EXPECT_EQ(getSourceFileName(getNthScopeIn(CU, 2)), "import.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(getNthScopeIn(CU, 2)->getFilePath()),
+            "import.cpp");
   EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "NS");
 }
 
@@ -818,7 +819,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Var->getDieOffset(), 0x002aU);
   EXPECT_EQ(Var->getDieTag(), DW_TAG_variable);
   EXPECT_EQ(Var->getLineNumber(), 1U);
-  EXPECT_EQ(getSourceFileName(Var), "symbol.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Var->getFilePath()), "symbol.cpp");
   EXPECT_EQ(Var->getName(), "var");
   EXPECT_EQ(Var->getType(), IntType);
 
@@ -827,7 +828,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Member->getDieOffset(), 0x004eU);
   EXPECT_EQ(Member->getDieTag(), DW_TAG_member);
   EXPECT_EQ(Member->getLineNumber(), 4U);
-  EXPECT_EQ(getSourceFileName(Member), "symbol.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Member->getFilePath()), "symbol.cpp");
   EXPECT_EQ(Member->getName(), "mem");
   EXPECT_EQ(Member->getType(), IntType);
 
@@ -836,7 +837,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Param->getDieOffset(), 0x0074U);
   EXPECT_EQ(Param->getDieTag(), DW_TAG_formal_parameter);
   EXPECT_EQ(Param->getLineNumber(), 7U);
-  EXPECT_EQ(getSourceFileName(Param), "symbol.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(Param->getFilePath()), "symbol.cpp");
   EXPECT_EQ(Param->getName(), "param");
   EXPECT_EQ(Param->getType(), IntType);
 
@@ -1031,7 +1032,7 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_EQ(TDef->getDieOffset(), 0x00ccU);
   EXPECT_EQ(TDef->getDieTag(), DW_TAG_typedef);
   EXPECT_EQ(TDef->getLineNumber(), 1U);
-  EXPECT_EQ(getSourceFileName(TDef), "type.cpp");
+  EXPECT_EQ(LibScopeView::getFileName(TDef->getFilePath()), "type.cpp");
   EXPECT_EQ(TDef->getName(), "T_INT");
   EXPECT_EQ(TDef->getType(), Base);
 

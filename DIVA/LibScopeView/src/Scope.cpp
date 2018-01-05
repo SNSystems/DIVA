@@ -289,11 +289,8 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   if (Reference && isa<ScopeFunction>(*Reference)) {
     Result += '\n';
     Result += formatAttributeText("Declaration @ ");
-    // Cast to element as Scope has a different overload (not override) of
-    // getFileName that returns nothing.
     if (!Reference->getInvalidFileName())
-      Result += cast<LibScopeView::Element>(Reference)->getFileName(
-          /*format_options*/ true);
+      Result += getFileName(Reference->getFilePath());
     else
       Result += '?';
     Result += ',';
@@ -328,14 +325,9 @@ std::string ScopeFunction::getAsYAML() const {
   // Attributes.
   YAML << "  declaration:\n";
   if (Reference && isa<ScopeFunction>(*Reference)) {
-    // Cast to element as Scope has a different overload (not override) of
-    // getFileName that returns nothing.
     YAML << "    file: ";
     if (!Reference->getInvalidFileName())
-      YAML << "\""
-           << cast<LibScopeView::Element>(Reference)->getFileName(
-                  /*format_options*/ true)
-           << "\"";
+      YAML << "\"" << getFileName(Reference->getFilePath()) << "\"";
     else
       YAML << "\"?\"";
     YAML << "\n    line: " << Reference->getLineNumber() << "\n";

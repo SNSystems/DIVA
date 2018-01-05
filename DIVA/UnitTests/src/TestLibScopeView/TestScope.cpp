@@ -67,7 +67,7 @@ TEST(Scope, getAsYAML_Alias) {
   ScopeAlias Alias;
   Alias.setName("test<int>");
   Alias.setLineNumber(18);
-  Alias.setFileName("test.cpp");
+  Alias.setFilePath("test.cpp");
   Alias.setDieOffset(0x123f);
   Alias.setDieTag(DW_TAG_template_alias);
   Type Ty;
@@ -128,7 +128,7 @@ TEST(Scope, getAsYAML_Block) {
   Scope Block;
   Block.setIsBlock();
   Block.setLineNumber(10);
-  Block.setFileName("test.cpp");
+  Block.setFilePath("test.cpp");
   Block.setDieOffset(0xff);
   Block.setDieTag(DW_TAG_lexical_block);
   EXPECT_EQ(Block.getAsYAML(), "object: \"Block\"\n"
@@ -148,7 +148,7 @@ TEST(Scope, getAsYAML_Block) {
   TryBlock.setIsBlock();
   TryBlock.setIsTryBlock();
   TryBlock.setLineNumber(11);
-  TryBlock.setFileName("test.cpp");
+  TryBlock.setFilePath("test.cpp");
   TryBlock.setDieOffset(0x100);
   TryBlock.setDieTag(DW_TAG_try_block);
   EXPECT_EQ(TryBlock.getAsYAML(), "object: \"Block\"\n"
@@ -168,7 +168,7 @@ TEST(Scope, getAsYAML_Block) {
   CatchBlock.setIsBlock();
   CatchBlock.setIsCatchBlock();
   CatchBlock.setLineNumber(12);
-  CatchBlock.setFileName("test.cpp");
+  CatchBlock.setFilePath("test.cpp");
   CatchBlock.setDieOffset(0x111);
   CatchBlock.setDieTag(DW_TAG_catch_block);
   EXPECT_EQ(CatchBlock.getAsYAML(), "object: \"Block\"\n"
@@ -203,7 +203,7 @@ TEST(Scope, getAsYAML_Class) {
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
-  Class.setFileName("testclass.cpp");
+  Class.setFilePath("testclass.cpp");
   Class.setDieOffset(0xD3ADB33F);
   Class.setDieTag(DW_TAG_class_type);
 
@@ -247,7 +247,7 @@ TEST(Scope, getAsYAML_multiInheritance) {
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
-  Class.setFileName("testclass.cpp");
+  Class.setFilePath("testclass.cpp");
   Class.setDieOffset(0xD3ADB33F);
   Class.setDieTag(DW_TAG_class_type);
 
@@ -293,7 +293,7 @@ TEST(Scope, getAsYAML_Unspecified_Class) {
   Class.setIsClassType();
   Class.setName("TestClass");
   Class.setLineNumber(5);
-  Class.setFileName("testclass.cpp");
+  Class.setFilePath("testclass.cpp");
   Class.setDieOffset(0xD3ADB33F);
   Class.setDieTag(DW_TAG_class_type);
 
@@ -372,7 +372,7 @@ TEST(Scope, getAsYAML_Enumeration) {
   ScopeEnumeration Enum;
   Enum.setName("days");
   Enum.setLineNumber(42);
-  Enum.setFileName("enum.cpp");
+  Enum.setFilePath("enum.cpp");
   Enum.setDieOffset(0xfeed);
   Enum.setDieTag(DW_TAG_enumeration_type);
   Type Ty;
@@ -488,7 +488,7 @@ TEST(Scope, getAsText_Function_Attributes) {
   DeclFunc.setIsDeclaration();
   EXPECT_EQ(DeclFunc.getAsText(Settings), Expected + "Is declaration");
 
-  DeclFunc.setFileName("test/file.h");
+  DeclFunc.setFilePath("test/file.h");
   DeclFunc.setLineNumber(24);
   Func.setReference(&DeclFunc);
   Expected.append("Declaration @ ");
@@ -528,7 +528,7 @@ TEST(Scope, getAsYAML_Function) {
   ScopeFunction Func;
   Func.setName("Foo");
   Func.setLineNumber(17);
-  Func.setFileName("foo.cpp");
+  Func.setFilePath("foo.cpp");
   Func.setDieOffset(0xce);
   Func.setDieTag(DW_TAG_subprogram);
 
@@ -643,7 +643,7 @@ TEST(Scope, getAsYAML_Function) {
   ScopeFunction Reference;
   Reference.setName("Ref");
   Reference.setLineNumber(620);
-  Reference.setFileName("ref.cpp");
+  Reference.setFilePath("ref.cpp");
   Reference.setDieOffset(0xba);
 
   // Reference to function.
@@ -733,7 +733,7 @@ TEST(Scope, getAsYAML_Namespace) {
   ScopeNamespace NS;
   NS.setName("TestNamespace");
   NS.setLineNumber(17);
-  NS.setFileName("test.cpp");
+  NS.setFilePath("test.cpp");
   NS.setDieOffset(0x1212);
   NS.setDieTag(DW_TAG_namespace);
   EXPECT_EQ(NS.getAsYAML(), "object: \"Namespace\"\n"
@@ -774,7 +774,7 @@ TEST(Scope, getAsYAML_Struct) {
   Struct.setIsStructType();
   Struct.setName("TestStruct");
   Struct.setLineNumber(5);
-  Struct.setFileName("teststruct.cpp");
+  Struct.setFilePath("teststruct.cpp");
   Struct.setDieOffset(0xD3ADB33F);
   Struct.setDieTag(DW_TAG_class_type);
 
@@ -818,7 +818,7 @@ TEST(Scope, getAsYAML_Unspecified_Struct) {
   Struct.setIsStructType();
   Struct.setName("TestStruct");
   Struct.setLineNumber(5);
-  Struct.setFileName("teststruct.cpp");
+  Struct.setFilePath("teststruct.cpp");
   Struct.setDieOffset(0xD3ADB33F);
   Struct.setDieTag(DW_TAG_class_type);
 
@@ -861,7 +861,7 @@ TEST(Scope, getAsYAML_TemplatePack) {
   ScopeTemplatePack Pack;
   Pack.setName("TPack");
   Pack.setLineNumber(11);
-  Pack.setFileName("test.cpp");
+  Pack.setFilePath("test.cpp");
   Pack.setDieOffset(0x11);
   Pack.setDieTag(DW_TAG_GNU_template_parameter_pack);
 
@@ -923,7 +923,7 @@ TEST(Scope, getAsYAML_Union) {
   Union.setIsUnionType();
   Union.setName("TestUnion");
   Union.setLineNumber(5);
-  Union.setFileName("testunion.cpp");
+  Union.setFilePath("testunion.cpp");
   Union.setDieOffset(0xD3ADB33F);
   Union.setDieTag(DW_TAG_class_type);
 

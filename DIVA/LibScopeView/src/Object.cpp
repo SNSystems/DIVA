@@ -27,6 +27,7 @@
 ///
 //===----------------------------------------------------------------------===//
 
+#include "Object.h"
 #include "FileUtilities.h"
 #include "Line.h"
 #include "PrintSettings.h"
@@ -434,7 +435,7 @@ std::string Object::getCommonYAML() const {
   else
     YAML << "null\n";
 
-  std::string FileName(getFileName(/*format_options*/ true));
+  std::string FileName(getFileName(getFilePath()));
   YAML << "  file: ";
   if (getInvalidFileName())
     YAML << "\"?\"\n";
@@ -460,7 +461,7 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 
 Element::Element(ObjectKind K)
-    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FileNameRef(nullptr),
+    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FilePathRef(nullptr),
       TheType(nullptr) {}
 
 const std::string &Element::getName() const {
@@ -479,13 +480,10 @@ void Element::setQualifiedName(const std::string &QualName) {
   QualifiedRef = getGlobalStringPool().get(QualName);
 }
 
-std::string Element::getFileName(bool NameOnly) const {
-  std::string FName(FileNameRef ? *FileNameRef : "");
-  if (NameOnly)
-    FName = LibScopeView::getFileName(FName);
-  return FName;
+const std::string &Element::getFilePath() const {
+  return FilePathRef ? *FilePathRef : EmptyString;
 }
 
-void Element::setFileName(const std::string &FileName) {
-  FileNameRef = getGlobalStringPool().get(FileName);
+void Element::setFilePath(const std::string &FilePath) {
+  FilePathRef = getGlobalStringPool().get(FilePath);
 }

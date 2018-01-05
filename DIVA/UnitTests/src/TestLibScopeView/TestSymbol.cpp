@@ -85,7 +85,7 @@ TEST(Symbol, getAsYAML_Member) {
   Sym.setIsMember();
   Sym.setName("Var");
   Sym.setLineNumber(77);
-  Sym.setFileName("test.cpp");
+  Sym.setFilePath("test.cpp");
   Sym.setDieOffset(0x1234);
   Sym.setDieTag(DW_TAG_member);
   Sym.setAccessSpecifier(AccessSpecifier::Private);
@@ -174,7 +174,7 @@ TEST(Symbol, getAsYAML_Parameter) {
   Sym.setIsParameter();
   Sym.setName("qaz");
   Sym.setLineNumber(11);
-  Sym.setFileName("test.cpp");
+  Sym.setFilePath("test.cpp");
   Sym.setDieOffset(0x1122);
   Sym.setDieTag(DW_TAG_formal_parameter);
   Type Ty;
@@ -195,7 +195,7 @@ TEST(Symbol, getAsYAML_Parameter) {
   Symbol Unspec;
   Unspec.setIsUnspecifiedParameter();
   Unspec.setLineNumber(12);
-  Unspec.setFileName("test.cpp");
+  Unspec.setFilePath("test.cpp");
   Unspec.setDieOffset(0x1150);
   Unspec.setDieTag(DW_TAG_formal_parameter);
   Unspec.setType(&Ty);
@@ -245,7 +245,7 @@ TEST(Symbol, getAsYAML_Variable) {
   Sym.setIsVariable();
   Sym.setName("Var");
   Sym.setLineNumber(88);
-  Sym.setFileName("bttf.cpp");
+  Sym.setFilePath("bttf.cpp");
   Sym.setDieOffset(0x1955);
   Sym.setDieTag(DW_TAG_variable);
   Type Ty;
