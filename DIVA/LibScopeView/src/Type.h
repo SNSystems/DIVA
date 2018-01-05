@@ -47,28 +47,6 @@ protected:
   Type(ObjectKind K);
 
 private:
-  // Type Kind.
-  static const char *KindBase;
-  static const char *KindConst;
-  static const char *KindEnumerator;
-  static const char *KindImport;
-  static const char *KindImportDeclaration;
-  static const char *KindImportModule;
-  static const char *KindInherits;
-  static const char *KindPointer;
-  static const char *KindPointerMember;
-  static const char *KindReference;
-  static const char *KindRestrict;
-  static const char *KindRvalueReference;
-  static const char *KindSubrange;
-  static const char *KindTemplateTemplate;
-  static const char *KindTemplateType;
-  static const char *KindTemplateValue;
-  static const char *KindTypedef;
-  static const char *KindUndefined;
-  static const char *KindUnspecified;
-  static const char *KindVolatile;
-
   // Flags specifying various properties of the Type.
   enum TypeAttributes {
     IsBaseType,
