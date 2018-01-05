@@ -89,10 +89,7 @@ private:
 public:
   /// \brief Access DW_AT_specification, DW_AT_abstract_origin reference.
   Symbol *getReference() const { return Reference; }
-  void setReference(Symbol *Sym) {
-    Reference = Sym;
-    setHasReference();
-  }
+  void setReference(Symbol *Sym) { Reference = Sym; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;

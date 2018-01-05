@@ -54,7 +54,6 @@ public:
 
   const std::string &getQualifiedName() const override { return QName; }
   void setQualifiedName(const std::string &QualName) override {
-    setHasQualifiedName();
     QName = QualName;
   }
 
@@ -131,7 +130,6 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   Ty.setQualifiedName("Class::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
@@ -221,7 +219,6 @@ TEST(Object, ResolveQualifiedName) {
   {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS1);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::");
   }
 
@@ -230,7 +227,6 @@ TEST(Object, ResolveQualifiedName) {
     NS2.setParent(&NS1);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -239,7 +235,6 @@ TEST(Object, ResolveQualifiedName) {
     Func.setParent(&NS2);
     Symbol Sym;
     Sym.resolveQualifiedName(&Func);
-    EXPECT_FALSE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "");
   }
 
@@ -248,7 +243,6 @@ TEST(Object, ResolveQualifiedName) {
     NS1.setParent(&Root);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -257,7 +251,6 @@ TEST(Object, ResolveQualifiedName) {
     NS1.setParent(&CU);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -267,7 +260,6 @@ TEST(Object, ResolveQualifiedName) {
     Block.setParent(&NS1);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 }

@@ -235,7 +235,6 @@ TEST(Symbol, getAsText_Variable) {
             "{Variable} static \"Var\" -> \"VarType\"");
 
   Sym.setQualifiedName("Base::Class::");
-  Sym.setHasQualifiedName();
   EXPECT_EQ(Sym.getAsText(Settings),
             "{Variable} static \"Base::Class::Var\" -> \"VarType\"");
 }

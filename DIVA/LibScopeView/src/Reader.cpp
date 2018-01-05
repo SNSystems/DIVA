@@ -176,8 +176,7 @@ private:
 
     // Set type.
     if (Reference->getType()) {
-      dyn_cast<Element>(Obj)->setType(Reference->getType());
-      Obj->setHasType();
+      cast<Element>(Obj)->setType(Reference->getType());
     }
 
     // Cover the static function case that initScopeFromAttrs can't reach.

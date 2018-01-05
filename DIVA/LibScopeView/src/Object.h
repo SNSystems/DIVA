@@ -140,11 +140,8 @@ private:
 
   // Flags specifying various properties of the Object.
   enum ObjectAttributes {
-    HasType,
     IsGlobalReference,
     InvalidFilename,
-    HasReference,
-    HasQualifiedName,
     ObjectAttributesSize
   };
   // Flags specifying various properties of the Object.
@@ -153,10 +150,6 @@ private:
 public:
   /// \brief Get the object kind as a string.
   const char *getKindAsString() const;
-
-  /// \brief The Object has a type.
-  bool getHasType() const { return ObjectAttributesFlags[HasType]; }
-  void setHasType() { ObjectAttributesFlags.set(HasType); }
 
   /// \brief The Object is referenced from other CUs.
   bool getIsGlobalReference() const {
@@ -169,18 +162,6 @@ public:
     return ObjectAttributesFlags[InvalidFilename];
   }
   void setInvalidFileName() { ObjectAttributesFlags.set(InvalidFilename); }
-
-  /// \brief The Object has a reference to another object.
-  ///
-  /// DW_AT_specification, DW_AT_abstract_origin, DW_AT_extension.
-  bool getHasReference() const { return ObjectAttributesFlags[HasReference]; }
-  void setHasReference() { ObjectAttributesFlags.set(HasReference); }
-
-  /// \brief If the Object has a qualified name.
-  bool getHasQualifiedName() const {
-    return ObjectAttributesFlags[HasQualifiedName];
-  }
-  void setHasQualifiedName() { ObjectAttributesFlags.set(HasQualifiedName); }
 
 private:
   // Line associated with this object.
@@ -304,10 +285,7 @@ public:
   void setFilePath(const std::string &FilePath) override;
   void setFilePath(StringPoolRef FilePath) override { FilePathRef = FilePath; }
 
-  void setType(Object *Obj) override {
-    setHasType();
-    TheType = Obj;
-  }
+  void setType(Object *Obj) override { TheType = Obj; }
   Object *getType() const override { return TheType; }
 };
 

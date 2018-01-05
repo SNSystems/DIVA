@@ -202,8 +202,8 @@ Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
 }
 
 const char *Object::getTypeAsString(const PrintSettings &Settings) const {
-  return getHasType() ? (getType()->getName().c_str())
-                      : (Settings.ShowVoid ? "void" : "");
+  return getType() ? (getType()->getName().c_str())
+                   : (Settings.ShowVoid ? "void" : "");
 }
 
 const std::string &Object::getTypeQualifiedName() const {
@@ -231,7 +231,6 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
 
   if (!QualifiedName.empty()) {
     setQualifiedName(QualifiedName.c_str());
-    setHasQualifiedName();
   }
 }
 
@@ -398,8 +397,7 @@ std::string Object::getCommonYAML() const {
 
   // Name.
   std::string Name;
-  if (getHasQualifiedName())
-    Name += getQualifiedName();
+  Name += getQualifiedName();
   if (isa<Symbol>(*this) && cast<Symbol>(this)->getIsUnspecifiedParameter())
     Name += "...";
   else
@@ -417,8 +415,7 @@ std::string Object::getCommonYAML() const {
   // Template's types are printed in attributes.
   if (getType() && !(isa<TypeTemplateParam>(*this))) {
     std::string TypeName;
-    if (getType()->getHasQualifiedName())
-      TypeName += getType()->getQualifiedName();
+    TypeName += getType()->getQualifiedName();
     TypeName += getType()->getName();
     YAML << "\"" << TypeName << "\"\n";
   }

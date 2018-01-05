@@ -110,12 +110,10 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"qaz\" <- \"wsx\"");
 
   Ty.setQualifiedName("base::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(TyParam.getAsText(Settings),
             "{TemplateParameter} \"qaz\" <- \"base::wsx\"");
 
   TyParam.setQualifiedName("base::");
-  TyParam.setHasQualifiedName();
   EXPECT_EQ(TyParam.getAsText(Settings),
             "{TemplateParameter} \"base::qaz\" <- \"base::wsx\"");
 

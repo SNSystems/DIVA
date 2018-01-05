@@ -784,17 +784,14 @@ TEST_F(TestElfDwarfReader, ReadQualifiedNames) {
 
   auto ClassC = getNthScopeIn(Parent2, 0);
   ASSERT_TRUE(checkChildCount(ClassC, 0, 1, 2));
-  EXPECT_TRUE(ClassC->getHasQualifiedName());
   EXPECT_EQ(dyn_cast<LibScopeView::Element>(ClassC)->getQualifiedName(),
             "OuterNS::InnerNS::");
 
   auto Typedef = getNthTypeIn(ClassC, 0);
-  EXPECT_TRUE(Typedef->getHasQualifiedName());
   EXPECT_EQ(dyn_cast<LibScopeView::Element>(Typedef)->getQualifiedName(),
             "OuterNS::InnerNS::C::");
 
   auto StaticMemDefin = getNthSymbolIn(CU, 0);
-  EXPECT_TRUE(StaticMemDefin->getHasQualifiedName());
   EXPECT_EQ(dyn_cast<LibScopeView::Element>(StaticMemDefin)->getQualifiedName(),
             "OuterNS::InnerNS::C::");
 }

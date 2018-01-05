@@ -58,7 +58,6 @@ TEST(Scope, getAsText_Alias) {
             "{Alias} \"test<int>\" -> \"foo<int, int>\"");
 
   Ty.setQualifiedName("Class::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(Alias.getAsText(Settings),
             "{Alias} \"test<int>\" -> \"Class::foo<int, int>\"");
 }
@@ -86,7 +85,6 @@ TEST(Scope, getAsYAML_Alias) {
                                "attributes: {}");
 
   Ty.setQualifiedName("Class::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(Alias.getAsYAML(), "object: \"Alias\"\n"
                                "name: \"test<int>\"\n"
                                "type: \"Class::foo<int, int>\"\n"
@@ -466,7 +464,6 @@ TEST(Scope, getAsText_Function) {
   EXPECT_EQ(ScpQualFunc.getAsText(Settings), "{Function} \"qaz\" -> \"wsx\"\n"
                                              "    - No declaration");
 
-  RetType.setHasQualifiedName();
   RetType.setQualifiedName("base::");
   EXPECT_EQ(ScpQualFunc.getAsText(Settings),
             "{Function} \"qaz\" -> \"base::wsx\"\n"
