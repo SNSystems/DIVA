@@ -232,11 +232,6 @@ public:
   virtual Object *getType() const = 0;
   virtual void setType(Object *Obj) = 0;
 
-  /// \brief Generate the full name for the object.
-  bool setFullName(const PrintSettings &Settings, Type *BaseType,
-                   Scope *BaseScope, Scope *SpecScope,
-                   const char *BaseText = nullptr);
-
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
   /// \brief Returns a text representation of this DIVA Object.

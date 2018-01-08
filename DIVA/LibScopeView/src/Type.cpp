@@ -32,6 +32,7 @@
 #include "Scope.h"
 #include "StringPool.h"
 #include "Symbol.h"
+#include "Utilities.h"
 
 #include <assert.h>
 #include <cstring>
@@ -43,30 +44,55 @@ Type::Type(ObjectKind K) : Element(K), ByteSize(0) {}
 
 uint32_t Type::TypesAllocated = 0;
 
-bool Type::setFullName(const PrintSettings &Settings) {
-  if (isa<TypeTemplateParam>(*this))
-    return true;
+namespace {
 
-  const char *BaseText = nullptr;
-  Type *BaseType = nullptr;
-  Scope *BaseScope = nullptr;
+std::string EmptyString;
 
-  BaseText = getName().c_str();
-  // setFullName adds extra whitespace if you pass "" instead of nullptr.
-  if (strlen(BaseText) == 0)
-    BaseText = nullptr;
+// Recursivly get the qualifiers (e.g. const), the base (e.g. int) and the
+// modifiers (e.g. *, &, &&) of the type.
+void formulateTypeNameImpl(const Object *Obj, std::string &Qualifiers,
+                           std::string &Base, std::string &Modifiers) {
+  if (!Obj)
+    return;
 
-  if (getType()) {
-    BaseType = dyn_cast<Type>(getType());
-    if (!BaseType)
-      BaseScope = dyn_cast<Scope>(getType());
+  const Type *Ty = dyn_cast<Type>(Obj);
+  if (!Ty) {
+    Base = Obj->getName();
+    return;
   }
 
-  return setFullName(Settings, BaseType, BaseScope, nullptr, BaseText);
+  if (Ty->getIsConstType())
+    Qualifiers.append("const ");
+  else if (Ty->getIsRestrictType())
+    Qualifiers.append("restrict ");
+  else if (Ty->getIsVolatileType())
+    Qualifiers.append("volatile ");
+  else if (Ty->getIsPointerType() || Ty->getIsPointerMemberType())
+    Modifiers.append(" *");
+  else if (Ty->getIsRvalueReferenceType())
+    Modifiers.append(" &&");
+  else if (Ty->getIsReferenceType())
+    Modifiers.append(" &");
+  else {
+    Base = Ty->getName();
+    return;
+  }
+
+  formulateTypeNameImpl(Ty->getType(), Qualifiers, Base, Modifiers);
 }
 
-namespace {
-  std::string EmptyString;
+}
+
+void Type::formulateTypeName(const PrintSettings &Settings) {
+  if (!getName().empty() || isa<TypeTemplateParam>(*this))
+    return;
+  std::string Qualifiers;
+  std::string Base;
+  std::string Modifiers;
+  formulateTypeNameImpl(this, Qualifiers, Base, Modifiers);
+  if (Base.empty() && Settings.ShowVoid)
+    Base = "void";
+  setName(trim(Qualifiers + Base + Modifiers));
 }
 
 const std::string &Type::getValue() const {

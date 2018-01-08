@@ -114,12 +114,7 @@ private:
     // Make sure Ty's type is resolved first.
     if (Ty->getType())
       resolve(Ty->getType());
-
-    bool Ret = Ty->setFullName(Settings);
-    // setFullName keys off DWARF tags and will return false if it doesn't
-    // recognise the tag.
-    assert(Ret && "Unrecognised DWARF Tag in Object::setFullName");
-    (void)Ret;
+    Ty->formulateTypeName(Settings);
   }
 
   void resolveArrayName(ScopeArray *Array) {

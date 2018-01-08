@@ -70,6 +70,9 @@ private:
   std::bitset<TypeAttributesSize> TypeAttributesFlags;
 
 public:
+  /// \brief Work out and set the full name for the type.
+  void formulateTypeName(const PrintSettings &Settings);
+
   bool getIsBaseType() const { return TypeAttributesFlags[IsBaseType]; }
   void setIsBaseType() { TypeAttributesFlags.set(IsBaseType); }
   bool getIsConstType() const { return TypeAttributesFlags[IsConstType]; }
@@ -135,10 +138,6 @@ public:
   void setIncludeInPrint() { TypeAttributesFlags.set(IncludeInPrint); }
 
 public:
-  // Wrap SetFullName (Used by ElfReader) in a simpler call.
-  using Object::setFullName;
-  bool setFullName(const PrintSettings &Settings);
-
   // Functions to be implemented by derived classes.
 
   /// \brief Process the values for a DW_TAG_enumerator.

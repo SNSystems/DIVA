@@ -37,6 +37,144 @@
 
 using namespace LibScopeView;
 
+TEST(Type, formulateTypeName) {
+  PrintSettings Settings;
+
+  Type Base;
+  Base.setIsBaseType();
+  Base.setName("base");
+
+  // Already named.
+  {
+    Type Ty;
+    Ty.setName("int");
+    Ty.setType(&Base);
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "int");
+  }
+
+  // Template param.
+  {
+    TypeTemplateParam TyTempParam;
+    TyTempParam.setType(&Base);
+    TyTempParam.formulateTypeName(Settings);
+    EXPECT_EQ(TyTempParam.getName(), "");
+  }
+
+  // Empty.
+  {
+    Type Ty;
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "void");
+    Settings.ShowVoid = false;
+    Ty.setName("");
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "");
+    Settings.ShowVoid = true;
+  }
+
+  // Qualifiers.
+  {
+    Type Volatile;
+    Volatile.setIsVolatileType();
+    Volatile.setType(&Base);
+    Volatile.formulateTypeName(Settings);
+
+    Type Restrict;
+    Restrict.setIsRestrictType();
+    Restrict.setType(&Volatile);
+    Restrict.formulateTypeName(Settings);
+
+    Type Const;
+    Const.setIsConstType();
+    Const.setType(&Restrict);
+    Const.formulateTypeName(Settings);
+
+    EXPECT_EQ(Volatile.getName(), "volatile base");
+    EXPECT_EQ(Restrict.getName(), "restrict volatile base");
+    EXPECT_EQ(Const.getName(), "const restrict volatile base");
+  }
+
+  // Modifiers.
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&Base);
+    Ptr.formulateTypeName(Settings);
+
+    Type PtrPtr;
+    PtrPtr.setIsPointerType();
+    PtrPtr.setType(&Ptr);
+    PtrPtr.formulateTypeName(Settings);
+
+    Type Ref;
+    Ref.setIsReferenceType();
+    Ref.setType(&Base);
+    Ref.formulateTypeName(Settings);
+
+    Type RValRef;
+    RValRef.setIsRvalueReferenceType();
+    RValRef.setType(&Base);
+    RValRef.formulateTypeName(Settings);
+
+    Type PtrRef;
+    PtrRef.setIsPointerType();
+    PtrRef.setType(&Ref);
+    PtrRef.formulateTypeName(Settings);
+
+    EXPECT_EQ(Ptr.getName(), "base *");
+    EXPECT_EQ(PtrPtr.getName(), "base * *");
+    EXPECT_EQ(Ref.getName(), "base &");
+    EXPECT_EQ(RValRef.getName(), "base &&");
+    EXPECT_EQ(PtrRef.getName(), "base * &");
+  }
+
+  // Void pointer.
+  {
+    Type Void;
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&Void);
+    Ptr.formulateTypeName(Settings);
+
+    EXPECT_EQ(Ptr.getName(), "void *");
+    Settings.ShowVoid = false;
+    Ptr.setName("");
+    Ptr.formulateTypeName(Settings);
+    EXPECT_EQ(Ptr.getName(), "*");
+    Settings.ShowVoid = true;
+  }
+
+  // Scope base.
+  ScopeAggregate ClassBase;
+  ClassBase.setIsClassType();
+  ClassBase.setName("ClassBase");
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&ClassBase);
+    Ptr.formulateTypeName(Settings);
+    EXPECT_EQ(Ptr.getName(), "ClassBase *");
+  }
+
+  // Mixed.
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&ClassBase);
+
+    Type PtrPtr;
+    PtrPtr.setIsPointerType();
+    PtrPtr.setType(&Ptr);
+
+    Type Const;
+    Const.setIsConstType();
+    Const.setType(&PtrPtr);
+    Const.formulateTypeName(Settings);
+    EXPECT_EQ(Const.getName(), "const ClassBase * *");
+  }
+}
+
 TEST(Type, getAsText_Enumerator) {
   PrintSettings Settings;
 
