@@ -1,4 +1,4 @@
-//===-- StringPool.h --------------------------------------------*- C++ -*-===//
+//===-- UnitTests/TestLibScopeView/TestStringPool.cpp -----------*- C++ -*-===//
 ///
 /// Copyright (c) 2017 by Sony Interactive Entertainment Inc.
 ///
@@ -23,34 +23,31 @@
 //===----------------------------------------------------------------------===//
 ///
 /// \file
-/// Definition of the StringPool class.
+/// Tests for LibScopeView::StringPool.
 ///
 //===----------------------------------------------------------------------===//
 
-#ifndef STRINGPOOL_H_
-#define STRINGPOOL_H_
+#include "StringPool.h"
 
-#include <string>
-#include <unordered_set>
+#include "gtest/gtest.h"
 
-namespace LibScopeView {
+using namespace LibScopeView;
 
-using StringPoolRef = const std::string *;
+TEST(StringPool, DeduplicateStrings) {
+  StringPool Pool;
+  std::string Foo("foo");
+  std::string Bar("bar");
+  std::string Baz("baz");
 
-/// \brief A pool of deduplicated strings.
-class StringPool {
-public:
-  StringPoolRef get(const std::string &Str) {
-    auto Inserted = Pool.insert(Str);
-    return &*Inserted.first;
-  }
+  StringPoolRef FooRef = Pool.get(Foo);
+  StringPoolRef BarRef = Pool.get(Bar);
+  StringPoolRef BazRef = Pool.get(Baz);
 
-private:
-  std::unordered_set<std::string> Pool;
-};
+  EXPECT_EQ(*FooRef, Foo);
+  EXPECT_EQ(*BarRef, Bar);
+  EXPECT_EQ(*BazRef, Baz);
 
-StringPool &getGlobalStringPool();
-
-} // namespace LibScopeView
-
-#endif // STRINGPOOL_H_
+  EXPECT_EQ(FooRef, Pool.get(Foo));
+  EXPECT_EQ(BarRef, Pool.get(Bar));
+  EXPECT_EQ(BazRef, Pool.get(Baz));
+}

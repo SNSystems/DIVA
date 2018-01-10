@@ -183,8 +183,6 @@ public:
   const std::vector<Line *> &getLines() const { return TheLines; }
   std::vector<Line *> &getLines() { return TheLines; }
 
-  const char *resolveName();
-
   void sortScopes(const SortingKey &SortKey);
 
   // bring parent method getQualifiedName into scope.
@@ -283,7 +281,7 @@ public:
     return Obj->getKind() == SV_ScopeCompileUnit;
   }
 
-  void setName(const char *Name) override;
+  void setName(const std::string &Name) override;
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -452,7 +450,7 @@ public:
     return Obj->getKind() == SV_ScopeRoot;
   }
 
-  void setName(const char *Name) override;
+  void setName(const std::string &Name) override;
 
   bool getIsPrintedAsObject() const override { return false; }
   /// \brief Returns a text representation of this DIVA Object.

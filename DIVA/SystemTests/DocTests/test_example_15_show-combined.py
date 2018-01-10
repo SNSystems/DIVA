@@ -6,7 +6,7 @@ expected = """\
  2    {Class} "bar"
  4      {Function} "bar::foo" -> "void"
             - Is declaration
-          {Parameter} -> "bar *"
+          {Parameter} "" -> "bar *"
  4    {Function} "foo" -> "void"
           - Declaration @ example_15.cpp,4
         {Parameter} "this" -> "bar *"

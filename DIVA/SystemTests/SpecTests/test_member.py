@@ -8,7 +8,7 @@ expected_txt = """\
  3    {Struct} "A"
         {Function} "A::A" -> "void"
             - Is declaration
-          {Parameter} -> "A *"
+          {Parameter} "" -> "A *"
  5      {Member} private "m_private" -> "int"
  7      {Member} public "m_public" -> "int"
  9      {Member} protected "m_protected" -> "int"

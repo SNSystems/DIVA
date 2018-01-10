@@ -17,9 +17,9 @@ expected_txt = """\
 11    {Struct} "S"
 12      {Function} "S::method" -> "int"
             - Is declaration
-          {Parameter} -> "S *"
-          {Parameter} -> "int"
-          {Parameter} -> "int"
+          {Parameter} "" -> "S *"
+          {Parameter} "" -> "int"
+          {Parameter} "" -> "int"
 12    {Function} "method" -> "int"
           - Declaration @ function.cpp,12
         {Parameter} "this" -> "const S *"

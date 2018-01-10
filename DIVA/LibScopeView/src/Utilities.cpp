@@ -50,15 +50,9 @@ void LibScopeView::initialize() {
   // Disable annoying windows failure pop up window.
   SetErrorMode(SEM_FAILCRITICALERRORS | SEM_NOGPFAULTERRORBOX);
 #endif
-
-  // Create the String Pool, to be used for all readers.
-  StringPool::create();
 }
 
-void LibScopeView::terminate() {
-  // Delete the String Pool.
-  StringPool::destroy();
-}
+void LibScopeView::terminate() {}
 
 size_t  LibScopeView::getPeakMemoryUsage() {
   size_t Size = 0;

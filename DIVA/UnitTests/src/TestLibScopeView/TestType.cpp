@@ -74,7 +74,10 @@ TEST(Type, getAsText_Inheritance) {
   TypeImport Inherit;
   Inherit.setIsInheritance();
   Inherit.setParent(&ParentClass);
+  Settings.ShowVoid = false;
   EXPECT_EQ(Inherit.getAsText(Settings), "    - private \"\"");
+  Settings.ShowVoid = true;
+  EXPECT_EQ(Inherit.getAsText(Settings), "    - private \"void\"");
 
   // Test type name, no access, struct parent.
   Inherit.setType(&Base);

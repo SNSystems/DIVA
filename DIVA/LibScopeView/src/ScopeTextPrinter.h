@@ -31,6 +31,7 @@
 #define SCOPEVIEW_SCOPETEXTPRINTER_H
 
 #include "ScopePrinter.h"
+#include "StringPool.h"
 
 #include <unordered_set>
 
@@ -56,7 +57,7 @@ private:
   const uint8_t IndentSize;
   size_t CurrentLevel = 0;
   size_t IndentLevel = 1;
-  size_t CurrentFileIndex = 0;
+  StringPoolRef CurrentFileRef = nullptr;
 
   // Indent sizes calculated from the tree being printed.
   size_t LineNumberIndentSize = 0;

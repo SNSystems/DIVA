@@ -43,10 +43,10 @@ TEST(Symbol, getAsText_Member) {
   Symbol Sym;
   Sym.setIsMember();
   Sym.setAccessSpecifier(AccessSpecifier::Private);
-  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"\" -> \"void\"");
 
   Settings.ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"\" -> \"\"");
 
   Sym.setName("Var");
   EXPECT_EQ(Sym.getAsText(Settings), "{Member} private \"Var\" -> \"\"");
@@ -144,10 +144,10 @@ TEST(Symbol, getAsText_Parameter) {
 
   Symbol Sym;
   Sym.setIsParameter();
-  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"\" -> \"void\"");
 
   Settings.ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"\" -> \"\"");
 
   Sym.setName("qaz");
   EXPECT_EQ(Sym.getAsText(Settings), "{Parameter} \"qaz\" -> \"\"");
@@ -216,10 +216,10 @@ TEST(Symbol, getAsText_Variable) {
 
   Symbol Sym;
   Sym.setIsVariable();
-  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} -> \"void\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} \"\" -> \"void\"");
 
   Settings.ShowVoid = false;
-  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} -> \"\"");
+  EXPECT_EQ(Sym.getAsText(Settings), "{Variable} \"\" -> \"\"");
 
   Sym.setName("Var");
   EXPECT_EQ(Sym.getAsText(Settings), "{Variable} \"Var\" -> \"\"");

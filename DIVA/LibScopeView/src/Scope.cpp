@@ -95,18 +95,6 @@ void Scope::sortScopes(SortFunction SortFunc) {
       Scp->sortScopes(SortFunc);
 }
 
-const char *Scope::resolveName() {
-  // If the scope has a DW_AT_specification or DW_AT_abstract_origin,
-  // follow the chain to resolve the name from those references.
-  if (getHasReference()) {
-    Scope *Specification = getReference();
-    if (isUnnamed()) {
-      setName(Specification->resolveName());
-    }
-  }
-  return getName();
-}
-
 std::string Scope::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   if (getIsBlock()) {
@@ -138,12 +126,10 @@ ScopeAggregate::ScopeAggregate() : Scope(SV_ScopeAggregate) {
 
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
-  const char *Name = getName();
   Result = "{";
   Result += getKindAsString();
   Result += "} \"";
-  if (Name != nullptr)
-    Result += Name;
+  Result += getName();
   Result += '"';
 
   if (getIsTemplate()) {
@@ -208,9 +194,8 @@ std::string ScopeArray::getAsText(const PrintSettings &Settings) const {
   return Result.str();
 }
 
-void ScopeCompileUnit::setName(const char *Name) {
-  std::string Path = unifyFilePath(Name);
-  Scope::setName(Path.c_str());
+void ScopeCompileUnit::setName(const std::string &Name) {
+  Scope::setName(unifyFilePath(Name));
 }
 
 std::string ScopeCompileUnit::getAsText(const PrintSettings &) const {
@@ -420,9 +405,8 @@ std::string ScopeTemplatePack::getAsYAML() const {
   return YAML.str();
 }
 
-void ScopeRoot::setName(const char *Name) {
-  std::string Path = unifyFilePath(Name);
-  Scope::setName(Path.c_str());
+void ScopeRoot::setName(const std::string &Name) {
+  Scope::setName(unifyFilePath(Name));
 }
 
 std::string ScopeRoot::getAsText(const PrintSettings &) const {

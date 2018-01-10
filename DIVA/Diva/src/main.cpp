@@ -128,12 +128,6 @@ int main(int argc, char *argv[]) {
     printScopeView(*Root, InputFilePath, Options);
   }
 
-  // Print string pool data.
-  if (Options.DumpStringPool)
-    LibScopeView::StringPool::dumpPool(std::cout);
-  if (Options.ShowStringPoolInfo)
-    LibScopeView::StringPool::poolInfo(std::cout);
-
   // Library termination.
   LibScopeView::terminate();
 

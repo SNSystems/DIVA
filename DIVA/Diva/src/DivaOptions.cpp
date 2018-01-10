@@ -349,11 +349,6 @@ void DivaOptions::parseArgs(const std::vector<std::string> &CMDArgs,
                           DeveloperHelp, ShowPerformanceMemory),
       Argument::switchArg(NSC, "scope-allocation", "Print scope allocations",
                           DeveloperHelp, ShowScopeAllocation),
-      Argument::switchArg(NSC, "info-string-pool", "Print string pool info",
-                          DeveloperHelp, ShowStringPoolInfo),
-      Argument::switchArg(NSC, "dump-string-pool",
-                          "Print the entire string pool", DeveloperHelp,
-                          DumpStringPool),
     })
   });
   // clang-format on

@@ -41,9 +41,9 @@
 
 using namespace ElfDwarfReader;
 
-using LibScopeView::isa;
 using LibScopeView::cast;
 using LibScopeView::dyn_cast;
+using LibScopeView::isa;
 
 using testing::AssertionResult;
 
@@ -105,13 +105,11 @@ AssertionResult checkChildCount(const LibScopeView::Scope *Parent,
   size_t SymbolsFound = countSymbolsIn(Parent);
 
   if (ScopesFound != ScopeCount)
-    return ::testing::AssertionFailure()
-           << "Scope contained " << ScopesFound << " Scopes, expected "
-           << ScopeCount;
+    return ::testing::AssertionFailure() << "Scope contained " << ScopesFound
+                                         << " Scopes, expected " << ScopeCount;
   if (TypesFound != TypeCount)
-    return ::testing::AssertionFailure()
-           << "Scope contained " << TypesFound << " Types, expected "
-           << TypeCount;
+    return ::testing::AssertionFailure() << "Scope contained " << TypesFound
+                                         << " Types, expected " << TypeCount;
   if (SymbolsFound != SymbolCount)
     return ::testing::AssertionFailure()
            << "Scope contained " << SymbolsFound << " Symbols, expected "
@@ -234,21 +232,21 @@ TEST_F(TestElfDwarfReader, ReadCompileUnits) {
   EXPECT_TRUE(isa<LibScopeView::ScopeCompileUnit>(*CU1));
   EXPECT_EQ(CU1->getDieOffset(), 0x0bU);
   EXPECT_EQ(CU1->getDieTag(), DW_TAG_compile_unit);
-  EXPECT_STREQ(CU1->getName(), "structure1.cpp");
+  EXPECT_EQ(CU1->getName(), "structure1.cpp");
   EXPECT_EQ(CU1->getLineNumber(), 0U);
   EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU1)->getFileName(false), "");
 
   EXPECT_TRUE(isa<LibScopeView::ScopeCompileUnit>(*CU2));
   EXPECT_EQ(CU2->getDieOffset(), 0x56U);
   EXPECT_EQ(CU2->getDieTag(), DW_TAG_compile_unit);
-  EXPECT_STREQ(CU2->getName(), "structure2.cpp");
+  EXPECT_EQ(CU2->getName(), "structure2.cpp");
   EXPECT_EQ(CU2->getLineNumber(), 0U);
   EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU2)->getFileName(false), "");
 
   EXPECT_TRUE(isa<LibScopeView::ScopeCompileUnit>(*CU3));
   EXPECT_EQ(CU3->getDieOffset(), 0x0a9U);
   EXPECT_EQ(CU3->getDieTag(), DW_TAG_compile_unit);
-  EXPECT_STREQ(CU3->getName(), "structure3.cpp");
+  EXPECT_EQ(CU3->getName(), "structure3.cpp");
   EXPECT_EQ(CU3->getLineNumber(), 0U);
   EXPECT_EQ(dyn_cast<LibScopeView::Object>(CU3)->getFileName(false), "");
 }
@@ -265,7 +263,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Class->getDieTag(), DW_TAG_class_type);
   EXPECT_EQ(Class->getLineNumber(), 1U);
   EXPECT_EQ(getSourceFileName(Class), "aggregate.cpp");
-  EXPECT_STREQ(Class->getName(), "A");
+  EXPECT_EQ(Class->getName(), "A");
 
   // DW_TAG_struct_type
   auto Struct = getNthScopeIn(CU, 2);
@@ -274,7 +272,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Struct->getDieTag(), DW_TAG_structure_type);
   EXPECT_EQ(Struct->getLineNumber(), 9U);
   EXPECT_EQ(getSourceFileName(Struct), "aggregate.cpp");
-  EXPECT_STREQ(Struct->getName(), "C");
+  EXPECT_EQ(Struct->getName(), "C");
 
   // DW_TAG_union_type
   auto Union = getNthScopeIn(CU, 3);
@@ -283,7 +281,7 @@ TEST_F(TestElfDwarfReader, ReadAggregate) {
   EXPECT_EQ(Union->getDieTag(), DW_TAG_union_type);
   EXPECT_EQ(Union->getLineNumber(), 13U);
   EXPECT_EQ(getSourceFileName(Union), "aggregate.cpp");
-  EXPECT_STREQ(Union->getName(), "D");
+  EXPECT_EQ(Union->getName(), "D");
 
   // DW_TAG_inheritance
   auto SubClass = getNthScopeIn(CU, 1);
@@ -317,7 +315,7 @@ TEST_F(TestElfDwarfReader, ReadArray) {
   EXPECT_EQ(getNthTypeIn(Array, 0)->getType(), SizeType);
 
   // Name resolution.
-  EXPECT_STREQ(Array->getName(), "int [5][10]");
+  EXPECT_EQ(Array->getName(), "int [5][10]");
 }
 
 TEST_F(TestElfDwarfReader, ReadBlocks) {
@@ -359,7 +357,7 @@ TEST_F(TestElfDwarfReader, ReadEntryPoint) {
   EXPECT_TRUE(getNthScopeIn(CU, 0)->getIsEntryPoint());
   EXPECT_EQ(getNthScopeIn(CU, 0)->getDieOffset(), 0xcU);
   EXPECT_EQ(getNthScopeIn(CU, 0)->getDieTag(), DW_TAG_entry_point);
-  EXPECT_STREQ(getNthScopeIn(CU, 0)->getName(), "entry");
+  EXPECT_EQ(getNthScopeIn(CU, 0)->getName(), "entry");
 }
 
 TEST_F(TestElfDwarfReader, ReadEnum) {
@@ -392,7 +390,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum1->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum1->getLineNumber(), 1U);
   EXPECT_EQ(getSourceFileName(Enum1), "enum.cpp");
-  EXPECT_STREQ(Enum1->getName(), "E1");
+  EXPECT_EQ(Enum1->getName(), "E1");
   EXPECT_EQ(Enum1->getType(), nullptr);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum1)->getIsClass(),
             false);
@@ -400,20 +398,20 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum1Value1));
   EXPECT_EQ(Enum1Value1->getDieOffset(), 0x003bU);
   EXPECT_EQ(Enum1Value1->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum1Value1->getName(), "A");
-  EXPECT_STREQ(Enum1Value1->getValue(), "0");
+  EXPECT_EQ(Enum1Value1->getName(), "A");
+  EXPECT_EQ(Enum1Value1->getValue(), "0");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum1Value2));
   EXPECT_EQ(Enum1Value2->getDieOffset(), 0x0041U);
   EXPECT_EQ(Enum1Value2->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum1Value2->getName(), "B");
-  EXPECT_STREQ(Enum1Value2->getValue(), "1");
+  EXPECT_EQ(Enum1Value2->getName(), "B");
+  EXPECT_EQ(Enum1Value2->getValue(), "1");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum1Value3));
   EXPECT_EQ(Enum1Value3->getDieOffset(), 0x0047U);
   EXPECT_EQ(Enum1Value3->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum1Value3->getName(), "C");
-  EXPECT_STREQ(Enum1Value3->getValue(), "2");
+  EXPECT_EQ(Enum1Value3->getName(), "C");
+  EXPECT_EQ(Enum1Value3->getValue(), "2");
 
   // Enumeration (2)
   EXPECT_TRUE(isa<LibScopeView::ScopeEnumeration>(*Enum2));
@@ -421,7 +419,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum2->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum2->getLineNumber(), 7U);
   EXPECT_EQ(getSourceFileName(Enum2), "enum.cpp");
-  EXPECT_STREQ(Enum2->getName(), "E2");
+  EXPECT_EQ(Enum2->getName(), "E2");
   EXPECT_EQ(Enum2->getType(), ShortType);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum2)->getIsClass(),
             true);
@@ -429,20 +427,20 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum2Value1));
   EXPECT_EQ(Enum2Value1->getDieOffset(), 0x006fU);
   EXPECT_EQ(Enum2Value1->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum2Value1->getName(), "G");
-  EXPECT_STREQ(Enum2Value1->getValue(), "-1");
+  EXPECT_EQ(Enum2Value1->getName(), "G");
+  EXPECT_EQ(Enum2Value1->getValue(), "-1");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum2Value2));
   EXPECT_EQ(Enum2Value2->getDieOffset(), 0x0075U);
   EXPECT_EQ(Enum2Value2->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum2Value2->getName(), "H");
-  EXPECT_STREQ(Enum2Value2->getValue(), "0");
+  EXPECT_EQ(Enum2Value2->getName(), "H");
+  EXPECT_EQ(Enum2Value2->getValue(), "0");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum2Value3));
   EXPECT_EQ(Enum2Value3->getDieOffset(), 0x007bU);
   EXPECT_EQ(Enum2Value3->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum2Value3->getName(), "I");
-  EXPECT_STREQ(Enum2Value3->getValue(), "1");
+  EXPECT_EQ(Enum2Value3->getName(), "I");
+  EXPECT_EQ(Enum2Value3->getValue(), "1");
 
   // Enumeration (3)
   EXPECT_TRUE(isa<LibScopeView::ScopeEnumeration>(*Enum3));
@@ -450,7 +448,7 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_EQ(Enum3->getDieTag(), DW_TAG_enumeration_type);
   EXPECT_EQ(Enum3->getLineNumber(), 13U);
   EXPECT_EQ(getSourceFileName(Enum3), "enum.cpp");
-  EXPECT_STREQ(Enum3->getName(), "E3");
+  EXPECT_EQ(Enum3->getName(), "E3");
   EXPECT_EQ(Enum3->getType(), IntType);
   EXPECT_EQ(dyn_cast<LibScopeView::ScopeEnumeration>(Enum3)->getIsClass(),
             true);
@@ -458,20 +456,20 @@ TEST_F(TestElfDwarfReader, ReadEnum) {
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum3Value1));
   EXPECT_EQ(Enum3Value1->getDieOffset(), 0x00aaU);
   EXPECT_EQ(Enum3Value1->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum3Value1->getName(), "D");
-  EXPECT_STREQ(Enum3Value1->getValue(), "1");
+  EXPECT_EQ(Enum3Value1->getName(), "D");
+  EXPECT_EQ(Enum3Value1->getValue(), "1");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum3Value2));
   EXPECT_EQ(Enum3Value2->getDieOffset(), 0x00b0U);
   EXPECT_EQ(Enum3Value2->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum3Value2->getName(), "E");
-  EXPECT_STREQ(Enum3Value2->getValue(), "2");
+  EXPECT_EQ(Enum3Value2->getName(), "E");
+  EXPECT_EQ(Enum3Value2->getValue(), "2");
 
   EXPECT_TRUE(isa<LibScopeView::TypeEnumerator>(*Enum3Value3));
   EXPECT_EQ(Enum3Value3->getDieOffset(), 0x00b6U);
   EXPECT_EQ(Enum3Value3->getDieTag(), DW_TAG_enumerator);
-  EXPECT_STREQ(Enum3Value3->getName(), "F");
-  EXPECT_STREQ(Enum3Value3->getValue(), "3");
+  EXPECT_EQ(Enum3Value3->getName(), "F");
+  EXPECT_EQ(Enum3Value3->getValue(), "3");
 }
 
 TEST_F(TestElfDwarfReader, ReadFunction) {
@@ -488,7 +486,7 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(getNthScopeIn(CU, 0)->getDieTag(), DW_TAG_subprogram);
   EXPECT_EQ(getNthScopeIn(CU, 0)->getLineNumber(), 1U);
   EXPECT_EQ(getSourceFileName(getNthScopeIn(CU, 0)), "function.cpp");
-  EXPECT_STREQ(getNthScopeIn(CU, 0)->getName(), "func1");
+  EXPECT_EQ(getNthScopeIn(CU, 0)->getName(), "func1");
   EXPECT_EQ(getNthScopeIn(CU, 0)->getType(), IntType);
 
   // DW_TAG_subroutine_type
@@ -497,7 +495,7 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(getNthScopeIn(CU, 2)->getDieOffset(), 0x0098U);
   EXPECT_EQ(getNthScopeIn(CU, 2)->getDieTag(), DW_TAG_subroutine_type);
   EXPECT_EQ(getNthScopeIn(CU, 2)->getType(), IntType);
-  EXPECT_STREQ(getNthScopeIn(CU, 2)->getName(), "int (*)(int)");
+  EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "int (*)(int)");
 
   // Pointers to DW_TAG_subroutine_type.
   CU = nullptr;
@@ -506,8 +504,8 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   ASSERT_TRUE(checkChildCount(CU, 2, 5, 0));
 
   EXPECT_TRUE(isa<LibScopeView::TypeDefinition>(*getNthTypeIn(CU, 0)));
-  EXPECT_STREQ(getNthTypeIn(CU, 0)->getName(), "ptr_to_fptr");
-  EXPECT_STREQ(getNthTypeIn(CU, 0)->getTypeName(), "INT (*)(INT,int) * *");
+  EXPECT_EQ(getNthTypeIn(CU, 0)->getName(), "ptr_to_fptr");
+  EXPECT_EQ(getNthTypeIn(CU, 0)->getType()->getName(), "INT (*)(INT,int) * *");
 
   // DW_AT_specification, Definition should reference declaration.
   CU = nullptr;
@@ -527,10 +525,10 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_FALSE(DefinFunc->getIsDeclaration());
 
   EXPECT_EQ(Defin->getReference(), Decl);
-  EXPECT_STREQ(Defin->getName(), Decl->getName());
+  EXPECT_EQ(Defin->getName(), Decl->getName());
   EXPECT_EQ(Defin->getType(), Decl->getType());
   EXPECT_EQ(Defin->getLineNumber(), Decl->getLineNumber());
-  EXPECT_EQ(Defin->getFileNameIndex(), Decl->getFileNameIndex());
+  EXPECT_EQ(Defin->getFileNamePoolRef(), Decl->getFileNamePoolRef());
 
   // Static and inlined
   CU = nullptr;
@@ -540,21 +538,21 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
 
   auto Static = getNthScopeIn(CU, 2);
   EXPECT_TRUE(isa<LibScopeView::ScopeFunction>(*Static));
-  EXPECT_STREQ(Static->getName(), "func1");
+  EXPECT_EQ(Static->getName(), "func1");
   auto StaticFunc = dyn_cast<LibScopeView::ScopeFunction>(Static);
   EXPECT_TRUE(StaticFunc->getIsStatic());
   EXPECT_FALSE(StaticFunc->getIsDeclaredInline());
 
   auto Inlined = getNthScopeIn(CU, 0);
   EXPECT_TRUE(isa<LibScopeView::ScopeFunction>(*Inlined));
-  EXPECT_STREQ(Inlined->getName(), "func2");
+  EXPECT_EQ(Inlined->getName(), "func2");
   auto InlinedFunc = dyn_cast<LibScopeView::ScopeFunction>(Inlined);
   EXPECT_FALSE(InlinedFunc->getIsStatic());
   EXPECT_TRUE(InlinedFunc->getIsDeclaredInline());
 
   auto StaticInlined = getNthScopeIn(CU, 1);
   EXPECT_TRUE(isa<LibScopeView::ScopeFunction>(*StaticInlined));
-  EXPECT_STREQ(StaticInlined->getName(), "func3");
+  EXPECT_EQ(StaticInlined->getName(), "func3");
   auto StaticInlinedFunc = dyn_cast<LibScopeView::ScopeFunction>(StaticInlined);
   EXPECT_TRUE(StaticInlinedFunc->getIsStatic());
   EXPECT_TRUE(StaticInlinedFunc->getIsDeclaredInline());
@@ -562,7 +560,7 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   // Check static is inherited from declaration
   auto StaticDef = getNthScopeIn(CU, 3);
   EXPECT_TRUE(isa<LibScopeView::ScopeFunction>(*StaticDef));
-  EXPECT_STREQ(StaticDef->getName(), "func4");
+  EXPECT_EQ(StaticDef->getName(), "func4");
   auto StaticDefFunc = dyn_cast<LibScopeView::ScopeFunction>(StaticDef);
   EXPECT_FALSE(StaticDefFunc->getIsDeclaration());
   EXPECT_TRUE(StaticDefFunc->getIsStatic());
@@ -578,8 +576,8 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_EQ(InlinedSub->getDieTag(), DW_TAG_inlined_subroutine);
   EXPECT_EQ(InlinedSub->getLineNumber(), 5U);
   EXPECT_EQ(getSourceFileName(InlinedSub), "function_static_inline.cpp");
-  EXPECT_STREQ(InlinedSub->getName(), "func2");
-  EXPECT_STREQ(InlinedSub->getType()->getName(), "int");
+  EXPECT_EQ(InlinedSub->getName(), "func2");
+  EXPECT_EQ(InlinedSub->getType()->getName(), "int");
 }
 
 TEST_F(TestElfDwarfReader, ReadGlobals) {
@@ -628,7 +626,7 @@ TEST_F(TestElfDwarfReader, ReadImport) {
       dyn_cast<LibScopeView::Scope>(getNthTypeIn(CU, 1)->getType());
   EXPECT_EQ(ImpModule->getDieOffset(), 0x62U);
   EXPECT_TRUE(isa<LibScopeView::ScopeNamespace>(*ImpModule));
-  EXPECT_STREQ(ImpModule->getName(), "NS");
+  EXPECT_EQ(ImpModule->getName(), "NS");
 
   // DW_TAG_imported_declaration
   EXPECT_TRUE(getNthTypeIn(Struct, 0)->getIsImportedDeclaration());
@@ -644,7 +642,7 @@ TEST_F(TestElfDwarfReader, ReadImport) {
       dyn_cast<LibScopeView::Symbol>(getNthTypeIn(Struct, 0)->getType());
   EXPECT_EQ(ImpMember->getDieOffset(), 0x37U);
   EXPECT_TRUE(ImpMember->getIsMember());
-  EXPECT_STREQ(ImpMember->getName(), "m");
+  EXPECT_EQ(ImpMember->getName(), "m");
 }
 
 TEST_F(TestElfDwarfReader, ReadInheritance) {
@@ -654,41 +652,37 @@ TEST_F(TestElfDwarfReader, ReadInheritance) {
 
   auto BaseClass = getNthScopeIn(CU, 0);
   ASSERT_TRUE(BaseClass->getIsClassType());
-  ASSERT_STREQ(BaseClass->getName(), "Base");
+  EXPECT_EQ(BaseClass->getName(), "Base");
 
   auto PublicClass = getNthScopeIn(CU, 1);
   ASSERT_TRUE(PublicClass->getIsClassType());
-  ASSERT_STREQ(PublicClass->getName(), "Public");
+  EXPECT_EQ(PublicClass->getName(), "Public");
   ASSERT_TRUE(getNthTypeIn(PublicClass, 0)->getIsInheritance());
-  EXPECT_EQ(
-      dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(PublicClass, 0))
-          ->getInheritanceAccess(),
-      LibScopeView::AccessSpecifier::Public);
+  EXPECT_EQ(dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(PublicClass, 0))
+                ->getInheritanceAccess(),
+            LibScopeView::AccessSpecifier::Public);
 
   auto PrivateClass = getNthScopeIn(CU, 2);
   ASSERT_TRUE(PrivateClass->getIsClassType());
-  ASSERT_STREQ(PrivateClass->getName(), "Private");
+  EXPECT_EQ(PrivateClass->getName(), "Private");
   // Compiler just leaves this as unspecified.
-  EXPECT_EQ(
-      dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(PrivateClass, 0))
-          ->getInheritanceAccess(),
-      LibScopeView::AccessSpecifier::Unspecified);
+  EXPECT_EQ(dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(PrivateClass, 0))
+                ->getInheritanceAccess(),
+            LibScopeView::AccessSpecifier::Unspecified);
 
   auto ProtectedClass = getNthScopeIn(CU, 3);
   ASSERT_TRUE(ProtectedClass->getIsClassType());
-  ASSERT_STREQ(ProtectedClass->getName(), "Protected");
-  EXPECT_EQ(
-      dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(ProtectedClass, 0))
-          ->getInheritanceAccess(),
-      LibScopeView::AccessSpecifier::Protected);
+  EXPECT_EQ(ProtectedClass->getName(), "Protected");
+  EXPECT_EQ(dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(ProtectedClass, 0))
+                ->getInheritanceAccess(),
+            LibScopeView::AccessSpecifier::Protected);
 
   auto DefaultClass = getNthScopeIn(CU, 4);
   ASSERT_TRUE(DefaultClass->getIsClassType());
-  ASSERT_STREQ(DefaultClass->getName(), "Default");
-  EXPECT_EQ(
-      dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(DefaultClass, 0))
-          ->getInheritanceAccess(),
-      LibScopeView::AccessSpecifier::Unspecified);
+  EXPECT_EQ(DefaultClass->getName(), "Default");
+  EXPECT_EQ(dyn_cast<LibScopeView::TypeImport>(getNthTypeIn(DefaultClass, 0))
+                ->getInheritanceAccess(),
+            LibScopeView::AccessSpecifier::Unspecified);
 }
 
 TEST_F(TestElfDwarfReader, ReadLabel) {
@@ -704,7 +698,7 @@ TEST_F(TestElfDwarfReader, ReadLabel) {
   EXPECT_EQ(Label->getDieTag(), DW_TAG_label);
   EXPECT_EQ(Label->getLineNumber(), 3U);
   EXPECT_EQ(getSourceFileName(Label), "label.cpp");
-  EXPECT_STREQ(Label->getName(), "loophead");
+  EXPECT_EQ(Label->getName(), "loophead");
 }
 
 TEST_F(TestElfDwarfReader, ReadLines) {
@@ -748,7 +742,7 @@ TEST_F(TestElfDwarfReader, ReadNamespace) {
   EXPECT_EQ(getNthScopeIn(CU, 2)->getDieTag(), DW_TAG_namespace);
   EXPECT_EQ(getNthScopeIn(CU, 2)->getLineNumber(), 10U);
   EXPECT_EQ(getSourceFileName(getNthScopeIn(CU, 2)), "import.cpp");
-  EXPECT_STREQ(getNthScopeIn(CU, 2)->getName(), "NS");
+  EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "NS");
 }
 
 TEST_F(TestElfDwarfReader, ReadMembers) {
@@ -757,23 +751,23 @@ TEST_F(TestElfDwarfReader, ReadMembers) {
   ASSERT_TRUE(checkChildCount(CU, 3, 3, 0));
 
   auto Struct = getNthScopeIn(CU, 0);
-  ASSERT_STREQ(Struct->getName(), "A");
+  EXPECT_EQ(Struct->getName(), "A");
   ASSERT_TRUE(checkChildCount(Struct, 1, 0, 4));
 
   // m_unspecified
-  EXPECT_STREQ(getNthSymbolIn(Struct, 0)->getName(), "m_unspecified");
+  EXPECT_EQ(getNthSymbolIn(Struct, 0)->getName(), "m_unspecified");
   EXPECT_EQ(getNthSymbolIn(Struct, 0)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Unspecified);
   // m_private
-  EXPECT_STREQ(getNthSymbolIn(Struct, 1)->getName(), "m_private");
+  EXPECT_EQ(getNthSymbolIn(Struct, 1)->getName(), "m_private");
   EXPECT_EQ(getNthSymbolIn(Struct, 1)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Private);
   // m_public - Clang just puts unspecified for structs.
-  EXPECT_STREQ(getNthSymbolIn(Struct, 2)->getName(), "m_public");
+  EXPECT_EQ(getNthSymbolIn(Struct, 2)->getName(), "m_public");
   EXPECT_EQ(getNthSymbolIn(Struct, 2)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Unspecified);
   // m_protected
-  EXPECT_STREQ(getNthSymbolIn(Struct, 3)->getName(), "m_protected");
+  EXPECT_EQ(getNthSymbolIn(Struct, 3)->getName(), "m_protected");
   EXPECT_EQ(getNthSymbolIn(Struct, 3)->getAccessSpecifier(),
             LibScopeView::AccessSpecifier::Protected);
 }
@@ -790,21 +784,18 @@ TEST_F(TestElfDwarfReader, ReadQualifiedNames) {
   auto ClassC = getNthScopeIn(Parent2, 0);
   ASSERT_TRUE(checkChildCount(ClassC, 0, 1, 2));
   EXPECT_TRUE(ClassC->getHasQualifiedName());
-  EXPECT_STREQ(
-      dyn_cast<LibScopeView::Element>(ClassC)->getQualifiedName(),
-      "OuterNS::InnerNS::");
+  EXPECT_EQ(dyn_cast<LibScopeView::Element>(ClassC)->getQualifiedName(),
+            "OuterNS::InnerNS::");
 
   auto Typedef = getNthTypeIn(ClassC, 0);
   EXPECT_TRUE(Typedef->getHasQualifiedName());
-  EXPECT_STREQ(
-      dyn_cast<LibScopeView::Element>(Typedef)->getQualifiedName(),
-      "OuterNS::InnerNS::C::");
+  EXPECT_EQ(dyn_cast<LibScopeView::Element>(Typedef)->getQualifiedName(),
+            "OuterNS::InnerNS::C::");
 
   auto StaticMemDefin = getNthSymbolIn(CU, 0);
   EXPECT_TRUE(StaticMemDefin->getHasQualifiedName());
-  EXPECT_STREQ(
-      dyn_cast<LibScopeView::Element>(StaticMemDefin)->getQualifiedName(),
-      "OuterNS::InnerNS::C::");
+  EXPECT_EQ(dyn_cast<LibScopeView::Element>(StaticMemDefin)->getQualifiedName(),
+            "OuterNS::InnerNS::C::");
 }
 
 TEST_F(TestElfDwarfReader, ReadSymbols) {
@@ -828,7 +819,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Var->getDieTag(), DW_TAG_variable);
   EXPECT_EQ(Var->getLineNumber(), 1U);
   EXPECT_EQ(getSourceFileName(Var), "symbol.cpp");
-  EXPECT_STREQ(Var->getName(), "var");
+  EXPECT_EQ(Var->getName(), "var");
   EXPECT_EQ(Var->getType(), IntType);
 
   // DW_TAG_member
@@ -837,7 +828,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Member->getDieTag(), DW_TAG_member);
   EXPECT_EQ(Member->getLineNumber(), 4U);
   EXPECT_EQ(getSourceFileName(Member), "symbol.cpp");
-  EXPECT_STREQ(Member->getName(), "mem");
+  EXPECT_EQ(Member->getName(), "mem");
   EXPECT_EQ(Member->getType(), IntType);
 
   // DW_TAG_formal_parameter
@@ -846,14 +837,14 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   EXPECT_EQ(Param->getDieTag(), DW_TAG_formal_parameter);
   EXPECT_EQ(Param->getLineNumber(), 7U);
   EXPECT_EQ(getSourceFileName(Param), "symbol.cpp");
-  EXPECT_STREQ(Param->getName(), "param");
+  EXPECT_EQ(Param->getName(), "param");
   EXPECT_EQ(Param->getType(), IntType);
 
   // DW_TAG_unspecified_parameters
   EXPECT_TRUE(UParams->getIsUnspecifiedParameter());
   EXPECT_EQ(UParams->getDieOffset(), 0x00aaU);
   EXPECT_EQ(UParams->getDieTag(), DW_TAG_unspecified_parameters);
-  EXPECT_STREQ(UParams->getName(), "");
+  EXPECT_EQ(UParams->getName(), "");
 
   // Test Symbol to Symbol DW_TAG_specification.
   // The file import.o has such a symbol.
@@ -861,7 +852,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   ASSERT_TRUE(checkChildCount(CU, 4, 2, 1));
   ASSERT_NE(getNthSymbolIn(CU, 0)->getReference(), nullptr);
   EXPECT_EQ(getNthSymbolIn(CU, 0)->getReference()->getDieOffset(), 0x6cU);
-  EXPECT_STREQ(getNthSymbolIn(CU, 0)->getReference()->getName(), "x");
+  EXPECT_EQ(getNthSymbolIn(CU, 0)->getReference()->getName(), "x");
 }
 
 TEST_F(TestElfDwarfReader, ReadTemplates) {
@@ -870,8 +861,8 @@ TEST_F(TestElfDwarfReader, ReadTemplates) {
   ASSERT_TRUE(checkChildCount(CU, 3, 1, 0));
   ASSERT_EQ(countTypesIn(getNthScopeIn(CU, 1)), 2U);
   ASSERT_EQ(countTypesIn(getNthScopeIn(CU, 2)), 2U);
-  ASSERT_STREQ(getNthScopeIn(CU, 1)->getName(), "t_func<1, int>");
-  ASSERT_STREQ(getNthScopeIn(CU, 2)->getName(), "t_func<-1, int>");
+  EXPECT_EQ(getNthScopeIn(CU, 1)->getName(), "t_func<1, int>");
+  EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "t_func<-1, int>");
 
   auto IntType = getNthTypeIn(CU, 0);
 
@@ -886,8 +877,8 @@ TEST_F(TestElfDwarfReader, ReadTemplates) {
   EXPECT_EQ(ValParam->getDieOffset(), 0x005cU);
   EXPECT_EQ(ValParam->getDieTag(), DW_TAG_template_value_parameter);
   EXPECT_EQ(ValParam->getType(), IntType);
-  EXPECT_STREQ(ValParam->getName(), "VAL");
-  EXPECT_STREQ(ValParam->getValue(), "1");
+  EXPECT_EQ(ValParam->getName(), "VAL");
+  EXPECT_EQ(ValParam->getValue(), "1");
 
   // DW_TAG_template_type_parameter.
   auto TypeParam = getNthTypeIn(getNthScopeIn(CU, 1), 1);
@@ -895,7 +886,7 @@ TEST_F(TestElfDwarfReader, ReadTemplates) {
   EXPECT_EQ(TypeParam->getDieOffset(), 0x0066U);
   EXPECT_EQ(TypeParam->getDieTag(), DW_TAG_template_type_parameter);
   EXPECT_EQ(TypeParam->getType(), IntType);
-  EXPECT_STREQ(TypeParam->getName(), "TY");
+  EXPECT_EQ(TypeParam->getName(), "TY");
 
   // Test negative template value.
   auto NegativeValParam = getNthTypeIn(getNthScopeIn(CU, 2), 0);
@@ -903,8 +894,8 @@ TEST_F(TestElfDwarfReader, ReadTemplates) {
   EXPECT_EQ(NegativeValParam->getDieOffset(), 0x0089U);
   EXPECT_EQ(NegativeValParam->getDieTag(), DW_TAG_template_value_parameter);
   EXPECT_EQ(NegativeValParam->getType(), IntType);
-  EXPECT_STREQ(NegativeValParam->getName(), "VAL");
-  EXPECT_STREQ(NegativeValParam->getValue(), "-1");
+  EXPECT_EQ(NegativeValParam->getName(), "VAL");
+  EXPECT_EQ(NegativeValParam->getValue(), "-1");
 }
 
 TEST_F(TestElfDwarfReader, ReadTemplatePacks) {
@@ -912,13 +903,13 @@ TEST_F(TestElfDwarfReader, ReadTemplatePacks) {
   ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/template_pack.o", &CU));
   ASSERT_TRUE(checkChildCount(CU, 5, 1, 0));
   ASSERT_TRUE(checkChildCount(getNthScopeIn(CU, 1), 1, 0, 3));
-  ASSERT_STREQ(getNthScopeIn(CU, 1)->getName(), "sum<int, int>");
+  EXPECT_EQ(getNthScopeIn(CU, 1)->getName(), "sum<int, int>");
   auto *TPack2Templates = getNthScopeIn(getNthScopeIn(CU, 1), 0);
   ASSERT_TRUE(checkChildCount(getNthScopeIn(CU, 2), 1, 0, 2));
-  ASSERT_STREQ(getNthScopeIn(CU, 2)->getName(), "sum<int>");
+  EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "sum<int>");
   auto *TPack1Template = getNthScopeIn(getNthScopeIn(CU, 2), 0);
   ASSERT_TRUE(checkChildCount(getNthScopeIn(CU, 3), 1, 0, 1));
-  ASSERT_STREQ(getNthScopeIn(CU, 3)->getName(), "sum<>");
+  EXPECT_EQ(getNthScopeIn(CU, 3)->getName(), "sum<>");
   auto *TPack0Templates = getNthScopeIn(getNthScopeIn(CU, 3), 0);
 
   auto *IntType = getNthTypeIn(CU, 0);
@@ -933,7 +924,7 @@ TEST_F(TestElfDwarfReader, ReadTemplatePacks) {
   EXPECT_TRUE(isa<LibScopeView::ScopeTemplatePack>(*TPack2Templates));
   EXPECT_EQ(TPack2Templates->getDieOffset(), 0x008aU);
   EXPECT_EQ(TPack2Templates->getDieTag(), DW_TAG_GNU_template_parameter_pack);
-  EXPECT_STREQ(TPack2Templates->getName(), "Targs");
+  EXPECT_EQ(TPack2Templates->getName(), "Targs");
   // Two template parameters of type int.
   ASSERT_TRUE(checkChildCount(TPack2Templates, 0, 2, 0));
   EXPECT_TRUE(getNthTypeIn(TPack2Templates, 0)->getIsTemplateType());
@@ -944,7 +935,7 @@ TEST_F(TestElfDwarfReader, ReadTemplatePacks) {
   EXPECT_TRUE(isa<LibScopeView::ScopeTemplatePack>(*TPack1Template));
   EXPECT_EQ(TPack1Template->getDieOffset(), 0x00d4U);
   EXPECT_EQ(TPack1Template->getDieTag(), DW_TAG_GNU_template_parameter_pack);
-  EXPECT_STREQ(TPack1Template->getName(), "Targs");
+  EXPECT_EQ(TPack1Template->getName(), "Targs");
   // One template parameter of type int.
   ASSERT_TRUE(checkChildCount(TPack1Template, 0, 1, 0));
   EXPECT_TRUE(getNthTypeIn(TPack1Template, 0)->getIsTemplateType());
@@ -953,7 +944,7 @@ TEST_F(TestElfDwarfReader, ReadTemplatePacks) {
   EXPECT_TRUE(isa<LibScopeView::ScopeTemplatePack>(*TPack0Templates));
   EXPECT_EQ(TPack0Templates->getDieOffset(), 0x010bU);
   EXPECT_EQ(TPack0Templates->getDieTag(), DW_TAG_GNU_template_parameter_pack);
-  EXPECT_STREQ(TPack0Templates->getName(), "Targs");
+  EXPECT_EQ(TPack0Templates->getName(), "Targs");
   // No template parameters.
   EXPECT_TRUE(checkChildCount(TPack0Templates, 0, 0, 0));
 }
@@ -964,7 +955,7 @@ TEST_F(TestElfDwarfReader, ReadTemplateTemplates) {
       loadSingleCUFromTestFile("ElfDwarfReader/template_template.o", &CU));
   ASSERT_TRUE(checkChildCount(CU, 3, 2, 0));
   ASSERT_EQ(countTypesIn(getNthScopeIn(CU, 2)), 2U);
-  ASSERT_STREQ(getNthScopeIn(CU, 2)->getName(), "foo<int, vector>");
+  EXPECT_EQ(getNthScopeIn(CU, 2)->getName(), "foo<int, vector>");
 
   EXPECT_TRUE(getNthScopeIn(CU, 2)->getIsTemplate())
       << "A function containing template parameters should be a template";
@@ -974,8 +965,8 @@ TEST_F(TestElfDwarfReader, ReadTemplateTemplates) {
   EXPECT_TRUE(TTParam->getIsTemplateTemplate());
   EXPECT_EQ(TTParam->getDieOffset(), 0x00acU);
   EXPECT_EQ(TTParam->getDieTag(), DW_TAG_GNU_template_template_parameter);
-  EXPECT_STREQ(TTParam->getName(), "V");
-  EXPECT_STREQ(TTParam->getValue(), "vector");
+  EXPECT_EQ(TTParam->getName(), "V");
+  EXPECT_EQ(TTParam->getValue(), "vector");
 }
 
 TEST_F(TestElfDwarfReader, ReadTypes) {
@@ -996,7 +987,7 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_TRUE(Base->getIsBaseType());
   EXPECT_EQ(Base->getDieOffset(), 0x00c5U);
   EXPECT_EQ(Base->getDieTag(), DW_TAG_base_type);
-  EXPECT_STREQ(Base->getName(), "int");
+  EXPECT_EQ(Base->getName(), "int");
   EXPECT_EQ(Base->getType(), nullptr);
   EXPECT_EQ(Base->getByteSize(), 4U);
 
@@ -1004,35 +995,35 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_TRUE(Const->getIsConstType());
   EXPECT_EQ(Const->getDieOffset(), 0x00d7U);
   EXPECT_EQ(Const->getDieTag(), DW_TAG_const_type);
-  EXPECT_STREQ(Const->getName(), "const int");
+  EXPECT_EQ(Const->getName(), "const int");
   EXPECT_EQ(Const->getType(), Base);
 
   // DW_TAG_pointer_type
   EXPECT_TRUE(Ptr->getIsPointerType());
   EXPECT_EQ(Ptr->getDieOffset(), 0x00dcU);
   EXPECT_EQ(Ptr->getDieTag(), DW_TAG_pointer_type);
-  EXPECT_STREQ(Ptr->getName(), "int *");
+  EXPECT_EQ(Ptr->getName(), "int *");
   EXPECT_EQ(Ptr->getType(), Base);
 
   // DW_TAG_reference_type
   EXPECT_TRUE(Ref->getIsReferenceType());
   EXPECT_EQ(Ref->getDieOffset(), 0x00e1U);
   EXPECT_EQ(Ref->getDieTag(), DW_TAG_reference_type);
-  EXPECT_STREQ(Ref->getName(), "int &");
+  EXPECT_EQ(Ref->getName(), "int &");
   EXPECT_EQ(Ref->getType(), Base);
 
   // DW_TAG_restrict_type
   EXPECT_TRUE(Restrict->getIsRestrictType());
   EXPECT_EQ(Restrict->getDieOffset(), 0x00e6U);
   EXPECT_EQ(Restrict->getDieTag(), DW_TAG_restrict_type);
-  EXPECT_STREQ(Restrict->getName(), "restrict int *");
+  EXPECT_EQ(Restrict->getName(), "restrict int *");
   EXPECT_EQ(Restrict->getType(), Ptr);
 
   // DW_TAG_rvalue_reference_type
   EXPECT_TRUE(RVal->getIsRvalueReferenceType());
   EXPECT_EQ(RVal->getDieOffset(), 0x00c0U);
   EXPECT_EQ(RVal->getDieTag(), DW_TAG_rvalue_reference_type);
-  EXPECT_STREQ(RVal->getName(), "int &&");
+  EXPECT_EQ(RVal->getName(), "int &&");
   EXPECT_EQ(RVal->getType(), Base);
 
   // DW_TAG_typedef
@@ -1041,14 +1032,14 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_EQ(TDef->getDieTag(), DW_TAG_typedef);
   EXPECT_EQ(TDef->getLineNumber(), 1U);
   EXPECT_EQ(getSourceFileName(TDef), "type.cpp");
-  EXPECT_STREQ(TDef->getName(), "T_INT");
+  EXPECT_EQ(TDef->getName(), "T_INT");
   EXPECT_EQ(TDef->getType(), Base);
 
   // DW_TAG_volatile_type
   EXPECT_TRUE(Volatile->getIsVolatileType());
   EXPECT_EQ(Volatile->getDieOffset(), 0x00ebU);
   EXPECT_EQ(Volatile->getDieTag(), DW_TAG_volatile_type);
-  EXPECT_STREQ(Volatile->getName(), "volatile int");
+  EXPECT_EQ(Volatile->getName(), "volatile int");
   EXPECT_EQ(Volatile->getType(), Base);
 
   ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/more_types.elf", &CU));
@@ -1063,21 +1054,21 @@ TEST_F(TestElfDwarfReader, ReadTypes) {
   EXPECT_TRUE(isa<LibScopeView::ScopeAlias>(*Alias));
   EXPECT_EQ(Alias->getDieOffset(), 0x12U);
   EXPECT_EQ(Alias->getDieTag(), DW_TAG_template_alias);
-  EXPECT_STREQ(Alias->getName(), "alias");
+  EXPECT_EQ(Alias->getName(), "alias");
   EXPECT_EQ(Alias->getType(), nullptr);
 
   // DW_TAG_unspecified_type
   EXPECT_TRUE(Unspec->getIsUnspecifiedType());
   EXPECT_EQ(Unspec->getDieOffset(), 0x0cU);
   EXPECT_EQ(Unspec->getDieTag(), DW_TAG_unspecified_type);
-  EXPECT_STREQ(Unspec->getName(), "void");
+  EXPECT_EQ(Unspec->getName(), "void");
   EXPECT_EQ(Unspec->getType(), nullptr);
 
   // DW_TAG_ptr_to_member_type
   EXPECT_TRUE(PtrToMem->getIsPointerMemberType());
   EXPECT_EQ(PtrToMem->getDieOffset(), 0x19U);
   EXPECT_EQ(PtrToMem->getDieTag(), DW_TAG_ptr_to_member_type);
-  EXPECT_STREQ(PtrToMem->getName(), "void *");
+  EXPECT_EQ(PtrToMem->getName(), "void *");
   EXPECT_EQ(PtrToMem->getType(), Unspec);
 }
 
@@ -1089,5 +1080,4 @@ TEST_F(TestElfDwarfReader, ReadInvalidFileIndex) {
 
   auto ScopeWithBadFile = getNthScopeIn(CU, 0);
   EXPECT_TRUE(ScopeWithBadFile->getInvalidFileName());
-  EXPECT_EQ(ScopeWithBadFile->getFileNameIndex(), 10U);
 }
