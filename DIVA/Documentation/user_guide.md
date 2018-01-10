@@ -1257,7 +1257,7 @@ $ diva example_01.o --show-DWARF-offset --show-DWARF-parent
 [0x0000000b][0x00000000]     {CompileUnit} "example_01.cpp"
 
                           {Source} "example_01.cpp"
-[0x00000026][0x0000000b]  2    {Function} "foo" -> [0x00000026]"void"
+[0x00000026][0x0000000b]  2    {Function} "foo" -> [0x00000000]"void"
                                    - No declaration
 [0x00000043][0x00000026]  2      {Parameter} "c" -> [0x00000060]"char"
 [0x00000051][0x00000026]  4      {Variable} "i" -> [0x00000067]"int"
@@ -1318,7 +1318,7 @@ $ diva example_09.o --show-dwarf-offset --sort=offset
 [0x00000026]   8    {Variable} "a" -> [0x0000003b]"A"
 [0x0000003b]   4    {Class} "A"
 [0x00000043]   5      {Member} private "a" -> [0x00000051]"int"
-[0x00000058]  10    {Function} "foo" -> [0x00000058]"CHAR"
+[0x00000058]  10    {Function} "foo" -> [0x00000096]"CHAR"
                         - No declaration
 [0x00000079]  10      {Parameter} "p" -> [0x000000a8]"char *"
 [0x00000087]  12      {Variable} "c" -> [0x00000096]"CHAR"
@@ -1517,7 +1517,7 @@ $ diva example_01.o --show-DWARF-offset
 [0x0000000b]     {CompileUnit} "example_01.cpp"
 
               {Source} "example_01.cpp"
-[0x00000026]  2    {Function} "foo" -> [0x00000026]"void"
+[0x00000026]  2    {Function} "foo" -> [0x00000000]"void"
                        - No declaration
 [0x00000043]  2      {Parameter} "c" -> [0x00000060]"char"
 [0x00000051]  4      {Variable} "i" -> [0x00000067]"int"

@@ -279,7 +279,7 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   Result += Name;
   Result += "\"";
   Result += " -> ";
-  Result += getDieOffsetAsString(Settings);
+  Result += getTypeDieOffsetAsString(Settings);
   Result += "\"";
   Result += getTypeQualifiedName();
   Result += getTypeAsString(Settings);

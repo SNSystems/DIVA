@@ -222,10 +222,9 @@ public:
   Scope *getParent() const { return Parent; }
   void setParent(Scope *ObjParent) { Parent = ObjParent; }
 
-  // Get some attributes as string.
-  const char *getDieOffsetAsString(const PrintSettings &Settings) const;
-  const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
-  const char *getTypeAsString(const PrintSettings &Settings) const;
+  // Get type info as string, handling the null case.
+  std::string getTypeDieOffsetAsString(const PrintSettings &Settings) const;
+  const std::string &getTypeAsString(const PrintSettings &Settings) const;
 
   const std::string &getTypeQualifiedName() const;
 

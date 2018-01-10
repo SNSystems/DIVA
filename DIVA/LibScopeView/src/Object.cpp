@@ -38,6 +38,7 @@
 
 #include <assert.h>
 #include <cstring>
+#include <iomanip>
 #include <sstream>
 
 using namespace LibScopeView;
@@ -158,39 +159,29 @@ const char *Object::getKindAsString() const {
 namespace {
 
 std::string EmptyString;
+std::string VoidString("void");
 
-const char *OffsetAsString(Dwarf_Off Offset) {
-  // [0x00000000]
-  const unsigned MaxLineSize = 16;
-  static char Buffer[MaxLineSize];
-  int Res = snprintf(Buffer, MaxLineSize, "[0x%08" DW_PR_DUx "]", Offset);
-  assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
-         "string overflow");
-  (void)Res;
-  return Buffer;
+std::string OffsetAsString(Dwarf_Off Offset) {
+  std::stringstream Result;
+  Result << "[0x" << std::hex << std::setw(8) << std::setfill('0') << Offset
+         << ']';
+  return Result.str();
 }
 
 } // namespace
 
-const char *Object::getDieOffsetAsString(const PrintSettings &Settings) const {
-  const char *Str = "";
-  if (Settings.ShowDWARFOffset)
-    Str = OffsetAsString(getDieOffset());
-  return Str;
-}
-
-const char *
+std::string
 Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
-  const char *Str = "";
-  if (Settings.ShowDWARFOffset) {
-    Str = OffsetAsString(getType() ? getType()->getDieOffset() : 0);
-  }
-  return Str;
+  if (Settings.ShowDWARFOffset)
+    return OffsetAsString(getType() ? getType()->getDieOffset() : 0);
+  return "";
 }
 
-const char *Object::getTypeAsString(const PrintSettings &Settings) const {
-  return getType() ? (getType()->getName().c_str())
-                   : (Settings.ShowVoid ? "void" : "");
+const std::string &
+Object::getTypeAsString(const PrintSettings &Settings) const {
+  if (getType())
+    return getType()->getName();
+  return Settings.ShowVoid ? VoidString : EmptyString;
 }
 
 const std::string &Object::getTypeQualifiedName() const {
