@@ -46,9 +46,9 @@ GTEST_API_ int _tmain(int argc, TCHAR** argv) {
 GTEST_API_ int main(int argc, char** argv) {
 #endif  // GTEST_OS_WINDOWS_MOBILE
   std::cout << "Running main() from gmock_main.cc\n";
-  // Since Google Mock depends on Google Test, initGoogleMock() is
+  // Since Google Mock depends on Google Test, InitGoogleMock() is
   // also responsible for initializing Google Test.  Therefore there's
-  // no need for calling testing::initGoogleTest() separately.
+  // no need for calling testing::InitGoogleTest() separately.
   testing::InitGoogleMock(&argc, argv);
   return RUN_ALL_TESTS();
 }
