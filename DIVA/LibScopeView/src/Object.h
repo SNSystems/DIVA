@@ -199,9 +199,6 @@ public:
   virtual void setFilePath(const std::string &FilePath) = 0;
   virtual void setFilePath(StringPoolRef FilePath) = 0;
 
-  bool isLined() const { return LineNumber != 0; }
-  bool isUnlined() const { return !isLined(); }
-
   /// \brief Set the qualified name to include the parent's name.
   void resolveQualifiedName() { resolveQualifiedName(getParent()); }
   void resolveQualifiedName(const Scope *ExplicitParent);
@@ -209,14 +206,6 @@ public:
   /// \brief The line for the object.
   uint64_t getLineNumber() const { return LineNumber; }
   void setLineNumber(uint64_t LnNumber) { LineNumber = LnNumber; }
-
-  /// \brief The call line for the object (Inlined Functions).
-  virtual uint64_t getCallLineNumber() const { return 0; }
-  virtual void setCallLineNumber(uint64_t /*CallLineNumber*/) {}
-
-  /// \brief The access DW_AT_GNU_discriminator attribute.
-  virtual Dwarf_Half getDiscriminator() const { return 0; }
-  virtual void setDiscriminator(Dwarf_Half /*Discriminator*/) {}
 
   /// \brief The parent scope for this object.
   Scope *getParent() const { return Parent; }
