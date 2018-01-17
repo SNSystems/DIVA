@@ -50,8 +50,6 @@ Scope::~Scope() {
     delete Ln;
 }
 
-uint32_t Scope::ScopesAllocated = 0;
-
 void Scope::addChild(Object *Obj) {
   // Do not add the line records to the children, as they represent the
   // logical view for the text section. Preserve the original sequence.

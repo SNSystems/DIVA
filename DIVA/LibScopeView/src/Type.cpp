@@ -42,8 +42,6 @@ using namespace LibScopeView;
 
 Type::Type(ObjectKind K) : Element(K), ByteSize(0) {}
 
-uint32_t Type::TypesAllocated = 0;
-
 namespace {
 
 std::string EmptyString;

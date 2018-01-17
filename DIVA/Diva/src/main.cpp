@@ -74,7 +74,7 @@ void printScopeView(const LibScopeView::ScopeRoot &Root,
                     const std::string &InputFilePath,
                     const DivaOptions &Options) {
   if (Options.ShowScopeAllocation)
-    LibScopeView::printAllocationInfo(std::cout);
+    LibScopeView::printAllocationInfo(Root, std::cout);
 
   std::vector<std::unique_ptr<LibScopeView::ScopePrinter>> Printers;
 

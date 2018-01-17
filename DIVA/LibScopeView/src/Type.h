@@ -151,12 +151,6 @@ public:
   std::string getAsYAML() const override;
 
 private:
-  static uint32_t TypesAllocated;
-
-public:
-  static uint32_t getInstanceCount() { return TypesAllocated; }
-
-private:
   // DW_AT_byte_size for PrimitiveType.
   unsigned ByteSize;
 
