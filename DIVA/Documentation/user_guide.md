@@ -2027,25 +2027,25 @@ Examples:
 ```
 Syntax:
 {CodeLine}
+    - Discriminator <discriminator>
     - NewStatement
     - PrologueEnd
     - EndSequence
     - BasicBlock
-    - Discriminator
     - EpilogueBegin
 
 Examples:
 {CodeLine}
 {CodeLine}
+    - Discriminator 2
     - NewStatement
-    - Discriminator
 ```
 
 **{CompileUnit}**
 
 ```
 Syntax:
-{CompileUnit} "<source code filename\"
+{CompileUnit} "<source code filename>"
 
 Example:
 {CompileUnit} "helloworld.cpp"
@@ -2309,11 +2309,11 @@ split each {CompileUnit} into separate YAML files when using --output-dir.
     offset: <dwarf offset>
     tag: null
   attributes:
+    Discriminator: <discriminator>
     NewStatement: <bool>
     PrologueEnd: <bool>
     EndSequence: <bool>
     BasicBlock: <bool>
-    Discriminator: <bool>
     EplilogueBegin: <bool>
   children: []
 ```

@@ -44,6 +44,7 @@ TEST(Line, getAsYAML_Line) {
   Ln.setLineNumber(52);
   Ln.setFileName("test.cpp");
   Ln.setDieOffset(0x5555);
+  Ln.setDiscriminator(5);
 
   EXPECT_EQ(Ln.getAsYAML(), "object: \"CodeLine\"\n"
                             "name: null\n"
@@ -55,11 +56,11 @@ TEST(Line, getAsYAML_Line) {
                             "  offset: 0x5555\n"
                             "  tag: null\n"
                             "attributes:\n"
+                            "  Discriminator: 5\n"
                             "  NewStatement: false\n"
                             "  PrologueEnd: false\n"
                             "  EndSequence: false\n"
                             "  BasicBlock: false\n"
-                            "  Discriminator: false\n"
                             "  EpilogueBegin: false");
 }
 
@@ -68,9 +69,15 @@ TEST(Line, getAsText_Line_Attributes) {
   Settings.ShowCodelineAttributes = true;
 
   Line Ln;
+  std::string Expected("{CodeLine}\n    - Discriminator 0");
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
+
+  Ln.setDiscriminator(5);
+  Expected = "{CodeLine}\n    - Discriminator 5";
+  EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsNewStatement();
-  std::string Expected("{CodeLine}\n    - NewStatement");
+  Expected += "\n    - NewStatement";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsPrologueEnd();
@@ -83,10 +90,6 @@ TEST(Line, getAsText_Line_Attributes) {
 
   Ln.setIsNewBasicBlock();
   Expected += "\n    - BasicBlock";
-  EXPECT_EQ(Ln.getAsText(Settings), Expected);
-
-  Ln.setHasDiscriminator();
-  Expected += "\n    - Discriminator";
   EXPECT_EQ(Ln.getAsText(Settings), Expected);
 
   Ln.setIsEpilogueBegin();
@@ -111,51 +114,58 @@ TEST(Line, getAsYAML_Line_Attributes) {
                        "  tag: null\n"
                        "attributes:");
 
-  Ln.setIsNewStatement();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 0"
+                                        "\n  NewStatement: false"
                                         "\n  PrologueEnd: false"
                                         "\n  EndSequence: false"
                                         "\n  BasicBlock: false"
-                                        "\n  Discriminator: false"
+                                        "\n  EpilogueBegin: false"));
+
+  Ln.setDiscriminator(10);
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: false"
+                                        "\n  PrologueEnd: false"
+                                        "\n  EndSequence: false"
+                                        "\n  BasicBlock: false"
+                                        "\n  EpilogueBegin: false"));
+
+  Ln.setIsNewStatement();
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: true"
+                                        "\n  PrologueEnd: false"
+                                        "\n  EndSequence: false"
+                                        "\n  BasicBlock: false"
                                         "\n  EpilogueBegin: false"));
 
   Ln.setIsPrologueEnd();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: true"
                                         "\n  PrologueEnd: true"
                                         "\n  EndSequence: false"
                                         "\n  BasicBlock: false"
-                                        "\n  Discriminator: false"
                                         "\n  EpilogueBegin: false"));
 
   Ln.setIsLineEndSequence();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: true"
                                         "\n  PrologueEnd: true"
                                         "\n  EndSequence: true"
                                         "\n  BasicBlock: false"
-                                        "\n  Discriminator: false"
                                         "\n  EpilogueBegin: false"));
 
   Ln.setIsNewBasicBlock();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: true"
                                         "\n  PrologueEnd: true"
                                         "\n  EndSequence: true"
                                         "\n  BasicBlock: true"
-                                        "\n  Discriminator: false"
-                                        "\n  EpilogueBegin: false"));
-
-  Ln.setHasDiscriminator();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
-                                        "\n  PrologueEnd: true"
-                                        "\n  EndSequence: true"
-                                        "\n  BasicBlock: true"
-                                        "\n  Discriminator: true"
                                         "\n  EpilogueBegin: false"));
 
   Ln.setIsEpilogueBegin();
-  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  NewStatement: true"
+  EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 10"
+                                        "\n  NewStatement: true"
                                         "\n  PrologueEnd: true"
                                         "\n  EndSequence: true"
                                         "\n  BasicBlock: true"
-                                        "\n  Discriminator: true"
                                         "\n  EpilogueBegin: true"));
 }

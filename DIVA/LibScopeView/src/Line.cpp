@@ -43,6 +43,9 @@ std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
   Result << '{' << getKindAsString() << '}';
   if (Settings.ShowCodelineAttributes) {
+    Result << '\n' << formatAttributeText("Discriminator") << " "
+           << getDiscriminator();
+
     if (getIsNewStatement()) {
       Result << '\n' << formatAttributeText("NewStatement");
     }
@@ -54,9 +57,6 @@ std::string Line::getAsText(const PrintSettings &Settings) const {
     }
     if (getIsNewBasicBlock()) {
       Result << '\n' << formatAttributeText("BasicBlock");
-    }
-    if (getHasDiscriminator()) {
-      Result << '\n' << formatAttributeText("Discriminator");
     }
     if (getIsEpilogueBegin()) {
       Result << '\n' << formatAttributeText("EpilogueBegin");
@@ -70,6 +70,7 @@ std::string Line::getAsYAML() const {
   std::stringstream Attrs;
   const std::string YAMLTrue(": true");
   const std::string YAMLFalse(": false");
+  Attrs << "\n  Discriminator: " << getDiscriminator();
   Attrs << "\n  NewStatement"
         << (getIsNewStatement() ? YAMLTrue : YAMLFalse);
   Attrs << "\n  PrologueEnd"
@@ -78,13 +79,8 @@ std::string Line::getAsYAML() const {
         << (getIsLineEndSequence() ? YAMLTrue : YAMLFalse);
   Attrs << "\n  BasicBlock"
         << (getIsNewBasicBlock() ? YAMLTrue : YAMLFalse);
-  Attrs << "\n  Discriminator"
-        << (getHasDiscriminator() ? YAMLTrue : YAMLFalse);
   Attrs << "\n  EpilogueBegin"
         << (getIsEpilogueBegin() ? YAMLTrue : YAMLFalse);
-
-  if (Attrs.str().empty())
-    Attrs << " {}";
 
   YAML << getCommonYAML() << "\nattributes:" << Attrs.str();
   return YAML.str();

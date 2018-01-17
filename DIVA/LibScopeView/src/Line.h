@@ -47,7 +47,6 @@ public:
 private:
   // Flags specifying various properties of the line.
   enum LineAttributes {
-    HasDiscriminator,
     IsLineEndSequence,
     IsNewBasicBlock,
     IsNewStatement,
@@ -63,12 +62,6 @@ private:
   Dwarf_Half Discriminator;
 
 public:
-  /// \brief Has any discriminator.
-  bool getHasDiscriminator() const {
-    return LineAttributesFlags[HasDiscriminator];
-  }
-  void setHasDiscriminator() { LineAttributesFlags.set(HasDiscriminator); }
-
   /// \brief Is line end sequence.
   bool getIsLineEndSequence() const {
     return LineAttributesFlags[IsLineEndSequence];
@@ -103,7 +96,6 @@ public:
   Dwarf_Half getDiscriminator() const override { return Discriminator; }
   void setDiscriminator(Dwarf_Half Discrim) override {
     Discriminator = Discrim;
-    setHasDiscriminator();
   }
 
   /// \brief Returns a text representation of this DIVA Object.
