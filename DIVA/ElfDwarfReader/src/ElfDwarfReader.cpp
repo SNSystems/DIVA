@@ -89,20 +89,6 @@ static void setSourceFile(LibScopeView::Object &Obj,
   }
 }
 
-// Set one Object to reference another, handling any type specifics.
-void addObjectReference(LibScopeView::Object *Obj,
-                        LibScopeView::Object *Reference) {
-  if (auto Scp = dyn_cast<LibScopeView::Scope>(Obj)) {
-    // Scope to Scope.
-    if (auto RefScp = dyn_cast<LibScopeView::Scope>(Reference))
-      Scp->setReference(RefScp);
-  } else if (auto Sym = dyn_cast<LibScopeView::Symbol>(Obj)) {
-    // Symbol to Symbol.
-    if (auto RefSym = dyn_cast<LibScopeView::Symbol>(Reference))
-      Sym->setReference(RefSym);
-  }
-}
-
 // Write the Str to Out, unless it is empty then write Val as hex.
 //
 // Used when printing DWARF codes.
@@ -152,10 +138,10 @@ void DwarfReader::createCompileUnits(const DwarfDebugData &DebugData,
   }
 
   // If we didn't skip any Dies (because of unknown tags) then we should have
-  // resolved all the types and references.
+  // resolved all the types and spec references.
   assert(!(!TypesToBeSet.empty() && UnknownDWTags.empty()) &&
          "Some objects had a type that was not created");
-  assert(!(!ReferencesToBeSet.empty() && UnknownDWTags.empty()) &&
+  assert(!(!SpecReferencesToBeSet.empty() && UnknownDWTags.empty()) &&
          "Some objects had a reference that was not created");
 }
 
@@ -431,8 +417,9 @@ void DwarfReader::initScopeFromAttrs(LibScopeView::Scope &Scp,
     if (!Die.hasAttr(DW_AT_specification) &&
         !attrIsTrueFlag(Die, DW_AT_external))
       Func->setIsStatic();
-    // The references aren't set up yet, so addObjectReference checks if the
-    // declaration is static.
+    // The specification references aren't all set yet, so the
+    // SpecificationAttributeResolver in Reader checks if the declaration is
+    // static.
 
     DwarfAttrValue InlineAttrVal(
         getAttrExpectingKind(Die, DW_AT_inline, DwarfAttrValueKind::Unsigned));
@@ -602,9 +589,9 @@ void DwarfReader::initObjectReferences(LibScopeView::Object &Obj,
     // If the referenced function hasn't been created yet, add to
     // ReferencesToBeSet for later.
     if (IT == CreatedObjects.end())
-      ReferencesToBeSet.emplace(RefOffset, &Obj);
+      SpecReferencesToBeSet.emplace(RefOffset, &Obj);
     else {
-      addObjectReference(&Obj, IT->second);
+      addObjectSpecRelation(Obj, *(IT->second));
       // If the reference is in another CU mark it as global.
       if (RefOffset < CurrentCURange.first || RefOffset > CurrentCURange.second)
         IT->second->setIsGlobalReference();
@@ -628,15 +615,15 @@ void DwarfReader::updateReferencesToObject(LibScopeView::Object &Obj,
 
   // If there are other Objects that have this Object as a reference then update
   // them.
-  auto RefFoundRange = ReferencesToBeSet.equal_range(ObjOffset);
+  auto RefFoundRange = SpecReferencesToBeSet.equal_range(ObjOffset);
   for (auto IT = RefFoundRange.first; IT != RefFoundRange.second; ++IT) {
-    addObjectReference(IT->second, &Obj);
+    addObjectSpecRelation(*(IT->second), Obj);
     // If the other Object is in another CU mark this Object as global.
     if (IT->second->getDieOffset() < CurrentCURange.first ||
         IT->second->getDieOffset() > CurrentCURange.second)
       IT->second->setIsGlobalReference();
   }
-  ReferencesToBeSet.erase(RefFoundRange.first, RefFoundRange.second);
+  SpecReferencesToBeSet.erase(RefFoundRange.first, RefFoundRange.second);
 }
 
 DwarfAttrValue

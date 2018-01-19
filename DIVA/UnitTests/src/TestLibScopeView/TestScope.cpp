@@ -487,7 +487,7 @@ TEST(Scope, getAsText_Function_Attributes) {
 
   DeclFunc.setFilePath("test/file.h");
   DeclFunc.setLineNumber(24);
-  Func.setReference(&DeclFunc);
+  Func.setDeclaration(&DeclFunc);
   Expected.append("Declaration @ ");
   EXPECT_EQ(Func.getAsText(Settings), Expected + "file.h,24");
 
@@ -637,14 +637,14 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_declaration: true");
 
   // Function to be used as Reference.
-  ScopeFunction Reference;
-  Reference.setName("Ref");
-  Reference.setLineNumber(620);
-  Reference.setFilePath("ref.cpp");
-  Reference.setDieOffset(0xba);
+  ScopeFunction Decl;
+  Decl.setName("Ref");
+  Decl.setLineNumber(620);
+  Decl.setFilePath("ref.cpp");
+  Decl.setDieOffset(0xba);
 
   // Reference to function.
-  Func.setReference(&Reference);
+  Func.setDeclaration(&Decl);
   EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
                               "name: \"Foo\"\n"
                               "type: \"int\"\n"
@@ -665,8 +665,8 @@ TEST(Scope, getAsYAML_Function) {
                               "  is_declaration: true");
 
   // Invalid Reference to function.
-  Reference.setInvalidFileName();
-  Reference.setLineNumber(0);
+  Decl.setInvalidFileName();
+  Decl.setLineNumber(0);
   EXPECT_EQ(Func.getAsYAML(), "object: \"Function\"\n"
                               "name: \"Foo\"\n"
                               "type: \"int\"\n"

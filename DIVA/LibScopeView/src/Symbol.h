@@ -83,14 +83,7 @@ private:
   AccessSpecifier TheAccessSpecifier;
   bool IsStatic;
 
-  // Reference to DW_AT_specification, DW_AT_abstract_origin attribute.
-  Symbol *Reference;
-
 public:
-  /// \brief Access DW_AT_specification, DW_AT_abstract_origin reference.
-  Symbol *getReference() const { return Reference; }
-  void setReference(Symbol *Sym) { Reference = Sym; }
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.

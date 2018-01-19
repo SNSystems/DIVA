@@ -126,8 +126,9 @@ private:
 
   // Map of DWARF offsets to multiple Objects, where the offset is of Die that
   // hasn't been read yet, and each of the mapped objects needs to have its
-  // reference set to the Object that will be created from that Die.
-  std::unordered_multimap<Dwarf_Off, LibScopeView::Object *> ReferencesToBeSet;
+  // specification set to the Object that will be created from that Die.
+  std::unordered_multimap<Dwarf_Off, LibScopeView::Object *>
+      SpecReferencesToBeSet;
 
   // Unknown DWARF tags that have already been seen (avoids duplicate warnings).
   std::set<Dwarf_Half> UnknownDWTags;
