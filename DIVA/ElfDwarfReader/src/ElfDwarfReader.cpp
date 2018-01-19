@@ -60,6 +60,7 @@ std::vector<std::string> getSourceFileMapping(const DwarfDebugData &DebugData,
     return Mapping;
 
   // A file ID of 0 always means no file, so set [0] to empty string.
+  Mapping.reserve(static_cast<size_t>(SourceFilesCount) + 1);
   Mapping.emplace_back("");
 
   for (Dwarf_Signed i = 0; i < SourceFilesCount; ++i) {
