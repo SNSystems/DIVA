@@ -118,7 +118,7 @@ class DwarfDie {
 public:
   friend class DwarfDieChildIterator;
 
-  explicit DwarfDie(const DwarfDebugData &DbgData, Dwarf_Die RawDie)
+  DwarfDie(const DwarfDebugData &DbgData, Dwarf_Die RawDie)
       : DebugData(DbgData), Die(RawDie) {}
   DwarfDie(DwarfDie &&Other);
   ~DwarfDie() { freeDie(); }
@@ -128,7 +128,7 @@ public:
   DwarfDie(const DwarfDie &) = delete;
   DwarfDie &operator=(const DwarfDie &) = delete;
 
-  /// \brief get the wrapped Dwarf_Die instance.
+  /// \brief Get the wrapped Dwarf_Die instance.
   Dwarf_Die get() const { return Die; }
   /// \brief get the wrapped Dwarf_Die instance.
   Dwarf_Die operator*() const { return Die; }
@@ -202,7 +202,7 @@ private:
   std::shared_ptr<DwarfDie> Child;
 };
 
-/// \brief the kind of an attribute value.
+/// \brief The kind of an attribute value.
 enum class DwarfAttrValueKind {
   Empty,
   UnknownForm,
