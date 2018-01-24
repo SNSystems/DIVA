@@ -37,10 +37,9 @@ int main(int argc, char **argv) {
 
     testing::InitGoogleTest(&argc, argv);
     int Ret = RUN_ALL_TESTS();
-    (void) Ret; // Always return 0.
 
     // Library termination.
     LibScopeView::terminate();
 
-    return 0;
+    return Ret;
 }

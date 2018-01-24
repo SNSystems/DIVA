@@ -418,13 +418,13 @@ TEST(Object, object_cast) {
 #ifndef NDEBUG
   EXPECT_DEATH(
       { cast<Line>(TestFunction.get()); },
-      "Assertion failed.*Tried to cast Object instance to invalid type");
+      "Assertion.*Tried to cast Object instance to invalid type");
   EXPECT_DEATH(
       { cast<Scope>(TestLine.get()); },
-      "Assertion failed.*Tried to cast Object instance to invalid type");
+      "Assertion.*Tried to cast Object instance to invalid type");
   EXPECT_DEATH(
       { cast<ScopeAlias>(TestFunction.get()); },
-      "Assertion failed.*Tried to cast Object instance to invalid type");
+      "Assertion.*Tried to cast Object instance to invalid type");
 #endif
 }
 
