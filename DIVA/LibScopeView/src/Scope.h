@@ -229,10 +229,7 @@ private:
 
 public:
   Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override {
-    Reference = Scp;
-    setHasReference();
-  }
+  void setReference(Scope *Scp) override { Reference = Scp; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -339,10 +336,7 @@ private:
 
 public:
   Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override {
-    Reference = Scp;
-    setHasReference();
-  }
+  void setReference(Scope *Scp) override { Reference = Scp; }
 
   bool getIsStatic() const { return IsStatic; }
   void setIsStatic() { IsStatic = true; }
@@ -362,35 +356,12 @@ public:
 /// \brief Class to represent a DWARF inlined function object.
 class ScopeFunctionInlined : public ScopeFunction {
 public:
-  ScopeFunctionInlined()
-      : ScopeFunction(SV_ScopeFunctionInlined), Discriminator(0),
-        CallLineNumber(0) {}
+  ScopeFunctionInlined() : ScopeFunction(SV_ScopeFunctionInlined) {}
   ~ScopeFunctionInlined() override;
 
   /// \brief Return true if Obj is an instance of ScopeFunctionInlined.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeFunctionInlined;
-  }
-
-private:
-  // Reference to DW_AT_GNU_discriminator attribute.
-  Dwarf_Half Discriminator;
-
-  // File and Line Coordinates associated with this object.
-  uint64_t CallLineNumber; // DWARF line number.
-
-public:
-  /// \brief Access the DW_AT_GNU_discriminator attribute.
-  Dwarf_Half getDiscriminator() const override { return Discriminator; }
-  void setDiscriminator(Dwarf_Half Discrim) override {
-    Discriminator = Discrim;
-    setHasDiscriminator();
-  }
-
-  /// \brief Call line for the object (Inlined Functions).
-  uint64_t getCallLineNumber() const override { return CallLineNumber; }
-  void setCallLineNumber(uint64_t LnNumber) override {
-    CallLineNumber = LnNumber;
   }
 };
 
@@ -411,10 +382,7 @@ private:
 public:
   /// \brief Access to the DW_AT_extension reference.
   Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override {
-    Reference = Scp;
-    setHasReference();
-  }
+  void setReference(Scope *Scp) override { Reference = Scp; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;

@@ -114,12 +114,7 @@ private:
     // Make sure Ty's type is resolved first.
     if (Ty->getType())
       resolve(Ty->getType());
-
-    bool Ret = Ty->setFullName(Settings);
-    // setFullName keys off DWARF tags and will return false if it doesn't
-    // recognise the tag.
-    assert(Ret && "Unrecognised DWARF Tag in Object::setFullName");
-    (void)Ret;
+    Ty->formulateTypeName(Settings);
   }
 
   void resolveArrayName(ScopeArray *Array) {
@@ -170,14 +165,13 @@ private:
     // Set common attribute values.
     Obj->setName(Reference->getNamePoolRef());
     Obj->setLineNumber(Reference->getLineNumber());
-    Obj->setFileName(Reference->getFileNamePoolRef());
+    Obj->setFilePath(Reference->getFilePathPoolRef());
     if (Reference->getInvalidFileName())
       Obj->setInvalidFileName();
 
     // Set type.
     if (Reference->getType()) {
-      dyn_cast<Element>(Obj)->setType(Reference->getType());
-      Obj->setHasType();
+      cast<Element>(Obj)->setType(Reference->getType());
     }
 
     // Cover the static function case that initScopeFromAttrs can't reach.

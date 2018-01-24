@@ -54,16 +54,15 @@ public:
 
   const std::string &getQualifiedName() const override { return QName; }
   void setQualifiedName(const std::string &QualName) override {
-    setHasQualifiedName();
     QName = QualName;
   }
 
-  std::string getFileName(bool) const override {
-    return FileName;
+  const std::string &getFilePath() const override {
+    return FilePath;
   }
-  void setFileName(const std::string &FN) override { FileName = FN; }
-  StringPoolRef getFileNamePoolRef() const override { return nullptr; }
-  virtual void setFileName(StringPoolRef) override {};
+  void setFilePath(const std::string &FP) override { FilePath = FP; }
+  StringPoolRef getFilePathPoolRef() const override { return nullptr; }
+  virtual void setFilePath(StringPoolRef) override {};
 
   Object *getType() const override { return Type; }
   void setType(Object *object) override { Type = object; }
@@ -76,7 +75,7 @@ public:
 private:
   std::string Name;
   std::string QName;
-  std::string FileName;
+  std::string FilePath;
   Object *Type;
 };
 
@@ -131,7 +130,6 @@ TEST(Object, getCommonYAML) {
                                 "  tag: null");
 
   Ty.setQualifiedName("Class::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
@@ -153,13 +151,13 @@ TEST(Object, getCommonYAML) {
                                 "  offset: 0x0\n"
                                 "  tag: null");
 
-  TO.setFileName("path/file.cpp");
+  TO.setFilePath("path/file.cpp");
   EXPECT_EQ(TO.getCommonYAML(), "object: \"Block\"\n"
                                 "name: \"Q::VarName\"\n"
                                 "type: \"Class::Ty\"\n"
                                 "source:\n"
                                 "  line: 25\n"
-                                "  file: \"path/file.cpp\"\n"
+                                "  file: \"file.cpp\"\n"
                                 "dwarf:\n"
                                 "  offset: 0x0\n"
                                 "  tag: null");
@@ -221,7 +219,6 @@ TEST(Object, ResolveQualifiedName) {
   {
     Symbol Sym;
     Sym.resolveQualifiedName(&NS1);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::");
   }
 
@@ -230,7 +227,6 @@ TEST(Object, ResolveQualifiedName) {
     NS2.setParent(&NS1);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -239,7 +235,6 @@ TEST(Object, ResolveQualifiedName) {
     Func.setParent(&NS2);
     Symbol Sym;
     Sym.resolveQualifiedName(&Func);
-    EXPECT_FALSE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "");
   }
 
@@ -248,7 +243,6 @@ TEST(Object, ResolveQualifiedName) {
     NS1.setParent(&Root);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -257,7 +251,6 @@ TEST(Object, ResolveQualifiedName) {
     NS1.setParent(&CU);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 
@@ -267,7 +260,6 @@ TEST(Object, ResolveQualifiedName) {
     Block.setParent(&NS1);
     Symbol Sym;
     Sym.resolveQualifiedName(&NS2);
-    EXPECT_TRUE(Sym.getHasQualifiedName());
     EXPECT_EQ(Sym.getQualifiedName(), "NS1::NS2::");
   }
 }

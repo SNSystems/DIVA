@@ -44,7 +44,7 @@ class FakeObject : public Scope {
 public:
   FakeObject(std::string Name, uint64_t Line, std::string FileName)
       : Scope(SV_Scope), FakeName(Name) {
-    setFileName(FileName);
+    setFilePath(FileName);
     setLineNumber(Line);
     setIsBlock(); // For PrintSettings::printObject.
   }

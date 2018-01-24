@@ -100,8 +100,8 @@ public:
   void setAddress(Dwarf_Addr const Address) { setDieOffset(Address); }
 
   /// \brief Line discriminator.
-  Dwarf_Half getDiscriminator() const override { return Discriminator; }
-  void setDiscriminator(Dwarf_Half Discrim) override {
+  Dwarf_Half getDiscriminator() const { return Discriminator; }
+  void setDiscriminator(Dwarf_Half Discrim) {
     Discriminator = Discrim;
     setHasDiscriminator();
   }

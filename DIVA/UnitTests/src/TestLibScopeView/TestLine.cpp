@@ -42,7 +42,7 @@ TEST(Line, getAsText_Line) {
 TEST(Line, getAsYAML_Line) {
   Line Ln;
   Ln.setLineNumber(52);
-  Ln.setFileName("test.cpp");
+  Ln.setFilePath("test.cpp");
   Ln.setDieOffset(0x5555);
 
   EXPECT_EQ(Ln.getAsYAML(), "object: \"CodeLine\"\n"
@@ -97,7 +97,7 @@ TEST(Line, getAsText_Line_Attributes) {
 TEST(Line, getAsYAML_Line_Attributes) {
   Line Ln;
   Ln.setLineNumber(52);
-  Ln.setFileName("test.cpp");
+  Ln.setFilePath("test.cpp");
   Ln.setDieOffset(0x5555);
 
   std::string Expected("object: \"CodeLine\"\n"

@@ -140,11 +140,8 @@ private:
 
   // Flags specifying various properties of the Object.
   enum ObjectAttributes {
-    HasType,
     IsGlobalReference,
     InvalidFilename,
-    HasReference,
-    HasQualifiedName,
     ObjectAttributesSize
   };
   // Flags specifying various properties of the Object.
@@ -153,10 +150,6 @@ private:
 public:
   /// \brief Get the object kind as a string.
   const char *getKindAsString() const;
-
-  /// \brief The Object has a type.
-  bool getHasType() const { return ObjectAttributesFlags[HasType]; }
-  void setHasType() { ObjectAttributesFlags.set(HasType); }
 
   /// \brief The Object is referenced from other CUs.
   bool getIsGlobalReference() const {
@@ -169,18 +162,6 @@ public:
     return ObjectAttributesFlags[InvalidFilename];
   }
   void setInvalidFileName() { ObjectAttributesFlags.set(InvalidFilename); }
-
-  /// \brief The Object has a reference to another object.
-  ///
-  /// DW_AT_specification, DW_AT_abstract_origin, DW_AT_extension.
-  bool getHasReference() const { return ObjectAttributesFlags[HasReference]; }
-  void setHasReference() { ObjectAttributesFlags.set(HasReference); }
-
-  /// \brief If the Object has a qualified name.
-  bool getHasQualifiedName() const {
-    return ObjectAttributesFlags[HasQualifiedName];
-  }
-  void setHasQualifiedName() { ObjectAttributesFlags.set(HasQualifiedName); }
 
 private:
   // Line associated with this object.
@@ -212,14 +193,11 @@ public:
   virtual const std::string &getQualifiedName() const = 0;
   virtual void setQualifiedName(const std::string &Name) = 0;
 
-  /// \brief The Object's filename.
-  virtual std::string getFileName(bool NameOnly) const = 0;
-  virtual StringPoolRef getFileNamePoolRef() const = 0;
-  virtual void setFileName(const std::string &FileName) = 0;
-  virtual void setFileName(StringPoolRef FileName) = 0;
-
-  bool isLined() const { return LineNumber != 0; }
-  bool isUnlined() const { return !isLined(); }
+  /// \brief The Object's file path.
+  virtual const std::string &getFilePath() const = 0;
+  virtual StringPoolRef getFilePathPoolRef() const = 0;
+  virtual void setFilePath(const std::string &FilePath) = 0;
+  virtual void setFilePath(StringPoolRef FilePath) = 0;
 
   /// \brief Set the qualified name to include the parent's name.
   void resolveQualifiedName() { resolveQualifiedName(getParent()); }
@@ -229,32 +207,18 @@ public:
   uint64_t getLineNumber() const { return LineNumber; }
   void setLineNumber(uint64_t LnNumber) { LineNumber = LnNumber; }
 
-  /// \brief The call line for the object (Inlined Functions).
-  virtual uint64_t getCallLineNumber() const { return 0; }
-  virtual void setCallLineNumber(uint64_t /*CallLineNumber*/) {}
-
-  /// \brief The access DW_AT_GNU_discriminator attribute.
-  virtual Dwarf_Half getDiscriminator() const { return 0; }
-  virtual void setDiscriminator(Dwarf_Half /*Discriminator*/) {}
-
   /// \brief The parent scope for this object.
   Scope *getParent() const { return Parent; }
   void setParent(Scope *ObjParent) { Parent = ObjParent; }
 
-  // Get some attributes as string.
-  const char *getDieOffsetAsString(const PrintSettings &Settings) const;
-  const char *getTypeDieOffsetAsString(const PrintSettings &Settings) const;
-  const char *getTypeAsString(const PrintSettings &Settings) const;
+  // Get type info as string, handling the null case.
+  std::string getTypeDieOffsetAsString(const PrintSettings &Settings) const;
+  const std::string &getTypeAsString(const PrintSettings &Settings) const;
 
   const std::string &getTypeQualifiedName() const;
 
   virtual Object *getType() const = 0;
   virtual void setType(Object *Obj) = 0;
-
-  /// \brief Generate the full name for the object.
-  bool setFullName(const PrintSettings &Settings, Type *BaseType,
-                   Scope *BaseScope, Scope *SpecScope,
-                   const char *BaseText = nullptr);
 
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
@@ -282,7 +246,7 @@ private:
   // The name, type name, qualified name and filename in String Pool.
   StringPoolRef NameRef;
   StringPoolRef QualifiedRef;
-  StringPoolRef FileNameRef;
+  StringPoolRef FilePathRef;
 
   // Type of this object.
   Object *TheType;
@@ -298,16 +262,13 @@ public:
   const std::string &getQualifiedName() const override;
   void setQualifiedName(const std::string &Name) override;
 
-  /// \brief The Object's filename.
-  std::string getFileName(bool NameOnly) const override;
-  StringPoolRef getFileNamePoolRef() const override { return FileNameRef; }
-  void setFileName(const std::string &FileName) override;
-  void setFileName(StringPoolRef FileName) override { FileNameRef = FileName; }
+  /// \brief The Object's file path.
+  const std::string &getFilePath() const override;
+  StringPoolRef getFilePathPoolRef() const override { return FilePathRef; }
+  void setFilePath(const std::string &FilePath) override;
+  void setFilePath(StringPoolRef FilePath) override { FilePathRef = FilePath; }
 
-  void setType(Object *Obj) override {
-    setHasType();
-    TheType = Obj;
-  }
+  void setType(Object *Obj) override { TheType = Obj; }
   Object *getType() const override { return TheType; }
 };
 

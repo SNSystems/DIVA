@@ -83,7 +83,7 @@ static void setSourceFile(LibScopeView::Object &Obj,
   // problem unless there are 2^32 file names in the ELF.
   assert(ID < std::numeric_limits<size_t>::max());
   if (ID < Mapping.size()) {
-    Obj.setFileName(Mapping[static_cast<size_t>(ID)].c_str());
+    Obj.setFilePath(Mapping[static_cast<size_t>(ID)]);
   } else {
     Obj.setInvalidFileName();
   }

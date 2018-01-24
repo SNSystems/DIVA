@@ -28,6 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "ScopeTextPrinter.h"
+#include "FileUtilities.h"
 #include "Object.h"
 #include "Scope.h"
 
@@ -258,10 +259,10 @@ void ScopeTextPrinter::printImpl(const Object *Obj,
 void ScopeTextPrinter::printObjectText(const Object *Obj,
                                        std::ostream &OutputStream) {
   // Print file names.
-  StringPoolRef FileNameRef = Obj->getFileNamePoolRef();
+  StringPoolRef FileNameRef = Obj->getFilePathPoolRef();
   if (FileNameRef && CurrentFileRef != FileNameRef) {
     CurrentFileRef = FileNameRef;
-    std::string FileName = Obj->getFileName(/*format_options*/ true);
+    std::string FileName(getFileName(Obj->getFilePath()));
     FileName = FileName.empty() ? "?" : FileName;
     OutputStream << '\n'
                  << std::string(AttributesIndentSize, ' ') << "{Source} \""

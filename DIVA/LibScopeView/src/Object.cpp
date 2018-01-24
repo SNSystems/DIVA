@@ -27,6 +27,7 @@
 ///
 //===----------------------------------------------------------------------===//
 
+#include "Object.h"
 #include "FileUtilities.h"
 #include "Line.h"
 #include "PrintSettings.h"
@@ -34,22 +35,10 @@
 #include "StringPool.h"
 #include "Symbol.h"
 #include "Type.h"
-#include "Utilities.h"
-
-// Disable some clang warnings for dwarf.h.
-#ifdef __clang__
-#pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wreserved-id-macro"
-#endif
-
-#include "dwarf.h"
-
-#ifdef __clang__
-#pragma clang diagnostic pop
-#endif
 
 #include <assert.h>
 #include <cstring>
+#include <iomanip>
 #include <sstream>
 
 using namespace LibScopeView;
@@ -170,39 +159,29 @@ const char *Object::getKindAsString() const {
 namespace {
 
 std::string EmptyString;
+std::string VoidString("void");
 
-const char *OffsetAsString(Dwarf_Off Offset) {
-  // [0x00000000]
-  const unsigned MaxLineSize = 16;
-  static char Buffer[MaxLineSize];
-  int Res = snprintf(Buffer, MaxLineSize, "[0x%08" DW_PR_DUx "]", Offset);
-  assert((Res >= 0) && (static_cast<unsigned>(Res) < MaxLineSize) &&
-         "string overflow");
-  (void)Res;
-  return Buffer;
+std::string OffsetAsString(Dwarf_Off Offset) {
+  std::stringstream Result;
+  Result << "[0x" << std::hex << std::setw(8) << std::setfill('0') << Offset
+         << ']';
+  return Result.str();
 }
 
 } // namespace
 
-const char *Object::getDieOffsetAsString(const PrintSettings &Settings) const {
-  const char *Str = "";
-  if (Settings.ShowDWARFOffset)
-    Str = OffsetAsString(getDieOffset());
-  return Str;
-}
-
-const char *
+std::string
 Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
-  const char *Str = "";
-  if (Settings.ShowDWARFOffset) {
-    Str = OffsetAsString(getType() ? getType()->getDieOffset() : 0);
-  }
-  return Str;
+  if (Settings.ShowDWARFOffset)
+    return OffsetAsString(getType() ? getType()->getDieOffset() : 0);
+  return "";
 }
 
-const char *Object::getTypeAsString(const PrintSettings &Settings) const {
-  return getHasType() ? (getType()->getName().c_str())
-                      : (Settings.ShowVoid ? "void" : "");
+const std::string &
+Object::getTypeAsString(const PrintSettings &Settings) const {
+  if (getType())
+    return getType()->getName();
+  return Settings.ShowVoid ? VoidString : EmptyString;
 }
 
 const std::string &Object::getTypeQualifiedName() const {
@@ -230,159 +209,7 @@ void Object::resolveQualifiedName(const Scope *ExplicitParent) {
 
   if (!QualifiedName.empty()) {
     setQualifiedName(QualifiedName.c_str());
-    setHasQualifiedName();
   }
-}
-
-bool Object::setFullName(const PrintSettings &Settings, Type *BaseType,
-                         Scope *BaseScope, Scope *SpecScope,
-                         const char *BaseText) {
-  // In the case of scopes that have been updated using the specification
-  // or abstract_origin attributes, the name already contain some patterns,
-  // such as '()' or 'class'; for that case do not add the pattern.
-  const char *ParentTypename = nullptr;
-  if (BaseType) {
-    ParentTypename = BaseType->getName().c_str();
-  } else {
-    if (BaseScope) {
-      ParentTypename = BaseScope->getName().c_str();
-    }
-  }
-
-  const char *BaseParent = nullptr;
-  const char *PreText = nullptr;
-  const char *PostText = nullptr;
-  const char *PostPostText = nullptr;
-  bool GetBaseTypename = false;
-
-  bool UseParentTypeName = true;
-  bool UseBaseText = true;
-  Dwarf_Half tag = getDieTag();
-  switch (tag) {
-  case DW_TAG_base_type:
-  case DW_TAG_compile_unit:
-  case DW_TAG_namespace:
-  case DW_TAG_class_type:
-  case DW_TAG_structure_type:
-  case DW_TAG_union_type:
-  case DW_TAG_unspecified_type:
-  case DW_TAG_enumeration_type:
-  case DW_TAG_enumerator:
-  case DW_TAG_inheritance:
-  case DW_TAG_GNU_template_parameter_pack:
-    GetBaseTypename = true;
-    break;
-  case DW_TAG_array_type:
-  case DW_TAG_subrange_type:
-  case DW_TAG_imported_module:
-  case DW_TAG_imported_declaration:
-  case DW_TAG_subprogram:
-  case DW_TAG_subroutine_type:
-  case DW_TAG_inlined_subroutine:
-  case DW_TAG_entry_point:
-  case DW_TAG_label:
-  case DW_TAG_typedef:
-    GetBaseTypename = true;
-    UseParentTypeName = false;
-    break;
-  case DW_TAG_const_type:
-    PreText = "const";
-    break;
-  case DW_TAG_pointer_type:
-    PostText = "*";
-    // For the following sample code,
-    //   void *p;
-    // some compilers do not generate a DIE for the 'void' type.
-    //   <0x0000002a> DW_TAG_variable
-    //                  DW_AT_name p
-    //                  DW_AT_type <0x0000003f>
-    //   <0x0000003f> DW_TAG_pointer_type
-    // For that case, we can emit the 'void' type.
-    if (!BaseType && !getType() && Settings.ShowVoid)
-      ParentTypename = "void";
-    break;
-  case DW_TAG_ptr_to_member_type:
-    PostText = "*";
-    break;
-  case DW_TAG_rvalue_reference_type:
-    PostText = "&&";
-    break;
-  case DW_TAG_reference_type:
-    PostText = "&";
-    break;
-  case DW_TAG_restrict_type:
-    PreText = "restrict";
-    break;
-  case DW_TAG_volatile_type:
-    PreText = "volatile";
-    break;
-  case DW_TAG_template_type_parameter:
-  case DW_TAG_template_value_parameter:
-  case DW_TAG_catch_block:
-  case DW_TAG_lexical_block:
-  case DW_TAG_try_block:
-    UseBaseText = false;
-    break;
-  case DW_TAG_GNU_template_template_parameter:
-    break;
-  default:
-    return false;
-  }
-
-  // Overwrite if no given value.
-  if (!BaseText) {
-    if (GetBaseTypename) {
-      BaseText = getName().c_str();
-    }
-  }
-
-  // Concatenate the elements to get the full type name.
-  // Type will be: base_parent + pre + base + parent + post.
-  std::string FullName;
-
-  if (BaseParent) {
-    FullName.append(BaseParent);
-  }
-  if (PreText && !SpecScope) {
-    FullName.append(PreText);
-  }
-  if (UseBaseText && BaseText) {
-    if (PreText)
-      FullName.append(" ");
-    FullName.append(BaseText);
-  }
-  if (UseParentTypeName && ParentTypename) {
-    if (UseBaseText && BaseText)
-      FullName.append(" ");
-    else if (PreText)
-      FullName.append(" ");
-    FullName.append(ParentTypename);
-  }
-  if (PostText && !SpecScope) {
-    if (UseParentTypeName && ParentTypename)
-      FullName.append(" ");
-    else if (UseBaseText && BaseText)
-      FullName.append(" ");
-    else if (PreText)
-      FullName.append(" ");
-    FullName.append(PostText);
-  }
-  if (PostPostText) {
-    FullName.append(PostPostText);
-  }
-
-  // Remove any double spaces.
-  size_t StartPos = 0;
-  std::string Spaces("  ");
-  std::string Single(" ");
-  while ((StartPos = FullName.find(Spaces, StartPos)) != std::string::npos) {
-    FullName.replace(StartPos, Spaces.length(), Single);
-    StartPos += Single.length();
-  }
-
-  setName(FullName.c_str());
-
-  return true;
 }
 
 std::string Object::formatAttributeText(const std::string &AttributeText) {
@@ -397,8 +224,7 @@ std::string Object::getCommonYAML() const {
 
   // Name.
   std::string Name;
-  if (getHasQualifiedName())
-    Name += getQualifiedName();
+  Name += getQualifiedName();
   if (isa<Symbol>(*this) && cast<Symbol>(this)->getIsUnspecifiedParameter())
     Name += "...";
   else
@@ -416,8 +242,7 @@ std::string Object::getCommonYAML() const {
   // Template's types are printed in attributes.
   if (getType() && !(isa<TypeTemplateParam>(*this))) {
     std::string TypeName;
-    if (getType()->getHasQualifiedName())
-      TypeName += getType()->getQualifiedName();
+    TypeName += getType()->getQualifiedName();
     TypeName += getType()->getName();
     YAML << "\"" << TypeName << "\"\n";
   }
@@ -434,7 +259,7 @@ std::string Object::getCommonYAML() const {
   else
     YAML << "null\n";
 
-  std::string FileName(getFileName(/*format_options*/ true));
+  std::string FileName(getFileName(getFilePath()));
   YAML << "  file: ";
   if (getInvalidFileName())
     YAML << "\"?\"\n";
@@ -460,7 +285,7 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 
 Element::Element(ObjectKind K)
-    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FileNameRef(nullptr),
+    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FilePathRef(nullptr),
       TheType(nullptr) {}
 
 const std::string &Element::getName() const {
@@ -479,13 +304,10 @@ void Element::setQualifiedName(const std::string &QualName) {
   QualifiedRef = getGlobalStringPool().get(QualName);
 }
 
-std::string Element::getFileName(bool NameOnly) const {
-  std::string FName(FileNameRef ? *FileNameRef : "");
-  if (NameOnly)
-    FName = LibScopeView::getFileName(FName);
-  return FName;
+const std::string &Element::getFilePath() const {
+  return FilePathRef ? *FilePathRef : EmptyString;
 }
 
-void Element::setFileName(const std::string &FileName) {
-  FileNameRef = getGlobalStringPool().get(FileName);
+void Element::setFilePath(const std::string &FilePath) {
+  FilePathRef = getGlobalStringPool().get(FilePath);
 }

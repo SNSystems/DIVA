@@ -37,6 +37,144 @@
 
 using namespace LibScopeView;
 
+TEST(Type, formulateTypeName) {
+  PrintSettings Settings;
+
+  Type Base;
+  Base.setIsBaseType();
+  Base.setName("base");
+
+  // Already named.
+  {
+    Type Ty;
+    Ty.setName("int");
+    Ty.setType(&Base);
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "int");
+  }
+
+  // Template param.
+  {
+    TypeTemplateParam TyTempParam;
+    TyTempParam.setType(&Base);
+    TyTempParam.formulateTypeName(Settings);
+    EXPECT_EQ(TyTempParam.getName(), "");
+  }
+
+  // Empty.
+  {
+    Type Ty;
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "void");
+    Settings.ShowVoid = false;
+    Ty.setName("");
+    Ty.formulateTypeName(Settings);
+    EXPECT_EQ(Ty.getName(), "");
+    Settings.ShowVoid = true;
+  }
+
+  // Qualifiers.
+  {
+    Type Volatile;
+    Volatile.setIsVolatileType();
+    Volatile.setType(&Base);
+    Volatile.formulateTypeName(Settings);
+
+    Type Restrict;
+    Restrict.setIsRestrictType();
+    Restrict.setType(&Volatile);
+    Restrict.formulateTypeName(Settings);
+
+    Type Const;
+    Const.setIsConstType();
+    Const.setType(&Restrict);
+    Const.formulateTypeName(Settings);
+
+    EXPECT_EQ(Volatile.getName(), "volatile base");
+    EXPECT_EQ(Restrict.getName(), "restrict volatile base");
+    EXPECT_EQ(Const.getName(), "const restrict volatile base");
+  }
+
+  // Modifiers.
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&Base);
+    Ptr.formulateTypeName(Settings);
+
+    Type PtrPtr;
+    PtrPtr.setIsPointerType();
+    PtrPtr.setType(&Ptr);
+    PtrPtr.formulateTypeName(Settings);
+
+    Type Ref;
+    Ref.setIsReferenceType();
+    Ref.setType(&Base);
+    Ref.formulateTypeName(Settings);
+
+    Type RValRef;
+    RValRef.setIsRvalueReferenceType();
+    RValRef.setType(&Base);
+    RValRef.formulateTypeName(Settings);
+
+    Type PtrRef;
+    PtrRef.setIsPointerType();
+    PtrRef.setType(&Ref);
+    PtrRef.formulateTypeName(Settings);
+
+    EXPECT_EQ(Ptr.getName(), "base *");
+    EXPECT_EQ(PtrPtr.getName(), "base * *");
+    EXPECT_EQ(Ref.getName(), "base &");
+    EXPECT_EQ(RValRef.getName(), "base &&");
+    EXPECT_EQ(PtrRef.getName(), "base * &");
+  }
+
+  // Void pointer.
+  {
+    Type Void;
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&Void);
+    Ptr.formulateTypeName(Settings);
+
+    EXPECT_EQ(Ptr.getName(), "void *");
+    Settings.ShowVoid = false;
+    Ptr.setName("");
+    Ptr.formulateTypeName(Settings);
+    EXPECT_EQ(Ptr.getName(), "*");
+    Settings.ShowVoid = true;
+  }
+
+  // Scope base.
+  ScopeAggregate ClassBase;
+  ClassBase.setIsClassType();
+  ClassBase.setName("ClassBase");
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&ClassBase);
+    Ptr.formulateTypeName(Settings);
+    EXPECT_EQ(Ptr.getName(), "ClassBase *");
+  }
+
+  // Mixed.
+  {
+    Type Ptr;
+    Ptr.setIsPointerType();
+    Ptr.setType(&ClassBase);
+
+    Type PtrPtr;
+    PtrPtr.setIsPointerType();
+    PtrPtr.setType(&Ptr);
+
+    Type Const;
+    Const.setIsConstType();
+    Const.setType(&PtrPtr);
+    Const.formulateTypeName(Settings);
+    EXPECT_EQ(Const.getName(), "const ClassBase * *");
+  }
+}
+
 TEST(Type, getAsText_Enumerator) {
   PrintSettings Settings;
 
@@ -110,12 +248,10 @@ TEST(Type, getAsText_Param) {
             "{TemplateParameter} \"qaz\" <- \"wsx\"");
 
   Ty.setQualifiedName("base::");
-  Ty.setHasQualifiedName();
   EXPECT_EQ(TyParam.getAsText(Settings),
             "{TemplateParameter} \"qaz\" <- \"base::wsx\"");
 
   TyParam.setQualifiedName("base::");
-  TyParam.setHasQualifiedName();
   EXPECT_EQ(TyParam.getAsText(Settings),
             "{TemplateParameter} \"base::qaz\" <- \"base::wsx\"");
 
@@ -151,7 +287,7 @@ TEST(Type, getAsYAML_Param) {
   TempType.setType(&Ty);
   TempType.setIsTemplateType();
   TempType.setLineNumber(11);
-  TempType.setFileName("test.cpp");
+  TempType.setFilePath("test.cpp");
   TempType.setDieOffset(0x11);
   TempType.setDieTag(DW_TAG_template_type_parameter);
   EXPECT_TRUE(TempType.getIsPrintedAsObject());
@@ -174,7 +310,7 @@ TEST(Type, getAsYAML_Param) {
   TempValue.setName("TVal");
   TempValue.setValue("101");
   TempValue.setLineNumber(12);
-  TempValue.setFileName("test.cpp");
+  TempValue.setFilePath("test.cpp");
   TempValue.setDieOffset(0x12);
   TempValue.setDieTag(DW_TAG_template_value_parameter);
   EXPECT_TRUE(TempValue.getIsPrintedAsObject());
@@ -198,7 +334,7 @@ TEST(Type, getAsYAML_Param) {
   TempTemp.setName("TTemp");
   TempTemp.setValue("vector");
   TempTemp.setLineNumber(13);
-  TempTemp.setFileName("test.cpp");
+  TempTemp.setFilePath("test.cpp");
   TempTemp.setDieOffset(0x13);
   TempTemp.setDieTag(DW_TAG_GNU_template_template_parameter);
   EXPECT_TRUE(TempTemp.getIsPrintedAsObject());
@@ -297,7 +433,7 @@ TEST(Type, getAsYAML_Typedef) {
   TD.setDieOffset(0x84);
   TD.setDieTag(DW_TAG_typedef);
   TD.setLineNumber(10);
-  TD.setFileName("source_file.cpp");
+  TD.setFilePath("source_file.cpp");
   TD.setName("MyType");
   Type Ty;
   Ty.setName("Ty");
@@ -413,7 +549,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingNamespace;
   UsingNamespace.setIsImportedModule();
   UsingNamespace.setLineNumber(50);
-  UsingNamespace.setFileName("test_file.cpp");
+  UsingNamespace.setFilePath("test_file.cpp");
   UsingNamespace.setDieTag(DW_TAG_imported_module);
   UsingNamespace.setDieOffset(0xdeadb33f);
   Scope NS;
@@ -435,7 +571,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingType;
   UsingType.setIsImportedDeclaration();
   UsingType.setLineNumber(50);
-  UsingType.setFileName("test_file.cpp");
+  UsingType.setFilePath("test_file.cpp");
   UsingType.setDieTag(DW_TAG_imported_declaration);
   UsingType.setDieOffset(0xdeadb33f);
   Type Ty;
@@ -472,7 +608,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingVariable;
   UsingVariable.setIsImportedDeclaration();
   UsingVariable.setLineNumber(50);
-  UsingVariable.setFileName("test_file.cpp");
+  UsingVariable.setFilePath("test_file.cpp");
   UsingVariable.setDieTag(DW_TAG_imported_declaration);
   UsingVariable.setDieOffset(0xdeadb33f);
   Symbol Variable;
@@ -510,7 +646,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingMember;
   UsingMember.setIsImportedDeclaration();
   UsingMember.setLineNumber(50);
-  UsingMember.setFileName("test_file.cpp");
+  UsingMember.setFilePath("test_file.cpp");
   UsingMember.setDieTag(DW_TAG_imported_declaration);
   UsingMember.setDieOffset(0xdeadb33f);
   Symbol Member;
@@ -546,7 +682,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingFunction;
   UsingFunction.setIsImportedDeclaration();
   UsingFunction.setLineNumber(50);
-  UsingFunction.setFileName("test_file.cpp");
+  UsingFunction.setFilePath("test_file.cpp");
   UsingFunction.setDieTag(DW_TAG_imported_declaration);
   UsingFunction.setDieOffset(0xdeadb33f);
   ScopeFunction Function;
@@ -583,7 +719,7 @@ TEST(Type, getAsYAML_Using) {
   TypeImport UsingStruct;
   UsingStruct.setIsImportedDeclaration();
   UsingStruct.setLineNumber(50);
-  UsingStruct.setFileName("test_file.cpp");
+  UsingStruct.setFilePath("test_file.cpp");
   UsingStruct.setDieTag(DW_TAG_imported_declaration);
   UsingStruct.setDieOffset(0xdeadb33f);
   ScopeAggregate StructType;

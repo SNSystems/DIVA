@@ -84,11 +84,7 @@ std::string Symbol::getAsText(const PrintSettings &Settings) const {
   if (getIsUnspecifiedParameter()) {
     Result << " \"...\"";
   } else {
-    Result << " \"";
-    if (getHasQualifiedName())
-      Result << getQualifiedName();
-    Result << getName() << "\"";
-
+    Result << " \"" << getQualifiedName() << getName() << "\"";
     const Scope *Parent = getParent();
     if (Parent && isa<Scope>(*Parent) && Parent->getIsTemplate())
       Result << " <- ";
