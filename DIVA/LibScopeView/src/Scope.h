@@ -57,30 +57,6 @@ protected:
   Scope(ObjectKind K);
 
 private:
-  // Scope Kind.
-  static const char *KindAggregate;
-  static const char *KindArray;
-  static const char *KindBlock;
-  static const char *KindCatchBlock;
-  static const char *KindClass;
-  static const char *KindCompileUnit;
-  static const char *KindEntryPoint;
-  static const char *KindEnumeration;
-  static const char *KindFile;
-  static const char *KindFunction;
-  static const char *KindFunctionType;
-  static const char *KindInlinedFunction;
-  static const char *KindLabel;
-  static const char *KindLexicalBlock;
-  static const char *KindNamespace;
-  static const char *KindStruct;
-  static const char *KindTemplate;
-  static const char *KindTemplateAlias;
-  static const char *KindTemplatePack;
-  static const char *KindTryBlock;
-  static const char *KindUndefined;
-  static const char *KindUnion;
-
   // Flags specifying various properties of the Scope.
   enum ScopeAttributes {
     IsBlock,
@@ -204,12 +180,6 @@ public:
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
-
-private:
-  static uint32_t ScopesAllocated;
-
-public:
-  static uint32_t getInstanceCount() { return ScopesAllocated; }
 };
 
 /// \brief Class to represent a DWARF Union/Structure/Class object.

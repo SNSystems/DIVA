@@ -32,6 +32,7 @@
 #include "Line.h"
 #include "PrintSettings.h"
 #include "Scope.h"
+#include "ScopeVisitor.h"
 #include "StringPool.h"
 #include "Symbol.h"
 #include "Type.h"
@@ -39,26 +40,81 @@
 #include <assert.h>
 #include <cstring>
 #include <iomanip>
+#include <map>
 #include <sstream>
 
 using namespace LibScopeView;
 
-void LibScopeView::printAllocationInfo(std::ostream &Out) {
-#ifndef NDEBUG
-  // Data structure sizes.
-  Out << "\n** Size of data structures: **\n";
-  Out << "Scope:  " << sizeof(Scope) << "\n";
-  Out << "Symbol: " << sizeof(Symbol) << "\n";
-  Out << "Type:   " << sizeof(Type) << "\n";
-  Out << "Line:   " << sizeof(Line) << "\n";
-#endif // NDEBUG
+namespace {
 
-  // TODO: Count this here rather than whenever objects are created.
-  Out << "\n** Allocated Objects: **\n";
-  Out << "Scopes:   " << Scope::getInstanceCount() << "\n";
-  Out << "Symbols:  " << Symbol::getInstanceCount() << "\n";
-  Out << "Types:    " << Type::getInstanceCount() << "\n";
-  Out << "Lines:    " << Line::getInstanceCount() << "\n";
+class ObjectKindCounter : private ConstScopeVisitor {
+public:
+  ObjectKindCounter(const Object &Obj) { visit(&Obj); }
+  size_t getCount(Object::ObjectKind Kind) { return CountMap[Kind]; }
+
+private:
+  void visitImpl(const Object *Obj) override;
+
+  std::map<Object::ObjectKind, size_t> CountMap;
+};
+
+// So the vtable for ObjectKindCounter can be out of line.
+void ObjectKindCounter::visitImpl(const Object *Obj) {
+  ++CountMap[Obj->getKind()];
+  visitChildren(Obj);
+}
+
+// Name Kind and Size of an Object subclass.
+struct NameKindSize {
+  std::string Name;
+  Object::ObjectKind Kind;
+  size_t Size;
+};
+
+} // namespace
+
+void LibScopeView::printAllocationInfo(const Object &Root, std::ostream &Out) {
+  ObjectKindCounter Counts(Root);
+
+#define ROW(CLASS, KIND) {#CLASS, Object::ObjectKind::KIND, sizeof(CLASS)}
+  static const std::vector<NameKindSize> Rows({
+    ROW(Line, SV_Line),
+    ROW(Scope, SV_Scope),
+    ROW(ScopeAggregate, SV_ScopeAggregate),
+    ROW(ScopeAlias, SV_ScopeAlias),
+    ROW(ScopeArray, SV_ScopeArray),
+    ROW(ScopeCompileUnit, SV_ScopeCompileUnit),
+    ROW(ScopeEnumeration, SV_ScopeEnumeration),
+    ROW(ScopeFunction, SV_ScopeFunction),
+    ROW(ScopeFunctionInlined, SV_ScopeFunctionInlined),
+    ROW(ScopeNamespace, SV_ScopeNamespace),
+    ROW(ScopeTemplatePack, SV_ScopeTemplatePack),
+    ROW(ScopeRoot, SV_ScopeRoot),
+    ROW(Symbol, SV_Symbol),
+    ROW(Type, SV_Type),
+    ROW(TypeDefinition, SV_TypeDefinition),
+    ROW(TypeEnumerator, SV_TypeEnumerator),
+    ROW(TypeImport, SV_TypeImport),
+    ROW(TypeTemplateParam, SV_TypeTemplateParam),
+    ROW(TypeSubrange, SV_TypeSubrange),
+  });
+#undef ROW
+
+  Out << "Allocation Info:\n"
+      << "Class                 | Size (Bytes) | Number Created | % of Total\n"
+      << "----------------------|--------------|----------------|-----------\n";
+
+  size_t TotalSize = 0;
+  for (const NameKindSize &Row : Rows)
+    TotalSize += Row.Size * Counts.getCount(Row.Kind);
+
+  for (const NameKindSize &Row : Rows) {
+    size_t RowCount = Counts.getCount(Row.Kind);
+    Out << " " << std::setw(20) << Row.Name << " | " << std::setw(12)
+        << Row.Size << " | " << std::setw(14) << RowCount << " | "
+        << std::setw(10) << std::fixed << std::setprecision(2)
+        << double(Row.Size * RowCount) / double(TotalSize) * 100.0 << '\n';
+  }
 }
 
 //===----------------------------------------------------------------------===//

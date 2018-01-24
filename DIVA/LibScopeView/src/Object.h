@@ -81,7 +81,7 @@ template <class T> const T *dyn_cast(const Object *Obj) {
 }
 
 /// \brief Print sizes and counts of allocated Objects.
-void printAllocationInfo(std::ostream &Out);
+void printAllocationInfo(const Object &Root, std::ostream &Out);
 
 /// \brief Enum to represent C++ access specifiers.
 enum class AccessSpecifier { Unspecified, Private, Protected, Public };

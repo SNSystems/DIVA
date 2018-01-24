@@ -95,12 +95,6 @@ public:
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.
   std::string getAsYAML() const override;
-
-private:
-  static uint32_t SymbolsAllocated;
-
-public:
-  static uint32_t getInstanceCount() { return SymbolsAllocated; }
 };
 
 } // namespace LibScopeView

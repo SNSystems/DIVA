@@ -40,8 +40,6 @@ Symbol::Symbol()
     : Element(SV_Symbol), TheAccessSpecifier(AccessSpecifier::Unspecified),
       IsStatic(false), Reference(nullptr) {}
 
-uint32_t Symbol::SymbolsAllocated = 0;
-
 AccessSpecifier Symbol::getAccessSpecifier() const {
   assert(getIsMember() && "getAccessSpecifier only valid for members");
   return TheAccessSpecifier;
