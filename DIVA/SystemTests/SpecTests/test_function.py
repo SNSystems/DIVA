@@ -297,11 +297,11 @@ objects:
           offset: 0x0
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -314,11 +314,11 @@ objects:
           offset: 0x7
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -331,11 +331,11 @@ objects:
           offset: 0xc
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -348,11 +348,11 @@ objects:
           offset: 0x13
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -365,11 +365,11 @@ objects:
           offset: 0x18
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -382,11 +382,11 @@ objects:
           offset: 0x26
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -399,11 +399,11 @@ objects:
           offset: 0x2e
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -416,11 +416,11 @@ objects:
           offset: 0x30
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -433,11 +433,11 @@ objects:
           offset: 0x38
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -450,11 +450,11 @@ objects:
           offset: 0x49
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -467,11 +467,11 @@ objects:
           offset: 0x4c
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: true
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
 """

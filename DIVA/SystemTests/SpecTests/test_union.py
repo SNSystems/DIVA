@@ -162,11 +162,11 @@ objects:
           offset: 0x0
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -179,11 +179,11 @@ objects:
           offset: 0x4
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: false
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
       - object: "CodeLine"
@@ -196,11 +196,11 @@ objects:
           offset: 0x7
           tag: null
         attributes:
+          Discriminator: 0
           NewStatement: true
           PrologueEnd: false
           EndSequence: true
           BasicBlock: false
-          Discriminator: true
           EpilogueBegin: false
         children: []
 """
