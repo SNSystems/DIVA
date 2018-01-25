@@ -49,8 +49,9 @@ private:
   enum SymbolAttributes {
     IsMember,
     IsParameter,
-    IsSpecifiedParameter,
+    IsUnspecifiedParameter,
     IsVariable,
+    IsStatic,
     SymbolAttributesSize
   };
   std::bitset<SymbolAttributesSize> SymbolAttributesFlags;
@@ -63,10 +64,10 @@ public:
   void setIsParameter() { SymbolAttributesFlags.set(IsParameter); }
 
   bool getIsUnspecifiedParameter() const {
-    return SymbolAttributesFlags[IsSpecifiedParameter];
+    return SymbolAttributesFlags[IsUnspecifiedParameter];
   }
   void setIsUnspecifiedParameter() {
-    SymbolAttributesFlags.set(IsSpecifiedParameter);
+    SymbolAttributesFlags.set(IsUnspecifiedParameter);
   }
 
   bool getIsVariable() const { return SymbolAttributesFlags[IsVariable]; }
@@ -76,12 +77,11 @@ public:
   AccessSpecifier getAccessSpecifier() const;
   void setAccessSpecifier(AccessSpecifier Access);
 
-  bool getIsStatic() const { return IsStatic; }
-  void setIsStatic() { IsStatic = true; }
+  bool getIsStatic() const { return SymbolAttributesFlags[IsStatic]; }
+  void setIsStatic() { SymbolAttributesFlags.set(IsStatic); }
 
 private:
   AccessSpecifier TheAccessSpecifier;
-  bool IsStatic;
 
 public:
   /// \brief Returns a text representation of this DIVA Object.

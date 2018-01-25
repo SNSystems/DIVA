@@ -37,8 +37,7 @@
 using namespace LibScopeView;
 
 Symbol::Symbol()
-    : Element(SV_Symbol), TheAccessSpecifier(AccessSpecifier::Unspecified),
-      IsStatic(false) {}
+    : Element(SV_Symbol), TheAccessSpecifier(AccessSpecifier::Unspecified) {}
 
 AccessSpecifier Symbol::getAccessSpecifier() const {
   assert(getIsMember() && "getAccessSpecifier only valid for members");
