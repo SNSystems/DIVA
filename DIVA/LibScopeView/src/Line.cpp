@@ -35,7 +35,7 @@
 
 using namespace LibScopeView;
 
-Line::Line() : Element(SV_Line), Discriminator(0) {}
+Line::Line() : Object(SV_Line), Discriminator(0) {}
 
 std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;

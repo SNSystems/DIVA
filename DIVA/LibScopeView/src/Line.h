@@ -37,7 +37,7 @@ namespace LibScopeView {
 /// \brief  Class to represent a single line info entry.
 ///
 /// Contains a filename, line number and address.
-class Line : public Element {
+class Line : public Object {
 public:
   Line();
 

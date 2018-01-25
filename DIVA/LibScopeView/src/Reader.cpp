@@ -160,7 +160,7 @@ private:
     setFromSpec(Spec);
 
     // Set common attribute values.
-    Obj->setName(Spec->getNamePoolRef());
+    cast<Element>(Obj)->setName(cast<Element>(Spec)->getNamePoolRef());
     Obj->setLineNumber(Spec->getLineNumber());
     Obj->setFilePath(Spec->getFilePathPoolRef());
     if (Spec->getInvalidFileName())
@@ -178,7 +178,7 @@ private:
 
     // Set qualified name from reference.
     if (isa<Symbol>(*Obj) && isa<Symbol>(*Spec))
-      Obj->resolveQualifiedName(Spec->getParent());
+      cast<Element>(Obj)->resolveQualifiedName(Spec->getParent());
   }
 
   std::unordered_map<Object *, Object *> &ObjectSpecMap;

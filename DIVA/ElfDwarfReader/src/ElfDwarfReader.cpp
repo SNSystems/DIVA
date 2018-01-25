@@ -370,7 +370,7 @@ void DwarfReader::initObjectFromAttrs(LibScopeView::Object &Obj,
                                       Dwarf_Half ObjTag) {
   Obj.setDieOffset(ObjOffset);
   Obj.setDieTag(ObjTag);
-  Obj.setName(Die.getName().c_str());
+  cast<LibScopeView::Element>(Obj).setName(Die.getName().c_str());
 
   DwarfAttrValue LineNo(
       getAttrExpectingKind(Die, DW_AT_decl_line, DwarfAttrValueKind::Unsigned));
@@ -562,7 +562,7 @@ void DwarfReader::initObjectReferences(LibScopeView::Object &Obj,
     auto TypeOffset = TypeRef.getReference();
     auto IT = CreatedObjects.find(TypeOffset);
     if (IT != CreatedObjects.end()) {
-      Obj.setType(IT->second);
+      cast<LibScopeView::Element>(Obj).setType(IT->second);
       // If the type is in another CU mark it as global.
       if (TypeOffset < CurrentCURange.first ||
           TypeOffset > CurrentCURange.second)
@@ -605,7 +605,7 @@ void DwarfReader::updateReferencesToObject(LibScopeView::Object &Obj,
   // them.
   auto TyFoundRange = TypesToBeSet.equal_range(ObjOffset);
   for (auto IT = TyFoundRange.first; IT != TyFoundRange.second; ++IT) {
-    IT->second->setType(&Obj);
+    cast<LibScopeView::Element>(IT->second)->setType(&Obj);
     // If the other Object is in another CU mark this Object as global.
     if (IT->second->getDieOffset() < CurrentCURange.first ||
         IT->second->getDieOffset() > CurrentCURange.second)

@@ -164,6 +164,8 @@ public:
   void setInvalidFileName() { ObjectAttributesFlags.set(InvalidFilename); }
 
 private:
+  // Source file associated with this object.
+  StringPoolRef FilePathRef;
   // Line associated with this object.
   uint64_t LineNumber;
 
@@ -184,24 +186,16 @@ public:
   void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
 
   /// \brief The Object's name.
-  virtual const std::string &getName() const = 0;
-  virtual StringPoolRef getNamePoolRef() const = 0;
-  virtual void setName(const std::string &Name) = 0;
-  virtual void setName(StringPoolRef Name) = 0;
+  virtual const std::string &getName() const;
 
   /// \brief The Object's qualified name.
-  virtual const std::string &getQualifiedName() const = 0;
-  virtual void setQualifiedName(const std::string &Name) = 0;
+  virtual const std::string &getQualifiedName() const;
 
   /// \brief The Object's file path.
-  virtual const std::string &getFilePath() const = 0;
-  virtual StringPoolRef getFilePathPoolRef() const = 0;
-  virtual void setFilePath(const std::string &FilePath) = 0;
-  virtual void setFilePath(StringPoolRef FilePath) = 0;
-
-  /// \brief Set the qualified name to include the parent's name.
-  void resolveQualifiedName() { resolveQualifiedName(getParent()); }
-  void resolveQualifiedName(const Scope *ExplicitParent);
+  const std::string &getFilePath() const;
+  StringPoolRef getFilePathPoolRef() const { return FilePathRef; }
+  void setFilePath(const std::string &FilePath);
+  void setFilePath(StringPoolRef FilePath) { FilePathRef = FilePath; }
 
   /// \brief The line for the object.
   uint64_t getLineNumber() const { return LineNumber; }
@@ -217,8 +211,7 @@ public:
 
   const std::string &getTypeQualifiedName() const;
 
-  virtual Object *getType() const = 0;
-  virtual void setType(Object *Obj) = 0;
+  virtual Object *getType() const { return nullptr; }
 
   /// \brief Should this object be printed under children?
   virtual bool getIsPrintedAsObject() const { return true; }
@@ -240,13 +233,12 @@ public:
   Element(ObjectKind K);
 
   /// Return true if Obj is an instance of Element.
-  static bool classof(const Object *) { return true; }
+  static bool classof(const Object *Obj) { return Obj->getKind() != SV_Line; }
 
 private:
   // The name, type name, qualified name and filename in String Pool.
   StringPoolRef NameRef;
   StringPoolRef QualifiedRef;
-  StringPoolRef FilePathRef;
 
   // Type of this object.
   Object *TheType;
@@ -254,22 +246,20 @@ private:
 public:
   /// \brief The Object's name.
   const std::string &getName() const override;
-  StringPoolRef getNamePoolRef() const override { return NameRef; }
-  void setName(const std::string &Name) override;
-  void setName(StringPoolRef Name) override { NameRef = Name; }
+  StringPoolRef getNamePoolRef() const { return NameRef; }
+  virtual void setName(const std::string &Name);
+  void setName(StringPoolRef Name) { NameRef = Name; }
 
   /// \brief The Object's qualified name.
   const std::string &getQualifiedName() const override;
-  void setQualifiedName(const std::string &Name) override;
+  void setQualifiedName(const std::string &Name);
 
-  /// \brief The Object's file path.
-  const std::string &getFilePath() const override;
-  StringPoolRef getFilePathPoolRef() const override { return FilePathRef; }
-  void setFilePath(const std::string &FilePath) override;
-  void setFilePath(StringPoolRef FilePath) override { FilePathRef = FilePath; }
+  /// \brief Set the qualified name to include the parent's name.
+  void resolveQualifiedName() { resolveQualifiedName(getParent()); }
+  void resolveQualifiedName(const Scope *ExplicitParent);
 
-  void setType(Object *Obj) override { TheType = Obj; }
   Object *getType() const override { return TheType; }
+  void setType(Object *Obj) { TheType = Obj; }
 };
 
 } // namespace LibScopeView
