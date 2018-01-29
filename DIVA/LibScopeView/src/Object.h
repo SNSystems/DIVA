@@ -172,19 +172,7 @@ private:
   // The parent of this object (nullptr if the root scope).
   Scope *Parent;
 
-  // Information to link the object back to the DWARF.
-  Dwarf_Off DieOffset; // Global Offset in Debug Info.
-  Dwarf_Half DieTag;   // DWARF tag/attr for this object.
-
 public:
-  /// \brief DWARF Die tag.
-  Dwarf_Half getDieTag() const { return DieTag; }
-  void setDieTag(Dwarf_Half DWTag) { DieTag = DWTag; }
-
-  /// \brief DWARF Die offset.
-  Dwarf_Off getDieOffset() const { return DieOffset; }
-  void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
-
   /// \brief The Object's name.
   virtual const std::string &getName() const;
 
@@ -243,6 +231,10 @@ private:
   // Type of this object.
   Object *TheType;
 
+  // Information to link the object back to the DWARF.
+  Dwarf_Off DieOffset; // Global Offset in Debug Info.
+  Dwarf_Half DieTag;   // DWARF tag/attr for this object.
+
 public:
   /// \brief The Object's name.
   const std::string &getName() const override;
@@ -260,6 +252,14 @@ public:
 
   Object *getType() const override { return TheType; }
   void setType(Object *Obj) { TheType = Obj; }
+
+  /// \brief DWARF Die tag.
+  Dwarf_Half getDieTag() const { return DieTag; }
+  void setDieTag(Dwarf_Half DWTag) { DieTag = DWTag; }
+
+  /// \brief DWARF Die offset.
+  Dwarf_Off getDieOffset() const { return DieOffset; }
+  void setDieOffset(Dwarf_Off Offset) { DieOffset = Offset; }
 };
 
 } // namespace LibScopeView

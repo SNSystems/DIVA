@@ -61,6 +61,9 @@ private:
   // unless is required, we will use an unsigned half integer.
   Dwarf_Half Discriminator;
 
+  // Address of the line in the executable;
+  Dwarf_Addr Address;
+
 public:
   /// \brief Is line end sequence.
   bool getIsLineEndSequence() const {
@@ -89,8 +92,8 @@ public:
   void setIsPrologueEnd() { LineAttributesFlags.set(IsPrologueEnd); }
 
   /// \brief Line address.
-  Dwarf_Addr getAddress() const { return getDieOffset(); }
-  void setAddress(Dwarf_Addr const Address) { setDieOffset(Address); }
+  Dwarf_Addr getAddress() const { return Address; }
+  void setAddress(Dwarf_Addr Addr) { Address = Addr; }
 
   /// \brief Line discriminator.
   Dwarf_Half getDiscriminator() const { return Discriminator; }

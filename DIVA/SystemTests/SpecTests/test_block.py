@@ -145,9 +145,10 @@ objects:
           line: 3
           file: "block.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -162,9 +163,10 @@ objects:
           line: 5
           file: "block.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -179,9 +181,10 @@ objects:
           line: 6
           file: "block.cpp"
         dwarf:
-          offset: 0xf
+          offset: null
           tag: null
         attributes:
+          Address: 0xf
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -196,9 +199,10 @@ objects:
           line: 7
           file: "block.cpp"
         dwarf:
-          offset: 0x31
+          offset: null
           tag: null
         attributes:
+          Address: 0x31
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -213,9 +217,10 @@ objects:
           line: 8
           file: "block.cpp"
         dwarf:
-          offset: 0x39
+          offset: null
           tag: null
         attributes:
+          Address: 0x39
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -230,9 +235,10 @@ objects:
           line: 7
           file: "block.cpp"
         dwarf:
-          offset: 0x40
+          offset: null
           tag: null
         attributes:
+          Address: 0x40
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -247,9 +253,10 @@ objects:
           line: 12
           file: "block.cpp"
         dwarf:
-          offset: 0x45
+          offset: null
           tag: null
         attributes:
+          Address: 0x45
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -264,9 +271,10 @@ objects:
           line: 14
           file: "block.cpp"
         dwarf:
-          offset: 0x4c
+          offset: null
           tag: null
         attributes:
+          Address: 0x4c
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -281,9 +289,10 @@ objects:
           line: 14
           file: "block.cpp"
         dwarf:
-          offset: 0x4f
+          offset: null
           tag: null
         attributes:
+          Address: 0x4f
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

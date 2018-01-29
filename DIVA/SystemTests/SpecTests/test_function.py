@@ -294,9 +294,10 @@ objects:
           line: 3
           file: "function.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -311,9 +312,10 @@ objects:
           line: 3
           file: "function.cpp"
         dwarf:
-          offset: 0x7
+          offset: null
           tag: null
         attributes:
+          Address: 0x7
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -328,9 +330,10 @@ objects:
           line: 5
           file: "function.cpp"
         dwarf:
-          offset: 0xc
+          offset: null
           tag: null
         attributes:
+          Address: 0xc
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -345,9 +348,10 @@ objects:
           line: 5
           file: "function.cpp"
         dwarf:
-          offset: 0x13
+          offset: null
           tag: null
         attributes:
+          Address: 0x13
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -362,9 +366,10 @@ objects:
           line: 15
           file: "function.cpp"
         dwarf:
-          offset: 0x18
+          offset: null
           tag: null
         attributes:
+          Address: 0x18
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -379,9 +384,10 @@ objects:
           line: 16
           file: "function.cpp"
         dwarf:
-          offset: 0x26
+          offset: null
           tag: null
         attributes:
+          Address: 0x26
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -396,9 +402,10 @@ objects:
           line: 17
           file: "function.cpp"
         dwarf:
-          offset: 0x2e
+          offset: null
           tag: null
         attributes:
+          Address: 0x2e
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -413,9 +420,10 @@ objects:
           line: 19
           file: "function.cpp"
         dwarf:
-          offset: 0x30
+          offset: null
           tag: null
         attributes:
+          Address: 0x30
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -430,9 +438,10 @@ objects:
           line: 20
           file: "function.cpp"
         dwarf:
-          offset: 0x38
+          offset: null
           tag: null
         attributes:
+          Address: 0x38
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -447,9 +456,10 @@ objects:
           line: 22
           file: "function.cpp"
         dwarf:
-          offset: 0x49
+          offset: null
           tag: null
         attributes:
+          Address: 0x49
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -464,9 +474,10 @@ objects:
           line: 22
           file: "function.cpp"
         dwarf:
-          offset: 0x4c
+          offset: null
           tag: null
         attributes:
+          Address: 0x4c
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

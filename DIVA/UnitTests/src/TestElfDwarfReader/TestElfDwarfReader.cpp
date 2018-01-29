@@ -710,7 +710,6 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_TRUE(isa<LibScopeView::Line>(*Ln));
   EXPECT_EQ(Ln->getLineNumber(), 1U);
   EXPECT_EQ(Ln->getAddress(), 0x00000000U);
-  EXPECT_EQ(Ln->getDieOffset(), 0x00000000U);
   EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());
@@ -722,7 +721,6 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_TRUE(isa<LibScopeView::Line>(*Ln));
   EXPECT_EQ(Ln->getLineNumber(), 13U);
   EXPECT_EQ(Ln->getAddress(), 0x00000032U);
-  EXPECT_EQ(Ln->getDieOffset(), 0x00000032U);
   EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());

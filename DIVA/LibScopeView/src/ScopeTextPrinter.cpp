@@ -29,6 +29,7 @@
 
 #include "ScopeTextPrinter.h"
 #include "FileUtilities.h"
+#include "Line.h"
 #include "Object.h"
 #include "Scope.h"
 
@@ -74,7 +75,9 @@ private:
       ++CurrentLevel;
 
     // TODO: Store the tag name string in the Object.
-    Dwarf_Half Tag = Obj->getDieTag();
+    Dwarf_Half Tag = 0;
+    if (const auto *Elem = dyn_cast<Element>(Obj))
+      Tag = Elem->getDieTag();
     if (Tag && !SeenDwarfTags.count(Tag)) {
       SeenDwarfTags.emplace(Tag);
       const char *TagName;
@@ -128,9 +131,15 @@ std::string getDWARFAttributesString(const Object *Obj, size_t Level,
   std::stringstream AttrString;
   AttrString << std::setfill('0');
   // [OFFSET]
-  if (Settings.ShowDWARFOffset)
-    AttrString << "[0x" << std::setw(DwarfOffsetHexStringLength) << std::hex
-               << Obj->getDieOffset() << ']';
+  if (Settings.ShowDWARFOffset) {
+    AttrString << "[0x" << std::setw(DwarfOffsetHexStringLength);
+    if (const auto *Elem = dyn_cast<Element>(Obj))
+      AttrString << std::hex << Elem->getDieOffset();
+    else
+      // TODO: This isn't the offset, its a code address.
+      AttrString << std::hex << cast<Line>(Obj)->getAddress();
+    AttrString << ']';
+  }
   // [PARENT OFFSET]
   if (Settings.ShowDWARFParent) {
     if (Obj->getParent())
@@ -148,7 +157,9 @@ std::string getDWARFAttributesString(const Object *Obj, size_t Level,
   // [TAG]
   if (Settings.ShowDWARFTag) {
     const char *TagName = "";
-    auto Tag = Obj->getDieTag();
+    Dwarf_Half Tag = 0;
+    if (const auto *Elem = dyn_cast<Element>(Obj))
+      Tag = Elem->getDieTag();
     if (Tag)
       dwarf_get_TAG_name(Tag, &TagName);
     std::string TagNameWithBraces("[");

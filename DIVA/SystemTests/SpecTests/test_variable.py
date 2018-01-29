@@ -91,9 +91,10 @@ objects:
           line: 5
           file: "variable.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -108,9 +109,10 @@ objects:
           line: 6
           file: "variable.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -125,9 +127,10 @@ objects:
           line: 7
           file: "variable.cpp"
         dwarf:
-          offset: 0xb
+          offset: null
           tag: null
         attributes:
+          Address: 0xb
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -142,9 +145,10 @@ objects:
           line: 7
           file: "variable.cpp"
         dwarf:
-          offset: 0xe
+          offset: null
           tag: null
         attributes:
+          Address: 0xe
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

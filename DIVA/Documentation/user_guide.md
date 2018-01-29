@@ -2306,9 +2306,10 @@ split each {CompileUnit} into separate YAML files when using --output-dir.
     line: <line number>
     file: "<file path>"
   dwarf:
-    offset: <dwarf offset>
+    offset: null
     tag: null
   attributes:
+    Address: <address>
     Discriminator: <discriminator>
     NewStatement: <bool>
     PrologueEnd: <bool>

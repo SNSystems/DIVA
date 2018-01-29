@@ -123,12 +123,8 @@ void LibScopeView::printAllocationInfo(const Object &Root, std::ostream &Out) {
 
 Object::~Object() {}
 
-Object::Object(ObjectKind K) : Kind(K), FilePathRef(nullptr) {
-  LineNumber = 0;
-  Parent = nullptr;
-  DieOffset = 0;
-  DieTag = 0;
-}
+Object::Object(ObjectKind K)
+    : Kind(K), FilePathRef(nullptr), LineNumber(0), Parent(nullptr) {}
 
 const char *Object::getKindAsString() const {
   switch (Kind) {
@@ -229,7 +225,8 @@ std::string OffsetAsString(Dwarf_Off Offset) {
 std::string
 Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
   if (Settings.ShowDWARFOffset)
-    return OffsetAsString(getType() ? getType()->getDieOffset() : 0);
+    return OffsetAsString(getType() ? cast<Element>(getType())->getDieOffset()
+                                    : 0);
   return "";
 }
 
@@ -315,10 +312,16 @@ std::string Object::getCommonYAML() const {
     YAML << "null\n";
 
   // Dwarf.
-  YAML << "dwarf:\n  offset: 0x" << std::hex << getDieOffset() << "\n  tag: ";
-  if (getDieTag() != 0) {
+  const auto *Elem = dyn_cast<Element>(this);
+  YAML << "dwarf:\n  offset: ";
+  if (Elem)
+    YAML << "0x" << std::hex << Elem->getDieOffset();
+  else
+    YAML << "null";
+  YAML << "\n  tag: ";
+  if (Elem && Elem->getDieTag() != 0) {
     const char *TagName;
-    dwarf_get_TAG_name(getDieTag(), &TagName);
+    dwarf_get_TAG_name(Elem->getDieTag(), &TagName);
     YAML << "\"" << TagName << "\"";
   } else
     YAML << "null";
@@ -331,7 +334,8 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 
 Element::Element(ObjectKind K)
-    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), TheType(nullptr) {}
+    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), TheType(nullptr),
+      DieOffset(0), DieTag(0) {}
 
 const std::string &Element::getName() const {
   return NameRef ? *NameRef : EmptyString;

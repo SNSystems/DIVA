@@ -185,9 +185,10 @@ objects:
           line: 3
           file: "parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -202,9 +203,10 @@ objects:
           line: 3
           file: "parameter.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -219,9 +221,10 @@ objects:
           line: 4
           file: "parameter.cpp"
         dwarf:
-          offset: 0x7
+          offset: null
           tag: null
         attributes:
+          Address: 0x7
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -236,9 +239,10 @@ objects:
           line: 4
           file: "parameter.cpp"
         dwarf:
-          offset: 0xe
+          offset: null
           tag: null
         attributes:
+          Address: 0xe
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -253,9 +257,10 @@ objects:
           line: 5
           file: "parameter.cpp"
         dwarf:
-          offset: 0x11
+          offset: null
           tag: null
         attributes:
+          Address: 0x11
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -270,9 +275,10 @@ objects:
           line: 5
           file: "parameter.cpp"
         dwarf:
-          offset: 0x20
+          offset: null
           tag: null
         attributes:
+          Address: 0x20
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -287,9 +293,10 @@ objects:
           line: 5
           file: "parameter.cpp"
         dwarf:
-          offset: 0x23
+          offset: null
           tag: null
         attributes:
+          Address: 0x23
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

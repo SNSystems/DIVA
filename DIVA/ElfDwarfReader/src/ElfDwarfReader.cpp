@@ -368,9 +368,10 @@ DwarfReader::createObjectByTag(Dwarf_Half Tag) {
 void DwarfReader::initObjectFromAttrs(LibScopeView::Object &Obj,
                                       const DwarfDie &Die, Dwarf_Off ObjOffset,
                                       Dwarf_Half ObjTag) {
-  Obj.setDieOffset(ObjOffset);
-  Obj.setDieTag(ObjTag);
-  cast<LibScopeView::Element>(Obj).setName(Die.getName().c_str());
+  auto &Elem = cast<LibScopeView::Element>(Obj);
+  Elem.setDieOffset(ObjOffset);
+  Elem.setDieTag(ObjTag);
+  Elem.setName(Die.getName().c_str());
 
   DwarfAttrValue LineNo(
       getAttrExpectingKind(Die, DW_AT_decl_line, DwarfAttrValueKind::Unsigned));
@@ -528,7 +529,6 @@ void DwarfReader::createLines(const DwarfDie &CUDie,
     CUObj.addChild(Ln);
     Ln->setLineNumber(DwarfLine.LineNo);
     Ln->setAddress(DwarfLine.LineAddr);
-    Ln->setDieOffset(static_cast<Dwarf_Off>(DwarfLine.LineAddr));
 
     setSourceFile(*Ln, SourceFileMapping, DwarfLine.SrcFileID);
 
@@ -605,10 +605,11 @@ void DwarfReader::updateReferencesToObject(LibScopeView::Object &Obj,
   // them.
   auto TyFoundRange = TypesToBeSet.equal_range(ObjOffset);
   for (auto IT = TyFoundRange.first; IT != TyFoundRange.second; ++IT) {
-    cast<LibScopeView::Element>(IT->second)->setType(&Obj);
+    auto *Referencing = cast<LibScopeView::Element>(IT->second);
+    Referencing->setType(&Obj);
     // If the other Object is in another CU mark this Object as global.
-    if (IT->second->getDieOffset() < CurrentCURange.first ||
-        IT->second->getDieOffset() > CurrentCURange.second)
+    if (Referencing->getDieOffset() < CurrentCURange.first ||
+        Referencing->getDieOffset() > CurrentCURange.second)
       Obj.setIsGlobalReference();
   }
   TypesToBeSet.erase(TyFoundRange.first, TyFoundRange.second);
@@ -619,8 +620,9 @@ void DwarfReader::updateReferencesToObject(LibScopeView::Object &Obj,
   for (auto IT = RefFoundRange.first; IT != RefFoundRange.second; ++IT) {
     addObjectSpecRelation(*(IT->second), Obj);
     // If the other Object is in another CU mark this Object as global.
-    if (IT->second->getDieOffset() < CurrentCURange.first ||
-        IT->second->getDieOffset() > CurrentCURange.second)
+    auto *Referencing = cast<LibScopeView::Element>(IT->second);
+    if (Referencing->getDieOffset() < CurrentCURange.first ||
+        Referencing->getDieOffset() > CurrentCURange.second)
       IT->second->setIsGlobalReference();
   }
   SpecReferencesToBeSet.erase(RefFoundRange.first, RefFoundRange.second);
