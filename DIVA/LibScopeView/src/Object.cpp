@@ -123,12 +123,8 @@ void LibScopeView::printAllocationInfo(const Object &Root, std::ostream &Out) {
 
 Object::~Object() {}
 
-Object::Object(ObjectKind K) : Kind(K) {
-  LineNumber = 0;
-  Parent = nullptr;
-  DieOffset = 0;
-  DieTag = 0;
-}
+Object::Object(ObjectKind K)
+    : Kind(K), FilePathRef(nullptr), LineNumber(0), Parent(nullptr) {}
 
 const char *Object::getKindAsString() const {
   switch (Kind) {
@@ -229,7 +225,8 @@ std::string OffsetAsString(Dwarf_Off Offset) {
 std::string
 Object::getTypeDieOffsetAsString(const PrintSettings &Settings) const {
   if (Settings.ShowDWARFOffset)
-    return OffsetAsString(getType() ? getType()->getDieOffset() : 0);
+    return OffsetAsString(getType() ? cast<Element>(getType())->getDieOffset()
+                                    : 0);
   return "";
 }
 
@@ -246,26 +243,16 @@ const std::string &Object::getTypeQualifiedName() const {
   return getType()->getQualifiedName();
 }
 
-void Object::resolveQualifiedName(const Scope *ExplicitParent) {
-  std::string QualifiedName;
+const std::string &Object::getName() const { return EmptyString; }
 
-  // Get the qualified name, excluding the Compile Unit, Functions, and the
-  // scope root.
-  const Object *ObjParent = ExplicitParent;
-  while (ObjParent && !isa<ScopeCompileUnit>(*ObjParent) &&
-         !isa<ScopeFunction>(*ExplicitParent) && !isa<ScopeRoot>(*ObjParent)) {
+const std::string &Object::getQualifiedName() const { return EmptyString; }
 
-    const std::string &ParentName = ObjParent->getName();
-    if (!ParentName.empty()) {
-      QualifiedName.insert(0, "::");
-      QualifiedName.insert(0, ParentName);
-    }
-    ObjParent = ObjParent->getParent();
-  }
+const std::string &Object::getFilePath() const {
+  return FilePathRef ? *FilePathRef : EmptyString;
+}
 
-  if (!QualifiedName.empty()) {
-    setQualifiedName(QualifiedName.c_str());
-  }
+void Object::setFilePath(const std::string &FilePath) {
+  FilePathRef = getGlobalStringPool().get(FilePath);
 }
 
 std::string Object::formatAttributeText(const std::string &AttributeText) {
@@ -325,10 +312,16 @@ std::string Object::getCommonYAML() const {
     YAML << "null\n";
 
   // Dwarf.
-  YAML << "dwarf:\n  offset: 0x" << std::hex << getDieOffset() << "\n  tag: ";
-  if (getDieTag() != 0) {
+  const auto *Elem = dyn_cast<Element>(this);
+  YAML << "dwarf:\n  offset: ";
+  if (Elem)
+    YAML << "0x" << std::hex << Elem->getDieOffset();
+  else
+    YAML << "null";
+  YAML << "\n  tag: ";
+  if (Elem && Elem->getDieTag() != 0) {
     const char *TagName;
-    dwarf_get_TAG_name(getDieTag(), &TagName);
+    dwarf_get_TAG_name(Elem->getDieTag(), &TagName);
     YAML << "\"" << TagName << "\"";
   } else
     YAML << "null";
@@ -341,8 +334,8 @@ std::string Object::getCommonYAML() const {
 //===----------------------------------------------------------------------===//
 
 Element::Element(ObjectKind K)
-    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), FilePathRef(nullptr),
-      TheType(nullptr) {}
+    : Object(K), NameRef(nullptr), QualifiedRef(nullptr), TheType(nullptr),
+      DieOffset(0), DieTag(0) {}
 
 const std::string &Element::getName() const {
   return NameRef ? *NameRef : EmptyString;
@@ -360,10 +353,24 @@ void Element::setQualifiedName(const std::string &QualName) {
   QualifiedRef = getGlobalStringPool().get(QualName);
 }
 
-const std::string &Element::getFilePath() const {
-  return FilePathRef ? *FilePathRef : EmptyString;
-}
+void Element::resolveQualifiedName(const Scope *ExplicitParent) {
+  std::string QualifiedName;
 
-void Element::setFilePath(const std::string &FilePath) {
-  FilePathRef = getGlobalStringPool().get(FilePath);
+  // Get the qualified name, excluding the Compile Unit, Functions, and the
+  // scope root.
+  const Object *ObjParent = ExplicitParent;
+  while (ObjParent && !isa<ScopeCompileUnit>(*ObjParent) &&
+         !isa<ScopeFunction>(*ExplicitParent) && !isa<ScopeRoot>(*ObjParent)) {
+
+    const std::string &ParentName = ObjParent->getName();
+    if (!ParentName.empty()) {
+      QualifiedName.insert(0, "::");
+      QualifiedName.insert(0, ParentName);
+    }
+    ObjParent = ObjParent->getParent();
+  }
+
+  if (!QualifiedName.empty()) {
+    setQualifiedName(QualifiedName.c_str());
+  }
 }

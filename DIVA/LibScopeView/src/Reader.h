@@ -34,10 +34,9 @@
 #include "Scope.h"
 
 #include <memory>
+#include <unordered_map>
 
 namespace LibScopeView {
-
-class Scope;
 
 /// \brief Representation of a generic reader.
 class Reader {
@@ -52,6 +51,11 @@ public:
   std::unique_ptr<ScopeRoot> loadFile(const std::string &FileName,
                                       const PrintSettings &Settings);
 
+protected:
+  /// \brief Record that one Object is the specification of another, depending
+  /// on their kinds.
+  void addObjectSpecRelation(Object &Obj, Object &Spec);
+
 private:
   /// \brief Implements the creation of the tree from a file.
   virtual std::unique_ptr<ScopeRoot>
@@ -59,6 +63,11 @@ private:
 
   /// \brief Do general post creation setup on the tree.
   void postCreationActions(ScopeRoot *Root, const PrintSettings &Settings);
+
+  /// \brief Map from Objects to their specification Objects.
+  ///
+  /// Used in postCreationActions to resolve names and types.
+  std::unordered_map<Object *, Object *> ObjectSpecMap;
 };
 
 } // namespace LibScopeView

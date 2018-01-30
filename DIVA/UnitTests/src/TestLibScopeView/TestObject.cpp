@@ -48,24 +48,15 @@ public:
   TestObject() : Scope(SV_Scope), Type(nullptr) {}
 
   const std::string &getName() const override { return Name; }
-  void setName(const std::string &N) override { Name = N; }
-  StringPoolRef getNamePoolRef() const override { return nullptr; }
-  virtual void setName(StringPoolRef) override {}
+  void setName(const std::string &N) { Name = N; }
 
   const std::string &getQualifiedName() const override { return QName; }
-  void setQualifiedName(const std::string &QualName) override {
+  void setQualifiedName(const std::string &QualName) {
     QName = QualName;
   }
 
-  const std::string &getFilePath() const override {
-    return FilePath;
-  }
-  void setFilePath(const std::string &FP) override { FilePath = FP; }
-  StringPoolRef getFilePathPoolRef() const override { return nullptr; }
-  virtual void setFilePath(StringPoolRef) override {};
-
   Object *getType() const override { return Type; }
-  void setType(Object *object) override { Type = object; }
+  void setType(Object *object) { Type = object; }
 
   std::string getAsText(const PrintSettings &) const override { return ""; };
   std::string getAsYAML() const override { return ""; };
@@ -337,7 +328,7 @@ TEST(Object, classof) {
   for (auto Obj : AllObjects) {
     // Object::classof() and Element::classof() should always be true.
     EXPECT_TRUE(Object::classof(Obj));
-    EXPECT_TRUE(Element::classof(Obj));
+    EXPECT_EQ(Element::classof(Obj), Obj != &TestLine);
 
     // Line.
     EXPECT_EQ(Line::classof(Obj), Obj == &TestLine);
@@ -375,7 +366,7 @@ TEST(Object, isa) {
   ScopeFunctionInlined TestFunctionInlined;
 
   EXPECT_TRUE(isa<Object>(TestLine));
-  EXPECT_TRUE(isa<Element>(TestLine));
+  EXPECT_FALSE(isa<Element>(TestLine));
   EXPECT_TRUE(isa<Line>(TestLine));
   EXPECT_FALSE(isa<Scope>(TestLine));
   EXPECT_FALSE(isa<ScopeFunction>(TestLine));

@@ -521,7 +521,7 @@ TEST_F(TestElfDwarfReader, ReadFunction) {
   EXPECT_TRUE(DeclFunc->getIsDeclaration());
   EXPECT_FALSE(DefinFunc->getIsDeclaration());
 
-  EXPECT_EQ(Defin->getReference(), Decl);
+  EXPECT_EQ(cast<LibScopeView::ScopeFunction>(Defin)->getDeclaration(), Decl);
   EXPECT_EQ(Defin->getName(), Decl->getName());
   EXPECT_EQ(Defin->getType(), Decl->getType());
   EXPECT_EQ(Defin->getLineNumber(), Decl->getLineNumber());
@@ -710,7 +710,6 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_TRUE(isa<LibScopeView::Line>(*Ln));
   EXPECT_EQ(Ln->getLineNumber(), 1U);
   EXPECT_EQ(Ln->getAddress(), 0x00000000U);
-  EXPECT_EQ(Ln->getDieOffset(), 0x00000000U);
   EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());
@@ -722,7 +721,6 @@ TEST_F(TestElfDwarfReader, ReadLines) {
   EXPECT_TRUE(isa<LibScopeView::Line>(*Ln));
   EXPECT_EQ(Ln->getLineNumber(), 13U);
   EXPECT_EQ(Ln->getAddress(), 0x00000032U);
-  EXPECT_EQ(Ln->getDieOffset(), 0x00000032U);
   EXPECT_EQ(LibScopeView::getFileName(Ln->getFilePath()), "lines.cpp");
   EXPECT_TRUE(Ln->getIsNewStatement());
   EXPECT_FALSE(Ln->getIsNewBasicBlock());
@@ -848,9 +846,7 @@ TEST_F(TestElfDwarfReader, ReadSymbols) {
   // The file import.o has such a symbol.
   ASSERT_TRUE(loadSingleCUFromTestFile("ElfDwarfReader/import.o", &CU));
   ASSERT_TRUE(checkChildCount(CU, 4, 2, 1));
-  ASSERT_NE(getNthSymbolIn(CU, 0)->getReference(), nullptr);
-  EXPECT_EQ(getNthSymbolIn(CU, 0)->getReference()->getDieOffset(), 0x6cU);
-  EXPECT_EQ(getNthSymbolIn(CU, 0)->getReference()->getName(), "x");
+  EXPECT_EQ(getNthSymbolIn(CU, 0)->getName(), "x");
 }
 
 TEST_F(TestElfDwarfReader, ReadTemplates) {

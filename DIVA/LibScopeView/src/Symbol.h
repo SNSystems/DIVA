@@ -49,8 +49,9 @@ private:
   enum SymbolAttributes {
     IsMember,
     IsParameter,
-    IsSpecifiedParameter,
+    IsUnspecifiedParameter,
     IsVariable,
+    IsStatic,
     SymbolAttributesSize
   };
   std::bitset<SymbolAttributesSize> SymbolAttributesFlags;
@@ -63,10 +64,10 @@ public:
   void setIsParameter() { SymbolAttributesFlags.set(IsParameter); }
 
   bool getIsUnspecifiedParameter() const {
-    return SymbolAttributesFlags[IsSpecifiedParameter];
+    return SymbolAttributesFlags[IsUnspecifiedParameter];
   }
   void setIsUnspecifiedParameter() {
-    SymbolAttributesFlags.set(IsSpecifiedParameter);
+    SymbolAttributesFlags.set(IsUnspecifiedParameter);
   }
 
   bool getIsVariable() const { return SymbolAttributesFlags[IsVariable]; }
@@ -76,21 +77,13 @@ public:
   AccessSpecifier getAccessSpecifier() const;
   void setAccessSpecifier(AccessSpecifier Access);
 
-  bool getIsStatic() const { return IsStatic; }
-  void setIsStatic() { IsStatic = true; }
+  bool getIsStatic() const { return SymbolAttributesFlags[IsStatic]; }
+  void setIsStatic() { SymbolAttributesFlags.set(IsStatic); }
 
 private:
   AccessSpecifier TheAccessSpecifier;
-  bool IsStatic;
-
-  // Reference to DW_AT_specification, DW_AT_abstract_origin attribute.
-  Symbol *Reference;
 
 public:
-  /// \brief Access DW_AT_specification, DW_AT_abstract_origin reference.
-  Symbol *getReference() const { return Reference; }
-  void setReference(Symbol *Sym) { Reference = Sym; }
-
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
   /// \brief Returns a YAML representation of this DIVA Object.

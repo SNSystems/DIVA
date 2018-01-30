@@ -37,7 +37,7 @@ namespace LibScopeView {
 /// \brief  Class to represent a single line info entry.
 ///
 /// Contains a filename, line number and address.
-class Line : public Element {
+class Line : public Object {
 public:
   Line();
 
@@ -60,6 +60,9 @@ private:
   // defines the discriminator as an unsigned LEB128 integer. In our case,
   // unless is required, we will use an unsigned half integer.
   Dwarf_Half Discriminator;
+
+  // Address of the line in the executable;
+  Dwarf_Addr Address;
 
 public:
   /// \brief Is line end sequence.
@@ -89,8 +92,8 @@ public:
   void setIsPrologueEnd() { LineAttributesFlags.set(IsPrologueEnd); }
 
   /// \brief Line address.
-  Dwarf_Addr getAddress() const { return getDieOffset(); }
-  void setAddress(Dwarf_Addr const Address) { setDieOffset(Address); }
+  Dwarf_Addr getAddress() const { return Address; }
+  void setAddress(Dwarf_Addr Addr) { Address = Addr; }
 
   /// \brief Line discriminator.
   Dwarf_Half getDiscriminator() const { return Discriminator; }

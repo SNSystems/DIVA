@@ -111,9 +111,10 @@ objects:
           line: 3
           file: "codeline.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -128,9 +129,10 @@ objects:
           line: 8
           file: "codeline.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -145,9 +147,10 @@ objects:
           line: 9
           file: "codeline.cpp"
         dwarf:
-          offset: 0xb
+          offset: null
           tag: null
         attributes:
+          Address: 0xb
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -162,9 +165,10 @@ objects:
           line: 10
           file: "codeline.cpp"
         dwarf:
-          offset: 0x12
+          offset: null
           tag: null
         attributes:
+          Address: 0x12
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -179,9 +183,10 @@ objects:
           line: 12
           file: "codeline.cpp"
         dwarf:
-          offset: 0x19
+          offset: null
           tag: null
         attributes:
+          Address: 0x19
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -196,9 +201,10 @@ objects:
           line: 13
           file: "codeline.cpp"
         dwarf:
-          offset: 0x2b
+          offset: null
           tag: null
         attributes:
+          Address: 0x2b
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -213,9 +219,10 @@ objects:
           line: 13
           file: "codeline.cpp"
         dwarf:
-          offset: 0x2e
+          offset: null
           tag: null
         attributes:
+          Address: 0x2e
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

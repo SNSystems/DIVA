@@ -301,9 +301,10 @@ objects:
           line: 7
           file: "using.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -318,9 +319,10 @@ objects:
           line: 7
           file: "using.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -335,9 +337,10 @@ objects:
           line: 7
           file: "using.cpp"
         dwarf:
-          offset: 0xb
+          offset: null
           tag: null
         attributes:
+          Address: 0xb
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -352,9 +355,10 @@ objects:
           line: 22
           file: "using.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -369,9 +373,10 @@ objects:
           line: 22
           file: "using.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -386,9 +391,10 @@ objects:
           line: 23
           file: "using.cpp"
         dwarf:
-          offset: 0x17
+          offset: null
           tag: null
         attributes:
+          Address: 0x17
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -403,9 +409,10 @@ objects:
           line: 25
           file: "using.cpp"
         dwarf:
-          offset: 0x21
+          offset: null
           tag: null
         attributes:
+          Address: 0x21
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -420,9 +427,10 @@ objects:
           line: 27
           file: "using.cpp"
         dwarf:
-          offset: 0x28
+          offset: null
           tag: null
         attributes:
+          Address: 0x28
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -437,9 +445,10 @@ objects:
           line: 28
           file: "using.cpp"
         dwarf:
-          offset: 0x34
+          offset: null
           tag: null
         attributes:
+          Address: 0x34
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -454,9 +463,10 @@ objects:
           line: 28
           file: "using.cpp"
         dwarf:
-          offset: 0x4b
+          offset: null
           tag: null
         attributes:
+          Address: 0x4b
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

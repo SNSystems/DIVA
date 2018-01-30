@@ -134,7 +134,7 @@ public:
     ScopeAttributesFlags.set(IsUnionType);
   }
 
-  // Has any reference (DW_AT_GNU_discriminator).
+  // Has any discriminator (DW_AT_GNU_discriminator).
   bool getHasDiscriminator() const {
     return ScopeAttributesFlags[HasDiscriminator];
   }
@@ -144,12 +144,6 @@ public:
     return ScopeAttributesFlags[IsCombinedScope];
   }
   void setIsCombinedScope() { ScopeAttributesFlags.set(IsCombinedScope); }
-
-  /// \brief Get the Object's reference to another object.
-  ///
-  /// DW_AT_specification, DW_AT_abstract_origin, DW_AT_extension.
-  virtual Scope *getReference() const { return nullptr; }
-  virtual void setReference(Scope * /*Scp*/) {}
 
   void addChild(Object *Obj);
 
@@ -192,14 +186,6 @@ public:
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeAggregate;
   }
-
-private:
-  // DW_AT_specification, DW_AT_abstract_origin.
-  Scope *Reference;
-
-public:
-  Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override { Reference = Scp; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -295,8 +281,6 @@ protected:
   ScopeFunction(ObjectKind K);
 
 private:
-  // DW_AT_specification, DW_AT_abstract_origin.
-  Scope *Reference;
   // Whether this function is static.
   bool IsStatic;
   // Whether the function was declared as inline.
@@ -304,10 +288,10 @@ private:
   // If this is a declaration (not a definition).
   bool IsDeclaration;
 
-public:
-  Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override { Reference = Scp; }
+  // The declaration of this function.
+  const ScopeFunction *Declaration;
 
+public:
   bool getIsStatic() const { return IsStatic; }
   void setIsStatic() { IsStatic = true; }
 
@@ -316,6 +300,9 @@ public:
 
   bool getIsDeclaration() const { return IsDeclaration; }
   void setIsDeclaration() { IsDeclaration = true; }
+
+  const ScopeFunction *getDeclaration() const { return Declaration; }
+  void setDeclaration(const ScopeFunction *Decl) { Declaration = Decl; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;
@@ -338,21 +325,12 @@ public:
 /// \brief Class to represent a DWARF Namespace object.
 class ScopeNamespace : public Scope {
 public:
-  ScopeNamespace() : Scope(SV_ScopeNamespace), Reference(nullptr) {}
+  ScopeNamespace() : Scope(SV_ScopeNamespace) {}
 
   /// \brief Return true if Obj is an instance of ScopeNamespace.
   static bool classof(const Object *Obj) {
     return Obj->getKind() == SV_ScopeNamespace;
   }
-
-private:
-  // Reference to DW_AT_extension attribute.
-  Scope *Reference;
-
-public:
-  /// \brief Access to the DW_AT_extension reference.
-  Scope *getReference() const override { return Reference; }
-  void setReference(Scope *Scp) override { Reference = Scp; }
 
   /// \brief Returns a text representation of this DIVA Object.
   std::string getAsText(const PrintSettings &Settings) const override;

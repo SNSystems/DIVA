@@ -28,6 +28,7 @@
 //===----------------------------------------------------------------------===//
 
 #include "Sort.h"
+#include "Line.h"
 #include "Object.h"
 
 #include <string>
@@ -54,7 +55,14 @@ int LibScopeView::compareName(const Object *LHS, const Object *RHS) {
 }
 
 int LibScopeView::compareOffset(const Object *LHS, const Object *RHS) {
-  return compare(LHS->getDieOffset(), RHS->getDieOffset());
+  if (!isa<Line>(*LHS) && !isa<Line>(*RHS))
+    return compare(cast<Element>(LHS)->getDieOffset(),
+                   cast<Element>(RHS)->getDieOffset());
+  if (isa<Line>(*LHS) && isa<Line>(*RHS))
+    return compare(cast<Line>(LHS)->getAddress(),
+                   cast<Line>(RHS)->getAddress());
+  // If only one is a line then put the line afterwards.
+  return isa<Line>(*LHS) ? 1 : -1;
 }
 
 bool LibScopeView::sortByLine(const Object *LHS, const Object *RHS) {

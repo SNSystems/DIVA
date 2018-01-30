@@ -31,6 +31,7 @@
 #include "LibDwarfHelpers.h"
 
 #include <cstdlib>
+#include <functional>
 
 using namespace ElfDwarfReader;
 
@@ -42,6 +43,21 @@ const bool IsInfo = true;
   Dwarf_Debug Dbg = *static_cast<Dwarf_Debug *>(PtrToDbg);
   throw LibDwarfError(Error, Dbg);
 }
+
+// Calls a function when destructed.
+class Finally {
+public:
+  Finally(std::function<void()> FinalAction) : Final(FinalAction) {}
+  ~Finally() { Final(); }
+
+  Finally(const Finally &) = delete;
+  Finally(const Finally &&) = delete;
+  Finally &operator=(const Finally &) = delete;
+  Finally &operator=(const Finally &&) = delete;
+
+private:
+  std::function<void()> Final;
+};
 
 } // end anonymous namespace.
 
@@ -235,6 +251,11 @@ DwarfAttrValue DwarfDie::getAttr(Dwarf_Half Attr) const {
   int ret = dwarf_attr(Die, Attr, &Attribute, nullptr);
   if (ret != DW_DLV_OK)
     return DwarfAttrValue(); // Empty.
+
+  // Make sure the Dwarf_Attribute is deallocated.
+  Finally DeallocAttr([ Dbg = DebugData.get(), Attribute ]() {
+    dwarf_dealloc(Dbg, Attribute, DW_DLA_ATTR);
+  });
 
   Dwarf_Half Form;
   dwarf_whatform(Attribute, &Form, nullptr);

@@ -118,9 +118,7 @@ std::string Scope::getAsYAML() const {
   return "";
 }
 
-ScopeAggregate::ScopeAggregate() : Scope(SV_ScopeAggregate) {
-  Reference = nullptr;
-}
+ScopeAggregate::ScopeAggregate() : Scope(SV_ScopeAggregate) {}
 
 std::string ScopeAggregate::getAsText(const PrintSettings &Settings) const {
   std::string Result;
@@ -257,8 +255,8 @@ std::string ScopeEnumeration::getAsYAML() const {
 }
 
 ScopeFunction::ScopeFunction(ObjectKind K)
-    : Scope(K), Reference(nullptr), IsStatic(false), DeclaredInline(false),
-      IsDeclaration(false) {}
+    : Scope(K), IsStatic(false), DeclaredInline(false), IsDeclaration(false),
+      Declaration(nullptr) {}
 
 std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   std::string Result = "{";
@@ -284,20 +282,18 @@ std::string ScopeFunction::getAsText(const PrintSettings &Settings) const {
   Result += "\"";
 
   // Attributes.
-  if (Reference && isa<ScopeFunction>(*Reference)) {
+  if (getDeclaration()) {
     Result += '\n';
     Result += formatAttributeText("Declaration @ ");
-    if (!Reference->getInvalidFileName())
-      Result += getFileName(Reference->getFilePath());
+    if (!getDeclaration()->getInvalidFileName())
+      Result += getFileName(getDeclaration()->getFilePath());
     else
       Result += '?';
     Result += ',';
-    Result += std::to_string(Reference->getLineNumber());
-  } else {
-    if (!getIsDeclaration()) {
-      Result += '\n';
-      Result += formatAttributeText("No declaration");
-    }
+    Result += std::to_string(getDeclaration()->getLineNumber());
+  } else if (!getIsDeclaration()) {
+    Result += '\n';
+    Result += formatAttributeText("No declaration");
   }
 
   if (getIsTemplate()) {
@@ -322,13 +318,13 @@ std::string ScopeFunction::getAsYAML() const {
 
   // Attributes.
   YAML << "  declaration:\n";
-  if (Reference && isa<ScopeFunction>(*Reference)) {
+  if (getDeclaration()) {
     YAML << "    file: ";
-    if (!Reference->getInvalidFileName())
-      YAML << "\"" << getFileName(Reference->getFilePath()) << "\"";
+    if (!getDeclaration()->getInvalidFileName())
+      YAML << "\"" << getFileName(getDeclaration()->getFilePath()) << "\"";
     else
       YAML << "\"?\"";
-    YAML << "\n    line: " << Reference->getLineNumber() << "\n";
+    YAML << "\n    line: " << getDeclaration()->getLineNumber() << "\n";
   } else {
     YAML << "    file: null\n    line: null\n";
   }

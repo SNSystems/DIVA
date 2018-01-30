@@ -165,9 +165,10 @@ objects:
           line: 12
           file: "member.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -182,9 +183,10 @@ objects:
           line: 12
           file: "member.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -199,9 +201,10 @@ objects:
           line: 13
           file: "member.cpp"
         dwarf:
-          offset: 0x17
+          offset: null
           tag: null
         attributes:
+          Address: 0x17
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -216,9 +219,10 @@ objects:
           line: 14
           file: "member.cpp"
         dwarf:
-          offset: 0x2c
+          offset: null
           tag: null
         attributes:
+          Address: 0x2c
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -233,9 +237,10 @@ objects:
           line: 14
           file: "member.cpp"
         dwarf:
-          offset: 0x43
+          offset: null
           tag: null
         attributes:
+          Address: 0x43
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

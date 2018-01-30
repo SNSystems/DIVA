@@ -43,7 +43,7 @@ TEST(Line, getAsYAML_Line) {
   Line Ln;
   Ln.setLineNumber(52);
   Ln.setFilePath("test.cpp");
-  Ln.setDieOffset(0x5555);
+  Ln.setAddress(0x5555);
   Ln.setDiscriminator(5);
 
   EXPECT_EQ(Ln.getAsYAML(), "object: \"CodeLine\"\n"
@@ -53,9 +53,10 @@ TEST(Line, getAsYAML_Line) {
                             "  line: 52\n"
                             "  file: \"test.cpp\"\n"
                             "dwarf:\n"
-                            "  offset: 0x5555\n"
+                            "  offset: null\n"
                             "  tag: null\n"
                             "attributes:\n"
+                            "  Address: 0x5555\n"
                             "  Discriminator: 5\n"
                             "  NewStatement: false\n"
                             "  PrologueEnd: false\n"
@@ -101,7 +102,7 @@ TEST(Line, getAsYAML_Line_Attributes) {
   Line Ln;
   Ln.setLineNumber(52);
   Ln.setFilePath("test.cpp");
-  Ln.setDieOffset(0x5555);
+  Ln.setAddress(0x5555);
 
   std::string Expected("object: \"CodeLine\"\n"
                        "name: null\n"
@@ -110,9 +111,10 @@ TEST(Line, getAsYAML_Line_Attributes) {
                        "  line: 52\n"
                        "  file: \"test.cpp\"\n"
                        "dwarf:\n"
-                       "  offset: 0x5555\n"
+                       "  offset: null\n"
                        "  tag: null\n"
-                       "attributes:");
+                       "attributes:\n"
+                       "  Address: 0x5555");
 
   EXPECT_EQ(Ln.getAsYAML(), Expected + ("\n  Discriminator: 0"
                                         "\n  NewStatement: false"

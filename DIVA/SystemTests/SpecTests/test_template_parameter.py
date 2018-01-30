@@ -350,9 +350,10 @@ objects:
           line: 17
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -367,9 +368,10 @@ objects:
           line: 18
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -384,9 +386,10 @@ objects:
           line: 19
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x1c
+          offset: null
           tag: null
         attributes:
+          Address: 0x1c
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -401,9 +404,10 @@ objects:
           line: 20
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x21
+          offset: null
           tag: null
         attributes:
+          Address: 0x21
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -418,9 +422,10 @@ objects:
           line: 20
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x2a
+          offset: null
           tag: null
         attributes:
+          Address: 0x2a
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -435,9 +440,10 @@ objects:
           line: 7
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -452,9 +458,10 @@ objects:
           line: 7
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -469,9 +476,10 @@ objects:
           line: 7
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x6
+          offset: null
           tag: null
         attributes:
+          Address: 0x6
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -486,9 +494,10 @@ objects:
           line: 13
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -503,9 +512,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x11
+          offset: null
           tag: null
         attributes:
+          Address: 0x11
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -520,9 +530,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x14
+          offset: null
           tag: null
         attributes:
+          Address: 0x14
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -537,9 +548,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x1a
+          offset: null
           tag: null
         attributes:
+          Address: 0x1a
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -554,9 +566,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x22
+          offset: null
           tag: null
         attributes:
+          Address: 0x22
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -571,9 +584,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x27
+          offset: null
           tag: null
         attributes:
+          Address: 0x27
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -588,9 +602,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x2f
+          offset: null
           tag: null
         attributes:
+          Address: 0x2f
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -605,9 +620,10 @@ objects:
           line: 13
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -622,9 +638,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0xe
+          offset: null
           tag: null
         attributes:
+          Address: 0xe
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -639,9 +656,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x11
+          offset: null
           tag: null
         attributes:
+          Address: 0x11
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -656,9 +674,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x14
+          offset: null
           tag: null
         attributes:
+          Address: 0x14
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -673,9 +692,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x1c
+          offset: null
           tag: null
         attributes:
+          Address: 0x1c
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -690,9 +710,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x21
+          offset: null
           tag: null
         attributes:
+          Address: 0x21
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -707,9 +728,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x29
+          offset: null
           tag: null
         attributes:
+          Address: 0x29
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -724,9 +746,10 @@ objects:
           line: 13
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -741,9 +764,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0xb
+          offset: null
           tag: null
         attributes:
+          Address: 0xb
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -758,9 +782,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0xe
+          offset: null
           tag: null
         attributes:
+          Address: 0xe
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -775,9 +800,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x16
+          offset: null
           tag: null
         attributes:
+          Address: 0x16
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -792,9 +818,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x1b
+          offset: null
           tag: null
         attributes:
+          Address: 0x1b
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -809,9 +836,10 @@ objects:
           line: 14
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x23
+          offset: null
           tag: null
         attributes:
+          Address: 0x23
           Discriminator: 0
           NewStatement: false
           PrologueEnd: false
@@ -826,9 +854,10 @@ objects:
           line: 10
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -843,9 +872,10 @@ objects:
           line: 10
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x6
+          offset: null
           tag: null
         attributes:
+          Address: 0x6
           Discriminator: 0
           NewStatement: true
           PrologueEnd: true
@@ -860,9 +890,10 @@ objects:
           line: 10
           file: "template_parameter.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

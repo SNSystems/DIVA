@@ -137,53 +137,51 @@ private:
   std::unordered_set<Object *> AlreadyResolved;
 };
 
-// Visitor that sets the attributes of objects to those they reference.
-class ReferenceAttributeResolver : public ScopeVisitor {
+// Visitor that sets the attributes of Objects to those of their specification.
+class SpecificationAttributeResolver : public ScopeVisitor {
+public:
+  SpecificationAttributeResolver(
+      std::unordered_map<Object *, Object *> &SpecMap)
+      : ObjectSpecMap(SpecMap) {}
+
 private:
   void visitImpl(Object *Obj) override {
-    resolveReference(Obj);
+    setFromSpec(Obj);
     visitChildren(Obj);
   }
 
-  // Get an Object's referenced Object, handling any type specifics.
-  static Object *getObjectReference(Object *Obj) {
-    if (auto Scp = dyn_cast<Scope>(Obj))
-      return Scp->getReference();
-    if (auto Sym = dyn_cast<Symbol>(Obj))
-      return Sym->getReference();
-    return nullptr;
-  }
-
-  static void resolveReference(Object *Obj) {
-    auto *Reference = getObjectReference(Obj);
-    if (!Reference)
+  void setFromSpec(Object *Obj) {
+    auto IT = ObjectSpecMap.find(Obj);
+    if (IT == ObjectSpecMap.end())
       return;
+    Object *Spec = IT->second;
 
-    // Resolve the reference first.
-    resolveReference(Reference);
+    // Resolve the Spec first.
+    setFromSpec(Spec);
 
     // Set common attribute values.
-    Obj->setName(Reference->getNamePoolRef());
-    Obj->setLineNumber(Reference->getLineNumber());
-    Obj->setFilePath(Reference->getFilePathPoolRef());
-    if (Reference->getInvalidFileName())
+    cast<Element>(Obj)->setName(cast<Element>(Spec)->getNamePoolRef());
+    Obj->setLineNumber(Spec->getLineNumber());
+    Obj->setFilePath(Spec->getFilePathPoolRef());
+    if (Spec->getInvalidFileName())
       Obj->setInvalidFileName();
 
     // Set type.
-    if (Reference->getType()) {
-      cast<Element>(Obj)->setType(Reference->getType());
-    }
+    if (Spec->getType())
+      cast<Element>(Obj)->setType(Spec->getType());
 
-    // Cover the static function case that initScopeFromAttrs can't reach.
+    // Set static functions.
     auto ObjFunc = dyn_cast<ScopeFunction>(Obj);
-    auto RefFunc = dyn_cast<ScopeFunction>(Reference);
+    auto RefFunc = dyn_cast<ScopeFunction>(Spec);
     if (ObjFunc && RefFunc && RefFunc->getIsStatic())
       ObjFunc->setIsStatic();
 
     // Set qualified name from reference.
-    if (isa<Symbol>(*Obj) && isa<Symbol>(*Reference))
-      Obj->resolveQualifiedName(Reference->getParent());
+    if (isa<Symbol>(*Obj) && isa<Symbol>(*Spec))
+      cast<Element>(Obj)->resolveQualifiedName(Spec->getParent());
   }
+
+  std::unordered_map<Object *, Object *> &ObjectSpecMap;
 };
 
 // Visitor that sets all children of global objects as global.
@@ -202,10 +200,22 @@ Reader::~Reader() {}
 
 std::unique_ptr<ScopeRoot> Reader::loadFile(const std::string &FileName,
                                             const PrintSettings &Settings) {
+  ObjectSpecMap.clear();
   std::unique_ptr<ScopeRoot> Root = createScopes(FileName);
   if (Root)
     postCreationActions(Root.get(), Settings);
   return Root;
+}
+
+void Reader::addObjectSpecRelation(Object &Obj, Object &Spec) {
+  // Function to Function.
+  if (isa<ScopeFunction>(Obj) && isa<ScopeFunction>(Spec)) {
+    ObjectSpecMap.emplace(&Obj, &Spec);
+    cast<ScopeFunction>(Obj).setDeclaration(&cast<ScopeFunction>(Spec));
+  }
+  // Symbol to Symbol.
+  else if (isa<Symbol>(Obj) && isa<Symbol>(Spec))
+    ObjectSpecMap.emplace(&Obj, &Spec);
 }
 
 void Reader::postCreationActions(ScopeRoot *Root,
@@ -213,7 +223,7 @@ void Reader::postCreationActions(ScopeRoot *Root,
   assert(Root);
 
   NameResolver(Settings).visit(Root);
-  ReferenceAttributeResolver().visit(Root);
+  SpecificationAttributeResolver(ObjectSpecMap).visit(Root);
   GlobalResolver().visit(Root);
 
   Root->sortScopes(Settings.SortKey);

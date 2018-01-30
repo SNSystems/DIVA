@@ -205,9 +205,10 @@ objects:
           line: 14
           file: "template.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -222,9 +223,10 @@ objects:
           line: 17
           file: "template.cpp"
         dwarf:
-          offset: 0x8
+          offset: null
           tag: null
         attributes:
+          Address: 0x8
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -239,9 +241,10 @@ objects:
           line: 18
           file: "template.cpp"
         dwarf:
-          offset: 0xd
+          offset: null
           tag: null
         attributes:
+          Address: 0xd
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -256,9 +259,10 @@ objects:
           line: 18
           file: "template.cpp"
         dwarf:
-          offset: 0x10
+          offset: null
           tag: null
         attributes:
+          Address: 0x10
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -273,9 +277,10 @@ objects:
           line: 12
           file: "template.cpp"
         dwarf:
-          offset: 0x0
+          offset: null
           tag: null
         attributes:
+          Address: 0x0
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -290,9 +295,10 @@ objects:
           line: 12
           file: "template.cpp"
         dwarf:
-          offset: 0x4
+          offset: null
           tag: null
         attributes:
+          Address: 0x4
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false
@@ -307,9 +313,10 @@ objects:
           line: 12
           file: "template.cpp"
         dwarf:
-          offset: 0x7
+          offset: null
           tag: null
         attributes:
+          Address: 0x7
           Discriminator: 0
           NewStatement: true
           PrologueEnd: false

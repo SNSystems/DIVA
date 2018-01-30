@@ -35,7 +35,7 @@
 
 using namespace LibScopeView;
 
-Line::Line() : Element(SV_Line), Discriminator(0) {}
+Line::Line() : Object(SV_Line), Discriminator(0) {}
 
 std::string Line::getAsText(const PrintSettings &Settings) const {
   std::stringstream Result;
@@ -68,7 +68,8 @@ std::string Line::getAsYAML() const {
   std::stringstream Attrs;
   const std::string YAMLTrue(": true");
   const std::string YAMLFalse(": false");
-  Attrs << "\n  Discriminator: " << getDiscriminator();
+  Attrs << "\n  Address: 0x" << std::hex << getAddress();
+  Attrs << "\n  Discriminator: " << std::dec << getDiscriminator();
   Attrs << "\n  NewStatement"
         << (getIsNewStatement() ? YAMLTrue : YAMLFalse);
   Attrs << "\n  PrologueEnd"
